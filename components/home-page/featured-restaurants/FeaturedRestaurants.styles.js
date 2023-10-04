@@ -1,5 +1,4 @@
-import { Box, Container, keyframes, styled } from "@mui/material";
-import Image from "next/image";
+import { Box, Container, styled } from "@mui/material";
 
 export const FeaturedRestaurantsContainer = styled(Container)(({}) => ({
   "& .slick-slide > div": { display: "flex", gap: "1rem" },

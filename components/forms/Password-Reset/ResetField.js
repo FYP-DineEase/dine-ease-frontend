@@ -1,5 +1,14 @@
-import { useFormik } from "formik";
 import React, { useState } from "react";
+
+import { useFormik } from "formik";
+
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import LocalDiningIcon from "@mui/icons-material/LocalDining";
+import { Alert, Box, Button } from "@mui/material";
+
+import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
+
 import {
   FormContainer,
   FormHeader,
@@ -8,13 +17,8 @@ import {
   InputField,
   InputFieldContainer,
 } from "../form.styles";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import LocalDiningIcon from "@mui/icons-material/LocalDining";
-import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
-import { Alert, Box, Button, FormControlLabel, FormGroup } from "@mui/material";
-import Link from "next/link";
-import { loginSchema, passwordResetSchema } from "@/utils/validationSchema";
+
+import { passwordResetSchema } from "@/utils/validationSchema";
 
 const ResetField = () => {
   const [snackbar, setSnackbar] = useState({

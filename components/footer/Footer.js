@@ -1,9 +1,13 @@
-import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
+import React from "react";
+
 import { Avatar, Box, Container, Divider, Grid } from "@mui/material";
+
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import React from "react";
+
+import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
+
 import { FooterLinksContainer } from "./Footer.styles";
 
 const Footer = () => {

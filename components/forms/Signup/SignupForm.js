@@ -1,33 +1,11 @@
-import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-  Grid,
-  Typography,
-} from "@mui/material";
-import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
-import Image from "next/image";
-import Link from "next/link";
-import logo from "@/assets/restaurant.jpg";
+import React from "react";
 
-import { useFormik } from "formik";
-import { loginSchema, signupSchema } from "@/utils/validationSchema";
-import { NameFieldContainer } from "./SignupForm.styles";
-import {
-  FormContainer,
-  FormItemsContainer,
-  FormPageContainer,
-  ImageContainer,
-  InputField,
-  InputFieldContainer,
-} from "../form.styles";
+import { Grid } from "@mui/material";
+
 import SignupField from "./SignupField";
+
+import { FormPageContainer } from "../form.styles";
+
 import FormImage from "../FormImage";
 
 const SignupForm = () => {

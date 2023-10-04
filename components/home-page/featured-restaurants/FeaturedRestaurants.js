@@ -1,35 +1,27 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Container,
-  Typography,
-} from "@mui/material";
-import Image from "next/image";
 import React from "react";
+
+import Image from "next/image";
+
+import { Box, Container } from "@mui/material";
+
 import bannerImage1 from "@/assets/banner1.jpg";
 import bannerImage2 from "@/assets/banner2.jpg";
 import bannerImage3 from "@/assets/banner3.jpg";
 import bannerImage4 from "@/assets/banner4.jpg";
+
 import Slider from "react-slick";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+
+import { featuredSettings } from "@/helpers/carousal-settings";
+
 import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
-import {
-  carousalSettings,
-  featuredSettings,
-} from "@/helpers/carousal-settings";
+
 import {
   FeaturedDetails,
   FeaturedImageContainer,
   FeaturedRestaurantsContainer,
   FeaturedTextContainer,
 } from "./FeaturedRestaurants.styles";
+
 import { SectionHeading } from "../HomePage.styles";
 
 const FeaturedRestaurants = () => {

@@ -1,13 +1,14 @@
 import React from "react";
+
 import Image from "next/image";
-import {
-  FormImageContainer,
-  FormImageTextContainer,
-  ImageTextContainer,
-} from "./form.styles";
+
 import formImage from "@/assets/restaurant.jpg";
+
 import { Box } from "@mui/material";
+
 import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
+
+import { FormImageContainer, FormImageTextContainer } from "./form.styles";
 
 const FormImage = ({ headerText, subHeaderText }) => {
   return (

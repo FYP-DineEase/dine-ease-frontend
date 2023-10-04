@@ -1,6 +1,9 @@
-import React, { useState } from "react";
-import { FormPageContainer } from "../form.styles";
+import React from "react";
+
 import { Grid } from "@mui/material";
+
+import { FormPageContainer } from "../form.styles";
+
 import ResetField from "./ResetField";
 import FormImage from "../FormImage";
 

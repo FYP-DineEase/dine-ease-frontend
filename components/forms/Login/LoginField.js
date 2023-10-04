@@ -1,12 +1,7 @@
 import React, { useState } from "react";
-import {
-  FormContainer,
-  FormHeader,
-  FormItemsContainer,
-  FormSnackbar,
-  InputField,
-  InputFieldContainer,
-} from "../form.styles";
+
+import Link from "next/link";
+
 import {
   Alert,
   Box,
@@ -15,14 +10,25 @@ import {
   FormControlLabel,
   FormGroup,
 } from "@mui/material";
-import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
-import Image from "next/image";
-import Link from "next/link";
+
 import { useFormik } from "formik";
+
 import { loginSchema } from "@/utils/validationSchema";
+
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
+
+import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
+
+import {
+  FormContainer,
+  FormHeader,
+  FormItemsContainer,
+  FormSnackbar,
+  InputField,
+  InputFieldContainer,
+} from "../form.styles";
 
 const LoginField = () => {
   const [snackbar, setSnackbar] = useState({
@@ -168,7 +174,7 @@ const LoginField = () => {
               label="Remember Me"
             />
           </FormGroup>
-          <Link href="/password-reset" as={formik.values.email}>
+          <Link href="/reset-password">
             <ResponsiveText variant="body">Forgot Password?</ResponsiveText>
           </Link>
         </Box>

@@ -1,11 +1,14 @@
-import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
-import { Box, Container } from "@mui/material";
 import React from "react";
+
+import { Box, Container } from "@mui/material";
+
+import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
+
 import { SectionHeading } from "../HomePage.styles";
 
 const RestaurantsNearby = () => {
   return (
-    <Container disableGutters maxWidth="xl">
+    <Container maxWidth="xl">
       <SectionHeading>
         <ResponsiveText variant="header">
           Discover Restaurants Near You
@@ -16,8 +19,8 @@ const RestaurantsNearby = () => {
           sx={{
             minHeight: "350px",
             height: "60vh",
-            backgroundColor: "red",
-            width: "95%",
+            backgroundColor: "lightyellow",
+            width: "100%",
           }}
         />
       </Box>

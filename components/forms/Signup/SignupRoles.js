@@ -1,9 +1,13 @@
 import React, { useState } from "react";
+
+import { Box } from "@mui/material";
+
 import RestaurantIcon from "@mui/icons-material/Restaurant";
 import PersonIcon from "@mui/icons-material/Person";
-import { Box } from "@mui/material";
-import { RoleContainer } from "./SignupForm.styles";
+
 import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
+
+import { RoleContainer } from "./SignupForm.styles";
 
 const SignupRoles = () => {
   const [selectedRole, setRole] = useState("user");

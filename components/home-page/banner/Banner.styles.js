@@ -1,4 +1,4 @@
-import { Box, keyframes, styled } from "@mui/material";
+import { Box, styled } from "@mui/material";
 import Image from "next/image";
 
 export const BannerContainer = styled(Box)(({ theme }) => ({

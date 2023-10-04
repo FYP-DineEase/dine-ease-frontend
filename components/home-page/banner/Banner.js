@@ -1,23 +1,28 @@
-import { Box, Button, Container } from "@mui/material";
-import bannerImage1 from "@/assets/banner1.jpg";
-import bannerImage2 from "@/assets/banner2.jpg";
-import bannerImage3 from "@/assets/banner3.jpg";
-import bannerImage4 from "@/assets/banner4.jpg";
 import React, { useEffect, useState } from "react";
+
+import { Box, Button, Container } from "@mui/material";
+
 import {
   BannerContainer,
   BannerTextContainer,
   StyledImage,
 } from "./Banner.styles";
-import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
+
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
+
+import bannerImage1 from "@/assets/banner1.jpg";
+import bannerImage2 from "@/assets/banner2.jpg";
+import bannerImage3 from "@/assets/banner3.jpg";
+import bannerImage4 from "@/assets/banner4.jpg";
+
+import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
 
 const Banner = () => {
   const banner = [
     { text: "Explore The Sea Of Restaurants 1", bannerImage: bannerImage1 },
     { text: "Explore The Sea Of Restaurants 2", bannerImage: bannerImage2 },
     { text: "Explore The Sea Of Restaurants 3", bannerImage: bannerImage3 },
-    // { text: "Explore The Sea Of Restaurants 4", bannerImage: bannerImage4 },
+    { text: "Explore The Sea Of Restaurants 4", bannerImage: bannerImage4 },
   ];
 
   const [currentImage, setCurrentImage] = useState(0);
@@ -32,12 +37,12 @@ const Banner = () => {
         setCurrentImage((prev) => prev + 1);
       }
     }, 5000);
+
     setProgress((prevProgress) => {
       const newProgress = [...prevProgress];
       newProgress[currentImage] = 100; // Set the current image's progress to 100%
       return newProgress;
     });
-
     return () => clearTimeout(timeout);
   }, [currentImage]);
 
@@ -89,11 +94,11 @@ const Banner = () => {
               >
                 <Box
                   sx={{
-                    width: `${progress[index]}%`,
                     backgroundColor: "darkorange",
                     borderRadius: "10px",
                     height: "100%",
-                    transition: "5s all linear",
+                    transition: "all 5s linear",
+                    width: `${progress[index]}%`,
                   }}
                 />
               </Box>

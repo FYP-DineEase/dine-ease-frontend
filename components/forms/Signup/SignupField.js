@@ -1,4 +1,21 @@
 import React, { useState } from "react";
+
+import Link from "next/link";
+
+import { useFormik } from "formik";
+
+import { Alert, Box, Button } from "@mui/material";
+
+import { signupSchema } from "@/utils/validationSchema";
+
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import LocalDiningIcon from "@mui/icons-material/LocalDining";
+
+import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
+
+import { NameFieldContainer } from "./SignupForm.styles";
+
 import {
   FormContainer,
   FormHeader,
@@ -7,22 +24,7 @@ import {
   InputField,
   InputFieldContainer,
 } from "../form.styles";
-import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
-import { Alert, Box, Button } from "@mui/material";
-import {
-  NameFieldContainer,
-  RoleContainer,
-  StyledPhoneInput,
-} from "./SignupForm.styles";
-import Link from "next/link";
-import Image from "next/image";
-import { useFormik } from "formik";
-import { signupSchema } from "@/utils/validationSchema";
-import RestaurantIcon from "@mui/icons-material/Restaurant";
-import PersonIcon from "@mui/icons-material/Person";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import LocalDiningIcon from "@mui/icons-material/LocalDining";
+
 import SignupRoles from "./SignupRoles";
 
 const SignupField = () => {

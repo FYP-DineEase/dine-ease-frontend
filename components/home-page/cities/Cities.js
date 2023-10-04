@@ -1,12 +1,18 @@
-import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
-import { Box, Container, Grid } from "@mui/material";
+import React from "react";
+
+import Image from "next/image";
+
+import { Container, Grid } from "@mui/material";
+
 import bannerImage1 from "@/assets/banner1.jpg";
 import bannerImage2 from "@/assets/banner2.jpg";
 import bannerImage3 from "@/assets/banner3.jpg";
 import bannerImage4 from "@/assets/banner4.jpg";
-import React from "react";
-import Image from "next/image";
+
+import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
+
 import { CitiesContainer, CitiesTextContainer } from "./Cities.styles";
+
 import { SectionHeading } from "../HomePage.styles";
 
 const Cities = () => {

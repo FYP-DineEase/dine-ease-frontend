@@ -1,25 +1,21 @@
 import React from "react";
+
+import Image from "next/image";
+
+import Link from "next/link";
+
 import bannerImage1 from "@/assets/banner1.jpg";
 import bannerImage2 from "@/assets/banner2.jpg";
 import bannerImage3 from "@/assets/banner3.jpg";
-import bannerImage4 from "@/assets/banner4.jpg";
+
 import Slider from "react-slick";
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Container,
-  Divider,
-} from "@mui/material";
+
+import { Avatar, Box, Container, Divider } from "@mui/material";
+
 import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
-import Image from "next/image";
-import Link from "next/link";
-import {
-  activitySettings,
-  carousalSettings,
-} from "@/helpers/carousal-settings";
+
+import { activitySettings } from "@/helpers/carousal-settings";
+
 import {
   CardContentContainer,
   RecentActivityContainer,
@@ -28,6 +24,7 @@ import {
   ReviewImageContainer,
   ReviewImageTextContainer,
 } from "./RecentReviews.styles";
+
 import { SectionHeading } from "../HomePage.styles";
 
 const RecentReviews = () => {

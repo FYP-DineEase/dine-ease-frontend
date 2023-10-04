@@ -1,6 +1,8 @@
-import { Box, IconButton } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const NextArrow = (props) => {
   const { className, style, onClick } = props;
@@ -25,14 +27,13 @@ const PrevArrow = (props) => {
 };
 
 export const featuredSettings = {
-  // autoplay: true,
-  // autoplaySpeed: 5000, // Time in milliseconds between slides
-  infinite: true, // Loop through the slides infinitely
-  speed: 500, // Transition speed in milliseconds
+  autoplay: true,
+  autoplaySpeed: 5000,
+  infinite: true,
+  speed: 800,
   slidesPerRow: 4,
-  // adaptiveHeight: true,
   rows: 2,
-  slidesToScroll: 1, // Number of slides to scroll at once
+  slidesToScroll: 1,
   nextArrow: <NextArrow />,
   prevArrow: <PrevArrow />,
   dots: true,
@@ -56,12 +57,12 @@ export const featuredSettings = {
 };
 
 export const activitySettings = {
-  // autoplay: true,
-  // autoplaySpeed: 5000, // Time in milliseconds between slides
-  infinite: true, // Loop through the slides infinitely
-  speed: 500, // Transition speed in milliseconds
-  slidesToShow: 1, // Number of slides to show at once
-  slidesToScroll: 1, // Number of slides to scroll at once
+  autoplay: true,
+  autoplaySpeed: 5000,
+  infinite: true,
+  speed: 800,
+  slidesToShow: 1,
+  slidesToScroll: 1,
   nextArrow: <NextArrow />,
   prevArrow: <PrevArrow />,
   dots: true,
