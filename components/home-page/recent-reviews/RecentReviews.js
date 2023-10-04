@@ -21,10 +21,14 @@ import {
   carousalSettings,
 } from "@/helpers/carousal-settings";
 import {
+  CardContentContainer,
+  RecentActivityContainer,
   ReviewCardContainer,
+  ReviewDetailsContainer,
   ReviewImageContainer,
   ReviewImageTextContainer,
 } from "./RecentReviews.styles";
+import { SectionHeading } from "../HomePage.styles";
 
 const RecentReviews = () => {
   const recentReviews = [
@@ -63,13 +67,11 @@ const RecentReviews = () => {
   ];
 
   return (
-    <Container disableGutters maxWidth="false" sx={{ padding: "5rem 1rem" }}>
-      <Container maxWidth="md">
-        <Box
-          sx={{ textAlign: "center", marginBottom: "2rem", fontWeight: "bold" }}
-        >
+    <Container maxWidth="false" sx={{ display: { xs: "none", sm: "block" } }}>
+      <RecentActivityContainer maxWidth="md">
+        <SectionHeading>
           <ResponsiveText variant="header">Recent Activity</ResponsiveText>
-        </Box>
+        </SectionHeading>
         <Slider {...activitySettings}>
           {recentReviews.map((review) => (
             <ReviewCardContainer key={review.restaurantName}>
@@ -82,7 +84,6 @@ const RecentReviews = () => {
                   style={{
                     objectFit: "cover",
                   }}
-                  title="green iguana"
                 />
                 <ReviewImageTextContainer>
                   <ResponsiveText
@@ -105,22 +106,8 @@ const RecentReviews = () => {
                   </Box>
                 </ReviewImageTextContainer>
               </ReviewImageContainer>
-              <CardContent
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  width: "100%",
-                  padding: "1rem 1.75rem",
-                }}
-              >
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "0.7rem",
-                  }}
-                >
+              <CardContentContainer>
+                <ReviewDetailsContainer>
                   <Avatar sx={{ height: "50px", width: "50px" }} />
                   <ResponsiveText
                     variant="mainBody"
@@ -131,23 +118,23 @@ const RecentReviews = () => {
                   <Box>{review.userReview}</Box>
                   <Box>
                     <ResponsiveText variant="body">
-                      "{review.userComment.slice(0, 200)}"
-                      {review.userComment.length > 200 && (
+                      "{review.userComment.slice(0, 150)}"
+                      {review.userComment.length > 150 && (
                         <Link href="">Continue Reading</Link>
                       )}
                     </ResponsiveText>
                   </Box>
-                </Box>
+                </ReviewDetailsContainer>
                 <Box>
                   <ResponsiveText variant="helper">
                     ({review.reviewDate})
                   </ResponsiveText>
                 </Box>
-              </CardContent>
+              </CardContentContainer>
             </ReviewCardContainer>
           ))}
         </Slider>
-      </Container>
+      </RecentActivityContainer>
     </Container>
   );
 };

@@ -25,10 +25,12 @@ import {
   featuredSettings,
 } from "@/helpers/carousal-settings";
 import {
+  FeaturedDetails,
   FeaturedImageContainer,
   FeaturedRestaurantsContainer,
   FeaturedTextContainer,
 } from "./FeaturedRestaurants.styles";
+import { SectionHeading } from "../HomePage.styles";
 
 const FeaturedRestaurants = () => {
   const featuredRestaurants = [
@@ -105,23 +107,11 @@ const FeaturedRestaurants = () => {
   ];
 
   return (
-    <Container
-      disableGutters
-      maxWidth="false"
-      sx={{
-        padding: "5rem 1rem",
-      }}
-    >
+    <Container maxWidth="false">
       <FeaturedRestaurantsContainer maxWidth="xl">
-        <Box
-          sx={{
-            textAlign: "center",
-            marginBottom: "2rem",
-            fontWeight: "bold",
-          }}
-        >
+        <SectionHeading>
           <ResponsiveText variant="header">Featured Restaurants</ResponsiveText>
-        </Box>
+        </SectionHeading>
         <Slider {...featuredSettings}>
           {featuredRestaurants.map((restaurant) => (
             <Box sx={{ cursor: "pointer" }} key={restaurant.restaurantName}>
@@ -135,13 +125,7 @@ const FeaturedRestaurants = () => {
                 />
               </FeaturedImageContainer>
               <FeaturedTextContainer>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
+                <FeaturedDetails>
                   <ResponsiveText
                     variant="mainBody"
                     sx={{ fontWeight: "bold" }}
@@ -151,21 +135,15 @@ const FeaturedRestaurants = () => {
                   <ResponsiveText variant="mainBody">
                     {restaurant.review}
                   </ResponsiveText>
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
+                </FeaturedDetails>
+                <FeaturedDetails>
                   <ResponsiveText variant="helper">
                     {restaurant.tags.join(", ")}
                   </ResponsiveText>
                   <ResponsiveText variant="helper">
                     {restaurant.review} ({restaurant.totalReviews} reviews)
                   </ResponsiveText>
-                </Box>
+                </FeaturedDetails>
               </FeaturedTextContainer>
             </Box>
           ))}

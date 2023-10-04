@@ -10,14 +10,14 @@ import {
   StyledImage,
 } from "./Banner.styles";
 import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
-import Image from "next/image";
+import LocalDiningIcon from "@mui/icons-material/LocalDining";
 
 const Banner = () => {
   const banner = [
     { text: "Explore The Sea Of Restaurants 1", bannerImage: bannerImage1 },
     { text: "Explore The Sea Of Restaurants 2", bannerImage: bannerImage2 },
     { text: "Explore The Sea Of Restaurants 3", bannerImage: bannerImage3 },
-    { text: "Explore The Sea Of Restaurants 4", bannerImage: bannerImage4 },
+    // { text: "Explore The Sea Of Restaurants 4", bannerImage: bannerImage4 },
   ];
 
   const [currentImage, setCurrentImage] = useState(0);
@@ -37,6 +37,7 @@ const Banner = () => {
       newProgress[currentImage] = 100; // Set the current image's progress to 100%
       return newProgress;
     });
+
     return () => clearTimeout(timeout);
   }, [currentImage]);
 
@@ -50,37 +51,56 @@ const Banner = () => {
           src={banner[currentImage].bannerImage}
           key={currentImage}
         />
+        <BannerTextContainer>
+          <Box textAlign="center">
+            <LocalDiningIcon sx={{ color: "darkorange", fontSize: "100px" }} />
+          </Box>
+          <Box sx={{ textAlign: "center", fontWeight: "bold" }}>
+            <ResponsiveText variant="header">
+              {banner[currentImage].text}
+            </ResponsiveText>
+          </Box>
+          <Box textAlign="center">
+            <ResponsiveText variant="subHeader">Halo</ResponsiveText>
+          </Box>
+          <Button
+            variant="outlined"
+            color="inherit"
+            sx={{ marginTop: "1.5rem" }}
+          >
+            <ResponsiveText variant="body">Explore Restaurants</ResponsiveText>
+          </Button>
+          <Box
+            sx={{
+              marginTop: "1rem",
+              display: "flex",
+              gap: "0.5rem",
+            }}
+          >
+            {banner.map((banner, index) => (
+              <Box
+                key={index}
+                sx={{
+                  width: "60px",
+                  borderRadius: "10px",
+                  height: "8px",
+                  backgroundColor: "white",
+                }}
+              >
+                <Box
+                  sx={{
+                    width: `${progress[index]}%`,
+                    backgroundColor: "darkorange",
+                    borderRadius: "10px",
+                    height: "100%",
+                    transition: "5s all linear",
+                  }}
+                />
+              </Box>
+            ))}
+          </Box>
+        </BannerTextContainer>
       </BannerContainer>
-      <BannerTextContainer>
-        <Box textAlign="center">
-          <ResponsiveText variant="header">
-            {banner[currentImage].text}
-          </ResponsiveText>
-        </Box>
-        <Button variant="outlined" color="inherit">
-          <ResponsiveText variant="body">Explore Restaurants</ResponsiveText>
-        </Button>
-        <Box
-          sx={{
-            height: "50px",
-
-            display: "flex",
-            gap: "0.5rem",
-          }}
-        >
-          {banner.map((banner, index) => (
-            <Box
-              key={index}
-              sx={{
-                width: `${progress[index]}px`,
-                backgroundColor: "red",
-                height: "10px",
-                transition: "5s all",
-              }}
-            />
-          ))}
-        </Box>
-      </BannerTextContainer>
     </Container>
   );
 };

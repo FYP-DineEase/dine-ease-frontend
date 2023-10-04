@@ -1,3 +1,4 @@
+import { useFormik } from "formik";
 import React, { useState } from "react";
 import {
   FormContainer,
@@ -7,24 +8,15 @@ import {
   InputField,
   InputFieldContainer,
 } from "../form.styles";
-import {
-  Alert,
-  Box,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-} from "@mui/material";
-import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
-import Image from "next/image";
-import Link from "next/link";
-import { useFormik } from "formik";
-import { loginSchema } from "@/utils/validationSchema";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
+import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
+import { Alert, Box, Button, FormControlLabel, FormGroup } from "@mui/material";
+import Link from "next/link";
+import { loginSchema, passwordResetSchema } from "@/utils/validationSchema";
 
-const LoginField = () => {
+const ResetField = () => {
   const [snackbar, setSnackbar] = useState({
     open: false,
     details: "",
@@ -35,7 +27,6 @@ const LoginField = () => {
     setSnackbar((prevState) => ({ ...prevState, open: false }));
   };
 
-  const [remember, setRemember] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const submitHandler = (values, actions) => {
     // dispatch(
@@ -54,20 +45,16 @@ const LoginField = () => {
     formik.setSubmitting(false);
   };
 
-  const rememberChangeHandler = (event) => {
-    setRemember(event.target.checked);
-  };
-
   const viewPassHandler = () => {
     setShowPassword((showPassword) => !showPassword);
   };
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      newPassword: "",
+      confirmNewPassword: "",
     },
-    validationSchema: loginSchema,
+    validationSchema: passwordResetSchema,
     onSubmit: submitHandler,
   });
   return (
@@ -87,43 +74,25 @@ const LoginField = () => {
           <LocalDiningIcon sx={{ color: "darkorange", fontSize: "70px" }} />
         </Box>
         <FormHeader>
-          <ResponsiveText variant="header">Log In</ResponsiveText>
+          <ResponsiveText variant="header">Reset Password</ResponsiveText>
         </FormHeader>
         <Box textAlign="left">
-          <ResponsiveText variant="mainBody">Email</ResponsiveText>
+          <ResponsiveText variant="mainBody">New Password</ResponsiveText>
         </Box>
-        <InputFieldContainer
-          error={Boolean(formik.errors.email) && formik.touched.email ? 1 : 0}
-        >
-          <InputField
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.email}
-            id="email"
-            type="email"
-            placeholder="Enter Email"
-          />
-        </InputFieldContainer>
-        <Box>
-          {formik.errors.email && formik.touched.email && (
-            <ResponsiveText variant="body" sx={{ color: "red" }}>
-              {formik.errors.email}
-            </ResponsiveText>
-          )}
-        </Box>
-        <ResponsiveText variant="mainBody">Password</ResponsiveText>
         <InputFieldContainer
           error={
-            Boolean(formik.errors.password) && formik.touched.password ? 1 : 0
+            Boolean(formik.errors.newPassword) && formik.touched.newPassword
+              ? 1
+              : 0
           }
         >
           <InputField
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.password}
-            id="password"
+            value={formik.values.newPassword}
+            id="newPassword"
             type={showPassword ? "text" : "password"}
-            placeholder="Enter Password"
+            placeholder="Enter new Password"
           />
           {showPassword ? (
             <VisibilityOffIcon
@@ -138,39 +107,48 @@ const LoginField = () => {
           )}
         </InputFieldContainer>
         <Box>
-          {formik.errors.password && formik.touched.password && (
+          {formik.errors.newPassword && formik.touched.newPassword && (
             <ResponsiveText variant="body" sx={{ color: "red" }}>
-              {formik.errors.password}
+              {formik.errors.newPassword}
             </ResponsiveText>
           )}
         </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
+        <ResponsiveText variant="mainBody">Confirm New Password</ResponsiveText>
+        <InputFieldContainer
+          error={
+            Boolean(formik.errors.confirmNewPassword) &&
+            formik.touched.confirmNewPassword
+              ? 1
+              : 0
+          }
         >
-          <FormGroup>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={remember}
-                  onChange={rememberChangeHandler}
-                  sx={{
-                    color: "#ff6b81",
-                    "&.Mui-checked": {
-                      color: "#ff6b81",
-                    },
-                  }}
-                />
-              }
-              label="Remember Me"
+          <InputField
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.confirmNewPassword}
+            id="confirmNewPassword"
+            type={showPassword ? "text" : "password"}
+            placeholder="Re-Enter Password"
+          />
+          {showPassword ? (
+            <VisibilityOffIcon
+              onClick={viewPassHandler}
+              sx={{ cursor: "pointer" }}
             />
-          </FormGroup>
-          <Link href="/password-reset" as={formik.values.email}>
-            <ResponsiveText variant="body">Forgot Password?</ResponsiveText>
-          </Link>
+          ) : (
+            <VisibilityIcon
+              onClick={viewPassHandler}
+              sx={{ cursor: "pointer" }}
+            />
+          )}
+        </InputFieldContainer>
+        <Box>
+          {formik.errors.confirmNewPassword &&
+            formik.touched.confirmNewPassword && (
+              <ResponsiveText variant="body" sx={{ color: "red" }}>
+                {formik.errors.confirmNewPassword}
+              </ResponsiveText>
+            )}
         </Box>
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <Button
@@ -182,19 +160,12 @@ const LoginField = () => {
               width: "8rem",
             }}
           >
-            Login
+            Reset
           </Button>
-        </Box>
-        <Box textAlign="center">
-          <Link href="/signup">
-            <ResponsiveText variant="mainBody">
-              Not a member? Sign up now.
-            </ResponsiveText>
-          </Link>
         </Box>
       </FormItemsContainer>
     </FormContainer>
   );
 };
 
-export default LoginField;
+export default ResetField;

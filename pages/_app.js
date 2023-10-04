@@ -8,6 +8,7 @@ const customTheme = createTheme(theme());
 export default function App({ Component, pageProps }) {
   return (
     <ThemeProvider theme={customTheme}>
+      <Navbar />
       <Component {...pageProps} />
     </ThemeProvider>
   );

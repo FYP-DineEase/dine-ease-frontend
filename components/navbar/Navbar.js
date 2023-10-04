@@ -18,6 +18,7 @@ import {
 import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import Link from "next/link";
+import LocalDiningIcon from "@mui/icons-material/LocalDining";
 
 const Navbar = () => {
   const [showNav, setShowNav] = useState(false);
@@ -46,7 +47,7 @@ const Navbar = () => {
             gap: "0.25rem",
           }}
         >
-          <Avatar sx={{ height: "50px", width: "50px" }} />
+          <LocalDiningIcon sx={{ fontSize: "50px" }} />
           <Button color="inherit">
             <ResponsiveText variant="mainBody">DineEase</ResponsiveText>
           </Button>
@@ -61,15 +62,21 @@ const Navbar = () => {
           ))}
           <Divider
             orientation="vertical"
-            sx={{ backgroundColor: "rgba(255, 255, 255, 0.1)" }}
+            sx={{
+              backgroundColor: !trigger ? "rgba(255, 255, 255, 0.1)" : "white",
+            }}
             flexItem
           />
-          <Button color="inherit">
-            <ResponsiveText variant="body">Signup</ResponsiveText>
-          </Button>
-          <Button color="inherit">
-            <ResponsiveText variant="body">Log In</ResponsiveText>
-          </Button>
+          <Link href="/signup">
+            <Button color="inherit">
+              <ResponsiveText variant="body">Signup</ResponsiveText>
+            </Button>
+          </Link>
+          <Link href="/login">
+            <Button color="inherit">
+              <ResponsiveText variant="body">Log In</ResponsiveText>
+            </Button>
+          </Link>
         </Box>
         <IconButton
           size="large"
@@ -94,12 +101,16 @@ const Navbar = () => {
             flexItem
           />
           <Box sx={{ display: "flex", gap: "1rem", marginTop: "0.5rem" }}>
-            <Button color="inherit">
-              <ResponsiveText variant="body">Signup</ResponsiveText>
-            </Button>
-            <Button color="inherit">
-              <ResponsiveText variant="body">Log In</ResponsiveText>
-            </Button>
+            <Link href="/signup">
+              <Button color="inherit">
+                <ResponsiveText variant="body">Signup</ResponsiveText>
+              </Button>
+            </Link>
+            <Link href="/login">
+              <Button color="inherit">
+                <ResponsiveText variant="body">Log In</ResponsiveText>
+              </Button>
+            </Link>
           </Box>
         </NavResponsiveView>
       </Collapse>

@@ -42,13 +42,10 @@ export const BannerTextContainer = styled(Box)(({}) => ({
   padding: "0 1rem",
   color: "white",
   width: "100%",
+  height: "100%",
   position: "absolute",
-  top: "22rem",
-  // left: "50%",
-  // transform: "translateX(-50%)",
-  fontWeight: "bold",
   zIndex: "2",
-  gap: "2rem",
+  gap: "1rem",
 }));
 
 export const StyledImage = styled(Image)(({}) => ({

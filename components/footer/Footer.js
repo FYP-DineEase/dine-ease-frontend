@@ -1,5 +1,5 @@
 import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
-import { Avatar, Box, Container, Grid } from "@mui/material";
+import { Avatar, Box, Container, Divider, Grid } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -8,14 +8,11 @@ import { FooterLinksContainer } from "./Footer.styles";
 
 const Footer = () => {
   return (
-    <Container
-      disableGutters
-      maxWidth="false"
-      sx={{ minHeight: "325px", backgroundColor: "black", color: "white" }}
-    >
+    <Container disableGutters maxWidth="false" sx={{ minHeight: "325px" }}>
+      <Divider sx={{ backgroundColor: "darkorange" }} variant="middle" />
       <Container
         maxWidth="xl"
-        sx={{ height: "100%", padding: "5rem 2rem" }}
+        sx={{ height: "100%", padding: "5rem 3rem 2rem 2rem" }}
         disableGutters
       >
         <Grid container rowSpacing={10} justifyContent="center">
@@ -23,7 +20,10 @@ const Footer = () => {
             <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
               <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
                 <Avatar sx={{ height: "50px", width: "50px" }} />
-                <ResponsiveText variant="subHeader" sx={{ fontWeight: "bold" }}>
+                <ResponsiveText
+                  variant="subHeader"
+                  sx={{ fontWeight: "bold", color: "darkorange" }}
+                >
                   DineEase
                 </ResponsiveText>
               </Box>
@@ -39,7 +39,10 @@ const Footer = () => {
           <Grid item xs={6} md={4}>
             <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
               <Box sx={{ padding: "0 7vw" }}>
-                <ResponsiveText variant="body" sx={{ fontWeight: "bold" }}>
+                <ResponsiveText
+                  variant="body"
+                  sx={{ fontWeight: "bold", color: "darkorange" }}
+                >
                   Quick Links
                 </ResponsiveText>
               </Box>
@@ -53,7 +56,10 @@ const Footer = () => {
           <Grid item xs={6} md={4}>
             <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
               <Box sx={{ padding: "0 6vw" }}>
-                <ResponsiveText variant="body" sx={{ fontWeight: "bold" }}>
+                <ResponsiveText
+                  variant="body"
+                  sx={{ fontWeight: "bold", color: "darkorange" }}
+                >
                   Connect With Us
                 </ResponsiveText>
               </Box>

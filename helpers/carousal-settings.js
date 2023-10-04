@@ -36,17 +36,6 @@ export const featuredSettings = {
   nextArrow: <NextArrow />,
   prevArrow: <PrevArrow />,
   dots: true,
-  customPaging: () => (
-    <Box
-      sx={{
-        marginTop: "1.5rem",
-        width: "12px",
-        height: "12px",
-        borderRadius: "50%",
-        backgroundColor: "orange",
-      }}
-    />
-  ),
 
   responsive: [
     {
@@ -76,15 +65,4 @@ export const activitySettings = {
   nextArrow: <NextArrow />,
   prevArrow: <PrevArrow />,
   dots: true,
-  customPaging: () => (
-    <Box
-      sx={{
-        marginTop: "1.5rem",
-        width: "12px",
-        height: "12px",
-        borderRadius: "50%",
-        backgroundColor: "orange",
-      }}
-    />
-  ),
 };

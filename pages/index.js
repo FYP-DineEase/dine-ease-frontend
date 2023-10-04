@@ -25,10 +25,13 @@ export default function Home() {
   return (
     <Container
       maxWidth="false"
-      sx={{ backgroundColor: "whitesmoke" }}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "6rem",
+      }}
       disableGutters
     >
-      <Navbar />
       <Banner />
       <FeaturedRestaurants />
       <Cities />

@@ -61,7 +61,7 @@ export const InputFieldContainer = styled(Box)(({ theme, error }) => ({
 
 export const FormImageContainer = styled(Box)(({ theme }) => ({
   height: "100vh",
-  minHeight: "800px",
+  minHeight: "1000px",
   position: "relative",
 
   "&:before": {

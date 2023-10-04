@@ -22,9 +22,10 @@ import RestaurantIcon from "@mui/icons-material/Restaurant";
 import PersonIcon from "@mui/icons-material/Person";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import LocalDiningIcon from "@mui/icons-material/LocalDining";
+import SignupRoles from "./SignupRoles";
 
 const SignupField = () => {
-  const [selectedRole, setRole] = useState("user");
   const [showPassword, setShowPassword] = useState(false);
   const [snackbar, setSnackbar] = useState({
     open: false,
@@ -32,10 +33,6 @@ const SignupField = () => {
     type: "success",
   });
 
-  const roles = [
-    { id: "user", text: "User", icon: <PersonIcon /> },
-    { id: "manager", text: "Manager", icon: <RestaurantIcon /> },
-  ];
   const submitHandler = (values, actions) => {
     // dispatch(
     //   authActions.loginHandler({
@@ -52,11 +49,6 @@ const SignupField = () => {
       type: "error",
     });
     formik.setSubmitting(false);
-  };
-
-  const roleSelectionHandler = (role) => {
-    setRole(role);
-    console.log(role);
   };
 
   const handleClose = () => {
@@ -80,9 +72,9 @@ const SignupField = () => {
     onSubmit: submitHandler,
   });
 
-  const onValueChange = (phoneNumber) => {
-    formik.setFieldValue("phoneNumber", phoneNumber);
-  };
+  // const onValueChange = (phoneNumber) => {
+  //   formik.setFieldValue("phoneNumber", phoneNumber);
+  // };
 
   return (
     <FormContainer>
@@ -97,6 +89,9 @@ const SignupField = () => {
         </Alert>
       </FormSnackbar>
       <FormItemsContainer onSubmit={formik.handleSubmit}>
+        <Box textAlign="center">
+          <LocalDiningIcon sx={{ color: "darkorange", fontSize: "70px" }} />
+        </Box>
         <FormHeader>
           <ResponsiveText variant="header">Sign Up</ResponsiveText>
         </FormHeader>
@@ -275,19 +270,7 @@ const SignupField = () => {
             </ResponsiveText>
           )}
         </Box>
-        <Box sx={{ display: "flex", justifyContent: "center", gap: "1rem" }}>
-          {roles.map((role) => (
-            <RoleContainer
-              key={role.id}
-              selected={selectedRole.includes(role.id)}
-              onClick={(event) => roleSelectionHandler(role.id)}
-              color="inherit"
-            >
-              {role.icon}
-              <ResponsiveText variant="helper">{role.text}</ResponsiveText>
-            </RoleContainer>
-          ))}
-        </Box>
+        <SignupRoles />
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <Button
             type="submit"

@@ -8,6 +8,14 @@ export const FeaturedRestaurantsContainer = styled(Container)(({}) => ({
     flexDirection: "column",
     gap: "1rem",
   },
+  "& .slick-dots li button::before": {
+    transition: "all 0.2s ease 0s",
+    content: `""`,
+    width: "12px",
+    height: "12px",
+    borderRadius: "100%",
+    background: "darkorange",
+  },
 }));
 
 export const FeaturedTextContainer = styled(Box)(({}) => ({
@@ -31,4 +39,10 @@ export const FeaturedImageContainer = styled(Box)(({}) => ({
     backgroundColor: "black",
     opacity: ".25",
   },
+}));
+
+export const FeaturedDetails = styled(Box)(({}) => ({
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
 }));

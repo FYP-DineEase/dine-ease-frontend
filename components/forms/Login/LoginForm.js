@@ -30,7 +30,7 @@ const LoginForm = () => {
   return (
     <FormPageContainer maxWidth={false} disableGutters>
       <Grid container justifyContent="center">
-        <Grid item xs={10} sm={6} md={5}>
+        <Grid item xs={10} md={5}>
           <LoginField />
         </Grid>
         <Grid

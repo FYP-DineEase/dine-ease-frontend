@@ -7,6 +7,7 @@ import bannerImage4 from "@/assets/banner4.jpg";
 import React from "react";
 import Image from "next/image";
 import { CitiesContainer, CitiesTextContainer } from "./Cities.styles";
+import { SectionHeading } from "../HomePage.styles";
 
 const Cities = () => {
   const cities = [
@@ -18,15 +19,13 @@ const Cities = () => {
   ];
 
   return (
-    <Container disableGutters maxWidth="false" sx={{ padding: "5rem 1rem" }}>
+    <Container maxWidth="false">
       <Container maxWidth="xl" disableGutters>
-        <Box
-          sx={{ textAlign: "center", marginBottom: "2rem", fontWeight: "bold" }}
-        >
+        <SectionHeading>
           <ResponsiveText variant="header">
             Explore Restaurants By Cities
           </ResponsiveText>
-        </Box>
+        </SectionHeading>
         <Grid container spacing={4}>
           {cities.map((city) => (
             <Grid item xs={12} sm={6} md={city.width} key={city.name}>

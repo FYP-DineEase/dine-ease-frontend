@@ -5,16 +5,16 @@ export const NavbarContainer = styled(AppBar)(({ theme }) => ({
   position: "absolute",
   zIndex: "999",
   backgroundColor: "transparent",
-  boxShadow: "none",
+  // boxShadow: "none",
   transition: "all 0.75s",
 
   [theme.breakpoints.down("md")]: {
-    backgroundColor: "black",
+    backgroundColor: "darkorange",
   },
 
   "&.nav-animation": {
     position: "fixed",
-    backgroundColor: "black",
+    backgroundColor: "darkorange",
     animation: "fadeInDown 0.75s linear",
 
     "@keyframes fadeInDown": {

@@ -34,3 +34,14 @@ export const loginSchema = yup.object().shape({
     .min(8, "Must be at least 8 characters")
     .required("Password is a required field!"),
 });
+
+export const passwordResetSchema = yup.object().shape({
+  newPassword: yup
+    .string()
+    .min(8, "Must be at least 8 characters")
+    .required("Password is a required field!"),
+  confirmNewPassword: yup
+    .string()
+    .oneOf([yup.ref("newPassword"), null], "Password do not match")
+    .required("Please confirm password!"),
+});
