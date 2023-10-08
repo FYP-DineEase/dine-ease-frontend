@@ -5,6 +5,7 @@ import "@/styles/globals.css";
 import { ThemeProvider, createTheme } from "@mui/material";
 
 import theme from "@/styles/theme/theme";
+import Footer from "@/components/footer/Footer";
 
 const customTheme = createTheme(theme());
 
