@@ -4,8 +4,9 @@ export const NavbarContainer = styled(AppBar)(({ theme }) => ({
   minHeight: "80px",
   position: "absolute",
   zIndex: "999",
-  backgroundColor: "transparent",
+  // backgroundColor: "transparent",
   // boxShadow: "none",
+  backgroundColor: "darkorange",
   transition: "all 0.75s",
 
   [theme.breakpoints.down("md")]: {

@@ -15,3 +15,16 @@
 # Animations concepts
 
 https://codepen.io/J0hn03cb1ac8a4/pen/MWYeQqp
+
+# Profile Management
+
+- name,password,picture update
+- posted reviews delete,update
+- dining plans delete,update
+- foodmaps delete,update
+
+kubectl port-forward nats-depl-5fd545d7c4-qfvnm 4222:4222
+npm run start:dev
+
+userSWR
+axios instance

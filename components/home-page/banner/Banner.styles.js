@@ -5,7 +5,7 @@ export const BannerContainer = styled(Box)(({ theme }) => ({
   height: "100%",
   minHeight: "800px",
   width: "100%",
-  height: "70vh",
+  height: "60vh",
   position: "relative",
   top: 0,
 
