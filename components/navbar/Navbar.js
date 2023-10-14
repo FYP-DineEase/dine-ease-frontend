@@ -1,23 +1,25 @@
+import React, { useState } from "react";
+
+import Link from "next/link";
+
 import {
-  AppBar,
-  Avatar,
   Box,
   Button,
   Collapse,
-  Container,
   Divider,
   IconButton,
   useScrollTrigger,
 } from "@mui/material";
-import React, { useState } from "react";
+
 import {
   NavFullView,
   NavResponsiveView,
   NavbarContainer,
 } from "./Navbar.styles";
+
 import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
+
 import MenuIcon from "@mui/icons-material/Menu";
-import Link from "next/link";
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
 
 const Navbar = () => {
@@ -40,7 +42,7 @@ const Navbar = () => {
 
   return (
     <NavbarContainer className={trigger && "nav-animation"}>
-      <NavFullView maxWidth="lg">
+      <NavFullView maxWidth="xl">
         <Box
           sx={{
             display: "flex",
