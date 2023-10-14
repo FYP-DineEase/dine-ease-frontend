@@ -1,4 +1,10 @@
+import { useEffect } from "react";
+
 import { Container } from "@mui/material";
+
+import { useDispatch } from "react-redux";
+
+import { getUser } from "@/store/authActions";
 
 import Banner from "@/components/home-page/banner/Banner";
 import FeaturedRestaurants from "@/components/home-page/featured-restaurants/FeaturedRestaurants";
@@ -7,7 +13,14 @@ import RecentReviews from "@/components/home-page/recent-reviews/RecentReviews";
 import Footer from "@/components/footer/Footer";
 import Cities from "@/components/home-page/cities/Cities";
 
+
 export default function Home() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUser());
+  }, []);
+
   return (
     <Container
       maxWidth="false"
