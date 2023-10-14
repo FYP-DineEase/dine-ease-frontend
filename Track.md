@@ -11,8 +11,9 @@
 # To do
 
 - auth/protected route using next auth
-- menu add delete process
-- redux store of user
+- see how menu add delete process will work
+- redux store of user //DONE
+- fix validations to match with backend //DONE
 
 # To ask
 
