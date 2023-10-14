@@ -18,13 +18,13 @@ export const FormContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const FormItemsContainer = styled("form")(({ theme }) => ({
+export const FormItemsContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   width: "clamp(300px,400px,600px)",
-  gap: "1rem",
+  gap: "0.75rem",
   [theme.breakpoints.down("md")]: {
-    marginTop: "7rem",
+    marginTop: "6rem",
     padding: "1rem 0",
   },
 }));

@@ -5,7 +5,16 @@ import { useFormik } from "formik";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
-import { Alert, Box, Button } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+} from "@mui/material";
 
 import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
 
@@ -73,43 +82,43 @@ const ResetField = () => {
           {snackbar.details || "Server is down , please try again later"}
         </Alert>
       </FormSnackbar>
-      <FormItemsContainer onSubmit={formik.handleSubmit}>
+      <FormItemsContainer component="form" onSubmit={formik.handleSubmit}>
         <Box textAlign="center">
           <LocalDiningIcon sx={{ color: "darkorange", fontSize: "70px" }} />
         </Box>
         <FormHeader>
           <ResponsiveText variant="header">Reset Password</ResponsiveText>
         </FormHeader>
-        <Box textAlign="left">
-          <ResponsiveText variant="mainBody">New Password</ResponsiveText>
-        </Box>
-        <InputFieldContainer
-          error={
-            Boolean(formik.errors.newPassword) && formik.touched.newPassword
-              ? 1
-              : 0
-          }
-        >
-          <InputField
+        <FormControl variant="outlined">
+          <InputLabel
+            htmlFor="newPassword"
+            error={formik.errors.newPassword && formik.touched.newPassword}
+            color="warning"
+          >
+            New Password
+          </InputLabel>
+          <OutlinedInput
+            error={formik.errors.newPassword && formik.touched.newPassword}
+            id="newPassword"
+            type={showPassword ? "text" : "password"}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.newPassword}
-            id="newPassword"
-            type={showPassword ? "text" : "password"}
-            placeholder="Enter new Password"
+            color="warning"
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={viewPassHandler}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="New Password"
           />
-          {showPassword ? (
-            <VisibilityOffIcon
-              onClick={viewPassHandler}
-              sx={{ cursor: "pointer" }}
-            />
-          ) : (
-            <VisibilityIcon
-              onClick={viewPassHandler}
-              sx={{ cursor: "pointer" }}
-            />
-          )}
-        </InputFieldContainer>
+        </FormControl>
         <Box>
           {formik.errors.newPassword && formik.touched.newPassword && (
             <ResponsiveText variant="body" sx={{ color: "red" }}>
@@ -117,35 +126,42 @@ const ResetField = () => {
             </ResponsiveText>
           )}
         </Box>
-        <ResponsiveText variant="mainBody">Confirm New Password</ResponsiveText>
-        <InputFieldContainer
-          error={
-            Boolean(formik.errors.confirmNewPassword) &&
-            formik.touched.confirmNewPassword
-              ? 1
-              : 0
-          }
-        >
-          <InputField
+        <FormControl variant="outlined">
+          <InputLabel
+            htmlFor="confirmNewPassword"
+            error={
+              formik.errors.confirmNewPassword &&
+              formik.touched.confirmNewPassword
+            }
+            color="warning"
+          >
+            Confirm New Password
+          </InputLabel>
+          <OutlinedInput
+            error={
+              formik.errors.confirmNewPassword &&
+              formik.touched.confirmNewPassword
+            }
+            id="confirmNewPassword"
+            type={showPassword ? "text" : "password"}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.confirmNewPassword}
-            id="confirmNewPassword"
-            type={showPassword ? "text" : "password"}
-            placeholder="Re-Enter Password"
+            color="warning"
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={viewPassHandler}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Confirm New Password"
           />
-          {showPassword ? (
-            <VisibilityOffIcon
-              onClick={viewPassHandler}
-              sx={{ cursor: "pointer" }}
-            />
-          ) : (
-            <VisibilityIcon
-              onClick={viewPassHandler}
-              sx={{ cursor: "pointer" }}
-            />
-          )}
-        </InputFieldContainer>
+        </FormControl>
         <Box>
           {formik.errors.confirmNewPassword &&
             formik.touched.confirmNewPassword && (

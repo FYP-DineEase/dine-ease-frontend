@@ -7,8 +7,14 @@ import {
   Box,
   Button,
   Checkbox,
+  FormControl,
   FormControlLabel,
   FormGroup,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  TextField,
 } from "@mui/material";
 
 import { useFormik } from "formik";
@@ -88,28 +94,22 @@ const LoginField = () => {
           {snackbar.details || "Server is down , please try again later"}
         </Alert>
       </FormSnackbar>
-      <FormItemsContainer onSubmit={formik.handleSubmit}>
+      <FormItemsContainer component="form" onSubmit={formik.handleSubmit}>
         <Box textAlign="center">
           <LocalDiningIcon sx={{ color: "darkorange", fontSize: "70px" }} />
         </Box>
         <FormHeader>
           <ResponsiveText variant="header">Log In</ResponsiveText>
         </FormHeader>
-        <Box textAlign="left">
-          <ResponsiveText variant="mainBody">Email</ResponsiveText>
-        </Box>
-        <InputFieldContainer
-          error={Boolean(formik.errors.email) && formik.touched.email ? 1 : 0}
-        >
-          <InputField
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.email}
-            id="email"
-            type="email"
-            placeholder="Enter Email"
-          />
-        </InputFieldContainer>
+        <TextField
+          id="email"
+          error={formik.errors.email && formik.touched.email}
+          label="Email"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.email}
+          color="warning"
+        />
         <Box>
           {formik.errors.email && formik.touched.email && (
             <ResponsiveText variant="body" sx={{ color: "red" }}>
@@ -117,32 +117,36 @@ const LoginField = () => {
             </ResponsiveText>
           )}
         </Box>
-        <ResponsiveText variant="mainBody">Password</ResponsiveText>
-        <InputFieldContainer
-          error={
-            Boolean(formik.errors.password) && formik.touched.password ? 1 : 0
-          }
-        >
-          <InputField
+        <FormControl variant="outlined">
+          <InputLabel
+            htmlFor="password"
+            error={formik.errors.password && formik.touched.password}
+            color="warning"
+          >
+            Password
+          </InputLabel>
+          <OutlinedInput
+            error={formik.errors.password && formik.touched.password}
+            id="password"
+            type={showPassword ? "text" : "password"}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.password}
-            id="password"
-            type={showPassword ? "text" : "password"}
-            placeholder="Enter Password"
+            color="warning"
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={viewPassHandler}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Password"
           />
-          {showPassword ? (
-            <VisibilityOffIcon
-              onClick={viewPassHandler}
-              sx={{ cursor: "pointer" }}
-            />
-          ) : (
-            <VisibilityIcon
-              onClick={viewPassHandler}
-              sx={{ cursor: "pointer" }}
-            />
-          )}
-        </InputFieldContainer>
+        </FormControl>
         <Box>
           {formik.errors.password && formik.touched.password && (
             <ResponsiveText variant="body" sx={{ color: "red" }}>
