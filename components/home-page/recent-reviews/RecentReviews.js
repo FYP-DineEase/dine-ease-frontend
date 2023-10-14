@@ -4,10 +4,6 @@ import Image from "next/image";
 
 import Link from "next/link";
 
-import bannerImage1 from "@/assets/banner1.jpg";
-import bannerImage2 from "@/assets/banner2.jpg";
-import bannerImage3 from "@/assets/banner3.jpg";
-
 import Slider from "react-slick";
 
 import { Avatar, Box, Container, Divider } from "@mui/material";
@@ -26,43 +22,9 @@ import {
 } from "./RecentReviews.styles";
 
 import { SectionHeading } from "../HomePage.styles";
+import { mockRecentReviews } from "../../../mockData/mockData";
 
 const RecentReviews = () => {
-  const recentReviews = [
-    {
-      userName: "Ali",
-      userAvatar: "Pizza Hut",
-      restaurantName: "Pizza Hut",
-      restaurantImage: bannerImage1,
-      tags: ["Cheese", "Italian", "Spicy"],
-      reviewDate: "12-Oct-2023",
-      userReview: 3.35,
-      userComment:
-        "This is good 1 This is good 1This is good 1This is good 1This is good 1This is good 1This is good 1This is good 1This is good 1This is good 1This is good 1This is good 1This is good 1This is good 1This is good 1This is good 1This is good 1This is good 1This is good 1",
-    },
-    {
-      userName: "Smith",
-      userAvatar: "Pizza Hut",
-      restaurantName: "Pizza Hut",
-      restaurantImage: bannerImage2,
-      tags: ["Cheese", "Italian"],
-      reviewDate: "12-Oct-2022",
-      userReview: 2.3,
-      userComment: "This is good 2",
-    },
-
-    {
-      userName: "Jackson",
-      userAvatar: "Pizza Hut",
-      restaurantName: "Pizza Hut",
-      restaurantImage: bannerImage3,
-      tags: ["Mexican"],
-      reviewDate: "10-Oct-2023",
-      userReview: 3.9,
-      userComment: "This is good 3",
-    },
-  ];
-
   return (
     <Container maxWidth="false" sx={{ display: { xs: "none", sm: "block" } }}>
       <RecentActivityContainer maxWidth="md">
@@ -70,7 +32,7 @@ const RecentReviews = () => {
           <ResponsiveText variant="header">Recent Activity</ResponsiveText>
         </SectionHeading>
         <Slider {...activitySettings}>
-          {recentReviews.map((review) => (
+          {mockRecentReviews.map((review) => (
             <ReviewCardContainer key={review.restaurantName}>
               <ReviewImageContainer>
                 <Image
