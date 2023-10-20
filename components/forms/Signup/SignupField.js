@@ -46,6 +46,9 @@ const SignupField = () => {
   });
 
   const submitHandler = (values, actions) => {
+
+    console.log(JSON.stringify(values))
+
     // dispatch(
     //   authActions.loginHandler({
     //     type: "LOGIN",
@@ -53,14 +56,14 @@ const SignupField = () => {
     //     password: values.password,
     //   })
     // );
-    console.log("first");
-    formik.setSubmitting(true);
-    setSnackbar({
-      open: true,
-      details: "Halo Im a Snackbar",
-      type: "error",
-    });
-    formik.setSubmitting(false);
+    // console.log("first");
+    // formik.setSubmitting(true);
+    // setSnackbar({
+    //   open: true,
+    //   details: "Halo Im a Snackbar",
+    //   type: "error",
+    // });
+    // formik.setSubmitting(false);
   };
 
   const handleClose = () => {
@@ -73,12 +76,11 @@ const SignupField = () => {
 
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      // phoneNumber: "",
+      firstName: "Mujtaba",
+      lastName: "Shafiq",
+      email: "nagitazy@tutuapp.bid",
+      password: "Mujtaba@123",
+      confirmPassword: "Mujtaba@123",
     },
     validationSchema: signupSchema,
     onSubmit: submitHandler,

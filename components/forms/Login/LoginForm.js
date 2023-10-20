@@ -20,8 +20,7 @@ const LoginForm = () => {
             display: { xs: "none", md: "block" },
           }}
           xs={12}
-          md={7}
-        >
+          md={7}>
           <FormImage
             headerText="Welcome back!"
             subHeaderText="Ready to immerse yourself in a world of gastronomic delights? Log in to continue your culinary journey."

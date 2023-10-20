@@ -1,9 +1,6 @@
 import React from "react";
-
 import { Box, Container } from "@mui/material";
-
 import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
-
 import { SectionHeading } from "../HomePage.styles";
 
 const RestaurantsNearby = () => {

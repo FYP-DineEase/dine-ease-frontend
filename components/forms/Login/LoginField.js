@@ -32,8 +32,6 @@ import {
   FormHeader,
   FormItemsContainer,
   FormSnackbar,
-  InputField,
-  InputFieldContainer,
 } from "../form.styles";
 
 const LoginField = () => {
@@ -50,6 +48,10 @@ const LoginField = () => {
   const [remember, setRemember] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const submitHandler = (values, actions) => {
+
+    alert(JSON.stringify(values))
+
+
     // dispatch(
     //   authActions.loginHandler({
     //     type: "LOGIN",
@@ -57,13 +59,13 @@ const LoginField = () => {
     //     password: values.password,
     //   })
     // );
-    formik.setSubmitting(true);
-    setSnackbar({
-      open: true,
-      details: "Halo Im a Snackbar",
-      type: "error",
-    });
-    formik.setSubmitting(false);
+    // formik.setSubmitting(true);
+    // setSnackbar({
+    //   open: true,
+    //   details: "Halo Im a Snackbar",
+    //   type: "error",
+    // });
+    // formik.setSubmitting(false);
   };
 
   const rememberChangeHandler = (event) => {
@@ -76,8 +78,8 @@ const LoginField = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      email: "nagitazy@tutuapp.bid",
+      password: "Mujtaba@123",
     },
     validationSchema: loginSchema,
     onSubmit: submitHandler,
