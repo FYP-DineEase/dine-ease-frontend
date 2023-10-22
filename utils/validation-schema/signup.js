@@ -27,31 +27,4 @@ export const signupSchema = yup.object().shape({
     .string()
     .oneOf([yup.ref("password"), null], "Password do not match")
     .required("Please confirm password!"),
-  // phoneNumber: yup.string().required("Phone number is a required field!"),
-});
-
-export const loginSchema = yup.object().shape({
-  email: yup
-    .string()
-    .email("Please enter a valid email")
-    .required("Email is a required field!"),
-  password: yup
-    .string()
-    .min(8, "Must be at least 8 characters")
-    .required("Password is a required field!"),
-});
-
-export const passwordResetSchema = yup.object().shape({
-  newPassword: yup
-    .string()
-    .min(8, "Must be at least 8 characters")
-    .matches(
-      /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/,
-      "Password must contain at least one digit and one special character"
-    )
-    .required("Password is a required field!"),
-  confirmNewPassword: yup
-    .string()
-    .oneOf([yup.ref("newPassword"), null], "Password do not match")
-    .required("Please confirm password!"),
 });

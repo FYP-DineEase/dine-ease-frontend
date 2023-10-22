@@ -15,7 +15,7 @@ export const baseFontSizes = {
     default: "1rem",
     small: "0.875rem",
   },
-  helper: {
+  sub: {
     default: "0.875rem",
     small: "0.75rem",
   },

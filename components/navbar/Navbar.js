@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-
 import Link from "next/link";
-
 import {
   Box,
   Button,
@@ -10,17 +8,9 @@ import {
   IconButton,
   useScrollTrigger,
 } from "@mui/material";
-
-import {
-  NavFullView,
-  NavResponsiveView,
-  NavbarContainer,
-} from "./Navbar.styles";
-
+import { NavFullView, NavResponsiveView, NavbarContainer } from "./Navbar.styles";
 import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
-
-import MenuIcon from "@mui/icons-material/Menu";
-import LocalDiningIcon from "@mui/icons-material/LocalDining";
+import { LocalDining as LocalDiningIcon, Menu as MenuIcon } from "@mui/icons-material";
 
 const Navbar = () => {
   const [showNav, setShowNav] = useState(false);
@@ -47,8 +37,7 @@ const Navbar = () => {
           sx={{
             display: "flex",
             gap: "0.25rem",
-          }}
-        >
+          }}>
           <LocalDiningIcon sx={{ fontSize: "50px" }} />
           <Button color="inherit">
             <ResponsiveText variant="mainBody">DineEase</ResponsiveText>
@@ -84,8 +73,7 @@ const Navbar = () => {
           size="large"
           onClick={showNavHandler}
           sx={{ display: { xs: "flex", md: "none" } }}
-          color="inherit"
-        >
+          color="inherit">
           <MenuIcon />
         </IconButton>
       </NavFullView>
@@ -98,10 +86,7 @@ const Navbar = () => {
               </Button>
             </Link>
           ))}
-          <Divider
-            sx={{ backgroundColor: "rgba(255, 255, 255, 0.1)" }}
-            flexItem
-          />
+          <Divider sx={{ backgroundColor: "rgba(255, 255, 255, 0.1)" }} flexItem />
           <Box sx={{ display: "flex", gap: "1rem", marginTop: "0.5rem" }}>
             <Link href="/signup">
               <Button color="inherit">
