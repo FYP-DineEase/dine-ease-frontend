@@ -2,44 +2,21 @@ import { createSlice } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
 import { getUser } from "./authActions";
 
-const DUMMY_USERS = [
-  {
-    user: {
-      firstName: "Ahmed",
-      lastName: "Kamran",
-      email: "ahmed@gmail.com",
-      avatar: "",
-      role: "User",
-    },
-  },
-  {
-    user: {
-      firstName: "Mujtaba",
-      lastName: "Shafoq",
-      email: "mujtaba@gmail.com",
-      avatar: "",
-      role: "User",
-    },
-  },
-];
-
-const userInitialState = {
+const initialState = {
   user: {
-    firstName: "",
-    lastName: "",
-    email: "",
-    avatar: "",
-    role: "",
+    id: null,
+    name: null,
+    email: null,
+    role: null,
+    avatar: null,
   },
 };
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: userInitialState,
+  initialState,
   reducers: {
-    logoutUser(state, action) {
-      state.user = { ...userInitialState.user };
-    },
+    logout: () => initialState,
   },
   extraReducers: (builder) => {
     builder
@@ -49,18 +26,16 @@ const authSlice = createSlice({
           ...action.payload,
         };
       })
-      .addCase(getUser.pending, (state, action) => {
-        state = userInitialState;
-      })
       .addCase(getUser.rejected, (state, action) => {
-        state.user = userInitialState;
+        state.user = initialState;
       })
       .addCase(getUser.fulfilled, (state, action) => {
-        state.user = { ...DUMMY_USERS[1].user };
+        state.user = action.payload;
       });
   },
 });
 
-// export const user = (state) => state.component.status;
+export const selectUserState = (state) => state.auth.user;
 
+export const authActions = authSlice.actions;
 export default authSlice;

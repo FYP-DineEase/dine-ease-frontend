@@ -1,114 +1,46 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import {
-  Box,
-  Button,
-  Collapse,
-  Divider,
-  IconButton,
-  useScrollTrigger,
-} from "@mui/material";
-import { NavFullView, NavResponsiveView, NavbarContainer } from "./Navbar.styles";
-import { ResponsiveText } from "@/styles/common-styles/CommonStyles.styles";
-import { LocalDining as LocalDiningIcon, Menu as MenuIcon } from "@mui/icons-material";
+
+// components
+import Logo from "../logo/logo";
+
+// styles
+import { Text } from "../UI/typography";
+import * as Styles from "./navbar.styles";
 
 const Navbar = () => {
   const [showNav, setShowNav] = useState(false);
   const navLinks = [
-    { id: "Home", redirectLink: "/" },
-    { id: "About", redirectLink: "/" },
-    { id: "Contact Us", redirectLink: "/" },
-    { id: "Find Restaurants", redirectLink: "/" },
+    { id: "Home", link: "/" },
+    { id: "Discover", link: "/" },
+    { id: "Contact", link: "/" },
+    { id: "Log In", link: "/", authItem: true },
+    { id: "Sign Up", link: "/", authItem: true, fill: true },
   ];
-
-  const trigger = useScrollTrigger({
-    disableHysteresis: true,
-    threshold: 0,
-  });
 
   const showNavHandler = () => {
     setShowNav((prev) => !prev);
   };
 
   return (
-    <NavbarContainer className={trigger && "nav-animation"}>
-      <NavFullView maxWidth="xl">
-        <Box
-          sx={{
-            display: "flex",
-            gap: "0.25rem",
-          }}>
-          <LocalDiningIcon sx={{ fontSize: "50px" }} />
-          <Button color="inherit">
-            <ResponsiveText variant="mainBody">DineEase</ResponsiveText>
-          </Button>
-        </Box>
-        <Box sx={{ display: { xs: "none", md: "flex" }, gap: "0.75rem" }}>
-          {navLinks.map((link) => (
-            <Link href={link.redirectLink} key={link.id}>
-              <Button color="inherit">
-                <ResponsiveText variant="body">{link.id}</ResponsiveText>
-              </Button>
-            </Link>
-          ))}
-          <Divider
-            orientation="vertical"
-            sx={{
-              backgroundColor: !trigger ? "rgba(255, 255, 255, 0.1)" : "white",
-            }}
-            flexItem
-          />
-          <Link href="/signup">
-            <Button color="inherit">
-              <ResponsiveText variant="body">Signup</ResponsiveText>
-            </Button>
+    <Styles.MainContainer>
+      <Logo />
+      <Styles.NavContainer>
+        {navLinks.map((item) => (
+          <Link key={item.id} href={item.link}>
+            {item.authItem ? (
+              <Styles.AuthLink fill={item.fill ? 1 : 0}>
+                <Text variant="main">{item.id}</Text>
+              </Styles.AuthLink>
+            ) : (
+              <Styles.LinkContainer>
+                <Text variant="main">{item.id}</Text>
+              </Styles.LinkContainer>
+            )}
           </Link>
-          <Link href="/login">
-            <Button color="inherit">
-              <ResponsiveText variant="body">Log In</ResponsiveText>
-            </Button>
-          </Link>
-        </Box>
-        <IconButton
-          size="large"
-          onClick={showNavHandler}
-          sx={{ display: { xs: "flex", md: "none" } }}
-          color="inherit">
-          <MenuIcon />
-        </IconButton>
-      </NavFullView>
-      <Collapse in={showNav} timeout="auto" unmountOnExit>
-        <NavResponsiveView>
-          {navLinks.map((link) => (
-            <Link href={link.redirectLink} key={link.id}>
-              <Button color="inherit">
-                <ResponsiveText variant="body">{link.id}</ResponsiveText>
-              </Button>
-            </Link>
-          ))}
-          <Divider sx={{ backgroundColor: "rgba(255, 255, 255, 0.1)" }} flexItem />
-          <Box sx={{ display: "flex", gap: "1rem", marginTop: "0.5rem" }}>
-            <Link href="/signup">
-              <Button color="inherit">
-                <ResponsiveText variant="body">Signup</ResponsiveText>
-              </Button>
-            </Link>
-            <Link href="/login">
-              <Button color="inherit">
-                <ResponsiveText variant="body">Log In</ResponsiveText>
-              </Button>
-            </Link>
-          </Box>
-        </NavResponsiveView>
-      </Collapse>
-      <Divider
-        variant="middle"
-        sx={{
-          backgroundColor: "rgba(255, 255, 255, 0.1)",
-          display: { xs: "none", md: "flex" },
-        }}
-      />
-    </NavbarContainer>
+        ))}
+      </Styles.NavContainer>
+    </Styles.MainContainer>
   );
 };
 

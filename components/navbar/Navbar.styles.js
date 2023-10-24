@@ -1,27 +1,48 @@
-import { AppBar, Box, Container, styled } from "@mui/material";
+import { AppBar, Box, styled } from "@mui/material";
+import { FlexContainer } from "@/components/UI/container";
 
-export const NavbarContainer = styled(AppBar)(({ theme }) => ({
-  minHeight: "80px",
-  position: "absolute",
-  zIndex: "999",
-  backgroundColor: "transparent",
-  boxShadow: "none",
-  transition: "all 0.75s",
-}));
-
-export const NavFullView = styled(Container)(({ theme }) => ({
-  height: "80px",
+export const MainContainer = styled(AppBar)(({ theme }) => ({
   display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-around",
   alignItems: "center",
-  justifyContent: "space-between",
+  height: "75px",
+  width: "100%",
+  position: "fixed",
+  background: "rgba(180, 180, 180, 0.2)",
+  backdropFilter: "blur(5px)",
+  zIndex: "999",
+  boxShadow: "none",
+  transition: "all 0.5s",
 }));
 
-export const NavResponsiveView = styled(Box)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "flex-start",
-  paddingLeft: "2rem",
-  paddingRight: "2rem",
-  paddingBottom: "1rem",
-  gap: "0.5rem",
+export const LinkContainer = styled(Box)(({ theme }) => ({
+  backgroundColor: "none",
+  color: theme.palette.static.secondary,
+  borderRadius: "30px",
+  padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
+  fontWeight: 500,
+
+  "&:hover": {
+    backgroundColor: "rgba(245, 246, 250, 0.7)",
+  },
+}));
+
+export const AuthLink = styled(LinkContainer)(({ fill, theme }) => ({
+  color: fill ? theme.palette.static.primary : theme.palette.main.primary,
+  backgroundColor: fill ? theme.palette.main.primary : "rgba(245, 246, 250, 0.9)",
+  // border: !fill && `2px solid ${theme.palette.main.primary}`,
+  boxShadow: !fill && `inset 0px 0px 0px 2px ${theme.palette.main.primary}`,
+  transition: "box-shadow 0.3s",
+
+  "&:hover": {
+    backgroundColor: fill ? theme.palette.main.secondary : "rgba(245, 246, 250, 0.85)",
+  },
+}));
+
+export const NavContainer = styled(FlexContainer)(({ auth, theme }) => ({
+  gap: theme.spacing(1),
+  [theme.breakpoints.down("sm")]: {
+    display: "none",
+  },
 }));

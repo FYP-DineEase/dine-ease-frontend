@@ -1,11 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import Navbar from "../navbar/navbar";
+import { getUser } from "@/store/authActions";
+import { useMediaQuery } from "@mui/material";
+
+// snackabr
+import { SnackbarProvider } from "notistack";
+import { StyledMaterialDesignContent } from "../UI/snackbar";
 
 const Layout = ({ children }) => {
+  const dispatch = useDispatch();
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down("md"));
+
+  useEffect(() => {
+    dispatch(getUser());
+  }, [dispatch]);
+
   return (
     <React.Fragment>
-      <Navbar />
-      {children}
+      <SnackbarProvider
+        maxSnack={3}
+        autoHideDuration={2000}
+        Components={{
+          success: StyledMaterialDesignContent,
+          error: StyledMaterialDesignContent,
+        }}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: isMobile ? "center" : "right",
+        }}>
+        <Navbar />
+        {children}
+      </SnackbarProvider>
     </React.Fragment>
   );
 };

@@ -1,13 +1,13 @@
 export const baseFontSizes = {
   header: {
-    default: "2.25rem",
+    default: "2rem",
     small: "1.75rem",
   },
   subHeader: {
     default: "1.4rem",
     small: "1.25rem",
   },
-  mainBody: {
+  main: {
     default: "1.2rem",
     small: "1rem",
   },
