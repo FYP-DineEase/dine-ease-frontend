@@ -7,3 +7,15 @@ export const Text = styled(Typography)(({ theme, variant }) => ({
     fontSize: baseFontSizes[variant].small,
   },
 }));
+
+export const BoldText = styled(Text)(({ theme, variant }) => ({
+  fontWeight: "bold",
+}));
+
+export const ErrorText = styled(Text)(({ theme, variant }) => ({
+  color: "red",
+}));
+
+export const UnderlinedText = styled(Text)(({ theme, variant }) => ({
+  textDecoration: "underline",
+}));
