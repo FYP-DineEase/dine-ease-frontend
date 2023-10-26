@@ -1,7 +1,11 @@
 import { Box, styled } from "@mui/material";
 
-export const FlexContainer = styled(Box)(({ theme, variant }) => ({
+export const BaseFlexbox = {
   display: "flex",
-  alignItems: "center",
   justifyContent: "center",
+  alignItems: "center",
+};
+
+export const FlexContainer = styled(Box)(({ theme, variant }) => ({
+  ...BaseFlexbox,
 }));

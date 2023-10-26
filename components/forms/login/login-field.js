@@ -107,11 +107,7 @@ const LoginField = () => {
             color="warning"
             endAdornment={
               <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={viewPassHandler}
-                  edge="end"
-                >
+                <IconButton onClick={viewPassHandler} edge="end">
                   {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                 </IconButton>
               </InputAdornment>
@@ -139,13 +135,13 @@ const LoginField = () => {
           </Link>
         </LoginStyles.LoginOptions>
         <FlexContainer>
-          <LoginStyles.LoginButton
+          <Styles.Button
             variant="contained"
             type="submit"
             disabled={formik.isSubmitting}
           >
             <Text variant="sub">Login</Text>
-          </LoginStyles.LoginButton>
+          </Styles.Button>
         </FlexContainer>
         <FlexContainer>
           <Link href="/signup">

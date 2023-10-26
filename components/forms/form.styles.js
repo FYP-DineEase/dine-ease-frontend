@@ -3,6 +3,7 @@ import { Box, Grid, styled } from "@mui/material";
 
 //MUI Global Styled Components
 import { FlexContainer } from "../UI/container";
+import { PrimaryButton } from "../UI/button";
 
 //Icons
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
@@ -41,7 +42,8 @@ export const FormItemsContainer = styled(Box)(({ theme }) => ({
   width: "clamp(300px,400px,600px)",
   gap: theme.spacing(2),
   [theme.breakpoints.down("md")]: {
-    padding: "1rem 0",
+    marginTop: theme.spacing(4),
+    padding: `${theme.spacing(1)} ${theme.spacing(0)}`,
   },
 }));
 
@@ -69,4 +71,8 @@ export const ImageGrid = styled(Grid)(({ theme }) => ({
 export const Icon = styled(LocalDiningIcon)(({ theme }) => ({
   color: theme.palette.main.primary,
   fontSize: "70px",
+}));
+
+export const Button = styled(PrimaryButton)(({ theme }) => ({
+  width: "40%",
 }));

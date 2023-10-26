@@ -15,6 +15,7 @@ const FormImage = () => {
         src={formImage}
         alt="Form"
         fill={true}
+        priority={false}
         sizes="100vw"
         style={{
           objectFit: "cover",
