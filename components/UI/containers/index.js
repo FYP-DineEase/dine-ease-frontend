@@ -15,7 +15,7 @@ export const PageContainer = styled(Box)({
 export const SecondaryContainer = styled(Grid)({
   justifyContent: "center",
   alignItems: "center",
-  // height: "100%",
+  height: "100%",
   width: "80%",
   margin: "auto",
 });

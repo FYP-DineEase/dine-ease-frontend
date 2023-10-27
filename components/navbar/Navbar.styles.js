@@ -39,9 +39,9 @@ export const AuthLink = styled(LinkContainer)(({ fill, theme }) => ({
   },
 }));
 
-export const NavContainer = styled(FlexContainer)(({ auth, theme }) => ({
+export const NavContainer = styled(FlexContainer)(({ theme }) => ({
   gap: theme.spacing(1),
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down("md")]: {
     display: "none",
   },
 }));

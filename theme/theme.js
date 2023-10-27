@@ -1,8 +1,13 @@
 const theme = (mode) => {
+  const mainColorPalette = {
+    primary: "#e3ab57",
+    secondary: "#f0932b",
+  };
+
   const staticColorPalette = {
     primary: "#fafafa",
     secondary: "#333333",
-    ternary: "rgba(180, 180, 180, 0.2)",
+    ternary: "rgba(180, 180, 180, 0.3)",
   };
 
   return {
@@ -19,10 +24,7 @@ const theme = (mode) => {
       mode,
       ...(mode === "light"
         ? {
-            main: {
-              primary: "#e3ab57",
-              secondary: "#f0932b",
-            },
+            main: mainColorPalette,
             text: {
               primary: staticColorPalette.primary,
               secondary: staticColorPalette.secondary,
@@ -30,10 +32,7 @@ const theme = (mode) => {
             static: staticColorPalette,
           }
         : {
-            main: {
-              primary: "#e3ab57",
-              secondary: "#f0932b",
-            },
+            main: mainColorPalette,
             text: {
               primary: staticColorPalette.secondary,
               secondary: staticColorPalette.primary,

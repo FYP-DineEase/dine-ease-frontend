@@ -11,7 +11,8 @@ export const RememberCheckbox = styled(Checkbox)(({ theme }) => ({
 export const FormItemsContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
-  width: "420px",
+  width: "400px",
+  margin: "auto",
   gap: theme.spacing(2),
   [theme.breakpoints.down("md")]: {
     width: "300px",
