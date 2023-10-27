@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import Navbar from "../navbar/Navbar";
-import { getUser } from "@/store/authActions";
-import { useMediaQuery } from "@mui/material";
+import Navbar from "../navbar/navbar";
+import { getUser } from "@/store/auth/authActions";
 
-// snackabr
+// Styles
+import { useMediaQuery } from "@mui/material";
+import { PageContainer } from "../UI/containers";
+
+// Snackabr
 import { SnackbarProvider } from "notistack";
 import { StyledMaterialDesignContent } from "../UI/snackbar";
 
@@ -30,7 +33,7 @@ const Layout = ({ children }) => {
           horizontal: isMobile ? "center" : "right",
         }}>
         <Navbar />
-        {children}
+        <PageContainer>{children}</PageContainer>
       </SnackbarProvider>
     </React.Fragment>
   );

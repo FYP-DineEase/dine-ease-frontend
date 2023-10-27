@@ -10,6 +10,7 @@ import * as Styles from "./navbar.styles";
 
 const Navbar = () => {
   const [showNav, setShowNav] = useState(false);
+
   const navLinks = [
     { id: "Home", link: "/" },
     { id: "Discover", link: "/" },
@@ -23,7 +24,7 @@ const Navbar = () => {
   };
 
   return (
-    <Styles.MainContainer>
+    <Styles.AppBarContainer>
       <Logo />
       <Styles.NavContainer>
         {navLinks.map((item) => (
@@ -40,7 +41,7 @@ const Navbar = () => {
           </Link>
         ))}
       </Styles.NavContainer>
-    </Styles.MainContainer>
+    </Styles.AppBarContainer>
   );
 };
 

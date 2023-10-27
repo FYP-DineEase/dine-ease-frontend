@@ -1,10 +1,20 @@
 const theme = (mode) => {
   const staticColorPalette = {
-    primary: "#f5f5f5",
+    primary: "#fafafa",
     secondary: "#333333",
+    ternary: "rgba(180, 180, 180, 0.2)",
   };
 
   return {
+    breakpoints: {
+      values: {
+        xs: 0, // Extra small devices (portrait phones)
+        sm: 600, // Small devices (landscape phones)
+        md: 960, // Medium devices (tablets)
+        lg: 1280, // Large devices (desktops)
+        xl: 1920, // Extra large devices (large desktops)
+      },
+    },
     palette: {
       mode,
       ...(mode === "light"
