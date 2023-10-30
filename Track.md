@@ -41,4 +41,11 @@ npm run start:dev
 # To keep in mind while api integration
 
 userSWR
-axios instance
+
+# Remaining
+- Redux 
+- Auth wrapper
+- Resend verificaiton
+
+# Lastly
+proper validations of schema

@@ -20,6 +20,9 @@ const theme = (mode) => {
         xl: 1920, // Extra large devices (large desktops)
       },
     },
+    typography: {
+      fontFamily: "'Montserrat', sans-serif",
+    },
     palette: {
       mode,
       ...(mode === "light"

@@ -1,17 +1,17 @@
 import React from "react";
 import Image from "next/image";
-import LoginForm from "./form/form";
+import SignupForm from "./form/form";
 
 // Styles
 import { Grid } from "@mui/material";
 import { FormDivider } from "../UI";
 import { SecondaryContainer } from "../UI";
 
-const Login = () => {
+const Signup = () => {
   return (
     <SecondaryContainer container>
       <Grid item xs={12} md={5}>
-        <LoginForm />
+        <SignupForm />
       </Grid>
 
       <FormDivider />
@@ -28,4 +28,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;

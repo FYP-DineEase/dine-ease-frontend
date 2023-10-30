@@ -1,17 +1,18 @@
-import { baseFontSizes } from "./font-sizes";
 import { Typography, styled } from "@mui/material";
+import { baseFontSizes } from "./font-sizes";
 
-export const Text = styled(Typography)(({ theme, variant }) => ({
+export const Text = styled(Typography)(({ theme, variant = "body" }) => ({
   fontSize: baseFontSizes[variant].default,
   [theme.breakpoints.down("sm")]: {
     fontSize: baseFontSizes[variant].small,
   },
 }));
 
-export const BoldText = styled(Text)(({ theme, variant }) => ({
-  fontWeight: "bold",
+export const PrimaryText = styled(Text)(({ theme }) => ({
+  color: theme.palette.main.primary,
 }));
 
-export const ErrorText = styled(Text)(({ theme, variant }) => ({
+export const ErrorText = styled(Text)(({ theme }) => ({
   color: "#ff7675",
 }));
+

@@ -9,3 +9,8 @@ export const PrimaryButton = styled(Button)(({ theme }) => ({
     backgroundColor: theme.palette.main.secondary,
   },
 }));
+
+export const FormButton = styled(PrimaryButton)(({ theme }) => ({
+  width: "50%",
+  margin: "auto",
+}));

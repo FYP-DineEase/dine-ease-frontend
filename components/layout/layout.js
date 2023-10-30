@@ -5,11 +5,11 @@ import { getUser } from "@/store/auth/authActions";
 
 // Styles
 import { useMediaQuery } from "@mui/material";
-import { PageContainer } from "../UI/containers";
+import { PageContainer } from "../UI";
 
 // Snackabr
 import { SnackbarProvider } from "notistack";
-import { StyledMaterialDesignContent } from "../UI/snackbar";
+import { StyledMaterialDesignContent } from "../UI";
 
 const Layout = ({ children }) => {
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const Layout = ({ children }) => {
         }}
         anchorOrigin={{
           vertical: "top",
-          horizontal: isMobile ? "center" : "right",
+          horizontal: isMobile ? "center" : "center",
         }}>
         <Navbar />
         <PageContainer>{children}</PageContainer>

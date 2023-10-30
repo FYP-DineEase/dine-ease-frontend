@@ -1,6 +1,6 @@
 import { styled } from "@mui/material";
 import { LocalDining } from "@mui/icons-material";
-import { FlexContainer } from "@/components/UI/containers";
+import { FlexContainer } from "@/components/UI";
 
 export const LogoContainer = styled(FlexContainer)(({ color, theme }) => ({
   gap: theme.spacing(1),

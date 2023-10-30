@@ -5,7 +5,7 @@ import Link from "next/link";
 import Logo from "../logo/logo";
 
 // styles
-import { Text } from "../UI/typography";
+import { Text } from "../UI";
 import * as Styles from "./navbar.styles";
 
 const Navbar = () => {
@@ -15,8 +15,8 @@ const Navbar = () => {
     { id: "Home", link: "/" },
     { id: "Discover", link: "/" },
     { id: "Contact", link: "/" },
-    { id: "Log In", link: "/", authItem: true },
-    { id: "Sign Up", link: "/", authItem: true, fill: true },
+    { id: "Log In", link: "/login", authItem: true },
+    { id: "Sign Up", link: "/signup", authItem: true, fill: true },
   ];
 
   const showNavHandler = () => {

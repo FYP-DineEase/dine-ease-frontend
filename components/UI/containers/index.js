@@ -13,9 +13,20 @@ export const PageContainer = styled(Box)({
 });
 
 export const SecondaryContainer = styled(Grid)({
-  justifyContent: "center",
-  alignItems: "center",
-  height: "100%",
+  height: "80%",
   width: "80%",
   margin: "auto",
+  alignItems: "center",
+  justifyContent: "center",
 });
+
+export const FormContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  width: "400px",
+  margin: "auto",
+  gap: theme.spacing(2),
+  [theme.breakpoints.down("md")]: {
+    width: "300px",
+  },
+}));

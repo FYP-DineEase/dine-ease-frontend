@@ -1,5 +1,5 @@
 import { AppBar, Box, styled } from "@mui/material";
-import { FlexContainer } from "@/components/UI/containers";
+import { FlexContainer } from "@/components/UI";
 import { NAV_HEIGHT } from "@/utils/constants";
 
 export const AppBarContainer = styled(AppBar)(({ theme }) => ({

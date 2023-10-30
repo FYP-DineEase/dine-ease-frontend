@@ -1,5 +1,6 @@
 import { useState, useMemo, createContext } from "react";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { createTheme } from "@mui/material";
+import { ThemeProvider } from "@emotion/react";
 import theme from "@/theme/theme";
 
 export const ThemeContext = createContext({

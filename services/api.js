@@ -1,21 +1,14 @@
 import axios from "axios";
 
-const PORT = {
-  auth: 3001,
-  users: 3002,
-  mail: 3003,
-  storage: 3004,
-  "login-gateway": 3005,
-  restaurant: 3006,
-};
-
-// const token = localStorage.getItem("token");
-
 const api = axios.create({
-  baseURL: `http://localhost:${PORT}/api`,
-  headers: {
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}`,
-  },
+  baseURL: "/",
+  timeout: 5000,
+});
+
+api.interceptors.request.use((config) => {
+  const token = typeof window !== "undefined" && localStorage.getItem("token");
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+  return config;
 });
 
 export default api;
