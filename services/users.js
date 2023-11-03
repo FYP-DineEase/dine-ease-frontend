@@ -8,7 +8,9 @@ const service2 = "login";
 const port2 = PORTS[service2];
 
 export const checkEmail = (email) => {
-  return api.get(`http://localhost:${port}/api/${service}/check-email?email=${email}`);
+  return api.get(
+    `http://localhost:${port}/api/${service}/check-email?email=${email}`
+  );
 };
 
 export const login = (payload) => {
@@ -20,12 +22,20 @@ export const signup = (payload) => {
 };
 
 export const verifyAccount = (token) => {
-  return api.get(`http://localhost:${port}/api/${service}/verify?token=${token}`);
+  return api.get(
+    `http://localhost:${port}/api/${service}/verify?token=${token}`
+  );
 };
 
 export const updatePassword = (token, payload) => {
   return api.patch(
     `http://localhost:${port}/api/${service}/update-password?token=${token}`,
     payload
+  );
+};
+
+export const resendVerification = (email) => {
+  return api.get(
+    `http://localhost:3003/api/mail/resend-confirmation/${email}`
   );
 };

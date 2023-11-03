@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
@@ -11,6 +11,7 @@ import { getError } from "@/helpers/snackbarHelpers";
 
 // Styles
 import { SecondaryContainer, Text } from "../UI";
+import { Grid } from "@mui/material";
 
 const Verification = () => {
   const router = useRouter();
@@ -45,12 +46,23 @@ const Verification = () => {
   }, [token]);
 
   return (
-    <SecondaryContainer gap={1}>
-      <Image src={"/assets/images/food.svg"} width={500} height={500} alt="login-image" />
-      <Text variant="header">Verifying Your Account</Text>
-      <Text variant="subHeader" fontWeight={800} mr={1}>
-        Please wait
-      </Text>
+    <SecondaryContainer container sx={{ height: "70%" }}>
+      <Grid item xs={12} sx={{ position: "relative", height: "70%" }}>
+        <Image
+          src={"/assets/images/food.svg"}
+          fill={true}
+          sizes="100vw"
+          alt="login-image"
+        />
+      </Grid>
+      <Grid item xs={12} sx={{ textAlign: "center" }}>
+        <Text variant="header">Verifying Your Account</Text>
+      </Grid>
+      <Grid item xs={12} md={6} sx={{ textAlign: "center" }}>
+        <Text variant="subHeader" fontWeight={800} mr={1}>
+          Please wait
+        </Text>
+      </Grid>
     </SecondaryContainer>
   );
 };

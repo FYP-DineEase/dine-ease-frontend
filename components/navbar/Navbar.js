@@ -6,22 +6,27 @@ import Logo from "../logo/logo";
 
 // styles
 import { Text } from "../UI";
-import * as Styles from "./navbar.styles";
+import * as Styles from "./Navbar.styles";
+import NavbarDrawer from "./NavbarDrawer";
+
+//Icons
+import { Home } from "@mui/icons-material";
 
 const Navbar = () => {
-  const [showNav, setShowNav] = useState(false);
-
   const navLinks = [
-    { id: "Home", link: "/" },
-    { id: "Discover", link: "/" },
-    { id: "Contact", link: "/" },
-    { id: "Log In", link: "/login", authItem: true },
-    { id: "Sign Up", link: "/signup", authItem: true, fill: true },
+    { id: "Home", link: "/", icon: <Home /> },
+    { id: "Discover", link: "/", icon: <Home /> },
+    { id: "Contact", link: "/", icon: <Home /> },
+    { id: "About Us", link: "/", icon: <Home /> },
+    { id: "Log In", link: "/login", authItem: true, icon: <Home /> },
+    {
+      id: "Sign Up",
+      link: "/signup",
+      authItem: true,
+      fill: true,
+      icon: <Home />,
+    },
   ];
-
-  const showNavHandler = () => {
-    setShowNav((prev) => !prev);
-  };
 
   return (
     <Styles.AppBarContainer>
@@ -31,16 +36,17 @@ const Navbar = () => {
           <Link key={item.id} href={item.link}>
             {item.authItem ? (
               <Styles.AuthLink fill={item.fill ? 1 : 0}>
-                <Text variant="main">{item.id}</Text>
+                <Text variant="body">{item.id}</Text>
               </Styles.AuthLink>
             ) : (
               <Styles.LinkContainer>
-                <Text variant="main">{item.id}</Text>
+                <Text variant="body">{item.id}</Text>
               </Styles.LinkContainer>
             )}
           </Link>
         ))}
       </Styles.NavContainer>
+      <NavbarDrawer navLinks={navLinks} />
     </Styles.AppBarContainer>
   );
 };

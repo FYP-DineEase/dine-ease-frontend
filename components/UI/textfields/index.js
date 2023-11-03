@@ -5,6 +5,10 @@ export const InputField = styled(TextField)(({ theme }) => ({
   width: "100%",
   input: {
     color: theme.palette.static.secondary,
+
+    "&:hover": {
+      borderColor: theme.palette.main.primary,
+    },
   },
 
   "& label.Mui-focused": {
@@ -16,10 +20,12 @@ export const InputField = styled(TextField)(({ theme }) => ({
     margin: 0,
   },
 
-  "& .Mui-focused": {
-    "& .MuiOutlinedInput-notchedOutline": {
-      border: `1px solid ${theme.palette.main.primary}`,
-    },
+  "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
+    borderColor: theme.palette.main.primary,
+  },
+
+  "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+    borderColor: theme.palette.main.secondary,
   },
 
   "& .MuiSvgIcon-root": {

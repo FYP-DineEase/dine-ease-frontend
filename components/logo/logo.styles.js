@@ -4,12 +4,15 @@ import { FlexContainer } from "@/components/UI";
 
 export const LogoContainer = styled(FlexContainer)(({ color, theme }) => ({
   gap: theme.spacing(1),
-  color: color === "primary" ? theme.palette.main.primary : theme.palette.text.primary,
+  color:
+    color === "primary"
+      ? theme.palette.main.primary
+      : theme.palette.text.primary,
   fontWeight: 500,
 }));
 
 export const Logo = styled(LocalDining)(({ variant, theme }) => ({
-  fontSize: "3rem",
+  fontSize: "3.5rem",
   [theme.breakpoints.down("sm")]: {
     fontSize: "2rem",
   },

@@ -20,8 +20,14 @@ const theme = (mode) => {
         xl: 1920, // Extra large devices (large desktops)
       },
     },
+
     typography: {
-      fontFamily: "'Montserrat', sans-serif",
+      // fontFamily: "'Montserrat', sans-serif",
+      fontFamily: 'inherit',
+      // fontFamily: {
+      //   display: "inherit", // 'Poppins set in _app.tsx
+      //   body: "inherit",
+      // },
     },
     palette: {
       mode,

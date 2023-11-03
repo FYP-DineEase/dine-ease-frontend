@@ -16,11 +16,11 @@ const Signup = () => {
 
       <FormDivider />
 
-      <Grid item xs={0} md={6} display={{ xs: "none", md: "block" }}>
+      <Grid item xs={0} md={6} sx={{ position: "relative", height: "100%" }}>
         <Image
           src={"/assets/images/food.svg"}
-          width={800}
-          height={800}
+          fill={true}
+          sizes="100vw"
           alt="login-image"
         />
       </Grid>

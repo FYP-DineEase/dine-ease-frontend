@@ -19,7 +19,6 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 // Styles
 import {
-  Box,
   FormControlLabel,
   FormGroup,
   IconButton,
@@ -33,6 +32,7 @@ import {
   FlexContainer,
   FormButton,
   FormContainer,
+  ErrorText,
 } from "@/components/UI";
 import * as Styles from "./form.styles";
 import { useRouter } from "next/router";
@@ -40,7 +40,6 @@ import { useRouter } from "next/router";
 const SignupForm = () => {
   const router = useRouter();
 
-  const [agree, setAgree] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState("User");
 
@@ -53,17 +52,15 @@ const SignupForm = () => {
         variant: "success",
         message: res.data,
         onExited: () =>
-          router.push(`/confirmation?email=${data.email}`, null, { shallow: true }),
+          router.push(`/confirmation?email=${data.email}`, null, {
+            shallow: true,
+          }),
       });
     } catch (e) {
       enqueueSnackbar({ variant: "error", message: getError(e) });
     } finally {
       formik.setSubmitting(false);
     }
-  };
-
-  const agreeChangeHandler = (event) => {
-    setAgree(event.target.checked);
   };
 
   const formik = useFormik({
@@ -73,6 +70,7 @@ const SignupForm = () => {
       email: "gobes29957@zamaneta.com",
       password: "Ahmed@123",
       confirmPassword: "Ahmed@123",
+      agree: false,
     },
     validationSchema: signupSchema,
     onSubmit: submitHandler,
@@ -81,40 +79,36 @@ const SignupForm = () => {
   return (
     <FormContainer component="form" onSubmit={formik.handleSubmit}>
       <Text variant="header" textAlign={"center"} fontWeight={800}>
-        Welcome to DineEase
+        Welcome to <PrimaryText variant="header">DineEase</PrimaryText>
       </Text>
       <Text variant="main" textAlign={"center"} fontWeight={500} mb={3}>
         Create your account
       </Text>
 
       <FlexContainer gap={2}>
-        <Box>
-          <InputField
-            name="firstName"
-            label="First Name"
-            variant="outlined"
-            placeholder="Enter First Name"
-            value={formik.values.firstName}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.errors.firstName && Boolean(formik.touched.firstName)}
-            helperText={formik.touched.firstName && formik.errors.firstName}
-          />
-        </Box>
+        <InputField
+          name="firstName"
+          label="First Name"
+          variant="outlined"
+          placeholder="Enter First Name"
+          value={formik.values.firstName}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.errors.firstName && Boolean(formik.touched.firstName)}
+          helperText={formik.touched.firstName && formik.errors.firstName}
+        />
 
-        <Box>
-          <InputField
-            name="lastName"
-            label="Last Name"
-            variant="outlined"
-            placeholder="Enter Last Name"
-            value={formik.values.lastName}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.errors.lastName && Boolean(formik.touched.lastName)}
-            helperText={formik.touched.lastName && formik.errors.lastName}
-          />
-        </Box>
+        <InputField
+          name="lastName"
+          label="Last Name"
+          variant="outlined"
+          placeholder="Enter Last Name"
+          value={formik.values.lastName}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.errors.lastName && Boolean(formik.touched.lastName)}
+          helperText={formik.touched.lastName && formik.errors.lastName}
+        />
       </FlexContainer>
 
       <InputField
@@ -143,7 +137,10 @@ const SignupForm = () => {
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end">
+              <IconButton
+                onClick={() => setShowPassword((prev) => !prev)}
+                edge="end"
+              >
                 {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
               </IconButton>
             </InputAdornment>
@@ -160,12 +157,20 @@ const SignupForm = () => {
         value={formik.values.confirmPassword}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
-        error={formik.errors.confirmPassword && Boolean(formik.touched.confirmPassword)}
-        helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+        error={
+          formik.errors.confirmPassword &&
+          Boolean(formik.touched.confirmPassword)
+        }
+        helperText={
+          formik.touched.confirmPassword && formik.errors.confirmPassword
+        }
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end">
+              <IconButton
+                onClick={() => setShowPassword((prev) => !prev)}
+                edge="end"
+              >
                 {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
               </IconButton>
             </InputAdornment>
@@ -178,7 +183,8 @@ const SignupForm = () => {
           <Styles.RoleItem
             key={item.value}
             selected={+role.includes(item.value)}
-            onClick={() => setRole(item.value)}>
+            onClick={() => setRole(item.value)}
+          >
             {item.icon}
             <Text variant="sub">{item.value}</Text>
           </Styles.RoleItem>
@@ -187,18 +193,29 @@ const SignupForm = () => {
 
       <FormGroup>
         <FormControlLabel
-          control={<CustomCheckbox checked={agree} onChange={agreeChangeHandler} />}
+          sx={{ justifyContent: "center" }}
+          control={
+            <CustomCheckbox
+              name="agree"
+              value={formik.values.agree}
+              onChange={formik.handleChange}
+            />
+          }
           label="I agree to DineEase's Terms & Conditions"
         />
+        {formik.errors.agree && formik.touched.agree && (
+          <ErrorText variant="body" sx={{ textAlign: "center" }}>
+            {formik.errors.agree}
+          </ErrorText>
+        )}
       </FormGroup>
-
       <FormButton type="submit" disabled={formik.isSubmitting}>
         <Text variant="sub">Sign up</Text>
       </FormButton>
 
       <Link href="/login" style={{ textAlign: "center" }}>
-        <Text>Already have an account? </Text>
-        <PrimaryText>Login now.</PrimaryText>
+        <Text variant="body">Already have an account? </Text>
+        <PrimaryText variant="body">Login now.</PrimaryText>
       </Link>
     </FormContainer>
   );

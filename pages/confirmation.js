@@ -1,5 +1,5 @@
 import React from "react";
-import Confirmation from "@/components/confirmation/confirmation";
+import Confirmation from "@/components/confirmation/Confirmation";
 
 const ConfirmationPage = () => {
   return <Confirmation />;

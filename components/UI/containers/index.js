@@ -7,14 +7,19 @@ export const FlexContainer = styled(Box)({
   alignItems: "center",
 });
 
+export const VerticalContainer = styled(FlexContainer)({
+  flexDirection: "column",
+});
+
 export const PageContainer = styled(Box)({
-  marginTop: `${NAV_HEIGHT}px`,
+  marginTop: `calc(30px + ${NAV_HEIGHT}px)`,
   height: `calc(100vh - ${NAV_HEIGHT}px)`,
+  minHeight: "1080px",
 });
 
 export const SecondaryContainer = styled(Grid)({
   height: "80%",
-  width: "80%",
+  width: "90%",
   margin: "auto",
   alignItems: "center",
   justifyContent: "center",
@@ -23,10 +28,8 @@ export const SecondaryContainer = styled(Grid)({
 export const FormContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
-  width: "400px",
+  width: "90%",
+  maxWidth: "500px",
   margin: "auto",
   gap: theme.spacing(2),
-  [theme.breakpoints.down("md")]: {
-    width: "300px",
-  },
 }));

@@ -43,9 +43,52 @@ npm run start:dev
 userSWR
 
 # Remaining
-- Redux 
+
+- Redux
 - Auth wrapper
 - Resend verificaiton
 
 # Lastly
+
 proper validations of schema
+
+# TODO
+
+Pages :
+-> update text values of pages
+-> add footer in layout (donot include navigations)
+-> donot change the page / secondary container height etc
+
+1- Navbar
+-> add drawer on mobile view //done
+-> add the active links ( primary color of text of active links ) and on hover as well , remove the capsule //done
+-> update navbar overall //done
+-> navigate to home when click on icon //done
+
+2- Forms
+-> fix textfield colors //done
+-> add responsiveness //done
+-> fix signup form validation ( should not register without agree checkbox ) //done
+-> update SVGs
+
+IMP:
+1- Look into the performance issue
+2- Fix the font family import
+
+Note :
+1- Read the components extremely carefully
+2- Donot apply flex everywhere ( use the components as references )
+3- Donot over comment the imports
+4- Import from the UI ( use the components as references ) , donot import from their individual folders
+5- use cursor pointers on links
+
+P.S:
+
+    if you want theme color only donot create components you can just do
+    <Text variant="body" color={"main.secondary"}>
+            Sign up now.
+          </Text>
+
+
+//DONE
+Resent verification modal , Includes the description that account is not verified , with svg and a button for requesting new validation email , on button click show a info toast that email verification sent and close modal or user can close the modal by himself .
