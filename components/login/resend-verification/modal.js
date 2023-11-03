@@ -14,13 +14,13 @@ import {
 import { enqueueSnackbar } from "notistack";
 import { getError } from "@/helpers/snackbarHelpers";
 
-import { resendVerification } from "@/services";
+import { resendConfirmation } from "@/services";
 import CloseIcon from "@mui/icons-material/Close";
 
 const ResendModal = ({ showModal, handleCloseModal, email }) => {
   const resendVerificationHandler = async () => {
     try {
-      const res = await resendVerification(email);
+      const res = await resendConfirmation(email);
       console.log(res);
       enqueueSnackbar({
         variant: "success",

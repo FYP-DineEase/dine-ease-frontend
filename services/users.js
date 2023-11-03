@@ -33,9 +33,3 @@ export const updatePassword = (token, payload) => {
     payload
   );
 };
-
-export const resendVerification = (email) => {
-  return api.get(
-    `http://localhost:3003/api/mail/resend-confirmation/${email}`
-  );
-};
