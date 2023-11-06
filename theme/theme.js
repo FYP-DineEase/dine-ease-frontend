@@ -22,12 +22,7 @@ const theme = (mode) => {
     },
 
     typography: {
-      // fontFamily: "'Montserrat', sans-serif",
       fontFamily: 'inherit',
-      // fontFamily: {
-      //   display: "inherit", // 'Poppins set in _app.tsx
-      //   body: "inherit",
-      // },
     },
     palette: {
       mode,

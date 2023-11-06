@@ -26,7 +26,7 @@ const Confirmation = () => {
       <Grid item xs={12} md={6} sx={{ textAlign: "center" }}>
         <Text variant="subHeader">
           Thank you for registering on DineEase. We have sent email to
-          <Text variant="subHeader" fontWeight={800} mr={1}>
+          <Text variant="subHeader" fontWeight={800} mr={1} ml={1}>
             {email}
           </Text>
           , to complete the registration process, please verify your email

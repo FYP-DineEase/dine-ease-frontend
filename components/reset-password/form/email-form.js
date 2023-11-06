@@ -12,7 +12,13 @@ import { forgotPassword } from "@/services";
 import { emailSchema } from "@/utils/validation-schema/forgot-password";
 
 // Styles
-import { Text, InputField, FormContainer, FormButton } from "@/components/UI";
+import {
+  Text,
+  InputField,
+  FormContainer,
+  FormButton,
+  PrimaryText,
+} from "@/components/UI";
 
 const EmailForm = ({ navigateToLogin }) => {
   const submitHandler = async (value) => {
@@ -33,7 +39,7 @@ const EmailForm = ({ navigateToLogin }) => {
 
   const formik = useFormik({
     initialValues: {
-      email: "gobes29957@zamaneta.com",
+      email: "",
     },
     validationSchema: emailSchema,
     onSubmit: submitHandler,
@@ -41,11 +47,8 @@ const EmailForm = ({ navigateToLogin }) => {
 
   return (
     <FormContainer component="form" onSubmit={formik.handleSubmit}>
-      <Text variant="header" textAlign={"center"} fontWeight={800}>
-        Welcome to DineEase
-      </Text>
-      <Text variant="main" textAlign={"center"} fontWeight={500} mb={3}>
-        Please Provide Email
+      <Text variant="header" textAlign={"center"} fontWeight={800} mb={3}>
+        Find your <PrimaryText variant="header">Account</PrimaryText>
       </Text>
 
       <InputField

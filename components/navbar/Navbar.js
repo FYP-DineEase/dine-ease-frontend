@@ -1,30 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 
 // components
 import Logo from "../logo/logo";
 
-// styles
+// Styles
 import { Text } from "../UI";
-import * as Styles from "./Navbar.styles";
-import NavbarDrawer from "./NavbarDrawer";
-
-//Icons
-import { Home } from "@mui/icons-material";
+import * as Styles from "./navbar.styles";
+import NavbarDrawer from "./drawer/drawer";
 
 const Navbar = () => {
   const navLinks = [
-    { id: "Home", link: "/", icon: <Home /> },
-    { id: "Discover", link: "/", icon: <Home /> },
-    { id: "Contact", link: "/", icon: <Home /> },
-    { id: "About Us", link: "/", icon: <Home /> },
-    { id: "Log In", link: "/login", authItem: true, icon: <Home /> },
+    { id: "Home", link: "/" },
+    { id: "Discover", link: "/" },
+    { id: "Contact", link: "/" },
+    { id: "About Us", link: "/" },
+    { id: "Log In", link: "/login", authItem: true },
     {
       id: "Sign Up",
       link: "/signup",
       authItem: true,
       fill: true,
-      icon: <Home />,
     },
   ];
 

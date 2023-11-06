@@ -7,18 +7,14 @@ export const FlexContainer = styled(Box)({
   alignItems: "center",
 });
 
-export const VerticalContainer = styled(FlexContainer)({
-  flexDirection: "column",
-});
 
 export const PageContainer = styled(Box)({
-  marginTop: `calc(30px + ${NAV_HEIGHT}px)`,
+  marginTop: `${NAV_HEIGHT}px`,
   height: `calc(100vh - ${NAV_HEIGHT}px)`,
-  minHeight: "1080px",
 });
 
 export const SecondaryContainer = styled(Grid)({
-  height: "80%",
+  height: "100%",
   width: "90%",
   margin: "auto",
   alignItems: "center",

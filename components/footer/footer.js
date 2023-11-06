@@ -8,7 +8,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 
 //Styles
 import { Divider, Grid } from "@mui/material";
-import { RightsContainer, SocialContainer } from "./Footer.styles";
+import { RightContainer, SocialContainer } from "./footer.styles";
 import { FlexContainer, PrimaryText, Text } from "../UI";
 
 import Logo from "../logo/logo";
@@ -20,20 +20,19 @@ const Footer = () => {
         <Divider sx={{ backgroundColor: "main.primary" }} variant="middle" />
       </Grid>
       <Grid item lg={3} xs={10} textAlign="center">
-        <Logo size="header" />
+        <Logo />
         <Text variant="body">
           A small river named Duden flows by their place and supplies it with
-          the necessary regelialia. A small river named Duden flows by their
-          place and supplies it with the necessary regelialia.
+          the necessary regelialia.
         </Text>
       </Grid>
       <Grid item xs={12} lg={4} sx={{ order: { xs: "1", lg: "0" } }}>
-        <RightsContainer>
+        <RightContainer>
           <Text variant="body">
-            Copyright ©2023 All rights reserved by{" "}
-            <PrimaryText variant="body">DineEase</PrimaryText>
+            Copyright ©2023 All rights reserved by
+            <PrimaryText variant="body" ml={1}>DineEase</PrimaryText>
           </Text>
-        </RightsContainer>
+        </RightContainer>
       </Grid>
       <Grid item xs={12} lg={3}>
         <SocialContainer>

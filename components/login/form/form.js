@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
+
+import ResendModal from "../resend-verification/modal";
 
 // Services
 import { login } from "@/services";
@@ -18,6 +21,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 // Styles
 import {
+  Box,
   FormControlLabel,
   FormGroup,
   IconButton,
@@ -32,9 +36,10 @@ import {
   FormContainer,
   CustomCheckbox,
 } from "@/components/UI";
-import ResendModal from "../resend-verification/modal";
 
 const LoginForm = () => {
+  const router = useRouter();
+
   const [remember, setRemember] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -51,9 +56,10 @@ const LoginForm = () => {
       formik.setSubmitting(true);
       const res = await login(values);
       console.log(res.data);
+      router.push("/", null, { shallow: true });
     } catch (e) {
       console.log(e);
-      if (e.request?.status === 401) {
+      if (e.request?.status === 403) {
         handleShowModal();
       } else {
         enqueueSnackbar({ variant: "error", message: getError(e) });
@@ -65,8 +71,8 @@ const LoginForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: "gobes29957@zamaneta.com",
-      password: "Ahmed@123",
+      email: "",
+      password: "",
     },
     validationSchema: loginSchema,
     onSubmit: submitHandler,
@@ -113,10 +119,7 @@ const LoginForm = () => {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton
-                  onClick={() => setShowPassword((prev) => !prev)}
-                  edge="end"
-                >
+                <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end">
                   {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                 </IconButton>
               </InputAdornment>
@@ -128,10 +131,7 @@ const LoginForm = () => {
           <FormGroup>
             <FormControlLabel
               control={
-                <CustomCheckbox
-                  checked={remember}
-                  onChange={rememberChangeHandler}
-                />
+                <CustomCheckbox checked={remember} onChange={rememberChangeHandler} />
               }
               label="Remember me"
             />
@@ -145,9 +145,11 @@ const LoginForm = () => {
           <Text variant="sub">Login</Text>
         </FormButton>
 
-        <Link href="/signup" style={{ textAlign: "center" }}>
-          <Text variant="body">Not a member? </Text>
-          <PrimaryText variant="body">Signup now.</PrimaryText>
+        <Link href="/signup">
+          <Box sx={{ textAlign: "center" }}>
+            <Text variant="body">Not a member? </Text>
+            <PrimaryText variant="body">Signup now.</PrimaryText>
+          </Box>
         </Link>
       </FormContainer>
     </React.Fragment>

@@ -19,6 +19,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 // Styles
 import {
+  Box,
   FormControlLabel,
   FormGroup,
   IconButton,
@@ -52,9 +53,7 @@ const SignupForm = () => {
         variant: "success",
         message: res.data,
         onExited: () =>
-          router.push(`/confirmation?email=${data.email}`, null, {
-            shallow: true,
-          }),
+          router.push(`/confirmation?email=${data.email}`, null, { shallow: true }),
       });
     } catch (e) {
       enqueueSnackbar({ variant: "error", message: getError(e) });
@@ -65,11 +64,11 @@ const SignupForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      firstName: "Ahmed",
-      lastName: "Kamran",
-      email: "gobes29957@zamaneta.com",
-      password: "Ahmed@123",
-      confirmPassword: "Ahmed@123",
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
       agree: false,
     },
     validationSchema: signupSchema,
@@ -137,10 +136,7 @@ const SignupForm = () => {
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton
-                onClick={() => setShowPassword((prev) => !prev)}
-                edge="end"
-              >
+              <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end">
                 {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
               </IconButton>
             </InputAdornment>
@@ -157,20 +153,12 @@ const SignupForm = () => {
         value={formik.values.confirmPassword}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
-        error={
-          formik.errors.confirmPassword &&
-          Boolean(formik.touched.confirmPassword)
-        }
-        helperText={
-          formik.touched.confirmPassword && formik.errors.confirmPassword
-        }
+        error={formik.errors.confirmPassword && Boolean(formik.touched.confirmPassword)}
+        helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton
-                onClick={() => setShowPassword((prev) => !prev)}
-                edge="end"
-              >
+              <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end">
                 {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
               </IconButton>
             </InputAdornment>
@@ -183,8 +171,7 @@ const SignupForm = () => {
           <Styles.RoleItem
             key={item.value}
             selected={+role.includes(item.value)}
-            onClick={() => setRole(item.value)}
-          >
+            onClick={() => setRole(item.value)}>
             {item.icon}
             <Text variant="sub">{item.value}</Text>
           </Styles.RoleItem>
@@ -213,9 +200,11 @@ const SignupForm = () => {
         <Text variant="sub">Sign up</Text>
       </FormButton>
 
-      <Link href="/login" style={{ textAlign: "center" }}>
-        <Text variant="body">Already have an account? </Text>
-        <PrimaryText variant="body">Login now.</PrimaryText>
+      <Link href="/login">
+        <Box sx={{ textAlign: "center" }}>
+          <Text variant="body">Already have an account? </Text>
+          <PrimaryText variant="body">Login now.</PrimaryText>
+        </Box>
       </Link>
     </FormContainer>
   );

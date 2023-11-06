@@ -16,6 +16,7 @@
 /build
 
 # misc
+Track.md
 .DS_Store
 *.pem
 
