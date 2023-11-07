@@ -8,7 +8,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 
 //Styles
 import { Divider, Grid } from "@mui/material";
-import { RightContainer, SocialContainer } from "./footer.styles";
+import { RightContainer, SocialContainer } from "./Footer.styles";
 import { FlexContainer, PrimaryText, Text } from "../UI";
 
 import Logo from "../logo/logo";

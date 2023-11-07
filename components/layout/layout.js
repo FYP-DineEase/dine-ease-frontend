@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import Navbar from "../navbar/navbar";
+import Navbar from "../navbar/Navbar";
 import Footer from "../footer/footer";
 import { getUser } from "@/store/auth/authActions";
 
