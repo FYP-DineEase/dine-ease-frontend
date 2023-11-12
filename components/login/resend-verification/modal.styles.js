@@ -1,13 +1,13 @@
-import { ModalContent } from "@/components/UI";
-import { styled } from "@mui/material";
+import { ModalContent } from '@/components/UI';
+import { styled } from '@mui/material';
 
 export const ModalContainer = styled(ModalContent)(({ theme }) => ({
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  flexDirection: "column",
-  height: "450px",
-  width: "600px",
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexDirection: 'column',
+  height: '450px',
+  width: '600px',
   color: theme.palette.text.secondary,
   backgroundColor: theme.palette.text.primary,
 }));

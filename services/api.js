@@ -1,12 +1,12 @@
-import axios from "axios";
+import axios from 'axios';
 
 const api = axios.create({
-  baseURL: "/",
+  baseURL: '/',
   timeout: 5000,
 });
 
 api.interceptors.request.use((config) => {
-  const token = typeof window !== "undefined" && localStorage.getItem("token");
+  const token = typeof window !== 'undefined' && localStorage.getItem('token');
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });

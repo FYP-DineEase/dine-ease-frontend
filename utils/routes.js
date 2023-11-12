@@ -1,8 +1,8 @@
 export const routes = {
-  "/login": {
+  '/login': {
     requiredAuth: false,
   },
-  "/dashboard": {
+  '/dashboard': {
     requiredAuth: true,
   },
 };

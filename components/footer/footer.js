@@ -1,17 +1,17 @@
-import React from "react";
-import Link from "next/link";
+import React from 'react';
+import Link from 'next/link';
 
 // Icons
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import InstagramIcon from "@mui/icons-material/Instagram";
+import FacebookIcon from '@mui/icons-material/Facebook';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import InstagramIcon from '@mui/icons-material/Instagram';
 
 //Styles
-import { Divider, Grid } from "@mui/material";
-import { RightContainer, SocialContainer } from "./footer.styles";
-import { FlexContainer, Text } from "../UI";
+import { Divider, Grid } from '@mui/material';
+import { RightContainer, SocialContainer } from './footer.styles';
+import { FlexContainer, Text } from '../UI';
 
-import Logo from "../logo/logo";
+import Logo from '../logo/logo';
 
 const Footer = () => {
   return (
@@ -26,13 +26,11 @@ const Footer = () => {
           necessary regelialia.
         </Text>
       </Grid>
-      <Grid item xs={12} lg={4} sx={{ order: { xs: "1", lg: "0" } }}>
+      <Grid item xs={12} lg={4} sx={{ order: { xs: '1', lg: '0' } }}>
         <RightContainer>
           <Text variant="body">
             Copyright ©2023 All rights reserved by &nbsp;
-            <Text variant="body">
-              DineEase
-            </Text>
+            <Text variant="body">DineEase</Text>
           </Text>
         </RightContainer>
       </Grid>

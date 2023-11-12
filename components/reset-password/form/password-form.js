@@ -1,23 +1,23 @@
-import React, { useState } from "react";
-import { useFormik } from "formik";
+import React, { useState } from 'react';
+import { useFormik } from 'formik';
 
 // Services
-import { updatePassword } from "@/services";
+import { updatePassword } from '@/services';
 
 // Snackbar
-import { enqueueSnackbar } from "notistack";
-import { getError } from "@/helpers/snackbarHelpers";
+import { enqueueSnackbar } from 'notistack';
+import { getError } from '@/helpers/snackbarHelpers';
 
 // Utils
-import { passwordResetSchema } from "@/utils/validation-schema/forgot-password";
+import { passwordResetSchema } from '@/utils/validation-schema/forgot-password';
 
 // Icons
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 // Styles
-import { IconButton, InputAdornment } from "@mui/material";
-import { Text, InputField, FormContainer, FormButton } from "@/components/UI";
+import { IconButton, InputAdornment } from '@mui/material';
+import { Text, InputField, FormContainer, FormButton } from '@/components/UI';
 
 const PasswordForm = ({ token, navigateToLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -28,12 +28,12 @@ const PasswordForm = ({ token, navigateToLogin }) => {
       const { confirmPassword, ...data } = values;
       const res = await updatePassword(token, data);
       enqueueSnackbar({
-        variant: "success",
+        variant: 'success',
         message: res.data,
         onExited: navigateToLogin,
       });
     } catch (e) {
-      enqueueSnackbar({ variant: "error", message: getError(e) });
+      enqueueSnackbar({ variant: 'error', message: getError(e) });
     } finally {
       formik.setSubmitting(false);
     }
@@ -41,8 +41,8 @@ const PasswordForm = ({ token, navigateToLogin }) => {
 
   const formik = useFormik({
     initialValues: {
-      password: "",
-      confirmPassword: "",
+      password: '',
+      confirmPassword: '',
     },
     validationSchema: passwordResetSchema,
     onSubmit: submitHandler,
@@ -50,7 +50,7 @@ const PasswordForm = ({ token, navigateToLogin }) => {
 
   return (
     <FormContainer component="form" onSubmit={formik.handleSubmit}>
-      <Text variant="header" textAlign={"center"} fontWeight={800} mb={3}>
+      <Text variant="header" textAlign={'center'} fontWeight={800} mb={3}>
         Update your&nbsp;
         <Text variant="header" color="primary">
           Password
@@ -62,7 +62,7 @@ const PasswordForm = ({ token, navigateToLogin }) => {
         label="Password"
         variant="outlined"
         placeholder="Enter Password"
-        type={showPassword ? "text" : "password"}
+        type={showPassword ? 'text' : 'password'}
         value={formik.values.password}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
@@ -84,7 +84,7 @@ const PasswordForm = ({ token, navigateToLogin }) => {
         label="Confirm Password"
         variant="outlined"
         placeholder="Confirm Password"
-        type={showPassword ? "text" : "password"}
+        type={showPassword ? 'text' : 'password'}
         value={formik.values.confirmPassword}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}

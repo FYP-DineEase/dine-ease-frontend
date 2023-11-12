@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import Link from "next/link";
+import React, { useState } from 'react';
+import Link from 'next/link';
 
 // Components
-import Logo from "@/components/logo/logo";
+import Logo from '@/components/logo/logo';
 
 // Styles
 import {
@@ -15,12 +15,12 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-} from "@mui/material";
-import { FlexContainer, Text } from "@/components/UI";
-import { AuthLink } from "../navbar.styles";
+} from '@mui/material';
+import { FlexContainer, Text } from '@/components/UI';
+import { AuthLink } from '../navbar.styles';
 
 // Icons
-import MenuIcon from "@mui/icons-material/Menu";
+import MenuIcon from '@mui/icons-material/Menu';
 
 const NavbarDrawer = ({ navLinks }) => {
   const [showDrawer, setShowDrawer] = useState(false);
@@ -31,14 +31,15 @@ const NavbarDrawer = ({ navLinks }) => {
 
   return (
     <React.Fragment>
-      <IconButton onClick={handleNavDrawer} sx={{ display: { xs: "block", md: "none" } }}>
+      <IconButton onClick={handleNavDrawer} sx={{ display: { xs: 'block', md: 'none' } }}>
         <MenuIcon color="primary" sx={{ fontSize: 25 }} />
       </IconButton>
       <Drawer
-        sx={{ "& .MuiDrawer-paper": { width: "60vw" } }}
+        sx={{ '& .MuiDrawer-paper': { width: '60vw' } }}
         anchor="right"
         open={showDrawer}
-        onClose={handleNavDrawer}>
+        onClose={handleNavDrawer}
+      >
         <Box sx={{ mt: 7 }}>
           <Logo />
         </Box>
@@ -50,7 +51,7 @@ const NavbarDrawer = ({ navLinks }) => {
                   <ListItem disablePadding>
                     <ListItemButton sx={{ pl: 3 }}>
                       <ListItemIcon>{item.icon}</ListItemIcon>
-                      <ListItemText sx={{ color: "secondary.main" }} primary={item.id} />
+                      <ListItemText sx={{ color: 'secondary.main' }} primary={item.id} />
                     </ListItemButton>
                   </ListItem>
                 </Link>
