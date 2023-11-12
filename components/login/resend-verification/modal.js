@@ -34,7 +34,7 @@ const ResendModal = ({ showModal, handleCloseModal, email }) => {
     <Modal open={showModal} onClose={handleCloseModal}>
       <ModalContainer>
         <IconButton onClick={handleCloseModal} sx={{ ml: "auto" }}>
-          <CloseIcon sx={{ color: "main.secondary", fontSize: 25 }} />
+          <CloseIcon color="secondary" sx={{ fontSize: 25 }} />
         </IconButton>
         <Image
           src={"/assets/images/food.svg"}
@@ -44,8 +44,8 @@ const ResendModal = ({ showModal, handleCloseModal, email }) => {
         />
         <Text variant="main" textAlign="center">
           Oopsie! Your Account is unverified please click the button below to resend
-          verification at
-          <Text variant="main" fontWeight={800} ml={1}>
+          verification at&nbsp;
+          <Text variant="main" fontWeight={800}>
             {email}
           </Text>
         </Text>

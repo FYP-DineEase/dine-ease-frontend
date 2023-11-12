@@ -28,12 +28,10 @@ import {
 import {
   Text,
   InputField,
-  PrimaryText,
   CustomCheckbox,
   FlexContainer,
   FormButton,
   FormContainer,
-  ErrorText,
 } from "@/components/UI";
 import * as Styles from "./form.styles";
 import { useRouter } from "next/router";
@@ -78,7 +76,10 @@ const SignupForm = () => {
   return (
     <FormContainer component="form" onSubmit={formik.handleSubmit}>
       <Text variant="header" textAlign={"center"} fontWeight={800}>
-        Welcome to <PrimaryText variant="header">DineEase</PrimaryText>
+        Welcome to&nbsp;
+        <Text variant="header" color="primary">
+          DineEase
+        </Text>
       </Text>
       <Text variant="main" textAlign={"center"} fontWeight={500} mb={3}>
         Create your account
@@ -190,20 +191,17 @@ const SignupForm = () => {
           }
           label="I agree to DineEase's Terms & Conditions"
         />
-        {formik.errors.agree && formik.touched.agree && (
-          <ErrorText variant="body" sx={{ textAlign: "center" }}>
-            {formik.errors.agree}
-          </ErrorText>
-        )}
       </FormGroup>
-      <FormButton type="submit" disabled={formik.isSubmitting}>
+      <FormButton type="submit" disabled={formik.isSubmitting || !formik.values.agree}>
         <Text variant="sub">Sign up</Text>
       </FormButton>
 
       <Link href="/login">
         <Box sx={{ textAlign: "center" }}>
           <Text variant="body">Already have an account? </Text>
-          <PrimaryText variant="body">Login now.</PrimaryText>
+          <Text variant="body" color="primary">
+            Login now.
+          </Text>
         </Box>
       </Link>
     </FormContainer>

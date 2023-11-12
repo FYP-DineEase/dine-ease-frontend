@@ -31,7 +31,6 @@ import {
   Text,
   FormButton,
   InputField,
-  PrimaryText,
   FlexContainer,
   FormContainer,
   CustomCheckbox,
@@ -87,7 +86,10 @@ const LoginForm = () => {
       />
       <FormContainer component="form" onSubmit={formik.handleSubmit}>
         <Text variant="header" textAlign={"center"} fontWeight={800}>
-          Welcome to <PrimaryText variant="header">DineEase</PrimaryText>
+          Welcome to&nbsp;
+          <Text variant="header" color="primary">
+            DineEase
+          </Text>
         </Text>
         <Text variant="main" textAlign={"center"} fontWeight={500} mb={3}>
           Login to your account
@@ -141,14 +143,16 @@ const LoginForm = () => {
           </Link>
         </FlexContainer>
 
-        <FormButton type="submit" disabled={formik.isSubmitting}>
+        <FormButton type="submit" disabled={formik.isSubmitting} color="primary">
           <Text variant="sub">Login</Text>
         </FormButton>
 
         <Link href="/signup">
           <Box sx={{ textAlign: "center" }}>
             <Text variant="body">Not a member? </Text>
-            <PrimaryText variant="body">Signup now.</PrimaryText>
+            <Text variant="body" color="primary">
+              Signup now.
+            </Text>
           </Box>
         </Link>
       </FormContainer>

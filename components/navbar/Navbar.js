@@ -13,7 +13,6 @@ const Navbar = () => {
   const navLinks = [
     { id: "Home", link: "/" },
     { id: "Discover", link: "/" },
-    { id: "Contact", link: "/" },
     { id: "About Us", link: "/" },
     { id: "Log In", link: "/login", authItem: true },
     {

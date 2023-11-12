@@ -1,7 +1,18 @@
 const theme = (mode) => {
-  const mainColorPalette = {
-    primary: "#e3ab57",
-    secondary: "#f0932b",
+  const primaryPalette = {
+    main: "#e3ab57",
+  };
+
+  const secondaryPalette = {
+    main: "#f0932b",
+  };
+
+  const errorPalette = {
+    main: "#ff7675",
+  };
+
+  const progressPalette = {
+    main: "#2E6BF6",
   };
 
   const staticColorPalette = {
@@ -22,26 +33,32 @@ const theme = (mode) => {
     },
 
     typography: {
-      fontFamily: 'inherit',
+      fontFamily: "inherit",
     },
     palette: {
       mode,
       ...(mode === "light"
         ? {
-            main: mainColorPalette,
+            primary: primaryPalette,
+            secondary: secondaryPalette,
             text: {
               primary: staticColorPalette.primary,
               secondary: staticColorPalette.secondary,
             },
             static: staticColorPalette,
+            error: errorPalette,
+            progressbar: progressPalette,
           }
         : {
-            main: mainColorPalette,
+            primary: primaryPalette,
+            secondary: secondaryPalette,
             text: {
-              primary: staticColorPalette.secondary,
-              secondary: staticColorPalette.primary,
+              primary: staticColorPalette.primary,
+              secondary: staticColorPalette.secondary,
             },
             static: staticColorPalette,
+            error: errorPalette,
+            progressbar: progressPalette,
           }),
     },
   };

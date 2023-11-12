@@ -12,13 +12,7 @@ import { forgotPassword } from "@/services";
 import { emailSchema } from "@/utils/validation-schema/forgot-password";
 
 // Styles
-import {
-  Text,
-  InputField,
-  FormContainer,
-  FormButton,
-  PrimaryText,
-} from "@/components/UI";
+import { Text, InputField, FormContainer, FormButton } from "@/components/UI";
 
 const EmailForm = ({ navigateToLogin }) => {
   const submitHandler = async (value) => {
@@ -48,7 +42,10 @@ const EmailForm = ({ navigateToLogin }) => {
   return (
     <FormContainer component="form" onSubmit={formik.handleSubmit}>
       <Text variant="header" textAlign={"center"} fontWeight={800} mb={3}>
-        Find your <PrimaryText variant="header">Account</PrimaryText>
+        Find your&nbsp;
+        <Text variant="header" color="primary">
+          Account
+        </Text>
       </Text>
 
       <InputField

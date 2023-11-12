@@ -9,7 +9,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 //Styles
 import { Divider, Grid } from "@mui/material";
 import { RightContainer, SocialContainer } from "./footer.styles";
-import { FlexContainer, PrimaryText, Text } from "../UI";
+import { FlexContainer, Text } from "../UI";
 
 import Logo from "../logo/logo";
 
@@ -17,28 +17,30 @@ const Footer = () => {
   return (
     <Grid container justifyContent="center" rowGap={5} paddingBottom={5}>
       <Grid item xs={12}>
-        <Divider sx={{ backgroundColor: "main.primary" }} variant="middle" />
+        <Divider variant="middle" />
       </Grid>
       <Grid item lg={3} xs={10} textAlign="center">
         <Logo />
         <Text variant="body">
-          A small river named Duden flows by their place and supplies it with
-          the necessary regelialia.
+          A small river named Duden flows by their place and supplies it with the
+          necessary regelialia.
         </Text>
       </Grid>
       <Grid item xs={12} lg={4} sx={{ order: { xs: "1", lg: "0" } }}>
         <RightContainer>
           <Text variant="body">
-            Copyright ©2023 All rights reserved by
-            <PrimaryText variant="body" ml={1}>DineEase</PrimaryText>
+            Copyright ©2023 All rights reserved by &nbsp;
+            <Text variant="body">
+              DineEase
+            </Text>
           </Text>
         </RightContainer>
       </Grid>
       <Grid item xs={12} lg={3}>
         <SocialContainer>
-          <PrimaryText sx={{ fontWeight: 800 }} variant="body">
+          <Text variant="body" color="primary" sx={{ fontWeight: 800 }}>
             Connect With Us
-          </PrimaryText>
+          </Text>
           <FlexContainer gap={1}>
             <Link href="/">
               <FacebookIcon sx={{ fontSize: 30 }} />
@@ -57,4 +59,3 @@ const Footer = () => {
 };
 
 export default Footer;
-

@@ -32,7 +32,7 @@ const NavbarDrawer = ({ navLinks }) => {
   return (
     <React.Fragment>
       <IconButton onClick={handleNavDrawer} sx={{ display: { xs: "block", md: "none" } }}>
-        <MenuIcon sx={{ color: "main.secondary", fontSize: 25 }} />
+        <MenuIcon color="primary" sx={{ fontSize: 25 }} />
       </IconButton>
       <Drawer
         sx={{ "& .MuiDrawer-paper": { width: "60vw" } }}
@@ -50,7 +50,7 @@ const NavbarDrawer = ({ navLinks }) => {
                   <ListItem disablePadding>
                     <ListItemButton sx={{ pl: 3 }}>
                       <ListItemIcon>{item.icon}</ListItemIcon>
-                      <ListItemText sx={{ color: "main.secondary" }} primary={item.id} />
+                      <ListItemText sx={{ color: "secondary.main" }} primary={item.id} />
                     </ListItemButton>
                   </ListItem>
                 </Link>
