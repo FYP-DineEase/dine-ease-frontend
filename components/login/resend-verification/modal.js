@@ -1,30 +1,30 @@
-import React from "react";
-import Image from "next/image";
+import React from 'react';
+import Image from 'next/image';
 
-import { resendConfirmation } from "@/services";
+import { resendConfirmation } from '@/services';
 
 // Styles
-import { IconButton, Modal } from "@mui/material";
-import { PrimaryButton, Text } from "@/components/UI";
-import { ModalContainer } from "./modal.styles";
+import { IconButton, Modal } from '@mui/material';
+import { PrimaryButton, Text } from '@/components/UI';
+import { ModalContainer } from './modal.styles';
 
 // Snackbar
-import { enqueueSnackbar } from "notistack";
-import { getError } from "@/helpers/snackbarHelpers";
+import { enqueueSnackbar } from 'notistack';
+import { getError } from '@/helpers/snackbarHelpers';
 
 // Icons
-import CloseIcon from "@mui/icons-material/Close";
+import CloseIcon from '@mui/icons-material/Close';
 
 const ResendModal = ({ showModal, handleCloseModal, email }) => {
   const resendVerificationHandler = async () => {
     try {
       const res = await resendConfirmation(email);
       enqueueSnackbar({
-        variant: "success",
+        variant: 'success',
         message: res.data,
       });
     } catch (e) {
-      enqueueSnackbar({ variant: "error", message: getError(e) });
+      enqueueSnackbar({ variant: 'error', message: getError(e) });
     } finally {
       handleCloseModal();
     }
@@ -33,11 +33,11 @@ const ResendModal = ({ showModal, handleCloseModal, email }) => {
   return (
     <Modal open={showModal} onClose={handleCloseModal}>
       <ModalContainer>
-        <IconButton onClick={handleCloseModal} sx={{ ml: "auto" }}>
+        <IconButton onClick={handleCloseModal} sx={{ ml: 'auto' }}>
           <CloseIcon color="secondary" sx={{ fontSize: 25 }} />
         </IconButton>
         <Image
-          src={"/assets/images/food.svg"}
+          src={'/assets/images/food.svg'}
           height={220}
           width={500}
           alt="login-image"

@@ -1,11 +1,11 @@
-import React from "react";
-import Image from "next/image";
-import LoginForm from "./form/form";
+import React from 'react';
+import Image from 'next/image';
+import LoginForm from './form/form';
 
 // Styles
-import { Grid } from "@mui/material";
-import { FormDivider } from "../UI";
-import { SecondaryContainer } from "../UI";
+import { Grid } from '@mui/material';
+import { FormDivider } from '../UI';
+import { SecondaryContainer } from '../UI';
 
 const Login = () => {
   return (
@@ -16,9 +16,9 @@ const Login = () => {
 
       <FormDivider />
 
-      <Grid item xs={0} md={6} sx={{ position: "relative", height: "100%" }}>
+      <Grid item xs={0} md={6} sx={{ position: 'relative', height: '100%' }}>
         <Image
-          src={"/assets/images/food.svg"}
+          src={'/assets/images/food.svg'}
           fill={true}
           sizes="100vw"
           alt="login-image"

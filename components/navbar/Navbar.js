@@ -1,23 +1,23 @@
-import React from "react";
-import Link from "next/link";
+import React from 'react';
+import Link from 'next/link';
 
 // components
-import Logo from "../logo/logo";
+import Logo from '../logo/logo';
 
 // Styles
-import { Text } from "../UI";
-import * as Styles from "./navbar.styles";
-import NavbarDrawer from "./drawer/drawer";
+import { Text } from '../UI';
+import * as Styles from './navbar.styles';
+import NavbarDrawer from './drawer/drawer';
 
 const Navbar = () => {
   const navLinks = [
-    { id: "Home", link: "/" },
-    { id: "Discover", link: "/" },
-    { id: "About Us", link: "/" },
-    { id: "Log In", link: "/login", authItem: true },
+    { id: 'Home', link: '/' },
+    { id: 'Discover', link: '/' },
+    { id: 'About Us', link: '/' },
+    { id: 'Log In', link: '/login', authItem: true },
     {
-      id: "Sign Up",
-      link: "/signup",
+      id: 'Sign Up',
+      link: '/signup',
       authItem: true,
       fill: true,
     },

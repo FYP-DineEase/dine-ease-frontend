@@ -1,7 +1,7 @@
-import api from "./api";
-import { PORTS } from "@/utils/port";
+import api from './api';
+import { PORTS } from '@/utils/port';
 
-const service = "users";
+const service = 'users';
 const port = PORTS[service];
 
 export const getUserDetails = () => {

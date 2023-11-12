@@ -1,10 +1,10 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const getUser = createAsyncThunk(
-  "user/login",
+  'user/login',
   async (arg, { rejectWithValue }) => {
     try {
-      console.log("fetching user");
+      console.log('fetching user');
       // const response = await api.get("/auth/user");
       // return response.data;
     } catch (e) {

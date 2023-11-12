@@ -1,18 +1,18 @@
-import React from "react";
-import { useFormik } from "formik";
+import React from 'react';
+import { useFormik } from 'formik';
 
 // Snackbar
-import { enqueueSnackbar } from "notistack";
-import { getError } from "@/helpers/snackbarHelpers";
+import { enqueueSnackbar } from 'notistack';
+import { getError } from '@/helpers/snackbarHelpers';
 
 // Services
-import { forgotPassword } from "@/services";
+import { forgotPassword } from '@/services';
 
 // Utils
-import { emailSchema } from "@/utils/validation-schema/forgot-password";
+import { emailSchema } from '@/utils/validation-schema/forgot-password';
 
 // Styles
-import { Text, InputField, FormContainer, FormButton } from "@/components/UI";
+import { Text, InputField, FormContainer, FormButton } from '@/components/UI';
 
 const EmailForm = ({ navigateToLogin }) => {
   const submitHandler = async (value) => {
@@ -20,12 +20,12 @@ const EmailForm = ({ navigateToLogin }) => {
       formik.setSubmitting(true);
       const res = await forgotPassword(value.email);
       enqueueSnackbar({
-        variant: "info",
+        variant: 'info',
         message: res.data,
         onExited: navigateToLogin,
       });
     } catch (e) {
-      enqueueSnackbar({ variant: "error", message: getError(e) });
+      enqueueSnackbar({ variant: 'error', message: getError(e) });
     } finally {
       formik.setSubmitting(false);
     }
@@ -33,7 +33,7 @@ const EmailForm = ({ navigateToLogin }) => {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
+      email: '',
     },
     validationSchema: emailSchema,
     onSubmit: submitHandler,
@@ -41,7 +41,7 @@ const EmailForm = ({ navigateToLogin }) => {
 
   return (
     <FormContainer component="form" onSubmit={formik.handleSubmit}>
-      <Text variant="header" textAlign={"center"} fontWeight={800} mb={3}>
+      <Text variant="header" textAlign={'center'} fontWeight={800} mb={3}>
         Find your&nbsp;
         <Text variant="header" color="primary">
           Account

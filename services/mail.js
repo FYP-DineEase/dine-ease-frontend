@@ -1,7 +1,7 @@
-import api from "./api";
-import { PORTS } from "@/utils/port";
+import api from './api';
+import { PORTS } from '@/utils/port';
 
-const service = "mail";
+const service = 'mail';
 const port = PORTS[service];
 
 export const forgotPassword = (email) => {

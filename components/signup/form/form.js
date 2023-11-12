@@ -1,21 +1,21 @@
-import React, { useState } from "react";
-import Link from "next/link";
-import { useFormik } from "formik";
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { useFormik } from 'formik';
 
 // Snackbar
-import { enqueueSnackbar } from "notistack";
-import { getError } from "@/helpers/snackbarHelpers";
+import { enqueueSnackbar } from 'notistack';
+import { getError } from '@/helpers/snackbarHelpers';
 
 // Services
-import { signup } from "@/services";
+import { signup } from '@/services';
 
 // Utils
-import { UserRoles } from "@/utils/roles";
-import { signupSchema } from "@/utils/validation-schema/signup";
+import { UserRoles } from '@/utils/roles';
+import { signupSchema } from '@/utils/validation-schema/signup';
 
 // Icons
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 // Styles
 import {
@@ -24,7 +24,7 @@ import {
   FormGroup,
   IconButton,
   InputAdornment,
-} from "@mui/material";
+} from '@mui/material';
 import {
   Text,
   InputField,
@@ -32,15 +32,15 @@ import {
   FlexContainer,
   FormButton,
   FormContainer,
-} from "@/components/UI";
-import * as Styles from "./form.styles";
-import { useRouter } from "next/router";
+} from '@/components/UI';
+import * as Styles from './form.styles';
+import { useRouter } from 'next/router';
 
 const SignupForm = () => {
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
-  const [role, setRole] = useState("User");
+  const [role, setRole] = useState('User');
 
   const submitHandler = async (values) => {
     try {
@@ -48,13 +48,13 @@ const SignupForm = () => {
       const { confirmPassword, ...data } = values;
       const res = await signup({ ...data, role });
       enqueueSnackbar({
-        variant: "success",
+        variant: 'success',
         message: res.data,
         onExited: () =>
           router.push(`/confirmation?email=${data.email}`, null, { shallow: true }),
       });
     } catch (e) {
-      enqueueSnackbar({ variant: "error", message: getError(e) });
+      enqueueSnackbar({ variant: 'error', message: getError(e) });
     } finally {
       formik.setSubmitting(false);
     }
@@ -62,11 +62,11 @@ const SignupForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
       agree: false,
     },
     validationSchema: signupSchema,
@@ -75,13 +75,13 @@ const SignupForm = () => {
 
   return (
     <FormContainer component="form" onSubmit={formik.handleSubmit}>
-      <Text variant="header" textAlign={"center"} fontWeight={800}>
+      <Text variant="header" textAlign={'center'} fontWeight={800}>
         Welcome to&nbsp;
         <Text variant="header" color="primary">
           DineEase
         </Text>
       </Text>
-      <Text variant="main" textAlign={"center"} fontWeight={500} mb={3}>
+      <Text variant="main" textAlign={'center'} fontWeight={500} mb={3}>
         Create your account
       </Text>
 
@@ -128,7 +128,7 @@ const SignupForm = () => {
         label="Password"
         variant="outlined"
         placeholder="Enter Password"
-        type={showPassword ? "text" : "password"}
+        type={showPassword ? 'text' : 'password'}
         value={formik.values.password}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
@@ -150,7 +150,7 @@ const SignupForm = () => {
         label="Confirm Password"
         variant="outlined"
         placeholder="Confirm Password"
-        type={showPassword ? "text" : "password"}
+        type={showPassword ? 'text' : 'password'}
         value={formik.values.confirmPassword}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
@@ -172,7 +172,8 @@ const SignupForm = () => {
           <Styles.RoleItem
             key={item.value}
             selected={+role.includes(item.value)}
-            onClick={() => setRole(item.value)}>
+            onClick={() => setRole(item.value)}
+          >
             {item.icon}
             <Text variant="sub">{item.value}</Text>
           </Styles.RoleItem>
@@ -181,7 +182,7 @@ const SignupForm = () => {
 
       <FormGroup>
         <FormControlLabel
-          sx={{ justifyContent: "center" }}
+          sx={{ justifyContent: 'center' }}
           control={
             <CustomCheckbox
               name="agree"
@@ -197,7 +198,7 @@ const SignupForm = () => {
       </FormButton>
 
       <Link href="/login">
-        <Box sx={{ textAlign: "center" }}>
+        <Box sx={{ textAlign: 'center' }}>
           <Text variant="body">Already have an account? </Text>
           <Text variant="body" color="primary">
             Login now.
