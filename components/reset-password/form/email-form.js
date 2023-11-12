@@ -33,7 +33,7 @@ const EmailForm = ({ navigateToLogin }) => {
 
   const formik = useFormik({
     initialValues: {
-      email: "gobes29957@zamaneta.com",
+      email: "",
     },
     validationSchema: emailSchema,
     onSubmit: submitHandler,
@@ -41,11 +41,11 @@ const EmailForm = ({ navigateToLogin }) => {
 
   return (
     <FormContainer component="form" onSubmit={formik.handleSubmit}>
-      <Text variant="header" textAlign={"center"} fontWeight={800}>
-        Welcome to DineEase
-      </Text>
-      <Text variant="main" textAlign={"center"} fontWeight={500} mb={3}>
-        Please Provide Email
+      <Text variant="header" textAlign={"center"} fontWeight={800} mb={3}>
+        Find your&nbsp;
+        <Text variant="header" color="primary">
+          Account
+        </Text>
       </Text>
 
       <InputField

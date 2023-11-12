@@ -30,24 +30,20 @@ export const LinkContainer = styled(Button)(({ theme }) => ({
   fontWeight: 500,
 
   "&:hover": {
-    backgroundColor: theme.palette.main.primary,
+    backgroundColor: theme.palette.primary.main,
     color: theme.palette.static.primary,
   },
 }));
 
 export const AuthLink = styled(Button)(({ fill, theme }) => ({
-  color: fill ? theme.palette.static.primary : theme.palette.main.primary,
-  backgroundColor: fill
-    ? theme.palette.main.primary
-    : theme.palette.static.primary,
-  boxShadow: !fill && `inset 0px 0px 0px 2px ${theme.palette.main.primary}`,
+  color: fill ? theme.palette.static.primary : theme.palette.primary.main,
+  backgroundColor: fill ? theme.palette.primary.main : theme.palette.static.primary,
+  boxShadow: !fill && `inset 0px 0px 0px 2px ${theme.palette.primary.main}`,
   padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
   transition: "box-shadow 0.3s",
 
   "&:hover": {
-    backgroundColor: fill
-      ? theme.palette.main.secondary
-      : theme.palette.static.primary,
+    backgroundColor: fill ? theme.palette.secondary.main : theme.palette.static.primary,
   },
 }));
 

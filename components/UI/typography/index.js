@@ -7,12 +7,3 @@ export const Text = styled(Typography)(({ theme, variant }) => ({
     fontSize: baseFontSizes[variant].small,
   },
 }));
-
-export const PrimaryText = styled(Text)(({ theme }) => ({
-  color: theme.palette.main.primary,
-}));
-
-export const ErrorText = styled(Text)(({ theme }) => ({
-  color: "#ff7675",
-}));
-

@@ -7,12 +7,12 @@ export const InputField = styled(TextField)(({ theme }) => ({
     color: theme.palette.static.secondary,
 
     "&:hover": {
-      borderColor: theme.palette.main.primary,
+      borderColor: theme.palette.primary.main,
     },
   },
 
   "& label.Mui-focused": {
-    color: theme.palette.main.primary,
+    color: theme.palette.primary.main,
   },
 
   "& .MuiFormHelperText-root": {
@@ -21,14 +21,14 @@ export const InputField = styled(TextField)(({ theme }) => ({
   },
 
   "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
-    borderColor: theme.palette.main.primary,
+    borderColor: theme.palette.primary.main,
   },
 
   "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-    borderColor: theme.palette.main.secondary,
+    borderColor: theme.palette.secondary.main,
   },
 
   "& .MuiSvgIcon-root": {
-    color: theme.palette.main.primary,
+    color: theme.palette.primary.main,
   },
 }));

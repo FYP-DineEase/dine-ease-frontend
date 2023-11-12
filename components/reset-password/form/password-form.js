@@ -41,8 +41,8 @@ const PasswordForm = ({ token, navigateToLogin }) => {
 
   const formik = useFormik({
     initialValues: {
-      password: "Ahmed@123",
-      confirmPassword: "Ahmed@123",
+      password: "",
+      confirmPassword: "",
     },
     validationSchema: passwordResetSchema,
     onSubmit: submitHandler,
@@ -50,11 +50,11 @@ const PasswordForm = ({ token, navigateToLogin }) => {
 
   return (
     <FormContainer component="form" onSubmit={formik.handleSubmit}>
-      <Text variant="header" textAlign={"center"} fontWeight={800}>
-        Welcome to <PrimaryText variant="header">DineEase</PrimaryText>
-      </Text>
-      <Text variant="main" textAlign={"center"} fontWeight={500} mb={3}>
-        Reset your password
+      <Text variant="header" textAlign={"center"} fontWeight={800} mb={3}>
+        Update your&nbsp;
+        <Text variant="header" color="primary">
+          Password
+        </Text>
       </Text>
 
       <InputField
@@ -71,10 +71,7 @@ const PasswordForm = ({ token, navigateToLogin }) => {
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton
-                onClick={() => setShowPassword((prev) => !prev)}
-                edge="end"
-              >
+              <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end">
                 {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
               </IconButton>
             </InputAdornment>
@@ -91,20 +88,12 @@ const PasswordForm = ({ token, navigateToLogin }) => {
         value={formik.values.confirmPassword}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
-        error={
-          formik.errors.confirmPassword &&
-          Boolean(formik.touched.confirmPassword)
-        }
-        helperText={
-          formik.touched.confirmPassword && formik.errors.confirmPassword
-        }
+        error={formik.errors.confirmPassword && Boolean(formik.touched.confirmPassword)}
+        helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton
-                onClick={() => setShowPassword((prev) => !prev)}
-                edge="end"
-              >
+              <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end">
                 {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
               </IconButton>
             </InputAdornment>

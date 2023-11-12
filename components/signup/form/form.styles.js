@@ -6,13 +6,13 @@ export const RoleItem = styled(PrimaryButton)(({ theme, selected }) => ({
   width: "95px",
   height: "70px",
   borderRadius: "5px",
-  border: `1px solid ${theme.palette.main.primary}`,
+  border: `1px solid ${theme.palette.primary.main}`,
   color: selected ? theme.palette.text.primary : "black",
-  backgroundColor: selected ? theme.palette.main.secondary : theme.palette.text.primary,
+  backgroundColor: selected ? theme.palette.secondary.main : theme.palette.text.primary,
   boxShadow: "1px 3px 5px lightgrey",
 
   "&:hover": {
     color: theme.palette.text.primary, 
-    backgroundColor: theme.palette.main.primary,
+    backgroundColor: theme.palette.primary.main,
   },
 }));
