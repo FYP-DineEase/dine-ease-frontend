@@ -143,7 +143,7 @@ const LoginForm = () => {
           </Link>
         </FlexContainer>
 
-        <FormButton type="submit" disabled={formik.isSubmitting} color="primary">
+        <FormButton type="submit" disabled={formik.isSubmitting}>
           <Text variant="sub">Login</Text>
         </FormButton>
 
