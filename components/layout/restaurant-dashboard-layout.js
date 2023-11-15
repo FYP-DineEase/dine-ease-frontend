@@ -1,8 +1,13 @@
+import { Box, Drawer } from '@mui/material';
 import React from 'react';
+import { CustomDrawer } from '../UI';
 
-const RestaurantDashboardLayout = () => {
+const RestaurantDashboardLayout = ({ children }) => {
   return (
-    <div style={{ height: '100%', width: '400px', border: '1px solid black' }}></div>
+    <>
+      <CustomDrawer>halo</CustomDrawer>
+      {children}
+    </>
   );
 };
 

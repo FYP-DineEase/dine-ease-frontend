@@ -1,5 +1,9 @@
 import { Grid, Box, styled } from '@mui/material';
-import { NAV_HEIGHT } from '@/utils/constants';
+import {
+  DASHBOARD_DRAWER_FULLWIDTH,
+  DASHBOARD_DRAWER_RESPONSIVEWIDTH,
+  NAV_HEIGHT,
+} from '@/utils/constants';
 
 export const FlexContainer = styled(Box)({
   display: 'flex',
@@ -27,4 +31,27 @@ export const FormContainer = styled(Box)(({ theme }) => ({
   maxWidth: '500px',
   margin: 'auto',
   gap: theme.spacing(2),
+}));
+
+export const DashboardContainer = styled(Grid)(({ theme }) => ({
+  marginLeft: `calc(${DASHBOARD_DRAWER_FULLWIDTH}px)`,
+  width: `calc(100% - ${DASHBOARD_DRAWER_FULLWIDTH}px)`,
+  padding: `${theme.spacing(2)} ${theme.spacing(2)}`,
+  height: '100%',
+  overflow: 'auto',
+
+  [theme.breakpoints.down('md')]: {
+    marginLeft: `calc(${DASHBOARD_DRAWER_RESPONSIVEWIDTH}px)`,
+    width: `calc(100vw - ${DASHBOARD_DRAWER_RESPONSIVEWIDTH}px)`,
+  },
+}));
+
+export const DashboardContent = styled(Box)(({ theme }) => ({
+  borderRadius: '5px',
+  boxShadow: '0px 5px 10px lightgrey',
+  padding: `${theme.spacing(2)} ${theme.spacing(3)} `,
+
+  [theme.breakpoints.down('md')]: {
+    padding: `${theme.spacing(2)} ${theme.spacing(1)} `,
+  },
 }));

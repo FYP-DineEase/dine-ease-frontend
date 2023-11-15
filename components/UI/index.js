@@ -7,3 +7,4 @@ export * from './snackbar/index';
 export * from './textfields/index';
 export * from './typography/index';
 export * from './modal/index';
+export * from './drawer/index';
