@@ -315,6 +315,20 @@ export const reviews = [
     createdAt: '01-Sep-2023',
   },
   {
+    username: 'Tessa',
+    rating: 4,
+    content: 'Good value for the price.',
+    images: ['image46.jpg'],
+    createdAt: '02-Sep-2023',
+  },
+  {
+    username: 'Tessa',
+    rating: 4,
+    content: 'Good value for the price.',
+    images: ['image46.jpg'],
+    createdAt: '02-Sep-2023',
+  },
+  {
     username: 'Ulysses',
     rating: 3,
     content: 'Average experience, nothing outstanding.',
