@@ -1,6 +1,10 @@
-import { DashboardContainer } from '@/components/UI';
-import { Grid } from '@mui/material';
 import React from 'react';
+
+//Styles
+import { Grid } from '@mui/material';
+import { DashboardContainer } from '@/components/UI';
+
+//Components
 import Cards from './cards/cards';
 import RatingDistribution from './rating-distribution/rating-distribution';
 import ReviewTrend from './review-trend/review-trend';

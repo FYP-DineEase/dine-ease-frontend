@@ -2,7 +2,7 @@ import React from 'react';
 
 //Styles
 import { DashboardContent, Text } from '@/components/UI';
-import { SatisfactionContainer } from './customer-satisfaction.styles';
+import * as Styles from './customer-satisfaction.styles';
 
 //Icons
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
@@ -51,8 +51,8 @@ const CustomerSatisfaction = () => {
   const { icon } = getSatisfactionDetails(satisfactionPercentage);
 
   return (
-    <DashboardContent height="100%">
-      <SatisfactionContainer>
+    <DashboardContent minHeight="200px">
+      <Styles.SatisfactionContainer>
         {icon}
         <Text variant="header" fontWeight={800}>
           {`${satisfactionPercentage.toFixed(0)}%`}
@@ -60,7 +60,7 @@ const CustomerSatisfaction = () => {
         <Text variant="body">
           of customers are satisfied with their dining experience
         </Text>
-      </SatisfactionContainer>
+      </Styles.SatisfactionContainer>
     </DashboardContent>
   );
 };

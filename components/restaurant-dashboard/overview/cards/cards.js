@@ -35,7 +35,7 @@ const Cards = () => {
   ];
 
   return (
-    <DashboardContent>
+    <DashboardContent minHeight="200px">
       <FlexContainer gap={1.5} flexWrap="wrap">
         {statistics.map((item, index) => (
           <Card
