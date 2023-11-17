@@ -1,6 +1,7 @@
+import React from 'react';
+
 import RestaurantDashboardLayout from '@/components/layout/restaurant-dashboard-layout';
 import Overview from '@/components/restaurant-dashboard/overview/overview';
-import React from 'react';
 
 const OverviewPage = () => {
   return <Overview />;
