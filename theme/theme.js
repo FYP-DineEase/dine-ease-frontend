@@ -18,7 +18,7 @@ const theme = (mode) => {
   const staticColorPalette = {
     primary: '#fafafa',
     secondary: '#333333',
-    ternary: 'rgba(180, 180, 180, 0.3)',
+    ternary: 'rgba(180, 180, 180)',
   };
 
   return {
@@ -44,6 +44,7 @@ const theme = (mode) => {
             text: {
               primary: staticColorPalette.primary,
               secondary: staticColorPalette.secondary,
+              ternary: staticColorPalette.ternary,
             },
             static: staticColorPalette,
             error: errorPalette,
