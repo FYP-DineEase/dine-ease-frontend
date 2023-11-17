@@ -6,7 +6,7 @@ import { resendConfirmation } from '@/services';
 // Styles
 import { IconButton, Modal } from '@mui/material';
 import { PrimaryButton, Text } from '@/components/UI';
-import { ModalContainer } from './modal.styles';
+import * as Styles from './modal.styles';
 
 // Snackbar
 import { enqueueSnackbar } from 'notistack';
@@ -32,7 +32,7 @@ const ResendModal = ({ showModal, handleCloseModal, email }) => {
 
   return (
     <Modal open={showModal} onClose={handleCloseModal}>
-      <ModalContainer>
+      <Styles.ModalContainer>
         <IconButton onClick={handleCloseModal} sx={{ ml: 'auto' }}>
           <CloseIcon color="secondary" sx={{ fontSize: 25 }} />
         </IconButton>
@@ -52,7 +52,7 @@ const ResendModal = ({ showModal, handleCloseModal, email }) => {
         <PrimaryButton sx={{ mt: 4 }} onClick={resendVerificationHandler}>
           <Text variant="body">Resend Link</Text>
         </PrimaryButton>
-      </ModalContainer>
+      </Styles.ModalContainer>
     </Modal>
   );
 };

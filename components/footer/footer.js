@@ -8,8 +8,8 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 
 //Styles
 import { Divider, Grid } from '@mui/material';
-import { RightContainer, SocialContainer } from './footer.styles';
 import { FlexContainer, Text } from '../UI';
+import * as Styles from './footer.styles';
 
 import Logo from '../logo/logo';
 
@@ -27,15 +27,15 @@ const Footer = () => {
         </Text>
       </Grid>
       <Grid item xs={12} lg={4} sx={{ order: { xs: '1', lg: '0' } }}>
-        <RightContainer>
+        <Styles.RightContainer>
           <Text variant="body">
             Copyright ©2023 All rights reserved by &nbsp;
             <Text variant="body">DineEase</Text>
           </Text>
-        </RightContainer>
+        </Styles.RightContainer>
       </Grid>
       <Grid item xs={12} lg={3}>
-        <SocialContainer>
+        <Styles.SocialContainer>
           <Text variant="body" color="primary" sx={{ fontWeight: 800 }}>
             Connect With Us
           </Text>
@@ -50,7 +50,7 @@ const Footer = () => {
               <InstagramIcon sx={{ fontSize: 30 }} />
             </Link>
           </FlexContainer>
-        </SocialContainer>
+        </Styles.SocialContainer>
       </Grid>
     </Grid>
   );
