@@ -1,8 +1,10 @@
-import RestaurantDashboardLayout from '@/components/layout/restaurant-dashboard-layout';
 import React from 'react';
 
+import RestaurantDashboardLayout from '@/components/layout/restaurant-dashboard-layout';
+import Reviews from '@/components/restaurant-dashboard/reviews/reviews';
+
 const ReviewsPage = () => {
-  return <div>ReviewsPage</div>;
+  return <Reviews />;
 };
 
 ReviewsPage.getLayout = (page) => {

@@ -1,12 +1,14 @@
-import RestaurantDashboardLayout from '@/components/layout/restaurant-dashboard-layout';
 import React from 'react';
 
-const FeatureHistory = () => {
-  return <div>FeatureHistory</div>;
+import RestaurantDashboardLayout from '@/components/layout/restaurant-dashboard-layout';
+import FeatureHistory from '@/components/restaurant-dashboard/feature-history/feature-history';
+
+const FeatureHistoryPage = () => {
+  return <FeatureHistory />;
 };
 
-FeatureHistory.getLayout = (page) => {
+FeatureHistoryPage.getLayout = (page) => {
   return <RestaurantDashboardLayout>{page}</RestaurantDashboardLayout>;
 };
 
-export default FeatureHistory;
+export default FeatureHistoryPage;
