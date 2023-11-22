@@ -1,15 +1,14 @@
+import React from 'react';
+
 import RestaurantDashboardLayout from '@/components/layout/restaurant-dashboard-layout';
-import React from 'react'
+import Menu from '@/components/restaurant-dashboard/menu/menu';
 
 const MenuPage = () => {
-  return (
-    <div>MenuPage</div>
-  )
-}
+  return <Menu />;
+};
 
 MenuPage.getLayout = (page) => {
-    return <RestaurantDashboardLayout>{page}</RestaurantDashboardLayout>;
-  };
+  return <RestaurantDashboardLayout>{page}</RestaurantDashboardLayout>;
+};
 
-
-export default MenuPage
+export default MenuPage;
