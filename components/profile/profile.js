@@ -8,18 +8,21 @@ import About from './about/about';
 // Styles
 import { Grid } from '@mui/material';
 import { ProfileContainer } from './profile.styles';
+import ProfileContextProvider from '@/store/profile-context/profile-provider';
 
 const Profile = () => {
   return (
-    <ProfileContainer>
-      <Banner />
-      <Grid container>
-        <Grid item xs={12} md={3} sx={{ order: { xs: 1, md: 0 } }}>
-          <About />
+    <ProfileContextProvider>
+      <ProfileContainer>
+        <Banner />
+        <Grid container spacing={1}>
+          <Grid item xs={12} lg={3} sx={{ order: { xs: 3, lg: 0 } }}>
+            <About />
+          </Grid>
+          <Navigation />
         </Grid>
-        <Navigation />
-      </Grid>
-    </ProfileContainer>
+      </ProfileContainer>
+    </ProfileContextProvider>
   );
 };
 

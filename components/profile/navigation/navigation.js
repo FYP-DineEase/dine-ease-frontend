@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 // Components
 import About from '../about/about';
-import Review from '@/components/review/review';
+import Review from '@/components/reviews/review';
 
 // Styles
 import { Text } from '@/components/UI';
@@ -21,13 +21,13 @@ const Navigation = () => {
   const tabItems = [
     {
       value: 'Reviews',
-      icon: <ReviewIcon />,
+      icon: <ReviewIcon fontSize="small" />,
       label: 'Reviews',
       childComponent: <Review />,
     },
-    { value: 'Votes', icon: <VoteIcon />, label: 'Votes' },
-    { value: 'Plans', icon: <PlanIcon />, label: 'Plans' },
-    { value: 'Badges', icon: <BadgeIcon />, label: 'Badges' },
+    { value: 'Votes', icon: <VoteIcon fontSize="small" />, label: 'Votes' },
+    { value: 'Plans', icon: <PlanIcon fontSize="small" />, label: 'Plans' },
+    { value: 'Badges', icon: <BadgeIcon fontSize="small" />, label: 'Badges' },
   ];
 
   const handleChange = (e, newValue) => {
@@ -36,7 +36,7 @@ const Navigation = () => {
 
   return (
     <React.Fragment>
-      <Grid item xs={12} md={6} sx={{ order: { xs: 3, md: 0 } }}>
+      <Grid item xs={12} lg={6} sx={{ order: { xs: 2, lg: 0 } }}>
         <Container>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs
@@ -51,8 +51,8 @@ const Navigation = () => {
                   key={item.value}
                   icon={item.icon}
                   iconPosition="start"
-                  sx={{ textTransform: 'none' }}
-                  label={<Text variant="main">{item.label}</Text>}
+                  sx={{ textTransform: 'none', position: 'sticky' }}
+                  label={<Text variant="body">{item.label}</Text>}
                 />
               ))}
             </Tabs>
@@ -60,7 +60,7 @@ const Navigation = () => {
           <Box sx={{ mt: 2 }}>{tabItems[value].childComponent}</Box>
         </Container>
       </Grid>
-      <Grid item xs={12} md={3} sx={{ order: { xs: 2, md: 0 } }}>
+      <Grid item xs={12} lg={3} sx={{ order: { xs: 1, lg: 0 } }}>
         <About />
       </Grid>
     </React.Fragment>
