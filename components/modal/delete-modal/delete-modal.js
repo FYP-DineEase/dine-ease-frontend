@@ -1,8 +1,12 @@
 import React from 'react';
-import { Box, Button, Modal } from '@mui/material';
-import { Delete } from '@mui/icons-material';
+
+//Styles
+import { Button, Modal } from '@mui/material';
 import * as Styles from './delete-modal.styles';
 import { FlexContainer, Text } from '@/components/UI';
+
+//Icons
+import Delete from '@mui/icons-material/Delete';
 
 const DeleteModal = ({ showModal, handleCloseModal, handleDelete }) => {
   return (
