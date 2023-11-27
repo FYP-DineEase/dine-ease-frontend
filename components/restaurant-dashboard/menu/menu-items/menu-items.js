@@ -1,126 +1,119 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 //Styles
 import { Text } from '@/components/UI';
-import { Accordion, AccordionDetails, AccordionSummary, IconButton } from '@mui/material';
+import { AccordionDetails, Box } from '@mui/material';
 import * as Styles from './menu-items.styles';
 
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+//Icons
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import MenuCard from '../menu-cards/menu-card';
 
-import MenuCards from '../menu-cards/menu-cards';
+//Components
+import ItemModal from '../item-modal/item-modal';
 
-import userImage from '@/public/assets/images/avatar.jpg';
+//Sortable Library
+import { ReactSortable } from 'react-sortablejs';
 
-const MenuItems = () => {
-  const [open, setOpen] = useState(false);
+const CardWrapper = React.forwardRef((props, ref) => {
+  return (
+    <Box ref={ref} display="flex" flexWrap="wrap" gap={2}>
+      {props.children}
+    </Box>
+  );
+});
 
-  const handleChange = (panel) => (event, isExpanded) => {
-    setOpen(isExpanded ? panel : false);
+const MenuItems = ({ value }) => {
+  const [menu, setMenu] = useState(value);
+  const [showItemModal, setShowItemModal] = useState(false);
+  const values = useRef({ name: null, description: null, price: null, image: null });
+  console.log(menu);
+
+  const handleShowItemModal = () => setShowItemModal((prevState) => !prevState);
+
+  const valuesSubmitHandler = (value) => {
+    values.current.name = value.name;
+    values.current.description = value.description;
+    values.current.price = value.price;
+    values.current.image = value.image;
+    const newItem = { ...values.current, order: menu.length };
+    addMenuItem(newItem);
   };
 
-  const menu = [
-    {
-      title: 'Appetizer',
-      items: [
-        {
-          name: 'Salad',
-          description: 'Very tasty salad consiting of herbs and dont know',
-          price: '200Rs',
-          image: userImage,
-        },
-        {
-          name: 'Salad',
-          description: 'Very tasty salad consiting of herbs and dont know',
-          price: '200Rs',
-          image: userImage,
-        },
-        {
-          name: 'Salad',
-          description: 'Very tasty salad consiting of herbs and dont know ',
-          price: '200Rs',
-          image: userImage,
-        },
-      ],
-    },
-    {
-      title: 'Main Course',
-      items: [
-        {
-          name: 'Salad',
-          description:
-            'Very tasty salad consiting of herbs and dont know what things but is extremely delecious and tasty',
-          price: '200Rs',
-          image: userImage,
-        },
-        {
-          name: 'Salad',
-          description:
-            'Very tasty salad consiting of herbs and dont know what things but is extremely delecious and tasty',
-          price: '200Rs',
-          image: userImage,
-        },
-        {
-          name: 'Salad',
-          description:
-            'Very tasty salad consiting of herbs and dont know what things but is extremely delecious and tasty',
-          price: '200Rs',
-          image: userImage,
-        },
-      ],
-    },
-    {
-      title: 'Beverages',
-      items: [
-        {
-          name: 'Salad',
-          description:
-            'Very tasty salad consiting of herbs and dont know what things but is extremely delecious and tasty',
-          price: '200Rs',
-          image: userImage,
-        },
-        {
-          name: 'Salad',
-          description:
-            'Very tasty salad consiting of herbs and dont know what things but is extremely delecious and tasty',
-          price: '200Rs',
-          image: userImage,
-        },
-        {
-          name: 'Salad',
-          description:
-            'Very tasty salad consiting of herbs and dont know what things but is extremely delecious and tasty',
-          price: '200Rs',
-          image: userImage,
-        },
-      ],
-    },
-  ];
-  return menu.map((menuItem, index) => (
-    <Accordion
-      key={menuItem.title}
-      expanded={open === `panel${index}`}
-      onChange={handleChange(`panel${index}`)}
-    >
-      <AccordionSummary
-        expandIcon={
-          <IconButton>
-            <ExpandMoreIcon />
-          </IconButton>
-        }
-      >
-        <Text variant="subHeader" color="text.secondary" fontWeight={500}>
-          {menuItem.title}
-        </Text>
-      </AccordionSummary>
+  const handleSort = (event) => {
+    const { oldIndex, newIndex } = event;
+
+    const updatedMenu = [...menu];
+
+    const draggedItemContent = updatedMenu.splice(oldIndex, 1)[0];
+
+    updatedMenu.splice(newIndex, 0, draggedItemContent);
+
+    updatedMenu.forEach((item, index) => {
+      item.order = index;
+    });
+
+    setMenu(updatedMenu);
+  };
+
+  const addMenuItem = (newItem) => {
+    setMenu((prevState) => [...prevState, newItem]);
+  };
+
+  const deleteMenuItem = (itemIndex) => {
+    const updatedMenu = [...menu];
+    updatedMenu.splice(itemIndex, 1);
+    setMenu(updatedMenu);
+  };
+
+  const updateMenuItem = (itemIndex, updatedItem) => {
+    const updatedMenu = [...menu];
+    updatedMenu[itemIndex] = { ...updatedItem, order: updatedMenu[itemIndex].order };
+    setMenu(updatedMenu);
+  };
+
+  return (
+    <React.Fragment>
+      {showItemModal && (
+        <ItemModal
+          showModal={showItemModal}
+          handleShowModal={handleShowItemModal}
+          valuesSubmitHandler={valuesSubmitHandler}
+          itemDetails={{}}
+          headerTitle="Add Item"
+        />
+      )}
       <AccordionDetails>
         <Styles.MenuItemsContainer>
-          {menuItem.items.map((item, index) => (
-            <MenuCards item={item} key={index} />
-          ))}
+          <ReactSortable
+            onEnd={handleSort}
+            tag={CardWrapper}
+            list={menu}
+            setList={setMenu}
+            animation={200}
+            delayOnTouchStart={true}
+            delay={2}
+          >
+            {menu.map((item, itemIndex) => (
+              <MenuCard
+                key={item.name}
+                item={item}
+                itemIndex={itemIndex}
+                handleDelete={deleteMenuItem}
+                handleUpdate={updateMenuItem}
+              />
+            ))}
+          </ReactSortable>
+          <Styles.AddItemPlaceholder onClick={handleShowItemModal}>
+            <AddCircleOutlineIcon color="secondary" fontSize="large" />
+            <Text variant="subHeader" color="secondary">
+              Add Item
+            </Text>
+          </Styles.AddItemPlaceholder>
         </Styles.MenuItemsContainer>
       </AccordionDetails>
-    </Accordion>
-  ));
+    </React.Fragment>
+  );
 };
 
 export default MenuItems;
