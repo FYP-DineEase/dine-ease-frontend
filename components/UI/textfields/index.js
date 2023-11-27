@@ -3,7 +3,7 @@ import { baseFontSizes } from '../typography/font-sizes';
 
 export const InputField = styled(TextField)(({ theme }) => ({
   width: '100%',
-  input: {
+  '& .MuiOutlinedInput-root': {
     color: theme.palette.static.secondary,
   },
 
