@@ -1,15 +1,15 @@
-import { Avatar, Box, styled } from '@mui/material';
+import { Box, styled } from '@mui/material';
 import { FlexContainer } from '@/components/UI';
 
 export const AboutContainer = styled(Box)(({ theme }) => ({
-  width: '360px',
-  height: '500px',
+  maxWidth: '360px',
+  height: '450px',
   margin: 'auto',
   backgroundColor: theme.palette.text.primary,
   position: 'relative',
   top: -75,
   borderRadius: '10px',
-  padding: theme.spacing(3),
+  padding: theme.spacing(2),
   boxShadow: '1px 1px 8px #888888',
 }));
 
@@ -20,13 +20,18 @@ export const IconContainer = styled(FlexContainer)(({ theme }) => ({
   gap: theme.spacing(1),
 }));
 
-export const ProfileAvatar = styled(Avatar)(({ theme }) => ({
-  height: 160,
-  width: 160,
+export const ProfileAvatarContainer = styled(Box)(({ theme }) => ({
+  height: 150,
+  width: 150,
   position: 'absolute',
   top: -75,
   left: '50%',
   transform: 'translateX(-50%)',
+}));
+
+export const AvatarConfirmation = styled(FlexContainer)(({ theme }) => ({
+  position: 'relative',
+  top: -20,
 }));
 
 export const DetailsContainer = styled(Box)(({ theme }) => ({

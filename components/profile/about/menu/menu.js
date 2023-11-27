@@ -1,19 +1,16 @@
 import React, { useState } from 'react';
 
 // Styles
-import { Menu, MenuItem, Fade } from '@mui/material';
+import { Menu, MenuItem, Fade, InputLabel, Input, IconButton } from '@mui/material';
 import { EditContainer } from './menu.styles';
 import { Text } from '@/components/UI';
 
 // Icons
 import EditIcon from '@mui/icons-material/Edit';
-import Divider from '@mui/material/Divider';
-import ArchiveIcon from '@mui/icons-material/Archive';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import SettingsIcon from '@mui/icons-material/Settings';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
-const EditProfileMenu = () => {
+const EditProfileMenu = ({ handleAvatar, handleShowModal, handleBanner }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -25,6 +22,16 @@ const EditProfileMenu = () => {
     setAnchorEl(null);
   };
 
+  const handleProfileImage = (event) => {
+    handleAvatar(event.target.files[0]);
+    closeMenu();
+  };
+
+  const handleBannerImage = (event) => {
+    handleBanner(event.target.files[0]);
+    closeMenu();
+  };
+
   return (
     <React.Fragment>
       <EditContainer
@@ -33,10 +40,9 @@ const EditProfileMenu = () => {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
       >
-        <Text variant="main" fontWeight={500}>
-          Edit
-        </Text>
-        <SettingsIcon />
+        <IconButton>
+          <SettingsIcon color="primary" fontSize="medium" />
+        </IconButton>
       </EditContainer>
 
       <Menu
@@ -48,23 +54,45 @@ const EditProfileMenu = () => {
         anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={openMenu}>
-          <EditIcon />
-          Edit
+        <MenuItem
+          onClick={() => {
+            handleShowModal();
+            closeMenu();
+          }}
+        >
+          <EditIcon color="primary" fontSize="small" sx={{ mr: 1 }} />
+          <Text variant="sub" color="text.secondary">
+            Edit Information
+          </Text>
         </MenuItem>
-        <MenuItem onClick={openMenu}>
-          <FileCopyIcon />
-          Duplicate
-        </MenuItem>
-        <Divider sx={{ my: 0.5 }} />
-        <MenuItem onClick={openMenu}>
-          <ArchiveIcon />
-          Archive
-        </MenuItem>
-        <MenuItem onClick={openMenu}>
-          <MoreHorizIcon />
-          More
-        </MenuItem>
+        <InputLabel htmlFor="profile-image">
+          <MenuItem>
+            <CameraAltIcon color="primary" fontSize="small" sx={{ mr: 1 }} />
+            <Text variant="sub" color="text.secondary">
+              Change Profile Image
+            </Text>
+          </MenuItem>
+          <Input
+            id="profile-image"
+            type="file"
+            sx={{ display: 'none' }}
+            onChange={handleProfileImage}
+          />
+        </InputLabel>
+        <InputLabel htmlFor="background-image">
+          <MenuItem>
+            <CameraAltIcon color="primary" fontSize="small" sx={{ mr: 1 }} />
+            <Text variant="sub" color="text.secondary">
+              Change Background Image
+            </Text>
+          </MenuItem>
+          <Input
+            id="background-image"
+            type="file"
+            sx={{ display: 'none' }}
+            onChange={handleBannerImage}
+          />
+        </InputLabel>
       </Menu>
     </React.Fragment>
   );
