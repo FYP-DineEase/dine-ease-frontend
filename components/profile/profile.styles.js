@@ -1,7 +1,6 @@
 import { Box, styled } from '@mui/material';
 
 export const ProfileContainer = styled(Box)(({ theme }) => ({
-  height: '100%',
-  width: '90%',
+  width: '95%',
   margin: 'auto',
 }));

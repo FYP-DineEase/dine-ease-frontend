@@ -17,12 +17,7 @@ const Profile = () => {
         <Grid item xs={12} md={3} sx={{ order: { xs: 1, md: 0 } }}>
           <About />
         </Grid>
-        <Grid item xs={12} md={6} sx={{ order: { xs: 3, md: 0 } }}>
-          <Navigation />
-        </Grid>
-        <Grid item xs={12} md={3} sx={{ order: { xs: 2, md: 0 } }}>
-          <About />
-        </Grid>
+        <Navigation />
       </Grid>
     </ProfileContainer>
   );

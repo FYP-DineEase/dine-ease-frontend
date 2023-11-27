@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 //Styles
 import { List, ListItem, ListItemIcon } from '@mui/material';
@@ -18,45 +19,48 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import RestaurantLogo from '../restaurant-dashboard/restaurant-logo/restaurant-logo';
 
 const RestaurantDashboardLayout = ({ children }) => {
-  const [selectedPage, setSelectedPage] = useState(0);
+  const router = useRouter();
+
+  const value = router.asPath.split('/');
+  const [selectedPage, setSelectedPage] = useState(value[value.length - 1]);
   const [open, setOpen] = useState(false);
 
-  const id = 1;
+  const dummyId = 1;
 
   const dashboardLinks = [
     {
-      id: 'Overview',
-      link: `/restaurant/dashboard/${id}/overview`,
+      id: 'overview',
+      text: 'Overview',
       icon: <SummarizeIcon />,
     },
     {
-      id: 'Edit Details',
-      link: `/restaurant/dashboard/${id}/edit-details`,
+      id: 'edit-details',
+      text: 'Edit Details',
       icon: <EditNoteIcon />,
     },
     {
-      id: 'Feature History',
-      link: `/restaurant/dashboard/${id}/feature-history`,
+      id: 'feature-history',
+      text: 'Feature History',
       icon: <MonetizationOnIcon />,
     },
     {
-      id: 'Reviews',
-      link: `/restaurant/dashboard/${id}/reviews`,
+      id: 'reviews',
+      text: 'Reviews',
       icon: <ReviewsIcon />,
     },
     {
-      id: 'Menu',
-      link: `/restaurant/dashboard/${id}/menu`,
+      id: 'menu',
+      text: 'Menu',
       icon: <MenuBookIcon />,
     },
     {
-      id: 'Logs',
-      link: `/restaurant/dashboard/${id}/logs`,
+      id: 'logs',
+      text: 'Logs',
       icon: <WorkHistoryIcon />,
     },
     {
-      id: 'Badges',
-      link: `/restaurant/dashboard/${id}/badges`,
+      id: 'badges',
+      text: 'Badges',
       icon: <LocalPoliceIcon color="inherit" />,
     },
   ];
@@ -78,14 +82,14 @@ const RestaurantDashboardLayout = ({ children }) => {
         <RestaurantLogo open={open} />
         <List>
           {dashboardLinks.map((item, index) => (
-            <Link href={item.link} key={item.id}>
+            <Link href={`/restaurant/dashboard/${dummyId}/${item.id}`} key={item.id}>
               <ListItem>
                 <DrawerListButton
-                  selected={selectedPage === index}
-                  onClick={() => setSelectedPage(index)}
+                  selected={selectedPage.includes(item.id)}
+                  onClick={() => setSelectedPage(item.id)}
                 >
                   <ListItemIcon>{item.icon}</ListItemIcon>
-                  <DrawerListText primary={item.id} open={open} />
+                  <DrawerListText primary={item.text} open={open} />
                 </DrawerListButton>
               </ListItem>
             </Link>

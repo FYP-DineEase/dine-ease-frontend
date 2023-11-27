@@ -13,7 +13,6 @@ export const FlexContainer = styled(Box)({
 
 export const PageContainer = styled(Box)({
   marginTop: `${NAV_HEIGHT}px`,
-  height: `calc(100vh - ${NAV_HEIGHT}px)`,
 });
 
 export const SecondaryContainer = styled(Grid)({
