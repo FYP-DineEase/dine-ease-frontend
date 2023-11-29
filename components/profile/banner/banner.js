@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Image from 'next/image';
-import ProfileContext from '@/store/profile-context/profile-context';
+import ProfileContext from '@/context/profile-context/profile-context';
 
 //Styles
 import { Box, Button } from '@mui/material';
@@ -10,31 +10,32 @@ import { BannerContainer } from './banner.styles';
 //Snackbar
 import { enqueueSnackbar } from 'notistack';
 
-import userImage from '@/public/assets/images/avatar.jpg';
 
 const Banner = () => {
-  const ProfileCtx = useContext(ProfileContext);
-  const banner = ProfileCtx.background;
+  const { profileDetails, profileBackgroundHandler, profileNewBackgroundHandler } =
+    useContext(ProfileContext);
+
+  const { background, newBackground } = profileDetails;
 
   const handleConfirmBanner = () => {
     enqueueSnackbar({ variant: 'success', message: 'Banner Updated Successfully!' });
-    ProfileCtx.backgroundConfirmationHandler(false);
+    profileBackgroundHandler(newBackground);
+    profileNewBackgroundHandler(null);
   };
   const handleCancelBanner = () => {
-    ProfileCtx.backgroundConfirmationHandler(false);
-    ProfileCtx.profileBackgroundHandler(ProfileCtx.oldBackground);
+    profileNewBackgroundHandler(null);
   };
 
   return (
     <BannerContainer>
       <Image
-        src={banner || userImage.src}
+        src={newBackground || background}
         fill={true}
         objectFit="cover"
         alt="profile-background"
       />
       <Box sx={{ position: 'absolute', top: 15, right: 15 }}>
-        {ProfileCtx.backgroundConfirmation && (
+        {newBackground && (
           <React.Fragment>
             <Button
               variant="contained"

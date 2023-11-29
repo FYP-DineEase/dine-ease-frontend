@@ -1,11 +1,10 @@
 import React from 'react';
 
 const ProfileContext = React.createContext({
-  background: null,
-  oldBackground: null,
-  backgroundConfirmation: false,
-  avatar: null,
   profileDetails: {
+    background: null,
+    newBackground: null,
+    avatar: null,
     firstName: null,
     lastName: null,
     email: null,
@@ -16,7 +15,7 @@ const ProfileContext = React.createContext({
   profileDetailsHandler: (updatedDetails) => {},
   profileAvatarHandler: (image) => {},
   profileBackgroundHandler: (image) => {},
-  backgroundConfirmationHandler: () => {},
+  profileNewBackgroundHandler: (image) => {},
 });
 
 export default ProfileContext;

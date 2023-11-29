@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import ProfileContext from '@/context/profile-context/profile-context';
 
 // Styles
 import { Menu, MenuItem, Fade, InputLabel, Input, IconButton } from '@mui/material';
@@ -10,7 +11,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import SettingsIcon from '@mui/icons-material/Settings';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
-const EditProfileMenu = ({ handleAvatar, handleShowModal, handleBanner }) => {
+const EditProfileMenu = ({ handleShowModal, handleAvatar }) => {
+  const { profileNewBackgroundHandler } = useContext(ProfileContext);
+
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -22,13 +25,13 @@ const EditProfileMenu = ({ handleAvatar, handleShowModal, handleBanner }) => {
     setAnchorEl(null);
   };
 
-  const handleProfileImage = (event) => {
-    handleAvatar(event.target.files[0]);
+  const handleBannerImage = (event) => {
+    profileNewBackgroundHandler(URL.createObjectURL(event.target.files[0]));
     closeMenu();
   };
 
-  const handleBannerImage = (event) => {
-    handleBanner(event.target.files[0]);
+  const handleProfileImage = (event) => {
+    handleAvatar(event.target.files[0]);
     closeMenu();
   };
 

@@ -2,7 +2,7 @@ import { Box, styled } from '@mui/material';
 import { FlexContainer } from '@/components/UI';
 
 export const AboutContainer = styled(Box)(({ theme }) => ({
-  maxWidth: '360px',
+  maxWidth: '400px',
   height: '450px',
   margin: 'auto',
   backgroundColor: theme.palette.text.primary,
@@ -11,6 +11,10 @@ export const AboutContainer = styled(Box)(({ theme }) => ({
   borderRadius: '10px',
   padding: theme.spacing(2),
   boxShadow: '1px 1px 8px #888888',
+
+  [theme.breakpoints.down('lg')]: {
+    maxWidth: 'none',
+  },
 }));
 
 export const IconContainer = styled(FlexContainer)(({ theme }) => ({
@@ -39,4 +43,8 @@ export const DetailsContainer = styled(Box)(({ theme }) => ({
   position: 'relative',
   top: 80,
   padding: theme.spacing(1),
+  [theme.breakpoints.down('lg')]: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
 }));

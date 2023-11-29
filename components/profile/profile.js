@@ -1,4 +1,5 @@
 import React from 'react';
+import ProfileContextProvider from '@/context/profile-context/profile-provider';
 
 // Components
 import Navigation from './navigation/navigation';
@@ -8,7 +9,6 @@ import About from './about/about';
 // Styles
 import { Grid } from '@mui/material';
 import { ProfileContainer } from './profile.styles';
-import ProfileContextProvider from '@/store/profile-context/profile-provider';
 
 const Profile = () => {
   return (

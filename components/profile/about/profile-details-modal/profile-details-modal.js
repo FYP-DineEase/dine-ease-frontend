@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import ProfileContext from '@/store/profile-context/profile-context';
+import ProfileContext from '@/context/profile-context/profile-context';
 
 //Form
 import { useFormik } from 'formik';

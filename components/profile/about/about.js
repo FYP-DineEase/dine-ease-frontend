@@ -1,4 +1,5 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useState } from 'react';
+import ProfileContext from '@/context/profile-context/profile-context';
 
 // Components
 import EditProfileMenu from './menu/menu';
@@ -15,26 +16,25 @@ import LocationIcon from '@mui/icons-material/LocationOn';
 import MailIcon from '@mui/icons-material/Mail';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
+
+//Snackbar
 import { enqueueSnackbar } from 'notistack';
+
+//Modal
 import ProfileDetailsModal from './profile-details-modal/profile-details-modal';
-import ProfileContext from '@/store/profile-context/profile-context';
 
 const About = () => {
-  const ProfileCtx = useContext(ProfileContext);
-  const [avatarConfirmation, setAvatarConfirmation] = useState(false);
+  const { profileDetails, profileAvatarHandler } = useContext(ProfileContext);
+
+  const { avatar, firstName, lastName, email, location, joinDate, description } =
+    profileDetails;
+
+  const [newAvatar, setNewAvatar] = useState(null);
+
   const [showModal, setShowModal] = useState(false);
-  const oldAvatar = useRef(null);
 
-  const handleBanner = (file) => {
-    ProfileCtx.oldBackground = ProfileCtx.background;
-    ProfileCtx.profileBackgroundHandler(URL.createObjectURL(file));
-    ProfileCtx.backgroundConfirmationHandler(true);
-  };
-
-  const handleAvatar = (file) => {
-    oldAvatar.current = ProfileCtx.avatar;
-    ProfileCtx.profileAvatarHandler(URL.createObjectURL(file));
-    setAvatarConfirmation(true);
+  const handleAvatar = (image) => {
+    setNewAvatar(URL.createObjectURL(image));
   };
 
   const handleConfirmAvatar = () => {
@@ -42,11 +42,11 @@ const About = () => {
       variant: 'success',
       message: 'Profile Image Updated Successfully!',
     });
-    setAvatarConfirmation(false);
+    profileAvatarHandler(newAvatar);
+    setNewAvatar(null);
   };
   const handleCancelAvatar = () => {
-    setAvatarConfirmation(false);
-    ProfileCtx.profileAvatarHandler(oldAvatar.current);
+    setNewAvatar(null);
   };
 
   const handleShowModal = () => setShowModal((prevState) => !prevState);
@@ -60,10 +60,10 @@ const About = () => {
         <Styles.ProfileAvatarContainer>
           <Avatar
             alt="Remy Sharp"
-            src={ProfileCtx.avatar}
+            src={newAvatar || avatar}
             sx={{ height: '100%', width: '100%' }}
           />
-          {avatarConfirmation && (
+          {newAvatar && (
             <Styles.AvatarConfirmation>
               <Tooltip title="Save Changes" placement="top" arrow>
                 <IconButton onClick={handleConfirmAvatar}>
@@ -78,27 +78,25 @@ const About = () => {
             </Styles.AvatarConfirmation>
           )}
         </Styles.ProfileAvatarContainer>
-        <EditProfileMenu
-          handleAvatar={handleAvatar}
-          handleShowModal={handleShowModal}
-          handleBanner={handleBanner}
-        />
+        <EditProfileMenu handleAvatar={handleAvatar} handleShowModal={handleShowModal} />
         <Styles.DetailsContainer>
-          <Text variant="main" fontWeight={500}>
-            {ProfileCtx.profileDetails.firstName} {ProfileCtx.profileDetails.lastName}
-          </Text>
-          <Styles.IconContainer>
-            <MailIcon color="primary" fontSize="small" />
-            <Text variant="body">{ProfileCtx.profileDetails.email}</Text>
-          </Styles.IconContainer>
-          <Styles.IconContainer>
-            <LocationIcon color="primary" fontSize="small" />
-            <Text variant="body">{ProfileCtx.profileDetails.location}</Text>
-          </Styles.IconContainer>
-          <Styles.IconContainer>
-            <TodayIcon color="primary" fontSize="small" />
-            <Text variant="body">{ProfileCtx.profileDetails.joinDate}</Text>
-          </Styles.IconContainer>
+          <Box>
+            <Text variant="main" fontWeight={500}>
+              {firstName} {lastName}
+            </Text>
+            <Styles.IconContainer>
+              <MailIcon color="primary" fontSize="small" />
+              <Text variant="body">{email}</Text>
+            </Styles.IconContainer>
+            <Styles.IconContainer>
+              <LocationIcon color="primary" fontSize="small" />
+              <Text variant="body">{location}</Text>
+            </Styles.IconContainer>
+            <Styles.IconContainer>
+              <TodayIcon color="primary" fontSize="small" />
+              <Text variant="body">{joinDate}</Text>
+            </Styles.IconContainer>
+          </Box>
           <Box>
             <Styles.IconContainer>
               <InfoIcon color="primary" fontSize="small" />
@@ -107,7 +105,7 @@ const About = () => {
               </Text>
             </Styles.IconContainer>
             <Text variant="body" sx={{ textAlign: 'left', display: 'block' }}>
-              {ProfileCtx.profileDetails.description}
+              {description}
             </Text>
           </Box>
         </Styles.DetailsContainer>
