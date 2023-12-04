@@ -4,6 +4,10 @@ import Image from 'next/image';
 // Styles
 import { Box, Button } from '@mui/material';
 import { FlexContainer, PrimaryButton, Text } from '../UI';
+import { useFormik } from 'formik';
+
+// Snackbar
+import { enqueueSnackbar } from 'notistack';
 
 const ListingConfirmation = ({
   activeStep,
@@ -12,13 +16,29 @@ const ListingConfirmation = ({
   locationValues,
   legalValues,
 }) => {
-  const listingHandler = () => {
-    console.log(detailValues, locationValues, legalValues);
+  const submitHandler = async () => {
+    try {
+      formik.setSubmitting(true);
+      console.log(detailValues, locationValues, legalValues);
+      enqueueSnackbar({
+        variant: 'success',
+        message: 'Restaurant Listed',
+        // onExited: () => router.push(`/confirmation?email=${data.email}`, null, { shallow: true }),
+      });
+    } catch (e) {
+      enqueueSnackbar({ variant: 'error', message: 'error' });
+    } finally {
+      formik.setSubmitting(false);
+    }
   };
 
+  const formik = useFormik({
+    initialValues: {},
+    onSubmit: submitHandler,
+  });
   return (
     activeStep === 3 && (
-      <React.Fragment>
+      <Box component="form" onSubmit={formik.handleSubmit}>
         <Box sx={{ position: 'relative', height: { xs: '250px', md: '500px' } }}>
           <Image src={'/assets/images/food.svg'} alt="login-image" fill sizes="100vw" />
         </Box>
@@ -36,11 +56,11 @@ const ListingConfirmation = ({
           <Button variant="outlined" onClick={handleBack}>
             <Text variant="body">Back</Text>
           </Button>
-          <PrimaryButton onClick={listingHandler}>
+          <PrimaryButton type="submit" disabled={formik.isSubmitting}>
             <Text variant="body">Finish</Text>
           </PrimaryButton>
         </FlexContainer>
-      </React.Fragment>
+      </Box>
     )
   );
 };

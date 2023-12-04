@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-import ResendModal from '../resend-verification/modal';
+import ResendModal from '../resend-verification/resend-modal';
 
 // Services
 import { login } from '@/services';
@@ -43,8 +43,7 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const [showModal, setShowModal] = useState(false);
-  const handleShowModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = () => setShowModal((prevState) => !prevState);
 
   const rememberChangeHandler = (event) => {
     setRemember(event.target.checked);
@@ -81,7 +80,7 @@ const LoginForm = () => {
     <React.Fragment>
       <ResendModal
         showModal={showModal}
-        handleCloseModal={handleCloseModal}
+        handleShowModal={handleShowModal}
         email={formik.values.email}
       />
       <FormContainer component="form" onSubmit={formik.handleSubmit}>

@@ -7,7 +7,7 @@ import * as Styles from './menu-items.styles';
 
 //Icons
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import MenuCard from '../menu-cards/menu-card';
+import MenuCard from '../menu-card/menu-card';
 
 //Components
 import ItemModal from '../item-modal/item-modal';
@@ -27,7 +27,6 @@ const MenuItems = ({ value }) => {
   const [menu, setMenu] = useState(value);
   const [showItemModal, setShowItemModal] = useState(false);
   const values = useRef({ name: null, description: null, price: null, image: null });
-  console.log(menu);
 
   const handleShowItemModal = () => setShowItemModal((prevState) => !prevState);
 

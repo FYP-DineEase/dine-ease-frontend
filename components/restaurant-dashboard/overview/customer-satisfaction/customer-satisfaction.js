@@ -16,19 +16,27 @@ import { reviews } from '@/mockData/mockData';
 const CustomerSatisfaction = () => {
   const satisfactionMappings = {
     superb: {
-      icon: <SentimentVerySatisfiedIcon sx={{ color: 'darkgreen', fontSize: '8rem' }} />,
+      icon: (
+        <SentimentVerySatisfiedIcon
+          sx={{ color: 'darkgreen', fontSize: '8rem', mr: 1 }}
+        />
+      ),
     },
     good: {
-      icon: <SentimentSatisfiedIcon sx={{ color: 'green', fontSize: '8rem' }} />,
+      icon: <SentimentSatisfiedIcon sx={{ color: 'green', fontSize: '8rem', mr: 1 }} />,
     },
     average: {
-      icon: <SentimentNeutralIcon sx={{ color: 'yellow', fontSize: '8rem' }} />,
+      icon: <SentimentNeutralIcon sx={{ color: 'yellow', fontSize: '8rem', mr: 1 }} />,
     },
     bad: {
-      icon: <SentimentDissatisfiedIcon sx={{ color: 'red', fontSize: '8rem' }} />,
+      icon: <SentimentDissatisfiedIcon sx={{ color: 'red', fontSize: '8rem', mr: 1 }} />,
     },
     extremelyBad: {
-      icon: <SentimentVeryDissatisfiedIcon sx={{ color: 'darkred', fontSize: '8rem' }} />,
+      icon: (
+        <SentimentVeryDissatisfiedIcon
+          sx={{ color: 'darkred', fontSize: '8rem', mr: 1 }}
+        />
+      ),
     },
   };
 
@@ -51,7 +59,7 @@ const CustomerSatisfaction = () => {
   const { icon } = getSatisfactionDetails(satisfactionPercentage);
 
   return (
-    <DashboardContent minHeight="200px">
+    <DashboardContent>
       <Styles.SatisfactionContainer>
         {icon}
         <Text variant="header" fontWeight={800}>

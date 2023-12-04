@@ -16,7 +16,13 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import * as Styles from './item-modal.styles';
-import { FlexContainer, InputField, PrimaryButton, Text } from '@/components/UI';
+import {
+  FlexContainer,
+  InputField,
+  ModalCancelIcon,
+  PrimaryButton,
+  Text,
+} from '@/components/UI';
 
 //Icons
 import CloseIcon from '@mui/icons-material/Close';
@@ -59,12 +65,9 @@ const ItemModal = ({
   return (
     <Modal open={showModal} onClose={handleShowModal}>
       <Styles.ModalContainer component="form" onSubmit={formik.handleSubmit}>
-        <IconButton
-          sx={{ position: 'absolute', top: '10px', right: '10px' }}
-          onClick={handleShowModal}
-        >
+        <ModalCancelIcon onClick={handleShowModal}>
           <CloseIcon color="secondary" fontSize="medium" />
-        </IconButton>
+        </ModalCancelIcon>
         <Text variant="subHeader" fontWeight={800}>
           {headerTitle}
         </Text>
@@ -120,8 +123,8 @@ const ItemModal = ({
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               alt={name || 'menu-item'}
-              height={220}
-              width={280}
+              height={200}
+              width={250}
               style={{ borderRadius: '3px' }}
             />
             <Button variant="outlined" component="label" startIcon={<CameraAltIcon />}>

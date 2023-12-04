@@ -9,9 +9,12 @@ export const ModalContainer = styled(ModalContent)(({ theme }) => ({
   backgroundColor: theme.palette.text.primary,
   border: 'none',
   width: '650px',
+
   gap: theme.spacing(3.5),
   [theme.breakpoints.down('md')]: {
     width: 'auto',
+    gap: theme.spacing(2),
+    padding: `${theme.spacing(1.5)} ${theme.spacing(4)}`,
   },
 }));
 
@@ -20,5 +23,6 @@ export const ItemDetails = styled(Box)(({ theme }) => ({
   gap: theme.spacing(3.5),
   [theme.breakpoints.down('md')]: {
     flexDirection: 'column',
+    gap: theme.spacing(2),
   },
 }));

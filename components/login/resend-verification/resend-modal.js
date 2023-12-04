@@ -4,9 +4,9 @@ import Image from 'next/image';
 import { resendConfirmation } from '@/services';
 
 // Styles
-import { IconButton, Modal } from '@mui/material';
-import { PrimaryButton, Text } from '@/components/UI';
-import * as Styles from './modal.styles';
+import { Modal } from '@mui/material';
+import { ModalCancelIcon, PrimaryButton, Text } from '@/components/UI';
+import * as Styles from './resend-modal.styles';
 
 // Snackbar
 import { enqueueSnackbar } from 'notistack';
@@ -15,7 +15,7 @@ import { getError } from '@/helpers/snackbarHelpers';
 // Icons
 import CloseIcon from '@mui/icons-material/Close';
 
-const ResendModal = ({ showModal, handleCloseModal, email }) => {
+const ResendModal = ({ showModal, handleShowModal, email }) => {
   const resendVerificationHandler = async () => {
     try {
       const res = await resendConfirmation(email);
@@ -26,16 +26,16 @@ const ResendModal = ({ showModal, handleCloseModal, email }) => {
     } catch (e) {
       enqueueSnackbar({ variant: 'error', message: getError(e) });
     } finally {
-      handleCloseModal();
+      handleShowModal();
     }
   };
 
   return (
-    <Modal open={showModal} onClose={handleCloseModal}>
+    <Modal open={showModal} onClose={handleShowModal}>
       <Styles.ModalContainer>
-        <IconButton onClick={handleCloseModal} sx={{ ml: 'auto' }}>
-          <CloseIcon color="secondary" sx={{ fontSize: 25 }} />
-        </IconButton>
+        <ModalCancelIcon onClick={handleShowModal}>
+          <CloseIcon color="secondary" fontSize="medium" />
+        </ModalCancelIcon>
         <Image
           src={'/assets/images/food.svg'}
           height={220}

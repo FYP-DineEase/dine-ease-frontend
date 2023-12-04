@@ -61,7 +61,7 @@ const RestaurantDashboardLayout = ({ children }) => {
     {
       id: 'badges',
       text: 'Badges',
-      icon: <LocalPoliceIcon color="inherit" />,
+      icon: <LocalPoliceIcon />,
     },
   ];
 
@@ -94,6 +94,18 @@ const RestaurantDashboardLayout = ({ children }) => {
               </ListItem>
             </Link>
           ))}
+        </List>
+        <List sx={{ mt: 'auto', mb: 5 }}>
+          <Link href={`/`}>
+            <ListItem>
+              <DrawerListButton>
+                <ListItemIcon>
+                  <KeyboardArrowLeftIcon />
+                </ListItemIcon>
+                <DrawerListText primary={'Go Back'} open={open} />
+              </DrawerListButton>
+            </ListItem>
+          </Link>
         </List>
       </CustomDrawer>
       {children}

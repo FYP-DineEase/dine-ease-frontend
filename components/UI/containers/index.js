@@ -13,7 +13,7 @@ export const FlexContainer = styled(Box)({
 
 export const PageContainer = styled(Box)({
   marginTop: `${NAV_HEIGHT}px`,
-  minHeight: `clamp(700px,100vh - ${NAV_HEIGHT}px,100vh - ${NAV_HEIGHT}px)`,
+  minHeight: `clamp(600px,100vh - ${NAV_HEIGHT}px,100vh - ${NAV_HEIGHT}px)`,
 });
 
 export const SecondaryContainer = styled(Grid)({
@@ -36,9 +36,7 @@ export const FormContainer = styled(Box)(({ theme }) => ({
 export const DashboardContainer = styled(Grid)(({ theme }) => ({
   marginLeft: `calc(${DASHBOARD_DRAWER_FULLWIDTH}px)`,
   width: `calc(100% - ${DASHBOARD_DRAWER_FULLWIDTH}px)`,
-  padding: `${theme.spacing(2)} ${theme.spacing(2)}`,
-  height: '100%',
-  overflow: 'auto',
+  padding: `${theme.spacing(2)} ${theme.spacing(1)}`,
 
   [theme.breakpoints.down('md')]: {
     marginLeft: `calc(${DASHBOARD_DRAWER_RESPONSIVEWIDTH}px)`,
@@ -48,7 +46,7 @@ export const DashboardContainer = styled(Grid)(({ theme }) => ({
 
 export const DashboardContent = styled(Box)(({ theme }) => ({
   borderRadius: '5px',
-  boxShadow: '0px 5px 10px lightgrey',
+  boxShadow: '0px 0px 10px 1px lightgrey',
   padding: `${theme.spacing(2)} ${theme.spacing(3)} `,
 
   [theme.breakpoints.down('md')]: {

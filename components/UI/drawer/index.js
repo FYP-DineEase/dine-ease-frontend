@@ -10,8 +10,8 @@ export const CustomDrawer = styled(Drawer)(({ theme, open }) => ({
   '& .MuiDrawer-paper': {
     color: 'black',
     width: `${DASHBOARD_DRAWER_FULLWIDTH}px`,
-    zIndex: 1,
-    position: 'absolute',
+    zIndex: 1000,
+    position: 'fixed',
     marginTop: `${NAV_HEIGHT}px`,
     height: `calc(100% - ${NAV_HEIGHT}px)`,
     boxShadow: '2px 0px 10px lightgrey',

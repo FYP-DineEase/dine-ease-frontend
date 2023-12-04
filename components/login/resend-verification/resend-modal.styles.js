@@ -7,7 +7,8 @@ export const ModalContainer = styled(ModalContent)(({ theme }) => ({
   alignItems: 'center',
   flexDirection: 'column',
   height: '450px',
-  width: '600px',
+  width: '35vw',
+  minWidth: '300px',
   color: theme.palette.text.secondary,
   backgroundColor: theme.palette.text.primary,
 }));
