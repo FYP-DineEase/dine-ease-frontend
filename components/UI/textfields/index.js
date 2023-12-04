@@ -2,7 +2,7 @@ import { TextField, styled } from '@mui/material';
 import { baseFontSizes } from '../typography/font-sizes';
 
 export const InputField = styled(TextField)(({ theme }) => ({
-  width: '100%',
+  width:"100%",
   '& .MuiOutlinedInput-root': {
     color: theme.palette.static.secondary,
   },
