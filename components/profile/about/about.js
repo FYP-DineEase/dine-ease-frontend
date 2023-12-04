@@ -5,9 +5,9 @@ import ProfileContext from '@/context/profile-context/profile-context';
 import EditProfileMenu from './menu/menu';
 
 // Styles
-import { Avatar, Box, IconButton, Tooltip } from '@mui/material';
-import { Text } from '@/components/UI';
 import * as Styles from './about.styles';
+import { Avatar, IconButton, Tooltip } from '@mui/material';
+import { Text } from '@/components/UI';
 
 // Icons
 import InfoIcon from '@mui/icons-material/InfoOutlined';
@@ -80,34 +80,30 @@ const About = () => {
         </Styles.ProfileAvatarContainer>
         <EditProfileMenu handleAvatar={handleAvatar} handleShowModal={handleShowModal} />
         <Styles.DetailsContainer>
-          <Box>
-            <Text variant="main" fontWeight={500}>
-              {firstName} {lastName}
+          <Text variant="main" fontWeight={500}>
+            {firstName} {lastName}
+          </Text>
+          <Styles.IconContainer>
+            <MailIcon color="primary" fontSize="small" />
+            <Text variant="body">{email}</Text>
+          </Styles.IconContainer>
+          <Styles.IconContainer>
+            <LocationIcon color="primary" fontSize="small" />
+            <Text variant="body">{location}</Text>
+          </Styles.IconContainer>
+          <Styles.IconContainer>
+            <TodayIcon color="primary" fontSize="small" />
+            <Text variant="body">{joinDate}</Text>
+          </Styles.IconContainer>
+          <Styles.IconContainer>
+            <InfoIcon color="primary" fontSize="small" />
+            <Text variant="body" fontWeight={500}>
+              About
             </Text>
-            <Styles.IconContainer>
-              <MailIcon color="primary" fontSize="small" />
-              <Text variant="body">{email}</Text>
-            </Styles.IconContainer>
-            <Styles.IconContainer>
-              <LocationIcon color="primary" fontSize="small" />
-              <Text variant="body">{location}</Text>
-            </Styles.IconContainer>
-            <Styles.IconContainer>
-              <TodayIcon color="primary" fontSize="small" />
-              <Text variant="body">{joinDate}</Text>
-            </Styles.IconContainer>
-          </Box>
-          <Box>
-            <Styles.IconContainer>
-              <InfoIcon color="primary" fontSize="small" />
-              <Text variant="body" fontWeight={500}>
-                About
-              </Text>
-            </Styles.IconContainer>
-            <Text variant="body" sx={{ textAlign: 'left', display: 'block' }}>
-              {description}
-            </Text>
-          </Box>
+          </Styles.IconContainer>
+          <Text variant="body" sx={{ textAlign: 'left', display: 'block' }}>
+            {description}
+          </Text>
         </Styles.DetailsContainer>
       </Styles.AboutContainer>
     </React.Fragment>

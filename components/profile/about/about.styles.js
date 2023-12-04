@@ -3,7 +3,6 @@ import { FlexContainer } from '@/components/UI';
 
 export const AboutContainer = styled(Box)(({ theme }) => ({
   maxWidth: '400px',
-  height: '450px',
   margin: 'auto',
   backgroundColor: theme.palette.text.primary,
   position: 'relative',
@@ -11,6 +10,12 @@ export const AboutContainer = styled(Box)(({ theme }) => ({
   borderRadius: '10px',
   padding: theme.spacing(2),
   boxShadow: '1px 1px 8px #888888',
+
+  '&::after': {
+    content: '""',
+    display: 'block',
+    height: '70px',
+  },
 
   [theme.breakpoints.down('lg')]: {
     maxWidth: 'none',
@@ -41,10 +46,6 @@ export const AvatarConfirmation = styled(FlexContainer)(({ theme }) => ({
 export const DetailsContainer = styled(Box)(({ theme }) => ({
   textAlign: 'center',
   position: 'relative',
-  top: 80,
+  top: 70,
   padding: theme.spacing(1),
-  [theme.breakpoints.down('lg')]: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
 }));
