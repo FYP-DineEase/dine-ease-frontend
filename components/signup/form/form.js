@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useFormik } from 'formik';
+import { useRouter } from 'next/router';
 
 // Snackbar
 import { enqueueSnackbar } from 'notistack';
@@ -18,6 +19,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 // Styles
+import * as Styles from './form.styles';
 import {
   Box,
   FormControlLabel,
@@ -33,8 +35,6 @@ import {
   FormButton,
   FormContainer,
 } from '@/components/UI';
-import * as Styles from './form.styles';
-import { useRouter } from 'next/router';
 
 const SignupForm = () => {
   const router = useRouter();
