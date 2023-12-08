@@ -17,9 +17,11 @@ import BadgeIcon from '@mui/icons-material/EmojiEvents';
 import PollIcon from '@mui/icons-material/Poll';
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
+import RestaurantIcon from '@mui/icons-material/Restaurant';
 
 // Custom Hook
 import { useOnScreen } from '@/hooks/useOnScreen';
+import RestaurantCard from '../restaurant-card/restaurant-card';
 
 const Navigation = () => {
   const [value, setValue] = useState(0);
@@ -65,6 +67,12 @@ const Navigation = () => {
           <Text variant="subHeader">Currently No Badges</Text>
         </FlexContainer>
       ),
+    },
+    {
+      value: 'Restaurants',
+      icon: <RestaurantIcon fontSize="medium" />,
+      label: 'Restaurants',
+      childComponent: <RestaurantCard />,
     },
   ];
 

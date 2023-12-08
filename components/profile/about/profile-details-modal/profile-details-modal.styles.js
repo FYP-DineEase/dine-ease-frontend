@@ -1,5 +1,5 @@
 import { styled } from '@mui/material';
-import { ModalContent } from '@/components/UI';
+import { FlexContainer, ModalContent } from '@/components/UI';
 
 export const ModalContainer = styled(ModalContent)(({ theme }) => ({
   display: 'flex',
@@ -9,4 +9,17 @@ export const ModalContainer = styled(ModalContent)(({ theme }) => ({
   backgroundColor: theme.palette.text.primary,
   border: 'none',
   gap: theme.spacing(2),
+  minWidth: '300px',
+
+  [theme.breakpoints.down('md')]: {
+    padding: theme.spacing(2),
+  },
+}));
+
+export const NameContainer = styled(FlexContainer)(({ theme }) => ({
+  gap: theme.spacing(2),
+  width: '100%',
+  [theme.breakpoints.down('md')]: {
+    flexDirection: 'column',
+  },
 }));

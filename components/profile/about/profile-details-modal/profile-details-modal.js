@@ -8,7 +8,7 @@ import { profileSchema } from '@/utils/validation-schema/profile';
 //Styles
 import * as Styles from './profile-details-modal.styles';
 import { IconButton, Modal } from '@mui/material';
-import { FlexContainer, InputField, PrimaryButton, Text } from '@/components/UI';
+import { InputField, PrimaryButton, Text } from '@/components/UI';
 
 //Icons
 import CloseIcon from '@mui/icons-material/Close';
@@ -46,7 +46,7 @@ const ProfileDetailsModal = ({ showModal, handleShowModal }) => {
         <Text variant="subHeader" fontWeight={800} mb={1.5}>
           Update Profile
         </Text>
-        <FlexContainer gap={2}>
+        <Styles.NameContainer>
           <InputField
             name="firstName"
             label="First Name"
@@ -69,7 +69,7 @@ const ProfileDetailsModal = ({ showModal, handleShowModal }) => {
             error={formik.errors.lastName && Boolean(formik.touched.lastName)}
             helperText={formik.touched.lastName && formik.errors.lastName}
           />
-        </FlexContainer>
+        </Styles.NameContainer>
         <InputField
           name="description"
           label="Description"
