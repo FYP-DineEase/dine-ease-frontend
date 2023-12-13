@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React from 'react';
 import { useFormik } from 'formik';
 
 // Styles
@@ -21,10 +21,10 @@ import {
   InputLabel,
   MenuItem,
 } from '@mui/material';
-import { StyledPhoneInput } from './form.styles';
 
 // Utils
 import { restaurantDetailsSchema } from '@/utils/validation-schema/restaurant-listing/restaurant-details';
+import { PhoneInputCustom } from '@/utils/phone-input';
 
 import LocationForm from '../location-form/form';
 
@@ -40,20 +40,6 @@ const names = [
   'Virginia Andrews',
   'Kelly Snyder',
 ];
-
-const PhoneInputCustom = forwardRef(function NumericFormatCustom(props, ref) {
-  const { onChange, onBlur, ...other } = props;
-
-  return (
-    <StyledPhoneInput
-      {...other}
-      containerClass={`react-phone-number`}
-      onChange={onChange}
-      onBlur={() => onBlur({ target: { name: other.name } })}
-      inputProps={{ ref: ref }}
-    />
-  );
-});
 
 const DetailsForm = ({ activeStep, handleNext, handleBack }) => {
   const formik = useFormik({
