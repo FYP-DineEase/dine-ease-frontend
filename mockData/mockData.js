@@ -500,3 +500,226 @@ export const reviews = [
     createdAt: '25-Sep-2023',
   },
 ];
+
+export const restaurants = [
+  {
+    name: 'The Pizza Hut',
+    cuisine: ['Mexican', 'Italian', 'Chinese', 'Fast Food', 'Sea Food'],
+    menu: [
+      {
+        Appetizer: ['Salad', 'Cheese Sticks'],
+        'Main Course': ['Fried Broast', 'Chicken Burger'],
+        Beverages: ['Pepsi', 'Bounty Shake', 'Lemon Masti'],
+      },
+    ],
+  },
+  {
+    name: 'Sizzling Wok',
+    cuisine: ['Chinese'],
+    menu: [
+      {
+        Appetizer: ['Spring Rolls', 'Wontons'],
+        'Main Course': ['Kung Pao Chicken', 'Pad Thai'],
+        Beverages: ['Green Tea', 'Lychee Punch', 'Mango Lassi'],
+      },
+    ],
+  },
+  {
+    name: 'Mamma Mia Pizzeria',
+    cuisine: ['Italian', 'Fast Food'],
+    menu: [
+      {
+        Appetizer: ['Bruschetta', 'Caprese Salad'],
+        'Main Course': ['Margherita Pizza', 'Pasta Carbonara'],
+        Beverages: ['Red Wine', 'Limoncello'],
+      },
+    ],
+  },
+  {
+    name: 'Dragon Delights',
+    cuisine: ['Chinese', 'Fast Food'],
+    menu: [
+      {
+        Appetizer: ['Edamame', 'Gyoza'],
+        'Main Course': ['Teriyaki Chicken', 'Sushi Platter'],
+        Beverages: ['Green Tea', 'Sake'],
+      },
+    ],
+  },
+  {
+    name: 'Speedy Bites',
+    cuisine: ['Fast Food', 'Italian'],
+    menu: [
+      {
+        Appetizer: ['Mozzarella Sticks', 'Onion Rings'],
+        'Main Course': ['Double Cheeseburger', 'Chicken Nuggets'],
+        Beverages: ['Cola', 'Iced Tea'],
+      },
+    ],
+  },
+  {
+    name: 'Ocean Feast',
+    cuisine: ['Seafood'],
+    menu: [
+      {
+        Appetizer: ['Calamari', 'Shrimp Cocktail'],
+        'Main Course': ['Grilled Salmon', 'Seafood Paella'],
+        Beverages: ['White Wine', 'Sangria'],
+      },
+    ],
+  },
+  {
+    name: 'Taste of Asia',
+    cuisine: ['Chinese'],
+    menu: [
+      {
+        Appetizer: ['Samosa', 'Egg Rolls'],
+        'Main Course': ['Chicken Tikka Masala', 'Sushi Roll Combo'],
+        Beverages: ['Mango Lassi', 'Masala Chai'],
+      },
+    ],
+  },
+  {
+    name: 'Green Garden Cafe',
+    cuisine: ['Mexican'],
+    menu: [
+      {
+        Appetizer: ['Hummus Platter', 'Vegetable Spring Rolls'],
+        'Main Course': ['Quinoa Bowl', 'Stuffed Bell Peppers'],
+        Beverages: ['Detox Smoothie', 'Matcha Latte'],
+      },
+    ],
+  },
+  {
+    name: 'Flavors of Mexico',
+    cuisine: ['Mexican'],
+    menu: [
+      {
+        Appetizer: ['Guacamole', 'Queso Fundido'],
+        'Main Course': ['Tacos Al Pastor', 'Enchiladas'],
+        Beverages: ['Margarita', 'Horchata'],
+      },
+    ],
+  },
+  {
+    name: 'Spice Fusion',
+    cuisine: ['Italian'],
+    menu: [
+      {
+        Appetizer: ['Samosa Chaat', 'Falafel'],
+        'Main Course': ['Butter Chicken', 'Chicken Shawarma'],
+        Beverages: ['Mango Lassi', 'Cardamom Chai'],
+      },
+    ],
+  },
+  {
+    name: 'Burger Haven',
+    cuisine: ['Fast Food', 'American'],
+    menu: [
+      {
+        Appetizer: ['Cheese Fries', 'Onion Rings'],
+        'Main Course': ['Classic Burger', 'BBQ Bacon Burger'],
+        Beverages: ['Root Beer', 'Chocolate Shake'],
+      },
+    ],
+  },
+  {
+    name: 'Noodle Nirvana',
+    cuisine: ['Chinese'],
+    menu: [
+      {
+        Appetizer: ['Potstickers', 'Tom Yum Soup'],
+        'Main Course': ['Chow Mein', 'Udon Noodles'],
+        Beverages: ['Green Tea', 'Thai Iced Tea'],
+      },
+    ],
+  },
+  {
+    name: 'Mediterranean Delights',
+    cuisine: ['Mexican', 'Italian'],
+    menu: [
+      {
+        Appetizer: ['Feta Bruschetta', 'Greek Salad'],
+        'Main Course': ['Moussaka', 'Falafel Wrap'],
+        Beverages: ['Ouzo', 'Pomegranate Juice'],
+      },
+    ],
+  },
+  {
+    name: 'Tandoori Nights',
+    cuisine: ['Italian'],
+    menu: [
+      {
+        Appetizer: ['Chicken Tikka', 'Paneer Tikka'],
+        'Main Course': ['Chicken Biryani', 'Saag Paneer'],
+        Beverages: ['Lassi', 'Mango Lassi'],
+      },
+    ],
+  },
+  {
+    name: 'Sushi Savor',
+    cuisine: ['Italian'],
+    menu: [
+      {
+        Appetizer: ['Edamame', 'Miso Soup'],
+        'Main Course': ['Sashimi Platter', 'Dragon Roll'],
+        Beverages: ['Green Tea', 'Sake'],
+      },
+    ],
+  },
+  {
+    name: 'Tasty Tandoor',
+    cuisine: ['Italian'],
+    menu: [
+      {
+        Appetizer: ['Vegetable Samosa', 'Chicken Seekh Kebab'],
+        'Main Course': ['Chicken Curry', 'Paneer Butter Masala'],
+        Beverages: ['Mango Lassi', 'Masala Chai'],
+      },
+    ],
+  },
+  {
+    name: 'Pasta Paradise',
+    cuisine: ['Italian'],
+    menu: [
+      {
+        Appetizer: ['Garlic Bread', 'Caprese Salad'],
+        'Main Course': ['Spaghetti Bolognese', 'Chicken Alfredo'],
+        Beverages: ['Red Wine', 'Sparkling Water'],
+      },
+    ],
+  },
+  {
+    name: 'Sizzling Szechuan',
+    cuisine: ['Chinese'],
+    menu: [
+      {
+        Appetizer: ['Egg Rolls', 'Hot and Sour Soup'],
+        'Main Course': ['Kung Pao Chicken', 'Beef with Broccoli'],
+        Beverages: ['Jasmine Tea', 'Lychee Lemonade'],
+      },
+    ],
+  },
+  {
+    name: 'Veggie Vibes',
+    cuisine: ['Sea Food'],
+    menu: [
+      {
+        Appetizer: ['Brussels Sprouts Chips', 'Sweet Potato Fries'],
+        'Main Course': ['Quinoa Salad', 'Stuffed Portobello Mushrooms'],
+        Beverages: ['Green Smoothie', 'Coconut Water'],
+      },
+    ],
+  },
+  {
+    name: 'Crispy Crunch',
+    cuisine: ['Fast Food', 'Sea Food'],
+    menu: [
+      {
+        Appetizer: ['Chicken Wings', 'Mozzarella Bites'],
+        'Main Course': ['Crispy Chicken Sandwich', 'BBQ Bacon Fries'],
+        Beverages: ['Cola', 'Root Beer Float'],
+      },
+    ],
+  },
+];
