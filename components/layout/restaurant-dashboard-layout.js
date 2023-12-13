@@ -17,6 +17,7 @@ import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import RestaurantLogo from '../restaurant-dashboard/restaurant-logo/restaurant-logo';
+import ImageIcon from '@mui/icons-material/Image';
 
 const RestaurantDashboardLayout = ({ children }) => {
   const router = useRouter();
@@ -62,6 +63,11 @@ const RestaurantDashboardLayout = ({ children }) => {
       id: 'badges',
       text: 'Badges',
       icon: <LocalPoliceIcon />,
+    },
+    {
+      id: 'restaurant-images',
+      text: 'Restaurant Images',
+      icon: <ImageIcon />,
     },
   ];
 
