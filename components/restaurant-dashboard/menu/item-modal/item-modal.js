@@ -3,13 +3,12 @@ import Image from 'next/image';
 
 //Form
 import { useFormik } from 'formik';
-import { menuItemSchema } from '@/utils/validation-schema/menu-item';
+import { menuItemSchema } from '@/utils/validation-schema/restaurant-menu/menu-item';
 
 //Styles
 import {
   Button,
   Divider,
-  IconButton,
   Input,
   InputAdornment,
   Modal,
@@ -57,10 +56,6 @@ const ItemModal = ({
     validationSchema: menuItemSchema,
     onSubmit: submitHandler,
   });
-
-  // const handleMenuImage = (event) => {
-  //   setMenuImage(URL.createObjectURL(event.target.files[0]));
-  // };
 
   return (
     <Modal open={showModal} onClose={handleShowModal}>
