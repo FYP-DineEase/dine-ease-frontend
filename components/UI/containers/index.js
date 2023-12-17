@@ -37,6 +37,8 @@ export const DashboardContainer = styled(Grid)(({ theme }) => ({
   marginLeft: `calc(${DASHBOARD_DRAWER_FULLWIDTH}px)`,
   width: `calc(100% - ${DASHBOARD_DRAWER_FULLWIDTH}px)`,
   padding: `${theme.spacing(2)} ${theme.spacing(1)}`,
+  height: `calc(100vh - ${NAV_HEIGHT}px)`,
+  overflow: 'auto',
 
   [theme.breakpoints.down('md')]: {
     marginLeft: `calc(${DASHBOARD_DRAWER_RESPONSIVEWIDTH}px)`,
