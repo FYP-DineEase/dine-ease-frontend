@@ -46,12 +46,12 @@ const restaurants = [
   };
 
   return (
-    <Grid container justifyContent="center" spacing={1.5}>
+    <Grid container justifyContent="center" spacing={2}>
       {restaurants.map((restaurant, index) => (
-        <Grid item xs={12} md={8} key={index}>
+        <Grid item xs={12} md={12} key={index}>
           <Card
             sx={{
-              height: '170px',
+              height: '180px',
               display: 'flex',
             }}
           >
