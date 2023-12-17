@@ -501,6 +501,21 @@ export const reviews = [
   },
 ];
 
+export const logs = [
+  {
+    name: 'The Pizza Hut',
+    requestType: 'Modify',
+    status: 'approved',
+    remarks: 'Restaurant was relisted',
+  },
+  {
+    name: 'Kababjees',
+    requestType: 'Listing',
+    status: 'rejected',
+    remarks: 'Tax ID incorrect',
+  },
+];
+
 export const restaurants = [
   {
     name: 'The Pizza Hut',
