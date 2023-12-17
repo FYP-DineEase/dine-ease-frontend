@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import RestaurantContextProvider from '@/context/restaurant-context/restaurant-provider';
 
 //Styles
 import { List, ListItem, ListItemIcon } from '@mui/material';
-import { DrawerIcon, CustomDrawer, DrawerListText, DrawerListButton } from '../UI';
+import {
+  DrawerIcon,
+  CustomDrawer,
+  DrawerListText,
+  DrawerListButton,
+  DrawerListItem,
+} from '../UI';
 
 //Icons
 import SummarizeIcon from '@mui/icons-material/Summarize';
@@ -66,7 +73,7 @@ const RestaurantDashboardLayout = ({ children }) => {
     },
     {
       id: 'restaurant-images',
-      text: 'Restaurant Images',
+      text: 'Images',
       icon: <ImageIcon />,
     },
   ];
@@ -76,7 +83,7 @@ const RestaurantDashboardLayout = ({ children }) => {
   };
 
   return (
-    <React.Fragment>
+    <RestaurantContextProvider>
       <CustomDrawer variant="permanent" open={open} onClose={handleNavDrawer}>
         <DrawerIcon onClick={handleNavDrawer} open={open}>
           {open ? (
@@ -89,7 +96,7 @@ const RestaurantDashboardLayout = ({ children }) => {
         <List>
           {dashboardLinks.map((item, index) => (
             <Link href={`/restaurant/dashboard/${dummyId}/${item.id}`} key={item.id}>
-              <ListItem>
+              <DrawerListItem>
                 <DrawerListButton
                   selected={selectedPage.includes(item.id)}
                   onClick={() => setSelectedPage(item.id)}
@@ -97,7 +104,7 @@ const RestaurantDashboardLayout = ({ children }) => {
                   <ListItemIcon>{item.icon}</ListItemIcon>
                   <DrawerListText primary={item.text} open={open} />
                 </DrawerListButton>
-              </ListItem>
+              </DrawerListItem>
             </Link>
           ))}
         </List>
@@ -115,7 +122,7 @@ const RestaurantDashboardLayout = ({ children }) => {
         </List>
       </CustomDrawer>
       {children}
-    </React.Fragment>
+    </RestaurantContextProvider>
   );
 };
 
