@@ -13,17 +13,18 @@ export const ModalContainer = styled(ModalContent)(({ theme }) => ({
 
   [theme.breakpoints.down('md')]: {
     padding: theme.spacing(2),
+    minWidth: '300px',
   },
 }));
 
 export const ImageListContainer = styled(Box)(({ theme }) => ({
-  maxHeight: '500px',
+  maxHeight: '460px',
   width: '100%',
   overflowY: 'auto',
 }));
 
 export const ImageDeleteIcon = styled(IconButton)(({ theme }) => ({
   position: 'absolute',
-  top: 0,
-  right: 0,
+  top: 5,
+  right: 10,
 }));

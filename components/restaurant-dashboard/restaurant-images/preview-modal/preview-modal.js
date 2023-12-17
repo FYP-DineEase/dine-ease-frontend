@@ -3,11 +3,20 @@ import Image from 'next/image';
 
 //Styles
 import * as Styles from './preview-modal.styles';
-import { Button, ImageList, ImageListItem, Input, Modal } from '@mui/material';
+import {
+  Box,
+  Button,
+  ImageList,
+  ImageListItem,
+  Input,
+  Modal,
+  useMediaQuery,
+} from '@mui/material';
 import { ModalCancelIcon, PrimaryButton, Text } from '@/components/UI';
 
 //Icons
 import CloseIcon from '@mui/icons-material/Close';
+import Delete from '@mui/icons-material/Delete';
 
 const PreviewModal = ({
   showModal,
@@ -17,6 +26,7 @@ const PreviewModal = ({
   previewImageSaveHandler,
   previewImageDeleteHandler,
 }) => {
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
   return (
     <Modal open={showModal} onClose={handleCloseModal}>
       <Styles.ModalContainer>
@@ -28,8 +38,8 @@ const PreviewModal = ({
         </Text>
         <Styles.ImageListContainer>
           <ImageList
-            rowHeight={250}
-            cols={previewImages.length === 1 ? 1 : 2}
+            rowHeight={225}
+            cols={previewImages.length === 1 || isMobile ? 1 : 2}
             variant="quilted"
             gap={10}
           >
@@ -43,28 +53,37 @@ const PreviewModal = ({
                   style={{ objectFit: 'cover' }}
                 />
                 <Styles.ImageDeleteIcon
-                  color="error"
+                  disableRipple
+                  sx={{ backgroundColor: 'red' }}
+                  color="inherit"
                   onClick={() => previewImageDeleteHandler(index)}
                 >
-                  <CloseIcon fontSize="medium" />
+                  <Delete fontSize="medium" sx={{ color: 'text.primary' }} />
                 </Styles.ImageDeleteIcon>
               </ImageListItem>
             ))}
           </ImageList>
         </Styles.ImageListContainer>
-        <Button
-          component="label"
-          variant="contained"
-          onChange={previewImageUploadHandler}
-        >
-          Upload file
-          <Input type="file" inputProps={{ multiple: true }} sx={{ display: 'none' }} />
-        </Button>
-        <PrimaryButton>
-          <Text variant="body" onClick={previewImageSaveHandler}>
-            Save Changes
-          </Text>
-        </PrimaryButton>
+        <Box mt={2}>
+          <Button
+            component="label"
+            variant="outlined"
+            sx={{ mr: 2 }}
+            onChange={previewImageUploadHandler}
+          >
+            <Text variant="sub">Upload file</Text>
+            <Input
+              type="file"
+              inputProps={{ multiple: true, accept: 'image/*' }}
+              sx={{ display: 'none' }}
+            />
+          </Button>
+          <PrimaryButton>
+            <Text variant="sub" onClick={previewImageSaveHandler}>
+              Save Changes
+            </Text>
+          </PrimaryButton>
+        </Box>
       </Styles.ModalContainer>
     </Modal>
   );
