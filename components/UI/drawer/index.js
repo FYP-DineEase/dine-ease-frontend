@@ -1,4 +1,11 @@
-import { Drawer, IconButton, ListItemButton, ListItemText, styled } from '@mui/material';
+import {
+  Drawer,
+  IconButton,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  styled,
+} from '@mui/material';
 
 import {
   DASHBOARD_DRAWER_FULLWIDTH,
@@ -10,8 +17,8 @@ export const CustomDrawer = styled(Drawer)(({ theme, open }) => ({
   '& .MuiDrawer-paper': {
     color: 'black',
     width: `${DASHBOARD_DRAWER_FULLWIDTH}px`,
-    zIndex: 1000,
-    position: 'fixed',
+    zIndex: 500,
+    position: 'absolute',
     marginTop: `${NAV_HEIGHT}px`,
     height: `calc(100% - ${NAV_HEIGHT}px)`,
     boxShadow: '2px 0px 10px lightgrey',
@@ -20,8 +27,14 @@ export const CustomDrawer = styled(Drawer)(({ theme, open }) => ({
 
   [theme.breakpoints.down('md')]: {
     '& .MuiDrawer-paper': {
-      width: open ? `65vw` : `${DASHBOARD_DRAWER_RESPONSIVEWIDTH}px`,
+      width: open ? `60vw` : `${DASHBOARD_DRAWER_RESPONSIVEWIDTH}px`,
       transition: 'all 0.5s',
+    },
+  },
+
+  [theme.breakpoints.down('sm')]: {
+    '& .MuiDrawer-paper': {
+      width: open ? `70vw` : `${DASHBOARD_DRAWER_RESPONSIVEWIDTH}px`,
     },
   },
 }));
@@ -40,6 +53,13 @@ export const DrawerListText = styled(ListItemText)(({ theme, open }) => ({
   textOverflow: 'ellipsis',
   [theme.breakpoints.down('md')]: {
     display: open ? 'block' : 'none',
+  },
+}));
+
+export const DrawerListItem = styled(ListItem)(({ theme }) => ({
+  [theme.breakpoints.down('md')]: {
+    paddingBottom: 0,
+    paddingTop: theme.spacing(0.25),
   },
 }));
 
