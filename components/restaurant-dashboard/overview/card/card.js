@@ -12,27 +12,25 @@ const Cards = () => {
       icon: <Home fontSize="large" />,
       text: 'Reviews',
       content: 120,
-      background: 'linear-gradient(0deg, rgba(112,6,6,0.7) 0%, rgba(152,33,35,0.6) 70%)',
+      background: 'rgba(152,33,35,0.55)',
     },
     {
       icon: <Home fontSize="large" />,
       text: 'Rating',
       content: 3,
-      background:
-        'linear-gradient(0deg, rgba(6,78,112,0.7) 0%, rgba(15,157,226,0.6) 70%)',
+      background: 'rgba(15,157,226,0.55)',
     },
     {
       icon: <Home fontSize="large" />,
       text: 'Reviews',
       content: 120,
-      background: 'linear-gradient(0deg, rgba(11,96,34,0.7) 0%, rgba(20,162,67,0.6) 70%)',
+      background: 'rgba(20,162,67,0.55)',
     },
     {
       icon: <Home fontSize="large" />,
       text: 'Rating',
       content: 5,
-      background:
-        'linear-gradient(0deg, rgba(92,11,101,0.7) 0%, rgba(156,20,162,0.6) 70%)',
+      background: 'rgba(156,20,162,0.55)',
     },
   ];
 
@@ -44,7 +42,7 @@ const Cards = () => {
             sx={{
               background: item.background,
               width: '190px',
-              height: '150px',
+              height: '145px',
             }}
             key={index}
           >
