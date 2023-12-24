@@ -5,4 +5,5 @@ export const PORTS = {
   storage: 3004,
   login: 3005,
   restaurant: 3006,
+  meilisearch: 7700,
 };
