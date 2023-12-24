@@ -86,17 +86,18 @@ const RestaurantImages = () => {
 
   const previewImageUploadHandler = (event) => {
     const selectedImagesFiles = event.target.files;
-    if (validateFiles(selectedImagesFiles)) {
+    try {
+      validateFiles(selectedImagesFiles);
       const selectedImages = Array.from(selectedImagesFiles).map((file) =>
         URL.createObjectURL(file)
       );
       setPreviewImages((prevState) => [...prevState, ...selectedImages]);
       event.target.value = '';
       handleShowPreviewModal();
-    } else {
+    } catch (error) {
       enqueueSnackbar({
         variant: 'error',
-        message: 'Invalid Extension Type',
+        message: error.message,
       });
     }
   };
@@ -198,7 +199,7 @@ const RestaurantImages = () => {
                 cols={isMobile ? 1 : 3}
                 gap={isMobile ? 10 : 20}
                 rowHeight={isMobile ? 200 : 425}
-                sx={{ maxHeight: isMobile ? '400px' : '875px' }}
+                sx={{ maxHeight: isMobile ? '600px' : '875px' }}
               >
                 {images.map((image, index) => (
                   <Styles.StyledImageListItem
@@ -217,13 +218,13 @@ const RestaurantImages = () => {
                 ))}
               </ImageList>
               <Styles.DeletePopper open={selectedImages.length}>
-                <FlexContainer gap={1.5}>
+                <FlexContainer gap={1}>
                   <IconButton onClick={imageResetHandler} color="primary">
                     <Tooltip title="Reset Selected Images" placement="top" arrow>
                       <CloseIcon />
                     </Tooltip>
                   </IconButton>
-                  <Text variant="body">{selectedImages.length} Selected Images</Text>
+                  <Text variant="sub">{selectedImages.length} Selected Images</Text>
                   <IconButton onClick={handleShowDeleteModal} color="error">
                     <Tooltip title="Delete Selected Images" placement="top" arrow>
                       <Delete />

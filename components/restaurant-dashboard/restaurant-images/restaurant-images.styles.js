@@ -1,6 +1,7 @@
+import Image from 'next/image';
+
 import { ImageListItem, styled } from '@mui/material';
 import { DashboardContent, FlexContainer } from '@/components/UI';
-import Image from 'next/image';
 
 export const ImagePlaceHolder = styled(FlexContainer)(({ theme }) => ({
   flexDirection: 'column',
@@ -59,11 +60,18 @@ export const StyledImageListItem = styled(ImageListItem)(({ selected }) => ({
   },
 }));
 
-export const DeletePopper = styled(DashboardContent)(({ open }) => ({
+export const DeletePopper = styled(DashboardContent)(({ theme, open }) => ({
   position: 'absolute',
   bottom: 50,
   left: '55%',
   transform: 'translate(-50%, 0)',
   transition: 'all 0.5s',
   opacity: open ? 1 : 0,
+  backgroundColor: 'white',
+  zIndex: 2000,
+  width: '275px',
+
+  [theme.breakpoints.down('md')]: {
+    width: '225px',
+  },
 }));
