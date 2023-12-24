@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
-import { cuisineTypes } from '@/utils/constants';
+// Styles
+import * as Styles from './search-filters.styles';
 import {
   Box,
   FormControlLabel,
@@ -10,7 +11,12 @@ import {
   RadioGroup,
 } from '@mui/material';
 import { CustomCheckbox, InputField, Text } from '@/components/UI';
+
+// Icons
 import Search from '@mui/icons-material/Search';
+
+// Utils
+import { cuisineTypes } from '@/utils/constants';
 
 const sortBy = ['Top Rated', 'Most Reviewed', 'Recommended'];
 
@@ -22,7 +28,7 @@ const SearchFilters = () => {
   );
 
   return (
-    <Box p={5}>
+    <Styles.FilterContainer>
       <Box>
         <Text variant="main" fontWeight={500}>
           Sort By
@@ -64,7 +70,7 @@ const SearchFilters = () => {
           </FormGroup>
         ))}
       </Box>
-    </Box>
+    </Styles.FilterContainer>
   );
 };
 
