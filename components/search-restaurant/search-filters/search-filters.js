@@ -16,16 +16,27 @@ import { CustomCheckbox, InputField, Text } from '@/components/UI';
 import Search from '@mui/icons-material/Search';
 
 // Utils
-import { cuisineTypes } from '@/utils/constants';
+import { cuisineTypes, sortBy } from '@/utils/constants';
 
-const sortBy = ['Top Rated', 'Most Reviewed', 'Recommended'];
-
-const SearchFilters = () => {
+const SearchFilters = ({
+  sortTypeHandler,
+  cuisineSelectionHandler,
+  selectedCuisines,
+  selectedSortType,
+}) => {
   const [filterText, setFilterText] = useState('');
 
   const filteredCuisines = cuisineTypes.filter((cuisine) =>
     cuisine.toLowerCase().includes(filterText.toLowerCase())
   );
+
+  const cuisineChangeHandler = (cuisine) => {
+    cuisineSelectionHandler(cuisine);
+  };
+
+  const sortChangeHandler = (sortType) => {
+    sortTypeHandler(sortType);
+  };
 
   return (
     <Styles.FilterContainer>
@@ -34,12 +45,17 @@ const SearchFilters = () => {
           Sort By
         </Text>
         <RadioGroup sx={{ mb: 2, mt: 2 }}>
-          {sortBy.map((options, index) => (
+          {Object.entries(sortBy).map(([key, value]) => (
             <FormControlLabel
-              key={index}
-              value={options}
-              control={<Radio />}
-              label={options}
+              key={key}
+              value={key}
+              control={
+                <Radio
+                  checked={selectedSortType === key}
+                  onChange={() => sortChangeHandler(key)}
+                />
+              }
+              label={value}
             />
           ))}
         </RadioGroup>
@@ -66,7 +82,16 @@ const SearchFilters = () => {
         />
         {filteredCuisines.map((cuisine, index) => (
           <FormGroup key={index}>
-            <FormControlLabel control={<CustomCheckbox name="agree" />} label={cuisine} />
+            <FormControlLabel
+              control={
+                <CustomCheckbox
+                  checked={selectedCuisines.includes(cuisine)}
+                  value={cuisine}
+                  onChange={() => cuisineChangeHandler(cuisine)}
+                />
+              }
+              label={cuisine}
+            />
           </FormGroup>
         ))}
       </Box>

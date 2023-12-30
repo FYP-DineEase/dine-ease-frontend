@@ -21,12 +21,28 @@ import Search from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
 
 // Utils
-import { cuisineTypes } from '@/utils/constants';
+import { cuisineTypes, sortBy } from '@/utils/constants';
 
-const sortBy = ['Top Rated', 'Most Reviewed', 'Recommended'];
-
-const FilterDrawer = () => {
+const FilterDrawer = ({
+  sortTypeHandler,
+  cuisineSelectionHandler,
+  selectedCuisines,
+  selectedSortType,
+}) => {
   const [showDrawer, setShowDrawer] = useState(false);
+  const [filterText, setFilterText] = useState('');
+
+  const filteredCuisines = cuisineTypes.filter((cuisine) =>
+    cuisine.toLowerCase().includes(filterText.toLowerCase())
+  );
+
+  const cuisineChangeHandler = (cuisine) => {
+    cuisineSelectionHandler(cuisine);
+  };
+
+  const sortChangeHandler = (sortType) => {
+    sortTypeHandler(sortType);
+  };
 
   const handleNavDrawer = () => {
     setShowDrawer((prevState) => !prevState);
@@ -50,19 +66,24 @@ const FilterDrawer = () => {
                 </Text>
               </Box>
               <RadioGroup sx={{ mb: 2, mt: 2 }}>
-                {sortBy.map((options, index) => (
-                  <ListItemButton sx={{ pl: 2, pt: 0, pb: 0 }} key={options}>
+                {Object.entries(sortBy).map(([key, value]) => (
+                  <ListItemButton sx={{ pl: 2, pt: 0, pb: 0 }} key={key}>
                     <FormControlLabel
-                      key={index}
-                      value={options}
+                      value={key}
                       color="text.secondary"
-                      control={<Radio size="small" />}
+                      control={
+                        <Radio
+                          size="small"
+                          checked={selectedSortType === key}
+                          onChange={() => sortChangeHandler(key)}
+                        />
+                      }
                       sx={{
                         '& .MuiFormControlLabel-label': {
                           color: 'text.secondary',
                         },
                       }}
-                      label={options}
+                      label={value}
                     />
                   </ListItemButton>
                 ))}
@@ -83,8 +104,8 @@ const FilterDrawer = () => {
                 label="Search"
                 variant="outlined"
                 placeholder="Search Reviews"
-                //   onChange={(event) => setFilterText(event.target.value)}
-                //   value={filterText}
+                onChange={(event) => setFilterText(event.target.value)}
+                value={filterText}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -94,11 +115,17 @@ const FilterDrawer = () => {
                 }}
                 sx={{ mb: 1, mt: 2 }}
               />
-              {cuisineTypes.map((cuisine, index) => (
+              {filteredCuisines.map((cuisine, index) => (
                 <ListItemButton sx={{ pl: 2, pt: 0, pb: 0 }} key={cuisine}>
                   <FormGroup key={index}>
                     <FormControlLabel
-                      control={<CustomCheckbox name="agree" />}
+                      control={
+                        <CustomCheckbox
+                          checked={selectedCuisines.includes(cuisine)}
+                          value={cuisine}
+                          onChange={() => cuisineChangeHandler(cuisine)}
+                        />
+                      }
                       label={cuisine}
                       sx={{
                         '& .MuiFormControlLabel-label': {

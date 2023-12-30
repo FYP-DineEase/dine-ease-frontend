@@ -2,8 +2,17 @@ import { Box, styled } from '@mui/material';
 import { FlexContainer } from '@/components/UI';
 
 export const SearchContainer = styled(Box)(({ theme }) => ({
-  paddingTop: theme.spacing(3),
-  paddingLeft: theme.spacing(3),
+  display: 'flex',
+}));
+
+export const Search = styled(Box)(({ theme }) => ({
+  width: '70%',
+  paddingLeft: theme.spacing(2),
+  paddingTop: theme.spacing(2),
+
+  [theme.breakpoints.down('md')]: {
+    width: '100%',
+  },
 }));
 
 export const IconContainer = styled(FlexContainer)(({ theme }) => ({
@@ -35,6 +44,10 @@ export const RestaurantContent = styled(Box)(({ theme }) => ({
   width: '65%',
   paddingRight: theme.spacing(3),
   paddingLeft: theme.spacing(3),
+  [theme.breakpoints.down('md')]: {
+    paddingRight: theme.spacing(1),
+    paddingLeft: theme.spacing(2),
+  },
 }));
 
 export const Cuisines = styled(FlexContainer)(({ theme }) => ({
