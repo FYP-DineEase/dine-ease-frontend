@@ -7,9 +7,9 @@ const port = PORTS[service];
 export const connectToMeilisearch = () => {
   const client = new MeiliSearch({
     host: `http://localhost:${port}`,
-    apiKey: '834efdb6-6044-4b44-8fcb-560710936f36',
+    apiKey: 'cd13d088-21cf-4286-ae61-0643d321dd9e',
     headers: {
-      Authorization: `Bearer 834efdb6-6044-4b44-8fcb-560710936f36`,
+      Authorization: 'Bearer cd13d088-21cf-4286-ae61-0643d321dd9e',
       'Content-Type': 'application/json',
     },
   });
