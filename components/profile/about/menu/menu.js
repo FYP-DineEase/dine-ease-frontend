@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { enqueueSnackbar } from 'notistack';
 import ProfileContext from '@/context/profile-context/profile-context';
 
 // Styles
@@ -11,8 +12,14 @@ import EditIcon from '@mui/icons-material/Edit';
 import SettingsIcon from '@mui/icons-material/Settings';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
-const EditProfileMenu = ({ handleShowModal, handleAvatar }) => {
-  const { profileNewBackgroundHandler } = useContext(ProfileContext);
+// Helpers
+import { validateImage } from '@/helpers/fileHelpers';
+
+// Utils
+import { allowedImageTypes } from '@/utils/constants';
+
+const EditProfileMenu = ({ handleAvatar, openModal }) => {
+  const { newCoverHandler } = useContext(ProfileContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -26,13 +33,25 @@ const EditProfileMenu = ({ handleShowModal, handleAvatar }) => {
   };
 
   const handleBannerImage = (event) => {
-    profileNewBackgroundHandler(URL.createObjectURL(event.target.files[0]));
-    closeMenu();
+    try {
+      const file = event.target.files[0];
+      validateImage(file);
+      newCoverHandler(file);
+      closeMenu();
+    } catch (e) {
+      enqueueSnackbar({ variant: 'error', message: e.message });
+    }
   };
 
-  const handleProfileImage = (event) => {
-    handleAvatar(event.target.files[0]);
-    closeMenu();
+  const handleAvatarChange = (event) => {
+    try {
+      const file = event.target.files[0];
+      validateImage(file);
+      handleAvatar(file);
+      closeMenu();
+    } catch (e) {
+      enqueueSnackbar({ variant: 'error', message: e.message });
+    }
   };
 
   return (
@@ -79,7 +98,7 @@ const EditProfileMenu = ({ handleShowModal, handleAvatar }) => {
       >
         <MenuItem
           onClick={() => {
-            handleShowModal();
+            openModal();
             closeMenu();
           }}
         >
@@ -88,31 +107,33 @@ const EditProfileMenu = ({ handleShowModal, handleAvatar }) => {
             Edit Information
           </Text>
         </MenuItem>
-        <InputLabel htmlFor="profile-image">
+        <InputLabel htmlFor="user-avatar">
           <MenuItem>
             <CameraAltIcon color="primary" fontSize="small" sx={{ mr: 1 }} />
             <Text variant="sub" color="text.secondary">
-              Change Profile Image
+              Change Avatar
             </Text>
           </MenuItem>
           <Input
-            id="profile-image"
+            id="user-avatar"
             type="file"
             sx={{ display: 'none' }}
-            onChange={handleProfileImage}
+            inputProps={{ accept: allowedImageTypes.join(', ') }}
+            onChange={handleAvatarChange}
           />
         </InputLabel>
-        <InputLabel htmlFor="background-image">
+        <InputLabel htmlFor="user-cover">
           <MenuItem>
             <CameraAltIcon color="primary" fontSize="small" sx={{ mr: 1 }} />
             <Text variant="sub" color="text.secondary">
-              Change Background Image
+              Change Cover
             </Text>
           </MenuItem>
           <Input
-            id="background-image"
+            id="user-cover"
             type="file"
             sx={{ display: 'none' }}
+            inputProps={{ accept: allowedImageTypes.join(', ') }}
             onChange={handleBannerImage}
           />
         </InputLabel>

@@ -1,27 +1,61 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
+import { useFormik } from 'formik';
+import { enqueueSnackbar } from 'notistack';
 import ProfileContext from '@/context/profile-context/profile-context';
 
-//Form
-import { useFormik } from 'formik';
+// Services
+import { updateProfileDetails } from '@/services';
+
+// Utils
 import { profileSchema } from '@/utils/validation-schema/profile';
 
-//Styles
-import * as Styles from './profile-details-modal.styles';
+// Helpers
+import { getError } from '@/helpers/snackbarHelpers';
+
+// Styles
+import * as Styles from './details-modal.styles';
 import { IconButton, Modal } from '@mui/material';
 import { InputField, PrimaryButton, Text } from '@/components/UI';
 
-//Icons
+// Icons
 import CloseIcon from '@mui/icons-material/Close';
+import Location from './location/location';
 
-const ProfileDetailsModal = ({ showModal, handleShowModal }) => {
-  const ProfileCtx = useContext(ProfileContext);
-  const { firstName, lastName, description } = ProfileCtx.profileDetails;
+const DetailsModal = ({ showModal, closeModal }) => {
+  const { details, detailsHandler } = useContext(ProfileContext);
+  const { firstName, lastName, description } = details;
+
+  const [location, setLocation] = useState(details.location);
+
+  const updateLocation = (data) => {
+    setLocation(data);
+  };
 
   const submitHandler = async (values) => {
-    formik.setSubmitting(true);
-    ProfileCtx.profileDetailsHandler(values);
-    formik.setSubmitting(false);
-    handleShowModal();
+    try {
+      formik.setSubmitting(true);
+
+      if (location.coordinates) {
+        values.location = location;
+      }
+
+      await updateProfileDetails(values);
+      detailsHandler(values);
+
+      enqueueSnackbar({
+        variant: 'success',
+        message: 'Profile Updated Successfully',
+        onExited: () => closeModal(),
+      });
+    } catch (e) {
+      enqueueSnackbar({
+        variant: 'error',
+        message: getError(e),
+        onExited: () => closeModal(),
+      });
+    } finally {
+      formik.setSubmitting(false);
+    }
   };
 
   const formik = useFormik({
@@ -35,11 +69,11 @@ const ProfileDetailsModal = ({ showModal, handleShowModal }) => {
   });
 
   return (
-    <Modal open={showModal} onClose={handleShowModal}>
+    <Modal open={showModal} onClose={closeModal}>
       <Styles.ModalContainer component="form" onSubmit={formik.handleSubmit}>
         <IconButton
           sx={{ position: 'absolute', top: '10px', right: '10px' }}
-          onClick={handleShowModal}
+          onClick={closeModal}
         >
           <CloseIcon color="secondary" fontSize="medium" />
         </IconButton>
@@ -81,8 +115,10 @@ const ProfileDetailsModal = ({ showModal, handleShowModal }) => {
           error={formik.errors.description && Boolean(formik.touched.description)}
           helperText={formik.touched.description && formik.errors.description}
           multiline
-          rows={4}
+          minRows={2}
+          maxRows={4}
         />
+        <Location location={location} updateLocation={updateLocation} />
         <PrimaryButton type="submit" disabled={formik.isSubmitting}>
           <Text variant="body">Save Changes</Text>
         </PrimaryButton>
@@ -91,4 +127,4 @@ const ProfileDetailsModal = ({ showModal, handleShowModal }) => {
   );
 };
 
-export default ProfileDetailsModal;
+export default DetailsModal;

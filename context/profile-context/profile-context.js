@@ -1,21 +1,25 @@
 import React from 'react';
 
 const ProfileContext = React.createContext({
-  profileDetails: {
-    background: null,
-    newBackground: null,
-    avatar: null,
+  details: {
+    id: null,
     firstName: null,
     lastName: null,
     email: null,
-    location: null,
-    joinDate: null,
+    avatar: null,
+    cover: null,
+    newCover: null,
+    location: {
+      country: null,
+      coordinates: [null, null], // [0] is longitude, [1] is latitude
+    },
     description: null,
+    createdAt: null,
   },
-  profileDetailsHandler: (updatedDetails) => {},
-  profileAvatarHandler: (image) => {},
-  profileBackgroundHandler: (image) => {},
-  profileNewBackgroundHandler: (image) => {},
+  detailsHandler: () => {},
+  avatarHandler: () => {},
+  coverHandler: () => {},
+  newCoverHandler: () => {},
 });
 
 export default ProfileContext;

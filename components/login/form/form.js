@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
 import Link from 'next/link';
+import { userActions } from '@/store/user/userSlice';
 
+// Components
 import ResendModal from '../resend-verification/resend-modal';
 
 // Services
@@ -38,11 +41,12 @@ import {
 
 const LoginForm = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const [remember, setRemember] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
   const [showModal, setShowModal] = useState(false);
+
   const handleShowModal = () => setShowModal((prevState) => !prevState);
 
   const rememberChangeHandler = (event) => {
@@ -52,11 +56,12 @@ const LoginForm = () => {
   const submitHandler = async (values) => {
     try {
       formik.setSubmitting(true);
-      const res = await login(values);
-      console.log(res.data);
+      const response = await login(values);
+      const { details, token } = response.data;
+      dispatch(userActions.login(details));
+      localStorage.setItem('token', token);
       router.push('/', null, { shallow: true });
     } catch (e) {
-      console.log(e);
       if (e.request?.status === 403) {
         handleShowModal();
       } else {

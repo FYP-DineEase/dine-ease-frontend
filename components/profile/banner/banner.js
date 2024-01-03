@@ -1,41 +1,65 @@
 import React, { useContext } from 'react';
 import Image from 'next/image';
+import { enqueueSnackbar } from 'notistack';
+
 import ProfileContext from '@/context/profile-context/profile-context';
 
-//Styles
+// Services
+import { updateProfileImage } from '@/services';
+
+// Styles
 import { Box, Button } from '@mui/material';
 import { Text } from '@/components/UI';
 import { BannerContainer } from './banner.styles';
 
-//Snackbar
-import { enqueueSnackbar } from 'notistack';
-
+// Helpers
+import { getFileUrl } from '@/helpers/fileHelpers';
+import { getError } from '@/helpers/snackbarHelpers';
 
 const Banner = () => {
-  const { profileDetails, profileBackgroundHandler, profileNewBackgroundHandler } =
-    useContext(ProfileContext);
+  const { details, coverHandler, newCoverHandler } = useContext(ProfileContext);
 
-  const { background, newBackground } = profileDetails;
+  const { cover, newCover } = details;
 
-  const handleConfirmBanner = () => {
-    enqueueSnackbar({ variant: 'success', message: 'Banner Updated Successfully!' });
-    profileBackgroundHandler(newBackground);
-    profileNewBackgroundHandler(null);
+  const handleConfirmBanner = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('type', 'cover');
+      formData.append('file', newCover);
+
+      const response = await updateProfileImage(formData);
+      coverHandler(response.data);
+
+      enqueueSnackbar({
+        variant: 'success',
+        message: 'Cover Updated Successfully!',
+      });
+    } catch (e) {
+      enqueueSnackbar({ variant: 'error', message: getError(e) });
+    }
   };
+
   const handleCancelBanner = () => {
-    profileNewBackgroundHandler(null);
+    newCoverHandler(null);
   };
 
   return (
     <BannerContainer>
       <Image
-        src={newBackground || background}
+        src={
+          (newCover && URL.createObjectURL(newCover)) ||
+          (cover &&
+            getFileUrl(
+              process.env.NEXT_PUBLIC_USER_BUCKET,
+              `${details.id}/cover/${cover}`
+            ))
+        }
         fill={true}
         objectFit="cover"
-        alt="profile-background"
+        alt="User Cover"
       />
       <Box sx={{ position: 'absolute', top: 15, right: 15 }}>
-        {newBackground && (
+        {newCover && (
           <React.Fragment>
             <Button
               variant="contained"

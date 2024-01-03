@@ -22,12 +22,11 @@ const Verification = () => {
   };
 
   useEffect(() => {
-    console.log('hello');
     if (!router.isReady) return;
     if (!token) {
-      navigateToLogin();
+      navigateToLogin()
       return;
-    }
+    };
 
     (async () => {
       try {
@@ -38,7 +37,7 @@ const Verification = () => {
           onExited: navigateToLogin,
         });
       } catch (e) {
-        enqueueSnackbar({ variant: 'error', message: getError(e) });
+        enqueueSnackbar({ variant: 'error', message: getError(e),  onExited: navigateToLogin });
       }
     })();
 

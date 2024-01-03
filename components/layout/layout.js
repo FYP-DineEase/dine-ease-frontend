@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Navbar from '../navbar/navbar';
 import Footer from '../footer/footer';
-import { getUser } from '@/store/auth/authActions';
+import { getUser } from '@/store/user/userActions';
 
 // Styles
 import { useMediaQuery } from '@mui/material';
@@ -31,7 +31,7 @@ const Layout = ({ children }) => {
         }}
         anchorOrigin={{
           vertical: 'top',
-          horizontal: isMobile ? 'center' : 'center',
+          horizontal: isMobile ? 'center' : 'right',
         }}
       >
         <Navbar />

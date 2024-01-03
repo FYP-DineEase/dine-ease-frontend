@@ -51,7 +51,7 @@ const SignupForm = () => {
         variant: 'success',
         message: res.data,
         onExited: () =>
-          router.push(`/confirmation?email=${data.email}`, null, { shallow: true }),
+          router.push(`/email-confirmation?email=${data.email}`, null, { shallow: true }),
       });
     } catch (e) {
       enqueueSnackbar({ variant: 'error', message: getError(e) });

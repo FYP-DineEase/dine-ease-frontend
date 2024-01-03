@@ -1,5 +1,4 @@
 import React from 'react';
-import ProfileContextProvider from '@/context/profile-context/profile-provider';
 
 // Components
 import Navigation from './navigation/navigation';
@@ -12,17 +11,15 @@ import { ProfileContainer } from './profile.styles';
 
 const Profile = () => {
   return (
-    <ProfileContextProvider>
-      <ProfileContainer>
-        <Banner />
-        <Grid container spacing={1}>
-          <Grid item xs={12} lg={3} sx={{ display: { xs: "none", lg: "block" } }}>
-            <About />
-          </Grid>
-          <Navigation />
+    <ProfileContainer>
+      <Banner />
+      <Grid container spacing={1}>
+        <Grid item xs={12} lg={3} sx={{ display: { xs: 'none', lg: 'block' } }}>
+          <About />
         </Grid>
-      </ProfileContainer>
-    </ProfileContextProvider>
+        <Navigation />
+      </Grid>
+    </ProfileContainer>
   );
 };
 

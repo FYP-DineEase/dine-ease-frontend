@@ -20,12 +20,12 @@ const EmailConfirmation = () => {
           alt="login-image"
         />
       </Grid>
-      <Grid item xs={12} sx={{ textAlign: 'center' }}>
+      <Grid item xs={12} sx={{ textAlign: 'center', mb: 1 }}>
         <Text variant="header">Email Verification Sent</Text>
       </Grid>
-      <Grid item xs={12} md={6} sx={{ textAlign: 'center' }}>
+      <Grid item xs={12} md={6} sx={{ textAlign: 'center', wordSpacing: 3 }}>
         <Text variant="subHeader">
-          Thank you for registering on DineEase. We have sent email to
+          Welcome to DineEase. We have sent email to
           <Text variant="subHeader" fontWeight={800}>
             &nbsp;{email}&nbsp;
           </Text>
