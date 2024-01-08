@@ -1,4 +1,3 @@
-import { enqueueSnackbar } from 'notistack';
 import { allowedImageTypes, fileSizeAllowed } from '@/utils/constants';
 
 export const getFileUrl = (bucket, key) => {

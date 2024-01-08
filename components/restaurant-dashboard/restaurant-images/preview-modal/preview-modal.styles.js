@@ -20,6 +20,7 @@ export const ModalContainer = styled(ModalContent)(({ theme }) => ({
 export const ImageListContainer = styled(Box)(({ theme }) => ({
   maxHeight: '460px',
   width: '100%',
+  padding: theme.spacing(1),
   overflowY: 'auto',
 }));
 

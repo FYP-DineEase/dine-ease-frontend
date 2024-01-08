@@ -1,5 +1,6 @@
 import React from 'react';
 import { useFormik } from 'formik';
+import { useRouter } from 'next/router';
 
 // Snackbar
 import { enqueueSnackbar } from 'notistack';
@@ -9,12 +10,14 @@ import { getError } from '@/helpers/snackbarHelpers';
 import { forgotPassword } from '@/services';
 
 // Utils
-import { emailSchema } from '@/utils/validation-schema/forgot-password';
+import { emailSchema } from '@/utils/validation-schema/auth';
 
 // Styles
 import { Text, InputField, FormContainer, FormButton } from '@/components/UI';
 
-const EmailForm = ({ navigateToLogin }) => {
+const EmailForm = () => {
+  const router = useRouter();
+
   const submitHandler = async (value) => {
     try {
       formik.setSubmitting(true);
@@ -22,7 +25,7 @@ const EmailForm = ({ navigateToLogin }) => {
       enqueueSnackbar({
         variant: 'info',
         message: res.data,
-        onExited: navigateToLogin,
+        onExited: () => router.push(`/login`, null, { shallow: true }),
       });
     } catch (e) {
       enqueueSnackbar({ variant: 'error', message: getError(e) });

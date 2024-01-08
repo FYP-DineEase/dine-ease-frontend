@@ -1,5 +1,5 @@
-import RestaurantDashboardLayout from '@/components/layout/restaurant-dashboard-layout';
 import React from 'react';
+import RestaurantDashboardLayout from '@/components/layout/restaurant-dashboard-layout';
 
 const BadgesPage = () => {
   return <div>Badges</div>;

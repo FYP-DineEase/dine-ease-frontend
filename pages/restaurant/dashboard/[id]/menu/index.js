@@ -1,5 +1,4 @@
 import React from 'react';
-
 import RestaurantDashboardLayout from '@/components/layout/restaurant-dashboard-layout';
 import Menu from '@/components/restaurant-dashboard/menu/menu';
 

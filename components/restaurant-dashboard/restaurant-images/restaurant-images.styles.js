@@ -68,7 +68,7 @@ export const DeletePopper = styled(DashboardContent)(({ theme, open }) => ({
   transition: 'all 0.5s',
   opacity: open ? 1 : 0,
   backgroundColor: 'white',
-  zIndex: 2000,
+  zIndex: 10,
   width: '275px',
 
   [theme.breakpoints.down('md')]: {

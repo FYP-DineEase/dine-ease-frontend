@@ -36,6 +36,7 @@ const ListingConfirmation = ({
     initialValues: {},
     onSubmit: submitHandler,
   });
+
   return (
     activeStep === 3 && (
       <Box component="form" onSubmit={formik.handleSubmit}>

@@ -1,10 +1,9 @@
 import React from 'react';
+import EditDetailsForm from './form/form';
 
 // Styles
 import { Grid } from '@mui/material';
 import { DashboardContainer } from '@/components/UI';
-
-import EditDetailsForm from './form/form';
 
 const EditDetails = () => {
   return (

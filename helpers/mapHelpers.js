@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const baseURL = 'https://api.mapbox.com';
 
-// fetch user location
-export async function fetchUserCountry(long, lat) {
+// fetch location
+export async function fetchCountry(long, lat) {
   const apiUrl = `${baseURL}/search/geocode/v6/reverse?longitude=${long}&latitude=${lat}&access_token=${process.env.NEXT_PUBLIC_MAPBOX_API_TOKEN}`;
 
   const response = await axios.get(apiUrl);

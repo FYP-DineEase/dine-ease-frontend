@@ -23,7 +23,7 @@ import {
 } from '@mui/material';
 
 // Utils
-import { restaurantDetailsSchema } from '@/utils/validation-schema/restaurant-listing/restaurant-details';
+import { restaurantDetailsSchema } from '@/utils/validation-schema/restaurant';
 import { PhoneInputCustom } from '@/utils/phone-input';
 
 import LocationForm from '../location-form/form';
@@ -42,25 +42,38 @@ const names = [
 ];
 
 const DetailsForm = ({ activeStep, handleNext, handleBack }) => {
+  const submitHandler = async (values) => {
+    try {
+      formik.setSubmitting(true);
+      // const {} = values;
+      // await checkRestaurant(values)
+      handleNext();
+    } catch (e) {
+    } finally {
+      formik.setSubmitting(false);
+    }
+  };
+
   const formik = useFormik({
     validateOnMount: true,
     initialValues: {
       name: '',
       cuisine: [],
-      contactNumber: '',
+      phoneNumber: '',
       contactAgreement: false,
     },
     validationSchema: restaurantDetailsSchema,
+    onSubmit: submitHandler,
   });
 
-  const contactChangeHandler = (contactNumber) => {
-    formik.setFieldValue('contactNumber', contactNumber);
+  const contactChangeHandler = (phoneNumber) => {
+    formik.setFieldValue('phoneNumber', phoneNumber);
   };
 
   return (
     <React.Fragment>
       {activeStep === 0 && (
-        <FormContainer component="form">
+        <FormContainer component="form" onSubmit={formik.handleSubmit}>
           <Text variant="header" textAlign={'center'} fontWeight={800}>
             Tell us about your Restaurant
           </Text>
@@ -116,13 +129,13 @@ const DetailsForm = ({ activeStep, handleNext, handleBack }) => {
             )}
           </FormControl>
           <InputField
-            name="contactNumber"
+            name="phoneNumber"
             variant="outlined"
             onChange={contactChangeHandler}
             onBlur={formik.handleBlur}
-            value={formik.values.contactNumber}
-            error={formik.errors.contactNumber && Boolean(formik.touched.contactNumber)}
-            helperText={formik.touched.contactNumber && formik.errors.contactNumber}
+            value={formik.values.phoneNumber}
+            error={formik.errors.phoneNumber && Boolean(formik.touched.phoneNumber)}
+            helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
             InputProps={{
               inputComponent: PhoneInputCustom,
             }}
@@ -144,7 +157,10 @@ const DetailsForm = ({ activeStep, handleNext, handleBack }) => {
             <Button variant="outlined" onClick={handleBack} disabled={true}>
               <Text variant="body">Back</Text>
             </Button>
-            <PrimaryButton onClick={handleNext} disabled={!formik.isValid}>
+            <PrimaryButton
+              type="submit"
+              disabled={formik.isSubmitting || !formik.values.contactAgreement}
+            >
               <Text variant="body">Next</Text>
             </PrimaryButton>
           </FlexContainer>

@@ -21,7 +21,7 @@ import {
 } from '@mui/material';
 
 // Utils
-import { restaurantLeglitiesSchema } from '@/utils/validation-schema/restaurant-listing/restaurant-legalities';
+import { restaurantLeglitiesSchema } from '@/utils/validation-schema/restaurant';
 
 import ListingConfirmation from '@/components/listing-confirmation/listing-confirmation';
 

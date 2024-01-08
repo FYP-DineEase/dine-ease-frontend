@@ -12,7 +12,7 @@ import { login } from '@/services';
 
 // Form
 import { useFormik } from 'formik';
-import { loginSchema } from '@/utils/validation-schema/login';
+import { loginSchema } from '@/utils/validation-schema/auth';
 
 // Snackbar
 import { enqueueSnackbar } from 'notistack';

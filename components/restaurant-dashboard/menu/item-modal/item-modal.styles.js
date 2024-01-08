@@ -9,8 +9,8 @@ export const ModalContainer = styled(ModalContent)(({ theme }) => ({
   backgroundColor: theme.palette.text.primary,
   border: 'none',
   width: '650px',
+  gap: theme.spacing(3),
 
-  gap: theme.spacing(3.5),
   [theme.breakpoints.down('md')]: {
     width: 'auto',
     gap: theme.spacing(2),
@@ -20,7 +20,8 @@ export const ModalContainer = styled(ModalContent)(({ theme }) => ({
 
 export const ItemDetails = styled(Box)(({ theme }) => ({
   display: 'flex',
-  gap: theme.spacing(3.5),
+  width: "100%",
+  gap: theme.spacing(3),
   [theme.breakpoints.down('md')]: {
     flexDirection: 'column',
     gap: theme.spacing(2),

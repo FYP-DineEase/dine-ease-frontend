@@ -1,7 +1,9 @@
 import React from 'react';
 import Image from 'next/image';
+import { enqueueSnackbar } from 'notistack';
+import { useRestaurantContext } from '@/context/restaurant-context';
 
-//Styles
+// Styles
 import * as Styles from './preview-modal.styles';
 import {
   Box,
@@ -14,23 +16,49 @@ import {
 } from '@mui/material';
 import { ModalCancelIcon, PrimaryButton, Text } from '@/components/UI';
 
-//Icons
+// Icons
 import CloseIcon from '@mui/icons-material/Close';
 import Delete from '@mui/icons-material/Delete';
 
-const PreviewModal = ({
-  showModal,
-  handleCloseModal,
-  previewImages,
-  previewImageUploadHandler,
-  previewImageSaveHandler,
-  previewImageDeleteHandler,
-}) => {
+// Services
+import { uploadRestaurantImages } from '@/services';
+
+// Helpers
+import { getError } from '@/helpers/snackbarHelpers';
+
+// Utils
+import { allowedImageTypes } from '@/utils/constants';
+
+const PreviewModal = ({ images, setImages, imageChangeHandler }) => {
+  const { details, detailsHandler } = useRestaurantContext();
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
+
+  const deleteImageHandler = (index) => {
+    setImages((prevImages) => {
+      prevImages.splice(index, 1);
+      return prevImages.slice();
+    });
+  };
+
+  const uploadImageHandler = async () => {
+    try {
+      const formData = new FormData();
+      images.forEach((image) => {
+        formData.append('files', image);
+      });
+      const res = await uploadRestaurantImages(details.id, formData);
+      setImages([]);
+      detailsHandler({ images: res.data });
+      enqueueSnackbar({ variant: 'success', message: 'Image(s) uploaded successfully' });
+    } catch (e) {
+      enqueueSnackbar({ variant: 'error', message: getError(e) });
+    }
+  };
+
   return (
-    <Modal open={showModal} onClose={handleCloseModal}>
+    <Modal open={images.length > 0} onClose={() => setImages([])}>
       <Styles.ModalContainer>
-        <ModalCancelIcon onClick={handleCloseModal}>
+        <ModalCancelIcon onClick={() => setImages([])}>
           <CloseIcon color="secondary" fontSize="medium" />
         </ModalCancelIcon>
         <Text variant="subHeader" fontWeight={800} mb={1.5}>
@@ -38,25 +66,25 @@ const PreviewModal = ({
         </Text>
         <Styles.ImageListContainer>
           <ImageList
-            rowHeight={225}
-            cols={previewImages.length === 1 || isMobile ? 1 : 2}
+            rowHeight={images.length === 1 ? 400 : 300}
+            cols={images.length === 1 || isMobile ? 1 : 2}
             variant="quilted"
             gap={10}
           >
-            {previewImages.map((image, index) => (
+            {images.map((image, index) => (
               <ImageListItem key={index}>
                 <Image
-                  src={image}
-                  alt="review-image"
+                  src={URL.createObjectURL(image)}
+                  alt="preview-image"
                   fill
                   sizes="100vw"
-                  style={{ objectFit: 'cover' }}
+                  style={{ objectFit: 'cover', borderRadius: '5px' }}
                 />
                 <Styles.ImageDeleteIcon
                   disableRipple
                   sx={{ backgroundColor: 'red' }}
                   color="inherit"
-                  onClick={() => previewImageDeleteHandler(index)}
+                  onClick={() => deleteImageHandler(index)}
                 >
                   <Delete fontSize="medium" sx={{ color: 'text.primary' }} />
                 </Styles.ImageDeleteIcon>
@@ -69,17 +97,17 @@ const PreviewModal = ({
             component="label"
             variant="outlined"
             sx={{ mr: 2 }}
-            onChange={previewImageUploadHandler}
+            onChange={imageChangeHandler}
           >
             <Text variant="sub">Upload file</Text>
             <Input
               type="file"
-              inputProps={{ multiple: true, accept: 'image/*' }}
+              inputProps={{ multiple: true, accept: allowedImageTypes.join(', ') }}
               sx={{ display: 'none' }}
             />
           </Button>
-          <PrimaryButton>
-            <Text variant="sub" onClick={previewImageSaveHandler}>
+          <PrimaryButton disabled={images.length === 0}>
+            <Text variant="sub" onClick={uploadImageHandler}>
               Save Changes
             </Text>
           </PrimaryButton>

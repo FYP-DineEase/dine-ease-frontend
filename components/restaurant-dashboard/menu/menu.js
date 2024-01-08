@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 
-//Styles
+// Components
+import MenuItems from './menu-items/menu-items';
+
+// Styles
 import { Grid, Accordion, AccordionSummary, IconButton, Box } from '@mui/material';
 import { DashboardContainer, DashboardContent, Text } from '@/components/UI';
+
+// Icons
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import MenuItems from './menu-items/menu-items';
-import menuData from '@/mockData/menu';
+// Utils
+import { MenuCategory } from '@/utils/constants';
 
 const Menu = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(Object.keys(MenuCategory)[0]);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setOpen(isExpanded ? panel : false);
@@ -24,7 +29,7 @@ const Menu = () => {
               Restaurant Menu
             </Text>
           </Box>
-          {Object.entries(menuData).map(([key, value]) => (
+          {Object.entries(MenuCategory).map(([key, value]) => (
             <Accordion key={key} expanded={open === key} onChange={handleChange(key)}>
               <AccordionSummary
                 expandIcon={
@@ -34,10 +39,10 @@ const Menu = () => {
                 }
               >
                 <Text variant="subHeader" color="text.secondary" fontWeight={500}>
-                  {key}
+                  {value.text}
                 </Text>
               </AccordionSummary>
-              <MenuItems key={key} value={value} />
+              <MenuItems key={key} category={value.category} />
             </Accordion>
           ))}
         </DashboardContent>

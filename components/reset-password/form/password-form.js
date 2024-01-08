@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
+import { useRouter } from 'next/router';
 
 // Services
 import { updatePassword } from '@/services';
@@ -9,7 +10,7 @@ import { enqueueSnackbar } from 'notistack';
 import { getError } from '@/helpers/snackbarHelpers';
 
 // Utils
-import { passwordResetSchema } from '@/utils/validation-schema/forgot-password';
+import { passwordResetSchema } from '@/utils/validation-schema/auth';
 
 // Icons
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -19,7 +20,8 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { IconButton, InputAdornment } from '@mui/material';
 import { Text, InputField, FormContainer, FormButton } from '@/components/UI';
 
-const PasswordForm = ({ token, navigateToLogin }) => {
+const PasswordForm = ({ token }) => {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
 
   const submitHandler = async (values) => {
@@ -30,7 +32,7 @@ const PasswordForm = ({ token, navigateToLogin }) => {
       enqueueSnackbar({
         variant: 'success',
         message: res.data,
-        onExited: navigateToLogin,
+        onExited: () => router.push(`/login`, null, { shallow: true }),
       });
     } catch (e) {
       enqueueSnackbar({ variant: 'error', message: getError(e) });

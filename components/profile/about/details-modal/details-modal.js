@@ -1,7 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import { enqueueSnackbar } from 'notistack';
-import ProfileContext from '@/context/profile-context/profile-context';
+import { useProfileContext } from '@/context/profile-context';
 
 // Services
 import { updateProfileDetails } from '@/services';
@@ -22,7 +22,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Location from './location/location';
 
 const DetailsModal = ({ showModal, closeModal }) => {
-  const { details, detailsHandler } = useContext(ProfileContext);
+  const { details, detailsHandler } = useProfileContext();
   const { firstName, lastName, description } = details;
 
   const [location, setLocation] = useState(details.location);
@@ -45,7 +45,7 @@ const DetailsModal = ({ showModal, closeModal }) => {
       enqueueSnackbar({
         variant: 'success',
         message: 'Profile Updated Successfully',
-        onExited: () => closeModal(),
+        onEnter: () => closeModal(),
       });
     } catch (e) {
       enqueueSnackbar({

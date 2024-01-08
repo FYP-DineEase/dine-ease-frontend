@@ -13,7 +13,7 @@ import {
 import { Button, FormControl, InputLabel, MenuItem } from '@mui/material';
 
 // Utils
-import { restaurantLocationSchema } from '@/utils/validation-schema/restaurant-listing/restaurant-location';
+import { restaurantLocationSchema } from '@/utils/validation-schema/restaurant';
 
 import LegalitiesForm from '../legalities-form/form';
 

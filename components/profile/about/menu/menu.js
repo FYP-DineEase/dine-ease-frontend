@@ -1,6 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { enqueueSnackbar } from 'notistack';
-import ProfileContext from '@/context/profile-context/profile-context';
+import { useProfileContext } from '@/context/profile-context';
 
 // Styles
 import { Menu, MenuItem, Fade, InputLabel, Input, IconButton } from '@mui/material';
@@ -19,7 +19,7 @@ import { validateImage } from '@/helpers/fileHelpers';
 import { allowedImageTypes } from '@/utils/constants';
 
 const EditProfileMenu = ({ handleAvatar, openModal }) => {
-  const { newCoverHandler } = useContext(ProfileContext);
+  const { detailsHandler } = useProfileContext();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -36,7 +36,7 @@ const EditProfileMenu = ({ handleAvatar, openModal }) => {
     try {
       const file = event.target.files[0];
       validateImage(file);
-      newCoverHandler(file);
+      detailsHandler({ newCover: file });
       closeMenu();
     } catch (e) {
       enqueueSnackbar({ variant: 'error', message: e.message });

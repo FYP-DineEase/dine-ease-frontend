@@ -1,16 +1,15 @@
 import React from 'react';
 import Image from 'next/image';
-
-//Form
 import { useFormik } from 'formik';
-import { menuItemSchema } from '@/utils/validation-schema/restaurant-menu/menu-item';
+import { enqueueSnackbar } from 'notistack';
 
-//Styles
+// Styles
 import {
   Button,
   Divider,
   Input,
   InputAdornment,
+  InputLabel,
   Modal,
   useMediaQuery,
 } from '@mui/material';
@@ -23,54 +22,77 @@ import {
   Text,
 } from '@/components/UI';
 
-//Icons
+// Icons
 import CloseIcon from '@mui/icons-material/Close';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
+// Services
+import { addMenuItem, updateMenuItem } from '@/services';
+
+// Assets
 import userImage from '@/public/assets/images/avatar.jpg';
+
+// Utils
+import { allowedImageTypes } from '@/utils/constants';
+import { menuItemSchema } from '@/utils/validation-schema/restaurant';
+
+// Helpers
+import { getError } from '@/helpers/snackbarHelpers';
 
 const ItemModal = ({
   showModal,
+  setShowModal,
   valuesSubmitHandler,
-  handleShowModal,
-  itemDetails,
+  itemDetails = {},
   headerTitle,
 }) => {
-  const { name, price, description, image } = itemDetails;
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
   const submitHandler = async (values) => {
-    formik.setSubmitting(true);
-    formik.setSubmitting(false);
-    valuesSubmitHandler(values);
-    handleShowModal();
+    try {
+      formik.setSubmitting(true);
+
+      // if(itemDetails) {
+      //   await addMenuItem(itemDetails)
+      // } else {
+      //   await updateMenuItem(itemDetails)
+      // }
+
+      valuesSubmitHandler(values);
+      setShowModal(false);
+    } catch (e) {
+      enqueueSnackbar({ variant: 'error', message: getError(e) });
+    } finally {
+      formik.setSubmitting(false);
+    }
   };
 
   const formik = useFormik({
     initialValues: {
-      name: name || '',
-      price: price || 0,
-      description: description || '',
-      image: image || userImage,
+      name: itemDetails.name || 'item1',
+      price: itemDetails.price || 10,
+      description: itemDetails.description || 'This is a dummy description of an item',
+      image: itemDetails.image || '',
     },
     validationSchema: menuItemSchema,
     onSubmit: submitHandler,
   });
 
   return (
-    <Modal open={showModal} onClose={handleShowModal}>
+    <Modal open={showModal} onClose={() => setShowModal(false)}>
       <Styles.ModalContainer component="form" onSubmit={formik.handleSubmit}>
-        <ModalCancelIcon onClick={handleShowModal}>
+        <ModalCancelIcon onClick={() => setShowModal(false)}>
           <CloseIcon color="secondary" fontSize="medium" />
         </ModalCancelIcon>
         <Text variant="subHeader" fontWeight={800}>
           {headerTitle}
         </Text>
         <Styles.ItemDetails>
-          <FlexContainer gap={2} flexDirection="column">
+          <FlexContainer gap={2} flexDirection="column" width={'100%'}>
             <InputField
               name="name"
               label="Name"
+              fullWidth
               variant="outlined"
               placeholder="Enter Name"
               value={formik.values.name}
@@ -104,7 +126,7 @@ const ItemModal = ({
               error={formik.errors.description && Boolean(formik.touched.description)}
               helperText={formik.touched.description && formik.errors.description}
               multiline
-              rows={2}
+              rows={3}
             />
           </FlexContainer>
           <Divider
@@ -112,25 +134,42 @@ const ItemModal = ({
             variant="middle"
             flexItem
           />
-          <FlexContainer gap={2} flexDirection="column">
+          <FlexContainer gap={1} flexDirection="column">
             <Image
-              src={formik.values.image}
+              src={
+                formik.values.image ? URL.createObjectURL(formik.values.image) : userImage
+              }
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              alt={name || 'menu-item'}
-              height={200}
-              width={250}
-              style={{ borderRadius: '3px' }}
+              alt={'menu-item'}
+              height={230}
+              width={230}
+              style={{ borderRadius: '5px' }}
             />
-            <Button variant="outlined" component="label" startIcon={<CameraAltIcon />}>
-              <Text variant="body" color="primary">
-                Change Image
-              </Text>
-              <Input type="file" sx={{ display: 'none' }} />
-            </Button>
+            <InputLabel htmlFor="menu-item-image">
+              <Button variant="outlined" component="label" startIcon={<CameraAltIcon />}>
+                <Text variant="body" color="primary">
+                  Change Image
+                </Text>
+                <Input
+                  id="menu-item-image"
+                  type="file"
+                  sx={{ display: 'none' }}
+                  inputProps={{ accept: allowedImageTypes.join(', ') }}
+                  onChange={(event) => {
+                    if (event.currentTarget.files.length > 0) {
+                      formik.setFieldValue('image', event.currentTarget.files[0]);
+                    }
+                  }}
+                />
+              </Button>
+            </InputLabel>
           </FlexContainer>
         </Styles.ItemDetails>
-        <PrimaryButton type="submit" disabled={formik.isSubmitting}>
+        <PrimaryButton
+          type="submit"
+          disabled={formik.isSubmitting || !formik.values.image}
+        >
           <Text variant="body">Submit</Text>
         </PrimaryButton>
       </Styles.ModalContainer>

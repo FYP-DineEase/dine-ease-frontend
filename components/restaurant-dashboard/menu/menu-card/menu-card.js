@@ -1,17 +1,17 @@
 import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 
-//Styles
+// Styles
 import * as Styles from './menu-card.styles';
 import { Box, Card, CardMedia, IconButton, Tooltip } from '@mui/material';
 import { FlexContainer, Text } from '@/components/UI';
 
-//Icons
+// Icons
 import Delete from '@mui/icons-material/Delete';
 import Edit from '@mui/icons-material/Edit';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 
-//Components
+// Components
 import DeleteModal from '@/components/modal/delete-modal/delete-modal';
 import ItemModal from '../item-modal/item-modal';
 
@@ -23,7 +23,6 @@ const MenuCard = ({ item, itemIndex, handleDelete, handleUpdate }) => {
   const [showItemModal, setShowItemModal] = useState(false);
 
   const handleShowDeleteModal = () => setShowDeleteModal((prevState) => !prevState);
-  const handleShowItemModal = () => setShowItemModal((prevState) => !prevState);
 
   const valuesSubmitHandler = (value) => {
     values.current.name = value.name;
@@ -38,7 +37,7 @@ const MenuCard = ({ item, itemIndex, handleDelete, handleUpdate }) => {
       {showItemModal && (
         <ItemModal
           showModal={showItemModal}
-          handleShowModal={handleShowItemModal}
+          setShowModal={setShowItemModal}
           valuesSubmitHandler={valuesSubmitHandler}
           itemDetails={item}
           headerTitle="Update Item"
@@ -54,13 +53,13 @@ const MenuCard = ({ item, itemIndex, handleDelete, handleUpdate }) => {
       <Card
         sx={{
           width: '220px',
-          height: '275px',
+          height: '300px',
           cursor: 'grab',
         }}
       >
-        <CardMedia sx={{ height: '130px', position: 'relative' }}>
+        <CardMedia sx={{ height: '150px', position: 'relative' }}>
           <Image
-            src={image}
+            src={URL.createObjectURL(image)}
             alt="menu-item"
             sizes="100vw"
             fill
@@ -83,16 +82,16 @@ const MenuCard = ({ item, itemIndex, handleDelete, handleUpdate }) => {
           </Text>
           <FlexContainer sx={{ justifyContent: 'space-between', width: '100%' }}>
             <Text variant="body" fontWeight={500} color="text.secondary">
-              {price}
+              Rs {price}
             </Text>
             <Box>
               <Tooltip title="Edit Details" placement="top" arrow>
-                <IconButton onClick={handleShowItemModal}>
+                <IconButton onClick={() => setShowItemModal(true)}>
                   <Edit fontSize="small" />
                 </IconButton>
               </Tooltip>
               <Tooltip title="Delete Item" placement="top" arrow>
-                <IconButton onClick={handleShowDeleteModal}>
+                <IconButton onClick={() => setShowItemModal(true)}>
                   <Delete fontSize="small" />
                 </IconButton>
               </Tooltip>

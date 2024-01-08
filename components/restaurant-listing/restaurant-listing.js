@@ -20,7 +20,7 @@ const RestaurantListing = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleNext = (event) => {
+  const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
@@ -49,16 +49,18 @@ const RestaurantListing = () => {
           handleBack={handleBack}
         />
       </Grid>
-      {activeStep !== 3 && <FormDivider />}
       {activeStep !== 3 && (
-        <Grid item xs={0} md={6} sx={{ position: 'relative', height: '100%' }}>
-          <Image
-            src={'/assets/images/food.svg'}
-            fill={true}
-            sizes="100vw"
-            alt="listing-image"
-          />
-        </Grid>
+        <React.Fragment>
+          <FormDivider />
+          <Grid item xs={0} md={6} sx={{ position: 'relative', height: '100%' }}>
+            <Image
+              src={'/assets/images/food.svg'}
+              fill={true}
+              sizes="100vw"
+              alt="listing-image"
+            />
+          </Grid>
+        </React.Fragment>
       )}
     </SecondaryContainer>
   );

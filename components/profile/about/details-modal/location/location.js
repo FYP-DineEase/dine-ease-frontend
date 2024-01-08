@@ -1,7 +1,7 @@
-import React, { useContext, useMemo, useCallback, useState, useRef } from 'react';
-import ProfileContext from '@/context/profile-context/profile-context';
+import React, { useMemo, useCallback, useState, useRef } from 'react';
 
 // Map
+import {  } from 'react-map-gl';
 import ReactMapGL, { Marker, NavigationControl } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
@@ -11,10 +11,10 @@ import { Tooltip } from '@mui/material';
 
 // Icons
 import MarkerIcon from '@mui/icons-material/Room';
-import NearMeIcon from '@mui/icons-material/NearMe';
+import MyLocationIcon from '@mui/icons-material/MyLocation';
 
 // Helpers
-import { fetchUserCountry } from '@/helpers/mapHelpers';
+import { fetchCountry } from '@/helpers/mapHelpers';
 
 // Utils
 import { MapZoomLevels } from '@/utils/constants';
@@ -30,8 +30,8 @@ const Location = ({ location, updateLocation }) => {
     () => ({
       latitude,
       longitude,
-      zoom: coordinates ? MapZoomLevels.USER_MAP_ZOOM : 1,
-      minZoom: coordinates ? MapZoomLevels.USER_MAP_ZOOM : 1,
+      zoom: coordinates ? MapZoomLevels.MAP_ZOOM : 1,
+      minZoom: coordinates ? MapZoomLevels.MAP_ZOOM : 1,
     }),
     [coordinates, latitude, longitude]
   );
@@ -46,7 +46,7 @@ const Location = ({ location, updateLocation }) => {
     mapRef.current?.flyTo({
       center: [long, lat],
       duration: 1500,
-      zoom: MapZoomLevels.USER_MAP_ZOOM,
+      zoom: MapZoomLevels.MAP_ZOOM,
     });
   }, []);
 
@@ -61,7 +61,7 @@ const Location = ({ location, updateLocation }) => {
         navigator.geolocation.getCurrentPosition(resolve, reject);
       });
       const { longitude: long, latitude: lat } = position.coords;
-      const loc = await fetchUserCountry(long, lat);
+      const loc = await fetchCountry(long, lat);
       updateLocation(loc);
       flyToLocation(long, lat);
     } catch (error) {
@@ -90,7 +90,7 @@ const Location = ({ location, updateLocation }) => {
 
         <Tooltip title="location" placement="top" arrow>
           <Styles.UserMarkerFinder onClick={locationHandler}>
-            <NearMeIcon />
+            <MyLocationIcon />
           </Styles.UserMarkerFinder>
         </Tooltip>
 

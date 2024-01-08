@@ -1,8 +1,12 @@
 import React, { useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useOnScreen } from '@/hooks/useOnScreen';
+import { selectUserState } from '@/store/user/userSlice';
 
 // Components
 import About from '../about/about';
 import Review from '@/components/reviews/review';
+import RestaurantCard from '../restaurant-card/restaurant-card';
 
 // Styles
 import * as Styles from './navigation.styles';
@@ -19,14 +23,16 @@ import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 
-// Custom Hook
-import { useOnScreen } from '@/hooks/useOnScreen';
-import RestaurantCard from '../restaurant-card/restaurant-card';
+// Utils
+import { UserRoles } from '@/utils/roles';
 
 const Navigation = () => {
-  const [value, setValue] = useState(0);
+  const user = useSelector(selectUserState);
+
   const tabsRef = useRef(null);
   const tabsOnScreen = useOnScreen(tabsRef);
+
+  const [value, setValue] = useState(0);
 
   const tabItems = [
     {
@@ -72,6 +78,7 @@ const Navigation = () => {
       value: 'Restaurants',
       icon: <RestaurantIcon fontSize="medium" />,
       label: 'Restaurants',
+      hide: user.role !== UserRoles.MANAGER.value,
       childComponent: <RestaurantCard />,
     },
   ];
@@ -115,15 +122,18 @@ const Navigation = () => {
               centered
               scrollButtons="auto"
             >
-              {tabItems.map((item) => (
-                <Tab
-                  key={item.value}
-                  icon={item.icon}
-                  iconPosition="start"
-                  label={<Text variant="body">{item.label}</Text>}
-                  sx={{ textTransform: 'none' }}
-                />
-              ))}
+              {tabItems.map(
+                (item) =>
+                  !item.hide && (
+                    <Tab
+                      key={item.value}
+                      icon={item.icon}
+                      iconPosition="start"
+                      label={<Text variant="body">{item.label}</Text>}
+                      sx={{ textTransform: 'none' }}
+                    />
+                  )
+              )}
             </Tabs>
           </Styles.TabsContainer>
           <Box sx={{ mt: 2 }}>{tabItems[value].childComponent}</Box>

@@ -1,19 +1,18 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { ReactSortable } from 'react-sortablejs';
+import { useRestaurantContext } from '@/context/restaurant-context';
 
-//Styles
+// Components
+import ItemModal from '../item-modal/item-modal';
+
+// Styles
 import { Text } from '@/components/UI';
 import { AccordionDetails, Box } from '@mui/material';
 import * as Styles from './menu-items.styles';
 
-//Icons
+// Icons
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import MenuCard from '../menu-card/menu-card';
-
-//Components
-import ItemModal from '../item-modal/item-modal';
-
-//Sortable Library
-import { ReactSortable } from 'react-sortablejs';
 
 const CardWrapper = React.forwardRef((props, ref) => {
   return (
@@ -22,30 +21,33 @@ const CardWrapper = React.forwardRef((props, ref) => {
     </Box>
   );
 });
+CardWrapper.displayName = 'CardWrapper';
 
-const MenuItems = ({ value }) => {
-  const [menu, setMenu] = useState(value);
+const MenuItems = ({ category }) => {
+  const { details } = useRestaurantContext();
+
+  const [menu, setMenu] = useState([]);
   const [showItemModal, setShowItemModal] = useState(false);
+
   const values = useRef({ name: null, description: null, price: null, image: null });
 
-  const handleShowItemModal = () => setShowItemModal((prevState) => !prevState);
+  useEffect(() => {
+    setMenu(details.menu.filter((v) => v.category === category));
+  }, [details.menu, category]);
 
-  const valuesSubmitHandler = (value) => {
-    values.current.name = value.name;
-    values.current.description = value.description;
-    values.current.price = value.price;
-    values.current.image = value.image;
+  const valuesSubmitHandler = (data) => {
+    values.current.name = data.name;
+    values.current.description = data.description;
+    values.current.price = data.price;
+    values.current.image = data.image;
     const newItem = { ...values.current, order: menu.length };
     addMenuItem(newItem);
   };
 
   const handleSort = (event) => {
     const { oldIndex, newIndex } = event;
-
     const updatedMenu = [...menu];
-
     const draggedItemContent = updatedMenu.splice(oldIndex, 1)[0];
-
     updatedMenu.splice(newIndex, 0, draggedItemContent);
 
     updatedMenu.forEach((item, index) => {
@@ -76,9 +78,8 @@ const MenuItems = ({ value }) => {
       {showItemModal && (
         <ItemModal
           showModal={showItemModal}
-          handleShowModal={handleShowItemModal}
+          setShowModal={setShowItemModal}
           valuesSubmitHandler={valuesSubmitHandler}
-          itemDetails={{}}
           headerTitle="Add Item"
         />
       )}
@@ -95,7 +96,7 @@ const MenuItems = ({ value }) => {
           >
             {menu.map((item, itemIndex) => (
               <MenuCard
-                key={item.name}
+                key={itemIndex}
                 item={item}
                 itemIndex={itemIndex}
                 handleDelete={deleteMenuItem}
@@ -103,7 +104,7 @@ const MenuItems = ({ value }) => {
               />
             ))}
           </ReactSortable>
-          <Styles.AddItemPlaceholder onClick={handleShowItemModal}>
+          <Styles.AddItemPlaceholder onClick={() => setShowItemModal(true)}>
             <AddCircleOutlineIcon color="secondary" fontSize="large" />
             <Text variant="subHeader" color="secondary">
               Add Item

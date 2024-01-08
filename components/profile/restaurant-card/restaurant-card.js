@@ -1,5 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { enqueueSnackbar } from 'notistack';
+import image from '@/public/assets/images/avatar.jpg';
+
+// Services
+import { getUserRestaurants } from '@/services';
 
 // Styles
 import * as Styles from './restaurant-card.styles';
@@ -10,38 +15,29 @@ import { PrimaryButton, Text } from '@/components/UI';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import LocationIcon from '@mui/icons-material/LocationOn';
 
-import image from '@/public/assets/images/avatar.jpg';
+// Helpers
+import { getError } from '@/helpers/snackbarHelpers';
 
 const RestaurantCard = () => {
-const restaurants = [
-    {
-      image: image,
-      listStatus: 'approved',
-      featured: false,
-      name: 'The Pizza Hut',
-      cuisine: ['Italian', 'Mexican', 'Chinese', 'Fast Food'],
-      address: 'Plot E-4, Block-B, North Nazimabad / Near Saima Villas',
-    },
-    {
-      image: image,
-      listStatus: 'pending',
-      featured: true,
-      name: 'The Kababjees Restaurant',
-      cuisine: ['Italian', 'Mexican'],
-      address: 'Plot E-4, Block-B, North Nazimabad',
-    },
-    {
-      image: image,
-      listStatus: 'rejected',
-      featured: false,
-      name: 'Pizzeria',
-      cuisine: ['Italian'],
-      address: 'Plot E-4, Block-B',
-    },
-  ];
+  const [restaurants, setRestaurants] = useState([]);
+
+  const fetchUserRestaurants = async () => {
+    try {
+      const response = await getUserRestaurants();
+      console.log(response.data);
+      setRestaurants(response.data);
+    } catch (e) {
+      enqueueSnackbar({ variant: 'error', message: getError(e) });
+    }
+  };
+
+  useEffect(() => {
+    fetchUserRestaurants();
+  }, []);
 
   const statusColors = {
     approved: 'success',
+    pending: 'info',
     rejected: 'error',
   };
 

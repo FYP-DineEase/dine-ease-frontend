@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { enqueueSnackbar } from 'notistack';
-import Profile from '@/components/profile/profile';
-import ProfileProvider from '@/context/profile-context/profile-provider';
+import { ProfileProvider } from '@/context/profile-context';
 import { getAllUserSlugs, getUserBySlug } from '@/services';
+import Profile from '@/components/profile/profile';
 
 function ProfilePage({ user }) {
   const router = useRouter();

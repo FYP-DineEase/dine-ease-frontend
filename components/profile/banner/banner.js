@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import { enqueueSnackbar } from 'notistack';
-
-import ProfileContext from '@/context/profile-context/profile-context';
+import { useProfileContext } from '@/context/profile-context';
 
 // Services
 import { updateProfileImage } from '@/services';
@@ -17,8 +16,7 @@ import { getFileUrl } from '@/helpers/fileHelpers';
 import { getError } from '@/helpers/snackbarHelpers';
 
 const Banner = () => {
-  const { details, coverHandler, newCoverHandler } = useContext(ProfileContext);
-
+  const { details, detailsHandler } = useProfileContext();
   const { cover, newCover } = details;
 
   const handleConfirmBanner = async () => {
@@ -28,7 +26,7 @@ const Banner = () => {
       formData.append('file', newCover);
 
       const response = await updateProfileImage(formData);
-      coverHandler(response.data);
+      detailsHandler({ cover: response.data, newCover: null });
 
       enqueueSnackbar({
         variant: 'success',
@@ -40,7 +38,7 @@ const Banner = () => {
   };
 
   const handleCancelBanner = () => {
-    newCoverHandler(null);
+    detailsHandler({ newCover: null });
   };
 
   return (

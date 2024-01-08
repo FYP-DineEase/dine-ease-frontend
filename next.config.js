@@ -2,7 +2,10 @@
 const nextConfig = {
   reactStrictMode: false,
   images: {
-    domains: ['dine-ease-user.s3.ap-south-1.amazonaws.com'],
+    domains: [
+      `${process.env.NEXT_PUBLIC_USER_BUCKET}.s3.${process.env.NEXT_PUBLIC_S3_REGION}.amazonaws.com`,
+      `${process.env.NEXT_PUBLIC_RESTAURANT_BUCKET}.s3.${process.env.NEXT_PUBLIC_S3_REGION}.amazonaws.com`,
+    ],
   },
   compiler: {
     styledComponents: true,

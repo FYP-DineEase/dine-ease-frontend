@@ -12,7 +12,7 @@ import { signup } from '@/services';
 
 // Utils
 import { UserRoles } from '@/utils/roles';
-import { signupSchema } from '@/utils/validation-schema/signup';
+import { signupSchema } from '@/utils/validation-schema/auth';
 
 // Icons
 import VisibilityIcon from '@mui/icons-material/Visibility';

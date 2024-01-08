@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { selectUserState } from '@/store/user/userSlice';
-import ProfileContext from '@/context/profile-context/profile-context';
+import { useProfileContext } from '@/context/profile-context';
 
 // Components
 import EditProfileMenu from './menu/menu';
@@ -33,7 +33,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 
 const About = () => {
-  const { details, avatarHandler } = useContext(ProfileContext);
+  const { details, detailsHandler } = useProfileContext();
   const user = useSelector(selectUserState);
 
   const [newAvatar, setNewAvatar] = useState(null);
@@ -50,7 +50,7 @@ const About = () => {
       formData.append('file', newAvatar);
 
       const response = await updateProfileImage(formData);
-      avatarHandler(response.data);
+      detailsHandler({ avatar: response.data });
       handleCancelAvatar();
 
       enqueueSnackbar({

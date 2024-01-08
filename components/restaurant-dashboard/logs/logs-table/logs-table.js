@@ -1,31 +1,54 @@
 import React, { useEffect, useMemo, useState } from 'react';
-
 import DataTable from 'react-data-table-component';
+import { enqueueSnackbar } from 'notistack';
+import { useRestaurantContext } from '@/context/restaurant-context';
 
-//Styles
+// Services
+import { getRestaurantRecords } from '@/services';
+
+// Styles
 import { DashboardContent, FlexContainer, InputField } from '@/components/UI';
 import { InputAdornment } from '@mui/material';
 
-//Icons
+// Icons
 import PersonIcon from '@mui/icons-material/Person';
 import StarIcon from '@mui/icons-material/Star';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { Search } from '@mui/icons-material';
 
-import { logs } from '@/mockData/mockData';
+// Helpers
+import { getError } from '@/helpers/snackbarHelpers';
+import { getDate } from '@/helpers/dateHelpers';
 
 const LogsTable = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-
   const [filterText, setFilterText] = useState('');
+
+  const { details } = useRestaurantContext();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        setLoading(true);
+        if (!details.id) return;
+        const response = await getRestaurantRecords(details.id);
+        setData(response.data);
+      } catch (e) {
+        enqueueSnackbar({ variant: 'error', message: getError(e) });
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [details.id]);
 
   const filteredLogs = data.filter(
     (item) =>
-      item.name.toLowerCase().includes(filterText.toLowerCase()) ||
-      item.requestType.toLowerCase().includes(filterText.toLowerCase()) ||
+      item.id.toLowerCase().includes(filterText.toLowerCase()) ||
+      item.type.toLowerCase().includes(filterText.toLowerCase()) ||
       item.status.toLowerCase().includes(filterText.toLowerCase()) ||
-      item.remarks.toString().includes(filterText)
+      (item.remarks && item.remarks.toString().includes(filterText)) ||
+      getDate(item.createdAt).toLowerCase().includes(filterText)
   );
 
   const subHeaderComponentMemo = useMemo(() => {
@@ -34,7 +57,7 @@ const LogsTable = () => {
         name="search"
         label="Search"
         variant="outlined"
-        placeholder="Search Reviews"
+        placeholder="Search"
         onChange={(event) => setFilterText(event.target.value)}
         value={filterText}
         InputProps={{
@@ -54,20 +77,20 @@ const LogsTable = () => {
       name: (
         <FlexContainer gap={0.5}>
           <PersonIcon color="primary" />
-          Restaurant Name
+          Id
         </FlexContainer>
       ),
-      selector: (row) => row.name,
+      selector: (row) => row.id,
       sortable: 'true',
     },
     {
       name: (
         <FlexContainer gap={0.5}>
           <StarIcon color="primary" />
-          Request Type
+          Type
         </FlexContainer>
       ),
-      selector: (row) => row.requestType,
+      selector: (row) => row.type,
       sortable: 'true',
       center: 'true',
     },
@@ -92,19 +115,18 @@ const LogsTable = () => {
       selector: (row) => row.remarks,
       center: 'true',
     },
+    {
+      name: (
+        <FlexContainer gap={0.5}>
+          <CalendarMonthIcon color="primary" />
+          Time
+        </FlexContainer>
+      ),
+      selector: (row) => getDate(row.createdAt),
+      sortable: 'true',
+      center: 'true',
+    },
   ];
-
-  useEffect(() => {
-    setLoading(true);
-    const data = logs.map((log) => ({
-      name: log.name,
-      requestType: log.requestType,
-      status: log.status,
-      remarks: log.remarks,
-    }));
-    setData(data);
-    setLoading(false);
-  }, []);
 
   return (
     <DashboardContent>

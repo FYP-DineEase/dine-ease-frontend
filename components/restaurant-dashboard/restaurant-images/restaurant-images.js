@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { enqueueSnackbar } from 'notistack';
+import { useRestaurantContext } from '@/context/restaurant-context';
 
 // Styles
 import * as Styles from './restaurant-images.styles';
@@ -18,148 +20,97 @@ import {
   useMediaQuery,
 } from '@mui/material';
 
-// Utils
-import { validateFiles } from '@/utils/validateFiles';
-
 // Icons
 import UploadFile from '@mui/icons-material/UploadFile';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import Delete from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
+import Delete from '@mui/icons-material/Delete';
 
-// Snackbar
-import { enqueueSnackbar } from 'notistack';
-
-//Modals
+// Modals
 import PreviewModal from './preview-modal/preview-modal';
 import DeleteModal from '@/components/modal/delete-modal/delete-modal';
 
+// Helpers
+import { getError } from '@/helpers/snackbarHelpers';
+import { getFileUrl, validateImage } from '@/helpers/fileHelpers';
+
+// Utils
+import { allowedImageTypes } from '@/utils/constants';
+
 const RestaurantImages = () => {
-  const [images, setImages] = useState([]);
+  const { details } = useRestaurantContext();
+  const images = details.images;
+
   const [selectedImages, setSelectedImages] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
-  const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
-  const checkImageCount = () => {
-    if (images.length + previewImages.length > 10) {
-      enqueueSnackbar({
-        variant: 'error',
-        message: 'Total 10 Images can be featured at a time',
-      });
-      return false;
-    } else if (previewImages.length === 0) {
-      enqueueSnackbar({
-        variant: 'error',
-        message: 'Upload atleast 1 image',
-      });
-      return false;
-    } else {
-      enqueueSnackbar({
-        variant: 'success',
-        message: 'Restaurant Images Saved!',
-      });
-      return true;
-    }
-  };
-
-  const handleShowDeleteModal = () => {
-    setShowDeleteModal((prevState) => !prevState);
-  };
-
-  const handleShowPreviewModal = () => {
-    setShowPreviewModal(true);
-  };
-
-  const handleClosePreviewModal = () => {
-    setShowPreviewModal(false);
-  };
-
-  const previewImageSaveHandler = () => {
-    if (checkImageCount()) {
-      setImages((prevState) => [...prevState, ...previewImages]);
-      setShowPreviewModal(false);
-      setPreviewImages([]);
-    }
-  };
-
-  const previewImageUploadHandler = (event) => {
-    const selectedImagesFiles = event.target.files;
+  const imageChangeHandler = (event) => {
     try {
-      validateFiles(selectedImagesFiles);
-      const selectedImages = Array.from(selectedImagesFiles).map((file) =>
-        URL.createObjectURL(file)
-      );
-      setPreviewImages((prevState) => [...prevState, ...selectedImages]);
-      event.target.value = '';
-      handleShowPreviewModal();
-    } catch (error) {
-      enqueueSnackbar({
-        variant: 'error',
-        message: error.message,
-      });
+      const newImages = event.target.files;
+      if (images.length + previewImages.length + newImages.length > 10) {
+        throw new Error('Maximum 10 images allowed');
+      }
+      for (const file of newImages) validateImage(file);
+      setPreviewImages((prev) => [...prev, ...newImages]);
+    } catch (e) {
+      enqueueSnackbar({ variant: 'error', message: getError(e) });
     }
-  };
-
-  const previewImageDeleteHandler = (index) => {
-    const duplicatePreviewImages = [...previewImages];
-    duplicatePreviewImages.splice(index, 1);
-    setPreviewImages(duplicatePreviewImages);
   };
 
   const imageSelectionHandler = (index) => {
-    setSelectedImages((prevSelected) => {
-      if (prevSelected.includes(index)) {
-        return prevSelected.filter((prevIndex) => prevIndex !== index);
-      } else {
-        return [...prevSelected, index];
-      }
-    });
-  };
-
-  const imageDeletionHandler = () => {
-    const updatedImages = images.filter(
-      (image, index) => !selectedImages.includes(index)
+    setSelectedImages((prevState) =>
+      prevState.includes(index)
+        ? prevState.filter((prevIndex) => prevIndex !== index)
+        : [...prevState, index]
     );
-    setImages(updatedImages);
-    setSelectedImages([]);
   };
 
-  const imageResetHandler = () => {
+  const filteredImages = () => {
+    const removedImages = [];
+    const updatedImages = images.filter((v, i) => {
+      if (selectedImages.includes(i)) {
+        removedImages.push(v);
+        return false;
+      }
+      return true;
+    });
     setSelectedImages([]);
+    return { updatedImages, removedImages };
   };
 
   return (
     <React.Fragment>
       <PreviewModal
-        showModal={showPreviewModal}
-        handleCloseModal={handleClosePreviewModal}
-        previewImages={previewImages}
-        previewImageSaveHandler={previewImageSaveHandler}
-        previewImageUploadHandler={previewImageUploadHandler}
-        previewImageDeleteHandler={previewImageDeleteHandler}
+        images={previewImages}
+        setImages={setPreviewImages}
+        imageChangeHandler={imageChangeHandler}
       />
       <DeleteModal
-        handleCloseModal={handleShowDeleteModal}
+        handleCloseModal={() => setShowDeleteModal(false)}
         showModal={showDeleteModal}
-        handleDelete={imageDeletionHandler}
+        filteredImages={filteredImages}
       />
       <DashboardContainer container>
         {!images.length ? (
           <Styles.ImagePlaceContainer>
-            <Styles.ImagePlaceHolder
-              component="label"
-              onChange={previewImageUploadHandler}
-            >
+            <Styles.ImagePlaceHolder component="label" onChange={imageChangeHandler}>
               <CloudUploadIcon color="primary" sx={{ fontSize: '5rem' }} />
               <Text variant="main" fontWeight={500}>
                 Upload Your Images By Clicking Here.
               </Text>
-              <Text variant="sub">Supported file types are: JPG, JPEG, PNG</Text>
+              <Text variant="sub" fontWeight={500}>
+                Supported file types are:&nbsp; (
+                {allowedImageTypes
+                  .map((type) => type.split('/')[1].toUpperCase())
+                  .join(' / ')}
+                )
+              </Text>
               <Input
                 type="file"
-                inputProps={{ multiple: true, accept: 'image/*' }}
+                inputProps={{ multiple: true, accept: allowedImageTypes.join(', ') }}
                 sx={{ display: 'none' }}
               />
             </Styles.ImagePlaceHolder>
@@ -174,22 +125,26 @@ const RestaurantImages = () => {
                   Restaurant Images
                 </Text>
                 <Tooltip
-                  open={images.length === 10}
-                  title="Maximum 10 images allowed at a time. Delete some old images to upload new images."
+                  title="Maximum 10 images allowed"
+                  open={true}
                   placement="top"
+                  arrow
                 >
                   <PrimaryButton
                     component="label"
                     variant="contained"
                     startIcon={<UploadFile />}
-                    onChange={previewImageUploadHandler}
+                    onChange={imageChangeHandler}
                     disabled={images.length === 10}
                     sx={{ ml: 'auto' }}
                   >
                     <Text variant="body">Upload file</Text>
                     <Input
                       type="file"
-                      inputProps={{ multiple: true, accept: 'image/*' }}
+                      inputProps={{
+                        multiple: true,
+                        accept: allowedImageTypes.join(', '),
+                      }}
                       sx={{ display: 'none' }}
                     />
                   </PrimaryButton>
@@ -208,8 +163,11 @@ const RestaurantImages = () => {
                     onClick={() => imageSelectionHandler(index)}
                   >
                     <Styles.StyledImage
-                      src={image}
-                      alt="review-image"
+                      src={getFileUrl(
+                        process.env.NEXT_PUBLIC_RESTAURANT_BUCKET,
+                        `${details.id}/images/${image}`
+                      )}
+                      alt="restaurant-image"
                       fill
                       sizes="100vw"
                       selected={+selectedImages.includes(index)}
@@ -219,13 +177,13 @@ const RestaurantImages = () => {
               </ImageList>
               <Styles.DeletePopper open={selectedImages.length}>
                 <FlexContainer gap={1}>
-                  <IconButton onClick={imageResetHandler} color="primary">
+                  <IconButton onClick={() => setSelectedImages([])} color="primary">
                     <Tooltip title="Reset Selected Images" placement="top" arrow>
                       <CloseIcon />
                     </Tooltip>
                   </IconButton>
                   <Text variant="sub">{selectedImages.length} Selected Images</Text>
-                  <IconButton onClick={handleShowDeleteModal} color="error">
+                  <IconButton color="error" onClick={() => setShowDeleteModal(true)}>
                     <Tooltip title="Delete Selected Images" placement="top" arrow>
                       <Delete />
                     </Tooltip>

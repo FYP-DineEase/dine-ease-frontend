@@ -14,17 +14,13 @@ import { SecondaryContainer } from '../UI';
 const ResetPassword = () => {
   const router = useRouter();
 
-  const navigateToLogin = () => {
-    router.push(`/login`, null, { shallow: true });
-  };
-
   return (
     <SecondaryContainer container>
       <Grid item xs={12} md={5}>
         {router.query.token ? (
-          <PasswordForm token={router.query.token} navigateToLogin={navigateToLogin} />
+          <PasswordForm token={router.query.token}  />
         ) : (
-          <EmailForm navigateToLogin={navigateToLogin} />
+          <EmailForm />
         )}
       </Grid>
 
