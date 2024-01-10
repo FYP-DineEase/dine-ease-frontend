@@ -80,4 +80,3 @@ const RestaurantDashboardLayout = ({ children }) => {
 };
 
 export default withAuth(RestaurantDashboardLayout, { roles: [UserRoles.MANAGER] });
-// export default RestaurantDashboardLayout;
