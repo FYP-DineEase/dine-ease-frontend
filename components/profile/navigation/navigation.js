@@ -78,7 +78,7 @@ const Navigation = () => {
       value: 'Restaurants',
       icon: <RestaurantIcon fontSize="medium" />,
       label: 'Restaurants',
-      hide: user.role !== UserRoles.MANAGER.value,
+      hide: user.role !== UserRoles.MANAGER,
       childComponent: <RestaurantCard />,
     },
   ];

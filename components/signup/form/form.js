@@ -17,6 +17,8 @@ import { signupSchema } from '@/utils/validation-schema/auth';
 // Icons
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import UserIcon from '@mui/icons-material/Person';
+import ManagerIcon from '@mui/icons-material/Restaurant';
 
 // Styles
 import * as Styles from './form.styles';
@@ -168,14 +170,15 @@ const SignupForm = () => {
       />
 
       <FlexContainer gap={2}>
-        {Object.values(UserRoles).map((item) => (
+        {Object.values(UserRoles).map((r) => (
           <Styles.RoleItem
-            key={item.value}
-            selected={+role.includes(item.value)}
-            onClick={() => setRole(item.value)}
+            key={r}
+            selected={+role.includes(r)}
+            onClick={() => setRole(r)}
           >
-            {item.icon}
-            <Text variant="sub">{item.value}</Text>
+            {r === UserRoles.USER && <UserIcon />}
+            {r === UserRoles.MANAGER && <ManagerIcon />}
+            <Text variant="sub">{r}</Text>
           </Styles.RoleItem>
         ))}
       </FlexContainer>
