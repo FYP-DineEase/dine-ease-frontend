@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
+import withAuth from '../auth/with-auth';
 import { RestaurantProvider } from '@/context/restaurant-context';
 
 // Styles
@@ -20,6 +21,7 @@ import RestaurantLogo from '../restaurant-dashboard/restaurant-logo/restaurant-l
 
 // Utils
 import { dashboardLinks } from '@/utils/constants';
+import { UserRoles } from '@/utils/roles';
 
 const RestaurantDashboardLayout = ({ children }) => {
   const router = useRouter();
@@ -77,4 +79,5 @@ const RestaurantDashboardLayout = ({ children }) => {
   );
 };
 
-export default RestaurantDashboardLayout;
+export default withAuth(RestaurantDashboardLayout, { roles: [UserRoles.MANAGER] });
+// export default RestaurantDashboardLayout;

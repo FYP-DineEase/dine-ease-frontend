@@ -1,8 +1,6 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
 import Navbar from '../navbar/navbar';
 import Footer from '../footer/footer';
-import { getUser } from '@/store/user/userActions';
 
 // Styles
 import { useMediaQuery } from '@mui/material';
@@ -13,12 +11,7 @@ import { SnackbarProvider } from 'notistack';
 import { StyledMaterialDesignContent } from '../UI';
 
 const Layout = ({ children }) => {
-  const dispatch = useDispatch();
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
-
-  useEffect(() => {
-    dispatch(getUser());
-  }, [dispatch]);
 
   return (
     <React.Fragment>

@@ -19,10 +19,10 @@ const withAuth = (WrappedComponent, options = {}) => {
       checkAuth();
     }, [checkAuth]);
 
-    const getLayout = WrappedComponent.getLayout || ((page) => page);
-    return roles.includes(user.role) ? getLayout(<WrappedComponent {...props} />) : null;
+    return roles.includes(user.role) ? <WrappedComponent {...props} /> : null;
   };
 
+  AuthGuard.getLayout = WrappedComponent.getLayout;
   return AuthGuard;
 };
 
