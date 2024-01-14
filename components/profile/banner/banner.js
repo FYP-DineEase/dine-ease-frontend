@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { enqueueSnackbar } from 'notistack';
 import { useProfileContext } from '@/context/profile-context';
@@ -16,11 +16,13 @@ import { getFileUrl } from '@/helpers/fileHelpers';
 import { getError } from '@/helpers/snackbarHelpers';
 
 const Banner = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { details, detailsHandler } = useProfileContext();
   const { cover, newCover } = details;
 
   const handleConfirmBanner = async () => {
     try {
+      setIsSubmitting(true);
       const formData = new FormData();
       formData.append('type', 'cover');
       formData.append('file', newCover);
@@ -33,6 +35,7 @@ const Banner = () => {
         message: 'Cover Updated Successfully!',
       });
     } catch (e) {
+      setIsSubmitting(false);
       enqueueSnackbar({ variant: 'error', message: getError(e) });
     }
   };
@@ -50,7 +53,8 @@ const Banner = () => {
             getFileUrl(
               process.env.NEXT_PUBLIC_USER_BUCKET,
               `${details.id}/cover/${cover}`
-            ))
+            )) ||
+          '/assets/images/bg-placeholder.jpg'
         }
         fill={true}
         objectFit="cover"
@@ -64,6 +68,7 @@ const Banner = () => {
               color="success"
               sx={{ mr: 1 }}
               onClick={handleConfirmBanner}
+              disabled={isSubmitting}
             >
               <Text variant="body">Save Changes</Text>
             </Button>

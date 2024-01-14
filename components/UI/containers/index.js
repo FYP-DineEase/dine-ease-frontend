@@ -13,7 +13,7 @@ export const FlexContainer = styled(Box)({
 
 export const PageContainer = styled(Box)({
   marginTop: `${NAV_HEIGHT}px`,
-  minHeight: `clamp(600px,100vh - ${NAV_HEIGHT}px,100vh - ${NAV_HEIGHT}px)`,
+  minHeight: `clamp(800px,100vh - ${NAV_HEIGHT}px,100vh - ${NAV_HEIGHT}px)`,
 });
 
 export const SecondaryContainer = styled(Grid)({

@@ -15,7 +15,7 @@ import { Button, FormControl, InputLabel, MenuItem } from '@mui/material';
 // Utils
 import { restaurantLocationSchema } from '@/utils/validation-schema/restaurant';
 
-import LegalitiesForm from '../legalities-form/form';
+import DetailsForm from '../details-form/form';
 
 const states = ['Sindh', 'Punjab', 'Balochistan'];
 const cities = ['Karachi', 'Lahore', 'Quetta'];
@@ -121,7 +121,7 @@ const LocationForm = ({ activeStep, handleNext, handleBack, detailValues }) => {
           </FlexContainer>
         </FormContainer>
       )}
-      <LegalitiesForm
+      <DetailsForm
         activeStep={activeStep}
         handleNext={handleNext}
         handleBack={handleBack}

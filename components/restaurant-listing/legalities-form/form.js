@@ -4,14 +4,12 @@ import { useFormik } from 'formik';
 // Styles
 import {
   CustomCheckbox,
-  FlexContainer,
   FormContainer,
   InputField,
   PrimaryButton,
   Text,
 } from '@/components/UI';
 import {
-  Button,
   FormControl,
   FormControlLabel,
   FormGroup,
@@ -21,17 +19,11 @@ import {
 } from '@mui/material';
 
 // Utils
-import { restaurantLeglitiesSchema } from '@/utils/validation-schema/restaurant';
+import { restaurantDetailsSchema } from '@/utils/validation-schema/restaurant';
 
-import ListingConfirmation from '@/components/listing-confirmation/listing-confirmation';
+import LocationForm from '../location-form/form';
 
-const LegalitiesForm = ({
-  activeStep,
-  handleNext,
-  handleBack,
-  detailValues,
-  locationValues,
-}) => {
+const LegalitiesForm = ({ activeStep, handleNext, handleBack }) => {
   const [legalities, setLegalities] = useState({ fbr: true, stock: true });
 
   const fbrHandler = (event) => {
@@ -48,25 +40,50 @@ const LegalitiesForm = ({
     }));
   };
 
+  const submitHandler = async (values) => {
+    try {
+      formik.setSubmitting(true);
+      // const {} = values;
+      // await checkRestaurant(values)
+      handleNext();
+    } catch (e) {
+    } finally {
+      formik.setSubmitting(false);
+    }
+  };
+
   const formik = useFormik({
     validateOnMount: true,
     initialValues: {
+      name: '',
       taxId: '',
       taxIdAgreement: false,
     },
-    validationSchema: restaurantLeglitiesSchema,
+    validationSchema: restaurantDetailsSchema,
+    onSubmit: submitHandler,
   });
 
   return (
     <React.Fragment>
-      {activeStep === 2 ? (
-        <FormContainer>
+      {activeStep === 0 && (
+        <FormContainer component="form" onSubmit={formik.handleSubmit}>
           <Text variant="header" textAlign={'center'} fontWeight={800}>
             Legal Requirements
           </Text>
           <Text variant="sub" textAlign={'center'} mb={3}>
             Provide the legal requirements in order to verify your business.
           </Text>
+          <InputField
+            name="name"
+            label="Restaurant Name"
+            variant="outlined"
+            placeholder="Enter Restaurant Name"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.errors.name && Boolean(formik.touched.name)}
+            helperText={formik.touched.name && formik.errors.name}
+          />
           <InputField
             name="taxId"
             label="Restaurant Tax ID"
@@ -94,35 +111,33 @@ const LegalitiesForm = ({
           </FormControl>
           <FormGroup>
             <FormControlLabel
-              sx={{ justifyContent: 'center' }}
               control={
                 <CustomCheckbox
                   name="taxIdAgreement"
                   value={formik.values.taxIdAgreement}
+                  checked={formik.values.taxIdAgreement}
                   onChange={formik.handleChange}
                 />
               }
               label="I agree that my Tax ID is correct"
             />
           </FormGroup>
-          <FlexContainer sx={{ justifyContent: 'space-between', mt: 4 }}>
-            <Button variant="outlined" onClick={handleBack}>
-              <Text variant="body">Back</Text>
-            </Button>
-            <PrimaryButton onClick={handleNext} disabled={!formik.isValid}>
-              <Text variant="body">Next</Text>
-            </PrimaryButton>
-          </FlexContainer>
+
+          <PrimaryButton
+            type="submit"
+            disabled={!formik.isValid}
+            sx={{ ml: 'auto', mt: 4 }}
+          >
+            <Text variant="body">Next</Text>
+          </PrimaryButton>
         </FormContainer>
-      ) : (
-        <ListingConfirmation
-          activeStep={activeStep}
-          handleBack={handleBack}
-          detailValues={detailValues}
-          locationValues={locationValues}
-          legalValues={formik.values}
-        />
       )}
+      <LocationForm
+        activeStep={activeStep}
+        handleNext={handleNext}
+        handleBack={handleBack}
+        detailValues={formik.values}
+      />
     </React.Fragment>
   );
 };

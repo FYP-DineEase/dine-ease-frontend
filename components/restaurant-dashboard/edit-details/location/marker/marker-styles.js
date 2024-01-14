@@ -26,11 +26,12 @@ export const OptionsContainer = styled(Box)(({ theme }) => ({
   transform: 'translate(-50%, 65%)',
 }));
 
-
 export const ResetMarker = styled(IconButton)(({ theme }) => ({
   position: 'absolute',
   bottom: '100px',
   right: '5px',
   color: theme.palette.text.secondary,
   backgroundColor: theme.palette.text.primary,
+
+  '&:hover': { backgroundColor: theme.palette.text.primary },
 }));

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { enqueueSnackbar } from 'notistack';
 import { useRestaurantContext } from '@/context/restaurant-context';
@@ -30,6 +30,7 @@ import { getError } from '@/helpers/snackbarHelpers';
 import { allowedImageTypes } from '@/utils/constants';
 
 const PreviewModal = ({ images, setImages, imageChangeHandler }) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { details, detailsHandler } = useRestaurantContext();
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
@@ -42,6 +43,7 @@ const PreviewModal = ({ images, setImages, imageChangeHandler }) => {
 
   const uploadImageHandler = async () => {
     try {
+      setIsSubmitting(true);
       const formData = new FormData();
       images.forEach((image) => {
         formData.append('files', image);
@@ -52,6 +54,8 @@ const PreviewModal = ({ images, setImages, imageChangeHandler }) => {
       enqueueSnackbar({ variant: 'success', message: 'Image(s) uploaded successfully' });
     } catch (e) {
       enqueueSnackbar({ variant: 'error', message: getError(e) });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -106,7 +110,7 @@ const PreviewModal = ({ images, setImages, imageChangeHandler }) => {
               sx={{ display: 'none' }}
             />
           </Button>
-          <PrimaryButton disabled={images.length === 0}>
+          <PrimaryButton disabled={images.length === 0 || isSubmitting}>
             <Text variant="sub" onClick={uploadImageHandler}>
               Save Changes
             </Text>

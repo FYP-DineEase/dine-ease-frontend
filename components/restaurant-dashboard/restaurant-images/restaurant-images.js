@@ -15,6 +15,7 @@ import {
   Grid,
   IconButton,
   ImageList,
+  ImageListItemBar,
   Input,
   Tooltip,
   useMediaQuery,
@@ -25,6 +26,7 @@ import UploadFile from '@mui/icons-material/UploadFile';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloseIcon from '@mui/icons-material/Close';
 import Delete from '@mui/icons-material/Delete';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 // Modals
 import PreviewModal from './preview-modal/preview-modal';
@@ -36,14 +38,16 @@ import { getFileUrl, validateImage } from '@/helpers/fileHelpers';
 
 // Utils
 import { allowedImageTypes } from '@/utils/constants';
+import { deleteRestaurantImages } from '@/services';
 
 const RestaurantImages = () => {
-  const { details } = useRestaurantContext();
+  const { details, detailsHandler } = useRestaurantContext();
   const images = details.images;
 
   const [selectedImages, setSelectedImages] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
@@ -81,6 +85,28 @@ const RestaurantImages = () => {
     return { updatedImages, removedImages };
   };
 
+  const deleteImageHandler = async () => {
+    try {
+      setIsSubmitting(true);
+      const { updatedImages, removedImages } = filteredImages();
+      await deleteRestaurantImages(details.id, { images: removedImages });
+      detailsHandler({ images: updatedImages });
+      closeDeleteModal();
+      enqueueSnackbar({ variant: 'success', message: 'Image(s) deleted successfully' });
+    } catch (e) {
+      enqueueSnackbar({ variant: 'error', message: getError(e) });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const openDeleteModal = () => {
+    setShowDeleteModal(true);
+  };
+  const closeDeleteModal = () => {
+    setShowDeleteModal(false);
+  };
+
   return (
     <React.Fragment>
       <PreviewModal
@@ -89,9 +115,10 @@ const RestaurantImages = () => {
         imageChangeHandler={imageChangeHandler}
       />
       <DeleteModal
-        handleCloseModal={() => setShowDeleteModal(false)}
+        handleCloseModal={closeDeleteModal}
         showModal={showDeleteModal}
-        filteredImages={filteredImages}
+        deleteHandler={deleteImageHandler}
+        isSubmitting={isSubmitting}
       />
       <DashboardContainer container>
         {!images.length ? (
@@ -126,7 +153,7 @@ const RestaurantImages = () => {
                 </Text>
                 <Tooltip
                   title="Maximum 10 images allowed"
-                  open={true}
+                  open={images.length === 10}
                   placement="top"
                   arrow
                 >
@@ -172,6 +199,21 @@ const RestaurantImages = () => {
                       sizes="100vw"
                       selected={+selectedImages.includes(index)}
                     />
+                    <ImageListItemBar
+                      sx={{
+                        backgroundColor: 'transparent',
+                        zIndex: 10,
+                      }}
+                      position="top"
+                      actionIcon={
+                        +selectedImages.includes(index) && (
+                          <IconButton>
+                            <CheckCircleIcon color="secondary" fontSize="large" />
+                          </IconButton>
+                        )
+                      }
+                      actionPosition="right"
+                    />
                   </Styles.StyledImageListItem>
                 ))}
               </ImageList>
@@ -183,7 +225,7 @@ const RestaurantImages = () => {
                     </Tooltip>
                   </IconButton>
                   <Text variant="sub">{selectedImages.length} Selected Images</Text>
-                  <IconButton color="error" onClick={() => setShowDeleteModal(true)}>
+                  <IconButton color="error" onClick={openDeleteModal}>
                     <Tooltip title="Delete Selected Images" placement="top" arrow>
                       <Delete />
                     </Tooltip>

@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 // Styles
 import { Box, Button } from '@mui/material';
-import { FlexContainer, PrimaryButton, Text } from '../UI';
+import { FlexContainer, PrimaryButton, Text } from '../../UI';
 import { useFormik } from 'formik';
 
 // Snackbar
@@ -40,7 +40,7 @@ const ListingConfirmation = ({
   return (
     activeStep === 3 && (
       <Box component="form" onSubmit={formik.handleSubmit}>
-        <Box sx={{ position: 'relative', height: { xs: '250px', md: '500px' } }}>
+        <Box sx={{ position: 'relative', height: { xs: '200px', md: '400px' } }}>
           <Image src={'/assets/images/food.svg'} alt="login-image" fill sizes="100vw" />
         </Box>
         <Box textAlign="center">

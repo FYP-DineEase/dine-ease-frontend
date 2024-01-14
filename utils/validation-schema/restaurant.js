@@ -2,18 +2,18 @@ import * as yup from 'yup';
 
 export const restaurantDetailsSchema = yup.object().shape({
   name: yup.string().required('Restaurant name is required.'),
+  taxId: yup.string().required('Tax ID is required.'),
+  taxIdAgreement: yup
+    .boolean()
+    .oneOf([true], 'You must agree that the provided Tax ID is valid'),
+});
+
+export const restaurantLeglitiesSchema = yup.object().shape({
   cuisine: yup.array().min(1, 'Cuisine type is required.'),
   phoneNumber: yup.string().required('Contact Number is required.'),
   contactAgreement: yup
     .boolean()
     .oneOf([true], 'You must agree that the provided contact is valid.'),
-});
-
-export const restaurantLeglitiesSchema = yup.object().shape({
-  taxId: yup.string().required('Tax ID is required.'),
-  taxIdAgreement: yup
-    .boolean()
-    .oneOf([true], 'You must agree that the provided Tax ID is valid'),
 });
 
 export const restaurantLocationSchema = yup.object().shape({

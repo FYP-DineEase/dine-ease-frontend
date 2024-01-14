@@ -18,7 +18,7 @@ export const CustomDrawer = styled(Drawer)(({ theme, open }) => ({
     color: 'black',
     width: `${DASHBOARD_DRAWER_FULLWIDTH}px`,
     zIndex: 500,
-    position: 'absolute',
+    position: 'fixed',
     marginTop: `${NAV_HEIGHT}px`,
     height: `calc(100% - ${NAV_HEIGHT}px)`,
     boxShadow: '2px 0px 10px lightgrey',

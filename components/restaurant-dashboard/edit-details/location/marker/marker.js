@@ -57,7 +57,7 @@ const MapMarker = ({ newMarker, coordinates, confirmMark, flyToLocation }) => {
 
   return (
     <>
-      <Tooltip title="reset" placement="top" arrow>
+      <Tooltip title="Reset" placement="top" arrow>
         <Styles.ResetMarker onClick={resetMark}>
           <MyLocationIcon />
         </Styles.ResetMarker>

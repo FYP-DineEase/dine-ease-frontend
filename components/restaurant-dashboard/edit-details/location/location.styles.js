@@ -4,7 +4,6 @@ import { FlexContainer } from '@/components/UI';
 export const MapContainer = styled(FlexContainer)(({ theme }) => ({
   height: '100%',
   width: '100%',
-  marginLeft: theme.spacing(4),
 
   '.mapboxgl-compact': {
     display: 'none',
