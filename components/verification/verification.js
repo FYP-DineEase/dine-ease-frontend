@@ -45,8 +45,8 @@ const Verification = () => {
   }, [token]);
 
   return (
-    <SecondaryContainer container sx={{ height: '70%' }}>
-      <Grid item xs={12} sx={{ position: 'relative', height: '70%' }}>
+    <SecondaryContainer container sx={{ height: 'auto' }}>
+      <Grid item xs={12} sx={{ position: 'relative', height: '350px' }}>
         <Image
           src={'/assets/images/food.svg'}
           fill={true}

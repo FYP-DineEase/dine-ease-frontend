@@ -1,6 +1,4 @@
 import React from 'react';
-import { enqueueSnackbar } from 'notistack';
-import { useRestaurantContext } from '@/context/restaurant-context';
 
 // Styles
 import { Button, Modal } from '@mui/material';
@@ -10,27 +8,7 @@ import { FlexContainer, Text } from '@/components/UI';
 // Icons
 import Delete from '@mui/icons-material/Delete';
 
-// Services
-import { deleteRestaurantImages } from '@/services';
-
-// Helpers
-import { getError } from '@/helpers/snackbarHelpers';
-
-const DeleteModal = ({ showModal, handleCloseModal, filteredImages }) => {
-  const { details, detailsHandler } = useRestaurantContext();
-
-  const deleteImageHandler = async () => {
-    try {
-      const { updatedImages, removedImages } = filteredImages();
-      await deleteRestaurantImages(details.id, { images: removedImages });
-      detailsHandler({ images: updatedImages });
-      handleCloseModal();
-      enqueueSnackbar({ variant: 'success', message: 'Image(s) deleted successfully' });
-    } catch (e) {
-      enqueueSnackbar({ variant: 'error', message: getError(e) });
-    }
-  };
-
+const DeleteModal = ({ showModal, handleCloseModal, deleteHandler, isSubmitting }) => {
   return (
     <Modal open={showModal} onClose={handleCloseModal}>
       <Styles.ModalContainer>
@@ -42,10 +20,15 @@ const DeleteModal = ({ showModal, handleCloseModal, filteredImages }) => {
           Are you sure you want to perform this delete action?
         </Text>
         <FlexContainer gap={2}>
-          <Button variant="outlined" onClick={handleCloseModal}>
+          <Button variant="outlined" onClick={handleCloseModal} disabled={isSubmitting}>
             <Text variant="body">Cancel</Text>
           </Button>
-          <Button variant="contained" color="error" onClick={deleteImageHandler}>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={deleteHandler}
+            disabled={isSubmitting}
+          >
             <Text variant="body" color="text.primary">
               Confirm
             </Text>

@@ -22,8 +22,10 @@ import {
   Divider,
   FormControl,
   Grid,
+  IconButton,
   InputLabel,
   MenuItem,
+  useMediaQuery,
 } from '@mui/material';
 
 // Services
@@ -38,12 +40,19 @@ import { restaurantEditSchema } from '@/utils/validation-schema/restaurant';
 import { PhoneInputCustom } from '@/utils/phone-input';
 import { cuisineTypes } from '@/utils/constants';
 
+// Icons
+import CancelIcon from '@mui/icons-material/Cancel';
+
 const EditDetailsForm = () => {
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('lg'));
+
   const { details, detailsHandler } = useRestaurantContext();
   const [location, setLocation] = useState({
     coordinates: [null, null],
     country: '',
   });
+
+  console.log(isMobile);
 
   useEffect(() => {
     if (details.location) {
@@ -74,10 +83,10 @@ const EditDetailsForm = () => {
   const submitHandler = async (values) => {
     try {
       formik.setSubmitting(true);
-      
+
       const { city, state, country, ...payload } = values;
       payload.location = location;
-      
+
       await updateRestaurantDetails(details.id, payload);
       detailsHandler(payload);
 
@@ -101,6 +110,12 @@ const EditDetailsForm = () => {
 
   const contactChangeHandler = (phoneNumber) => {
     formik.setFieldValue('phoneNumber', phoneNumber);
+  };
+
+  const handleDelete = (index) => {
+    const updatedCuisine = [...formik.values.cuisine];
+    updatedCuisine.splice(index, 1);
+    formik.setFieldValue('cuisine', updatedCuisine);
   };
 
   return (
@@ -151,12 +166,23 @@ const EditDetailsForm = () => {
                 onBlur={formik.handleBlur}
                 renderValue={(selected) => (
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                    {selected.map((value) => (
+                    {selected.map((value, index) => (
                       <Chip
                         key={value}
                         label={value}
                         color="primary"
-                        sx={{ color: 'text.primary' }}
+                        deleteIcon={
+                          <IconButton>
+                            <CancelIcon
+                              sx={{ color: 'white' }}
+                              onMouseDown={(event) => event.stopPropagation()}
+                            />
+                          </IconButton>
+                        }
+                        onDelete={() => handleDelete(index)}
+                        sx={{
+                          color: 'text.primary',
+                        }}
                       />
                     ))}
                   </Box>
@@ -234,6 +260,17 @@ const EditDetailsForm = () => {
               value={formik.values.country}
               disabled
             />
+            {isMobile && (
+              <Box
+                sx={{
+                  position: 'relative',
+                  width: '100%',
+                  height: '300px',
+                }}
+              >
+                <Location location={location} updateLocation={updateLocation} />
+              </Box>
+            )}
             <FormButton type="submit" disabled={formik.isSubmitting}>
               <Text variant="sub">Update Details</Text>
             </FormButton>
@@ -245,9 +282,20 @@ const EditDetailsForm = () => {
           variant="middle"
           sx={{ display: { xs: 'none', lg: 'block' } }}
         />
-        <Grid item xs={0} lg={6} sx={{ position: 'relative', height: '700px' }}>
-          <Location location={location} updateLocation={updateLocation} />
-        </Grid>
+        {!isMobile && (
+          <Grid
+            item
+            xs={0}
+            lg={6}
+            sx={{
+              position: 'relative',
+              height: '700px',
+              ml: 3
+            }}
+          >
+            <Location location={location} updateLocation={updateLocation} />
+          </Grid>
+        )}
       </Grid>
     </DashboardContent>
   );

@@ -1,4 +1,4 @@
-import { styled } from '@mui/material';
+import { IconButton, styled } from '@mui/material';
 import { FlexContainer } from '@/components/UI';
 
 export const RestaurantDetails = styled(FlexContainer)(({ theme, open }) => ({
@@ -11,4 +11,21 @@ export const RestaurantDetails = styled(FlexContainer)(({ theme, open }) => ({
     marginTop: `${theme.spacing(0)}`,
     display: open ? 'flex' : 'none',
   },
+}));
+
+export const AvatarButton = styled(IconButton)(({ theme }) => ({
+  position: 'absolute',
+  bottom: 0,
+  right: 0,
+  backgroundColor: theme.palette.primary.main,
+
+  '&:hover': {
+    backgroundColor: theme.palette.secondary.main,
+  },
+}));
+
+export const AvatarConfirmation = styled(FlexContainer)(({ theme }) => ({
+  position: 'absolute',
+  bottom: -20,
+  left: 20,
 }));

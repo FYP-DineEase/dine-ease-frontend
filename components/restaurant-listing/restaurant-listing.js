@@ -9,9 +9,9 @@ import { Grid, Step, StepLabel, Stepper } from '@mui/material';
 import CustomLabels from './stepper/stepper';
 import { CustomStepConnector } from './stepper/stepper.styles';
 
-import DetailsForm from './details-form/form';
+import LegalitiesForm from './legalities-form/form';
 
-const steps = ['Restaurant Details', 'Restaurant Location', 'Restaurant Legalities'];
+const steps = ['Restaurant Legalities', 'Restaurant Location', 'Restaurant Details'];
 
 const RestaurantListing = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -31,7 +31,7 @@ const RestaurantListing = () => {
           activeStep={activeStep}
           alternativeLabel
           connector={<CustomStepConnector />}
-          sx={{ mb: activeStep !== 3 && 8 }}
+          sx={{ mb: activeStep !== 3 && 5, mt: 2 }}
         >
           {steps.map((label) => (
             <Step key={label}>
@@ -43,7 +43,7 @@ const RestaurantListing = () => {
             </Step>
           ))}
         </Stepper>
-        <DetailsForm
+        <LegalitiesForm
           activeStep={activeStep}
           handleNext={handleNext}
           handleBack={handleBack}

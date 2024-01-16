@@ -38,6 +38,7 @@ const About = () => {
 
   const [newAvatar, setNewAvatar] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleAvatar = (image) => {
     setNewAvatar(image);
@@ -45,6 +46,7 @@ const About = () => {
 
   const handleConfirmAvatar = async () => {
     try {
+      setIsSubmitting(true);
       const formData = new FormData();
       formData.append('type', 'avatar');
       formData.append('file', newAvatar);
@@ -59,6 +61,8 @@ const About = () => {
       });
     } catch (e) {
       enqueueSnackbar({ variant: 'error', message: getError(e) });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -82,19 +86,20 @@ const About = () => {
                 getFileUrl(
                   process.env.NEXT_PUBLIC_USER_BUCKET,
                   `${details.id}/avatar/${details.avatar}`
-                ))
+                )) ||
+              '/assets/images/bg-placeholder.jpg'
             }
-            sx={{ height: '100%', width: '100%' }}
+            sx={{ height: '100%', width: '100%', border: '2px solid grey' }}
           />
-          {newAvatar && (
+          {newAvatar && !isSubmitting && (
             <Styles.AvatarConfirmation>
               <Tooltip title="Save Changes" placement="top" arrow>
-                <IconButton onClick={handleConfirmAvatar}>
+                <IconButton onClick={handleConfirmAvatar} disabled={!newAvatar}>
                   <CheckCircleIcon color="success" />
                 </IconButton>
               </Tooltip>
               <Tooltip title="Cancel Changes" placement="top" arrow>
-                <IconButton onClick={handleCancelAvatar}>
+                <IconButton onClick={handleCancelAvatar} disabled={!newAvatar}>
                   <CancelIcon color="error" />
                 </IconButton>
               </Tooltip>

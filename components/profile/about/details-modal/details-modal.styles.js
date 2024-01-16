@@ -13,6 +13,7 @@ export const ModalContainer = styled(ModalContent)(({ theme }) => ({
 
   [theme.breakpoints.down('md')]: {
     padding: theme.spacing(2),
+    gap: theme.spacing(1),
   },
 }));
 

@@ -18,15 +18,19 @@ import {
   FormControl,
   FormControlLabel,
   FormGroup,
+  IconButton,
   InputLabel,
   MenuItem,
 } from '@mui/material';
 
 // Utils
-import { restaurantDetailsSchema } from '@/utils/validation-schema/restaurant';
+import { restaurantLeglitiesSchema } from '@/utils/validation-schema/restaurant';
 import { PhoneInputCustom } from '@/utils/phone-input';
 
-import LocationForm from '../location-form/form';
+// Icons
+import CancelIcon from '@mui/icons-material/Cancel';
+
+import ListingConfirmation from '@/components/restaurant-listing/listing-confirmation/listing-confirmation';
 
 const names = [
   'Oliver Hansen',
@@ -41,39 +45,37 @@ const names = [
   'Kelly Snyder',
 ];
 
-const DetailsForm = ({ activeStep, handleNext, handleBack }) => {
-  const submitHandler = async (values) => {
-    try {
-      formik.setSubmitting(true);
-      // const {} = values;
-      // await checkRestaurant(values)
-      handleNext();
-    } catch (e) {
-    } finally {
-      formik.setSubmitting(false);
-    }
+const DetailsForm = ({
+  activeStep,
+  handleNext,
+  handleBack,
+  detailValues,
+  locationValues,
+}) => {
+  const contactChangeHandler = (phoneNumber) => {
+    formik.setFieldValue('phoneNumber', phoneNumber);
+  };
+
+  const handleDelete = (index) => {
+    const updatedCuisine = [...formik.values.cuisine];
+    updatedCuisine.splice(index, 1);
+    formik.setFieldValue('cuisine', updatedCuisine);
   };
 
   const formik = useFormik({
     validateOnMount: true,
     initialValues: {
-      name: '',
       cuisine: [],
       phoneNumber: '',
       contactAgreement: false,
     },
-    validationSchema: restaurantDetailsSchema,
-    onSubmit: submitHandler,
+    validationSchema: restaurantLeglitiesSchema,
   });
-
-  const contactChangeHandler = (phoneNumber) => {
-    formik.setFieldValue('phoneNumber', phoneNumber);
-  };
 
   return (
     <React.Fragment>
-      {activeStep === 0 && (
-        <FormContainer component="form" onSubmit={formik.handleSubmit}>
+      {activeStep === 2 ? (
+        <FormContainer>
           <Text variant="header" textAlign={'center'} fontWeight={800}>
             Tell us about your Restaurant
           </Text>
@@ -81,17 +83,6 @@ const DetailsForm = ({ activeStep, handleNext, handleBack }) => {
             This information will be shown on the page so that customers can search and
             contact you.
           </Text>
-          <InputField
-            name="name"
-            label="Restaurant Name"
-            variant="outlined"
-            placeholder="Enter Restaurant Name"
-            value={formik.values.name}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.errors.name && Boolean(formik.touched.name)}
-            helperText={formik.touched.name && formik.errors.name}
-          />
           <FormControl error={formik.errors.cuisine && Boolean(formik.touched.cuisine)}>
             <InputLabel>Cuisine</InputLabel>
             <SelectField
@@ -103,12 +94,23 @@ const DetailsForm = ({ activeStep, handleNext, handleBack }) => {
               onBlur={formik.handleBlur}
               renderValue={(selected) => (
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                  {selected.map((value) => (
+                  {selected.map((value, index) => (
                     <Chip
                       key={value}
                       label={value}
                       color="primary"
-                      sx={{ color: 'text.primary' }}
+                      deleteIcon={
+                        <IconButton>
+                          <CancelIcon
+                            sx={{ color: 'white' }}
+                            onMouseDown={(event) => event.stopPropagation()}
+                          />
+                        </IconButton>
+                      }
+                      onDelete={() => handleDelete(index)}
+                      sx={{
+                        color: 'text.primary',
+                      }}
                     />
                   ))}
                 </Box>
@@ -142,11 +144,11 @@ const DetailsForm = ({ activeStep, handleNext, handleBack }) => {
           />
           <FormGroup>
             <FormControlLabel
-              sx={{ justifyContent: 'center' }}
               control={
                 <CustomCheckbox
                   name="contactAgreement"
                   value={formik.values.contactAgreement}
+                  checked={formik.values.contactAgreement}
                   onChange={formik.handleChange}
                 />
               }
@@ -154,24 +156,23 @@ const DetailsForm = ({ activeStep, handleNext, handleBack }) => {
             />
           </FormGroup>
           <FlexContainer sx={{ justifyContent: 'space-between', mt: 4 }}>
-            <Button variant="outlined" onClick={handleBack} disabled={true}>
+            <Button variant="outlined" onClick={handleBack}>
               <Text variant="body">Back</Text>
             </Button>
-            <PrimaryButton
-              type="submit"
-              disabled={formik.isSubmitting || !formik.values.contactAgreement}
-            >
+            <PrimaryButton onClick={handleNext} disabled={!formik.isValid}>
               <Text variant="body">Next</Text>
             </PrimaryButton>
           </FlexContainer>
         </FormContainer>
+      ) : (
+        <ListingConfirmation
+          activeStep={activeStep}
+          handleBack={handleBack}
+          detailValues={detailValues}
+          locationValues={locationValues}
+          legalValues={formik.values}
+        />
       )}
-      <LocationForm
-        activeStep={activeStep}
-        handleNext={handleNext}
-        handleBack={handleBack}
-        detailValues={formik.values}
-      />
     </React.Fragment>
   );
 };

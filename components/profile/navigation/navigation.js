@@ -100,14 +100,17 @@ const Navigation = () => {
               allowScrollButtonsMobile
               sx={{ width: { xs: '100%', lg: '50%' } }}
             >
-              {tabItems.map((item) => (
-                <Tab
-                  key={item.value}
-                  icon={item.icon}
-                  label={<Text variant="sub">{item.label}</Text>}
-                  sx={{ width: '25%' }}
-                />
-              ))}
+              {tabItems.map(
+                (item) =>
+                  !item.hide && (
+                    <Tab
+                      key={item.value}
+                      icon={item.icon}
+                      label={<Text variant="sub">{item.label}</Text>}
+                      sx={{ width: '25%' }}
+                    />
+                  )
+              )}
             </Tabs>
           </Toolbar>
         </Styles.FixedTabs>

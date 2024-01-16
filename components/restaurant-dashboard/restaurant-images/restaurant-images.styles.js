@@ -34,11 +34,11 @@ export const ImagePlaceContainer = styled(DashboardContent)(({ theme }) => ({
   },
 }));
 
-export const StyledImage = styled(Image)(({ selected }) => ({
+export const StyledImage = styled(Image)(({ theme, selected }) => ({
   objectFit: 'cover',
   borderRadius: '5px',
-  border: '1px solid transparent',
-  borderColor: selected && 'blue',
+  border: '2px solid transparent',
+  borderColor: selected && theme.palette.secondary.main,
 }));
 
 export const StyledImageListItem = styled(ImageListItem)(({ selected }) => ({
@@ -52,11 +52,11 @@ export const StyledImageListItem = styled(ImageListItem)(({ selected }) => ({
     position: 'absolute',
     top: '0',
     zIndex: '1',
-    backgroundColor: selected && 'rgba(0, 42, 231, 0.247)',
+    backgroundColor: selected && 'rgba(255, 187, 0, 0.2)',
     opacity: '.5',
   },
   '&:hover:before': {
-    backgroundColor: 'rgba(0, 42, 231, 0.116)',
+    backgroundColor: 'rgba(255, 187, 0, 0.3)',
   },
 }));
 

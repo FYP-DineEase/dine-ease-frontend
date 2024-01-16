@@ -9,7 +9,7 @@ import { getUserRestaurants } from '@/services';
 // Styles
 import * as Styles from './restaurant-card.styles';
 import { Card, CardMedia, Chip, Grid } from '@mui/material';
-import { PrimaryButton, Text } from '@/components/UI';
+import { FlexContainer, PrimaryButton, Text } from '@/components/UI';
 
 // Icons
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
@@ -40,6 +40,15 @@ const RestaurantCard = () => {
     pending: 'info',
     rejected: 'error',
   };
+
+  if (restaurants.length === 0) {
+    return (
+      <FlexContainer mt={10} gap={2}>
+        <RestaurantMenuIcon fontSize="large" color="primary" />
+        <Text variant="subHeader">Currently No Listed Restaurants</Text>
+      </FlexContainer>
+    );
+  }
 
   return (
     <Grid container justifyContent="center" spacing={2}>
