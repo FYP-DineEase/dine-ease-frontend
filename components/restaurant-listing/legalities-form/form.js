@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
+import { enqueueSnackbar } from 'notistack';
 
 // Styles
 import {
@@ -18,12 +19,17 @@ import {
   RadioGroup,
 } from '@mui/material';
 
-// Utils
-import { restaurantDetailsSchema } from '@/utils/validation-schema/restaurant';
-
+// Components
 import LocationForm from '../location-form/form';
 
-const LegalitiesForm = ({ activeStep, handleNext, handleBack }) => {
+// Services
+import { checkRestaurant } from '@/services';
+
+// Utils
+import { restaurantDetailsSchema } from '@/utils/validation-schema/restaurant';
+import { getError } from '@/helpers/snackbarHelpers';
+
+const LegalitiesForm = ({ activeStep, handleNext, handleBack, location }) => {
   const [legalities, setLegalities] = useState({ fbr: true, stock: true });
 
   const fbrHandler = (event) => {
@@ -43,10 +49,14 @@ const LegalitiesForm = ({ activeStep, handleNext, handleBack }) => {
   const submitHandler = async (values) => {
     try {
       formik.setSubmitting(true);
-      // const {} = values;
-      // await checkRestaurant(values)
+      const { name, taxId } = values;
+      await checkRestaurant({ name, taxId });
       handleNext();
     } catch (e) {
+      enqueueSnackbar({
+        variant: 'error',
+        message: getError(e),
+      });
     } finally {
       formik.setSubmitting(false);
     }
@@ -55,8 +65,8 @@ const LegalitiesForm = ({ activeStep, handleNext, handleBack }) => {
   const formik = useFormik({
     validateOnMount: true,
     initialValues: {
-      name: '',
-      taxId: '',
+      name: 'Restaurant 10',
+      taxId: '0000123456780',
       taxIdAgreement: false,
     },
     validationSchema: restaurantDetailsSchema,
@@ -136,7 +146,8 @@ const LegalitiesForm = ({ activeStep, handleNext, handleBack }) => {
         activeStep={activeStep}
         handleNext={handleNext}
         handleBack={handleBack}
-        detailValues={formik.values}
+        location={location}
+        legalValues={formik.values}
       />
     </React.Fragment>
   );

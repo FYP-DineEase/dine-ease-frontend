@@ -36,7 +36,6 @@ export const ProfileAvatarContainer = styled(Box)(({ theme }) => ({
   top: -75,
   left: '50%',
   transform: 'translateX(-50%)',
- 
 }));
 
 export const AvatarConfirmation = styled(FlexContainer)(({ theme }) => ({

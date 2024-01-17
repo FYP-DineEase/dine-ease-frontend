@@ -8,7 +8,7 @@ import { updateProfileImage } from '@/services';
 
 // Styles
 import { Box, Button } from '@mui/material';
-import { Text } from '@/components/UI';
+import { PrimaryButton, Text } from '@/components/UI';
 import { BannerContainer } from './banner.styles';
 
 // Helpers
@@ -30,13 +30,11 @@ const Banner = () => {
       const response = await updateProfileImage(formData);
       detailsHandler({ cover: response.data, newCover: null });
 
-      enqueueSnackbar({
-        variant: 'success',
-        message: 'Cover Updated Successfully!',
-      });
+      enqueueSnackbar({ variant: 'success', message: 'Cover Updated' });
     } catch (e) {
-      setIsSubmitting(false);
       enqueueSnackbar({ variant: 'error', message: getError(e) });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -54,32 +52,26 @@ const Banner = () => {
               process.env.NEXT_PUBLIC_USER_BUCKET,
               `${details.id}/cover/${cover}`
             )) ||
-          '/assets/images/bg-placeholder.jpg'
+          '/assets/images/bg-placeholder.png'
         }
         fill={true}
         objectFit="cover"
         alt="User Cover"
       />
-      <Box sx={{ position: 'absolute', top: 15, right: 15 }}>
-        {newCover && (
+      {newCover && !isSubmitting && (
+        <Box sx={{ position: 'absolute', top: 15, right: 15 }}>
           <React.Fragment>
-            <Button
-              variant="contained"
-              color="success"
-              sx={{ mr: 1 }}
-              onClick={handleConfirmBanner}
-              disabled={isSubmitting}
-            >
-              <Text variant="body">Save Changes</Text>
-            </Button>
+            <PrimaryButton sx={{ mr: 1 }} onClick={handleConfirmBanner}>
+              <Text variant="body">Save</Text>
+            </PrimaryButton>
             <Button variant="contained" color="error" onClick={handleCancelBanner}>
               <Text variant="body" color="text.primary">
                 Cancel
               </Text>
             </Button>
           </React.Fragment>
-        )}
-      </Box>
+        </Box>
+      )}
     </BannerContainer>
   );
 };

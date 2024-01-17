@@ -55,10 +55,7 @@ const About = () => {
       detailsHandler({ avatar: response.data });
       handleCancelAvatar();
 
-      enqueueSnackbar({
-        variant: 'success',
-        message: 'Avatar Updated Successfully!',
-      });
+      enqueueSnackbar({ variant: 'success', message: 'Avatar Updated' });
     } catch (e) {
       enqueueSnackbar({ variant: 'error', message: getError(e) });
     } finally {
@@ -86,10 +83,9 @@ const About = () => {
                 getFileUrl(
                   process.env.NEXT_PUBLIC_USER_BUCKET,
                   `${details.id}/avatar/${details.avatar}`
-                )) ||
-              '/assets/images/bg-placeholder.jpg'
+                ))
             }
-            sx={{ height: '100%', width: '100%', border: '2px solid grey' }}
+            sx={{ height: '100%', width: '100%', border: '1px solid rgba(0, 0, 0, 0.2)' }}
           />
           {newAvatar && !isSubmitting && (
             <Styles.AvatarConfirmation>

@@ -44,7 +44,7 @@ const DetailsModal = ({ showModal, closeModal }) => {
 
       enqueueSnackbar({
         variant: 'success',
-        message: 'Profile Updated Successfully',
+        message: 'Profile Updated',
         onEnter: () => closeModal(),
       });
     } catch (e) {

@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 // Styles
 import { PrimaryButton, SecondaryContainer, Text } from '../UI';
@@ -9,6 +10,8 @@ import { Box, Grid } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const NotFound = () => {
+  const router = useRouter();
+
   return (
     <SecondaryContainer container sx={{ height: 'auto' }}>
       <Grid item xs={12} sx={{ position: 'relative', height: '350px' }}>
@@ -30,7 +33,9 @@ const NotFound = () => {
             Sorry, the page you are looking for could not be found
           </Text>
         </Box>
-        <PrimaryButton startIcon={<ArrowBackIcon />}>Go Back</PrimaryButton>
+        <PrimaryButton onClick={() => router.back()} startIcon={<ArrowBackIcon />}>
+          Go Back
+        </PrimaryButton>
       </Grid>
     </SecondaryContainer>
   );

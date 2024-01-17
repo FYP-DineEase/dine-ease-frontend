@@ -24,7 +24,6 @@ const RestaurantCard = () => {
   const fetchUserRestaurants = async () => {
     try {
       const response = await getUserRestaurants();
-      console.log(response.data);
       setRestaurants(response.data);
     } catch (e) {
       enqueueSnackbar({ variant: 'error', message: getError(e) });

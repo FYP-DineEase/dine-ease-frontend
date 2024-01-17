@@ -6,7 +6,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
 
-//Styles
+// Styles
 import * as Styles from "./footer.styles";
 import { Divider, Grid } from '@mui/material';
 import { FlexContainer, Text } from '../UI';

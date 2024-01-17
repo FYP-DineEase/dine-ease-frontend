@@ -7,6 +7,9 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 
 // Styles
 import * as Styles from './location.styles';
+import { ResetMarker } from './marker/marker-styles';
+import { Tooltip } from '@mui/material';
+import LocationIcon from '@mui/icons-material/NearMe';
 
 // Utils
 import { MapZoomLevels } from '@/utils/constants';
@@ -44,13 +47,21 @@ const Location = ({ location, updateLocation }) => {
     [longitude, latitude]
   );
 
-  useEffect(() => {
-    flyToLocation();
-  }, [flyToLocation]);
-
   const onMove = useCallback(({ viewState }) => {
     setViewState(viewState);
   }, []);
+
+  const fetchLocation = useCallback(async () => {
+    try {
+      const position = await new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+      });
+      const { longitude: long, latitude: lat } = position.coords;
+      updateLocation([long, lat]);
+    } catch (error) {
+      console.error('Error getting location:', error);
+    }
+  }, [updateLocation]);
 
   // intialize new marker
   const handleMapClick = useCallback((event) => {
@@ -83,15 +94,20 @@ const Location = ({ location, updateLocation }) => {
         mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_API_TOKEN}
         mapStyle={'mapbox://styles/mapbox/streets-v12'}
       >
-        {latitude && longitude && (
+        {latitude && longitude ? (
           <MapMarker
             newMarker={newMarker}
             confirmMark={confirmMark}
             flyToLocation={flyToLocation}
             coordinates={[longitude, latitude]}
           />
+        ) : (
+          <Tooltip title="My Location" placement="left" arrow>
+            <ResetMarker onClick={fetchLocation}>
+              <LocationIcon />
+            </ResetMarker>
+          </Tooltip>
         )}
-
         <NavigationControl position={'bottom-right'} showCompass={false} />
       </ReactMapGL>
     </Styles.MapContainer>

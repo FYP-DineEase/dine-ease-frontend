@@ -1,6 +1,7 @@
+import { FlexContainer } from '@/components/UI';
 import { IconButton, styled } from '@mui/material';
 
-export const UserMapContainer = styled(IconButton)(({ theme }) => ({
+export const UserMapContainer = styled(FlexContainer)(({ theme }) => ({
   height: '300px',
   width: '100%',
 

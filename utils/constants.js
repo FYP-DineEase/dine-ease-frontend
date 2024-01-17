@@ -14,6 +14,8 @@ export const DASHBOARD_DRAWER_RESPONSIVEWIDTH = 70;
 
 export const cuisineTypes = ['Mexican', 'Italian', 'Chinese', 'Fast Food', 'Sea Food'];
 
+export const listingSteps = ['Restaurant Legalities', 'Restaurant Location', 'Restaurant Details'];
+
 export const fileSizeAllowed = 1024;
 
 export const allowedImageTypes = ['image/png', 'image/jpeg', 'image/jpg'];
@@ -64,16 +66,19 @@ export const dashboardLinks = [
   {
     id: 'feature-history',
     text: 'Feature History',
+    hide: true,
     icon: <MonetizationOnIcon />,
   },
   {
     id: 'reviews',
     text: 'Reviews',
+    hide: true,
     icon: <ReviewsIcon />,
   },
   {
     id: 'menu',
     text: 'Menu',
+    hide: true,
     icon: <MenuBookIcon />,
   },
   {
@@ -84,11 +89,13 @@ export const dashboardLinks = [
   {
     id: 'badges',
     text: 'Badges',
+    hide: true,
     icon: <LocalPoliceIcon />,
   },
   {
     id: 'restaurant-images',
     text: 'Images',
+    hide: true,
     icon: <ImageIcon />,
   },
 ];

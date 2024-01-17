@@ -1,6 +1,9 @@
 import React from 'react';
 import { useFormik } from 'formik';
 
+// Components
+import ListingConfirmation from '@/components/restaurant-listing/listing-confirmation/listing-confirmation';
+
 // Styles
 import {
   CustomCheckbox,
@@ -23,33 +26,19 @@ import {
   MenuItem,
 } from '@mui/material';
 
-// Utils
-import { restaurantLeglitiesSchema } from '@/utils/validation-schema/restaurant';
-import { PhoneInputCustom } from '@/utils/phone-input';
-
 // Icons
 import CancelIcon from '@mui/icons-material/Cancel';
 
-import ListingConfirmation from '@/components/restaurant-listing/listing-confirmation/listing-confirmation';
-
-const names = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder',
-];
+// Utils
+import { restaurantLeglitiesSchema } from '@/utils/validation-schema/restaurant';
+import { PhoneInputCustom } from '@/utils/phone-input';
+import { cuisineTypes } from '@/utils/constants';
 
 const DetailsForm = ({
   activeStep,
   handleNext,
   handleBack,
-  detailValues,
+  legalValues,
   locationValues,
 }) => {
   const contactChangeHandler = (phoneNumber) => {
@@ -61,6 +50,7 @@ const DetailsForm = ({
     updatedCuisine.splice(index, 1);
     formik.setFieldValue('cuisine', updatedCuisine);
   };
+  
 
   const formik = useFormik({
     validateOnMount: true,
@@ -108,18 +98,16 @@ const DetailsForm = ({
                         </IconButton>
                       }
                       onDelete={() => handleDelete(index)}
-                      sx={{
-                        color: 'text.primary',
-                      }}
+                      sx={{ color: 'text.primary' }}
                     />
                   ))}
                 </Box>
               )}
             >
-              {names.map((name) => (
-                <MenuItem key={name} value={name}>
+              {cuisineTypes.map((cuisine) => (
+                <MenuItem key={cuisine} value={cuisine}>
                   <Text variant="sub" color="text.secondary" fontWeight={500}>
-                    {name}
+                    {cuisine}
                   </Text>
                 </MenuItem>
               ))}
@@ -168,9 +156,9 @@ const DetailsForm = ({
         <ListingConfirmation
           activeStep={activeStep}
           handleBack={handleBack}
-          detailValues={detailValues}
+          legalValues={legalValues}
           locationValues={locationValues}
-          legalValues={formik.values}
+          detailValues={formik.values}
         />
       )}
     </React.Fragment>

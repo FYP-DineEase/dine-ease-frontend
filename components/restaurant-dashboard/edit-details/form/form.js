@@ -52,8 +52,6 @@ const EditDetailsForm = () => {
     country: '',
   });
 
-  console.log(isMobile);
-
   useEffect(() => {
     if (details.location) {
       setLocation(details.location);
@@ -261,13 +259,7 @@ const EditDetailsForm = () => {
               disabled
             />
             {isMobile && (
-              <Box
-                sx={{
-                  position: 'relative',
-                  width: '100%',
-                  height: '300px',
-                }}
-              >
+              <Box sx={{ height: '300px' }}>
                 <Location location={location} updateLocation={updateLocation} />
               </Box>
             )}
@@ -290,7 +282,7 @@ const EditDetailsForm = () => {
             sx={{
               position: 'relative',
               height: '700px',
-              ml: 3
+              ml: 3,
             }}
           >
             <Location location={location} updateLocation={updateLocation} />

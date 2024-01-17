@@ -1,23 +1,9 @@
-import React, { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { enqueueSnackbar } from 'notistack';
+import React from 'react';
 import { ProfileProvider } from '@/context/profile-context';
 import { getAllUserSlugs, getUserBySlug } from '@/services';
 import Profile from '@/components/profile/profile';
 
 function ProfilePage({ user }) {
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!user) {
-      enqueueSnackbar({
-        variant: 'success',
-        message: 'Profile Updated Successfully',
-        onExited: () => router.push(`/login`, null, { shallow: true }),
-      });
-    }
-  }, [router, user]);
-
   return <ProfileProvider initialValue={user}>{user && <Profile />}</ProfileProvider>;
 }
 

@@ -92,7 +92,7 @@ const RestaurantImages = () => {
       await deleteRestaurantImages(details.id, { images: removedImages });
       detailsHandler({ images: updatedImages });
       closeDeleteModal();
-      enqueueSnackbar({ variant: 'success', message: 'Image(s) deleted successfully' });
+      enqueueSnackbar({ variant: 'success', message: 'Image(s) deleted' });
     } catch (e) {
       enqueueSnackbar({ variant: 'error', message: getError(e) });
     } finally {

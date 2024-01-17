@@ -51,7 +51,7 @@ const PreviewModal = ({ images, setImages, imageChangeHandler }) => {
       const res = await uploadRestaurantImages(details.id, formData);
       setImages([]);
       detailsHandler({ images: res.data });
-      enqueueSnackbar({ variant: 'success', message: 'Image(s) uploaded successfully' });
+      enqueueSnackbar({ variant: 'success', message: 'Image(s) uploaded' });
     } catch (e) {
       enqueueSnackbar({ variant: 'error', message: getError(e) });
     } finally {

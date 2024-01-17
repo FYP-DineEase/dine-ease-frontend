@@ -61,7 +61,7 @@ const RestaurantLogo = ({ open }) => {
           alt="restaurant-avatar"
           src={
             (newAvatar && URL.createObjectURL(newAvatar)) ||
-            '/assets/images/bg-placeholder.jpg'
+            '/assets/images/bg-placeholder.png'
           }
           sx={{ height: 120, width: 120 }}
         />

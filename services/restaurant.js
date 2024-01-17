@@ -4,10 +4,8 @@ import { PORTS } from '@/utils/port';
 const service = 'restaurant';
 const port = PORTS[service];
 
-export const checkRestaurant = (queryParams) => {
-  return api.get(`http://localhost:${port}/api/${service}/check`, {
-    params: { queryParams },
-  });
+export const checkRestaurant = (params) => {
+  return api.get(`http://localhost:${port}/api/${service}/check`, { params });
 };
 
 export const getRestaurantBySlug = (slug) => {
@@ -26,8 +24,8 @@ export const getUserRestaurants = () => {
   return api.get(`http://localhost:${port}/api/${service}/user`);
 };
 
-export const listRestaurant = () => {
-  return api.post(`http://localhost:${port}/api/${service}`);
+export const listRestaurant = (payload) => {
+  return api.post(`http://localhost:${port}/api/${service}`, payload);
 };
 
 export const uploadRestaurantImages = (restaurantId, payload) => {

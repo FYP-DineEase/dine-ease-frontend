@@ -16,6 +16,10 @@ const MapMarker = ({ newMarker, coordinates, confirmMark, flyToLocation }) => {
   const [showOptions, setShowOptions] = useState(false);
 
   useEffect(() => {
+    flyToLocation();
+  }, [flyToLocation]);
+
+  useEffect(() => {
     if (newMarker) {
       setMarkerPosition(newMarker);
       setShowOptions(true);
@@ -57,7 +61,7 @@ const MapMarker = ({ newMarker, coordinates, confirmMark, flyToLocation }) => {
 
   return (
     <>
-      <Tooltip title="Reset" placement="top" arrow>
+      <Tooltip title="Reset" placement="left" arrow>
         <Styles.ResetMarker onClick={resetMark}>
           <MyLocationIcon />
         </Styles.ResetMarker>

@@ -19,10 +19,7 @@ const ResendModal = ({ showModal, handleShowModal, email }) => {
   const resendVerificationHandler = async () => {
     try {
       const res = await resendConfirmation(email);
-      enqueueSnackbar({
-        variant: 'success',
-        message: res.data,
-      });
+      enqueueSnackbar({ variant: 'success', message: res.data });
     } catch (e) {
       enqueueSnackbar({ variant: 'error', message: getError(e) });
     } finally {
