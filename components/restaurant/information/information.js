@@ -8,11 +8,11 @@ import { Divider, Grid, useMediaQuery } from '@mui/material';
 // Icons
 import LunchDiningIcon from '@mui/icons-material/LunchDining';
 
-const Information = () => {
+const Information = ({ restaurant }) => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
   return (
-    <SectionContainer container >
+    <SectionContainer container>
       <Grid item xs={12}>
         <Styles.InformationContent>
           <FlexContainer sx={{ flexDirection: 'column', gap: 1 }}>
@@ -20,7 +20,7 @@ const Information = () => {
               <LunchDiningIcon sx={{ color: 'text.primary' }} />
             </Styles.IconContainer>
             <Text variant="body" fontWeight={800}>
-              BBQ, Fast Food, Sea Food, Chinese
+              {restaurant.cuisine.join(', ')}
             </Text>
             <Text variant="sub" fontWeight={500}>
               Cuisines we offer
@@ -36,7 +36,7 @@ const Information = () => {
               <LunchDiningIcon sx={{ color: 'text.primary' }} />
             </Styles.IconContainer>
             <Text variant="body" fontWeight={800}>
-              123 Main Street, Pechs block-2, Near Zahid Restaurant
+              {restaurant.address}
             </Text>
             <Text variant="sub" fontWeight={500}>
               Our Location
@@ -52,7 +52,7 @@ const Information = () => {
               <LunchDiningIcon sx={{ color: 'text.primary' }} />
             </Styles.IconContainer>
             <Text variant="body" fontWeight={800}>
-              +923316116611
+              +{restaurant.phoneNumber}
             </Text>
             <Text variant="sub" fontWeight={500}>
               Contact Us

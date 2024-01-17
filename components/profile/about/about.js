@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { selectUserState } from '@/store/user/userSlice';
+import { selectUserState, userActions } from '@/store/user/userSlice';
 import { useProfileContext } from '@/context/profile-context';
 
 // Components
@@ -33,8 +33,10 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 
 const About = () => {
-  const { details, detailsHandler } = useProfileContext();
+  const dispatch = useDispatch();
+
   const user = useSelector(selectUserState);
+  const { details, detailsHandler } = useProfileContext();
 
   const [newAvatar, setNewAvatar] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -52,7 +54,10 @@ const About = () => {
       formData.append('file', newAvatar);
 
       const response = await updateProfileImage(formData);
-      detailsHandler({ avatar: response.data });
+      const updated = { avatar: response.data };
+
+      dispatch(userActions.updateDetails(updated));
+      detailsHandler(updated);
       handleCancelAvatar();
 
       enqueueSnackbar({ variant: 'success', message: 'Avatar Updated' });

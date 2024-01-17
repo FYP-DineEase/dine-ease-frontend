@@ -6,6 +6,7 @@ const initialState = {
   id: null,
   name: null,
   email: null,
+  slug: null,
   role: null,
   avatar: null,
   location: {
@@ -20,14 +21,14 @@ const userSlice = createSlice({
   reducers: {
     logout: () => initialState,
     login: (state, action) => (state = action.payload),
+    updateDetails: (state, action) => {
+      return { ...state, ...action.payload };
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(HYDRATE, (state, action) => {
-        return {
-          ...state,
-          ...action.payload,
-        };
+        return { ...state, ...action};
       })
       .addCase(getUser.rejected, (state, action) => {
         return initialState;

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
+import { useDispatch } from 'react-redux';
 import { enqueueSnackbar } from 'notistack';
+import { userActions } from '@/store/user/userSlice';
 import { useProfileContext } from '@/context/profile-context';
 
 // Services
@@ -22,6 +24,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import Location from './location/location';
 
 const DetailsModal = ({ showModal, closeModal }) => {
+  const dispatch = useDispatch();
+
   const { details, detailsHandler } = useProfileContext();
   const { firstName, lastName, description } = details;
 
@@ -40,6 +44,7 @@ const DetailsModal = ({ showModal, closeModal }) => {
       }
 
       await updateProfileDetails(values);
+      dispatch(userActions.updateDetails(values))
       detailsHandler(values);
 
       enqueueSnackbar({

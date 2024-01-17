@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { enqueueSnackbar } from 'notistack';
 import image from '@/public/assets/images/avatar.jpg';
 
@@ -70,8 +71,8 @@ const RestaurantCard = () => {
             </CardMedia>
             <Styles.CardContentContainer>
               <Chip
-                label={restaurant.listStatus}
-                color={statusColors[restaurant.listStatus] || 'primary'}
+                label={restaurant.status}
+                color={statusColors[restaurant.status]}
                 variant="outlined"
                 sx={{ position: 'absolute', top: 0, right: 0 }}
               />
@@ -98,11 +99,22 @@ const RestaurantCard = () => {
                   {restaurant.address}
                 </Text>
               </Styles.IconContainer>
-              <PrimaryButton sx={{ position: 'absolute', right: 15, bottom: 10 }}>
-                <Text variant="sub" fontWeight={800}>
-                  Dashboard
-                </Text>
-              </PrimaryButton>
+              <FlexContainer sx={{ position: 'absolute', right: 15, bottom: 10, gap: 1 }}>
+                <Link href={`/restaurant/${restaurant.slug}`}>
+                  <PrimaryButton>
+                    <Text variant="sub" fontWeight={800}>
+                      View
+                    </Text>
+                  </PrimaryButton>
+                </Link>
+                <Link href={`/restaurant/dashboard/${restaurant.slug}/overview`}>
+                  <PrimaryButton>
+                    <Text variant="sub" fontWeight={800}>
+                      Dashboard
+                    </Text>
+                  </PrimaryButton>
+                </Link>
+              </FlexContainer>
             </Styles.CardContentContainer>
           </Card>
         </Grid>

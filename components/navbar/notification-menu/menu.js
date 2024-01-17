@@ -69,10 +69,11 @@ const NotificationMenu = () => {
             </Styles.Badge>
           }
         >
-          <NotificationsIcon color="primary" sx={{ fontSize: '2.5rem' }} />
+          <NotificationsIcon color="primary" sx={{ fontSize: '1.75rem' }} />
         </Badge>
       </IconButton>
       <ArrowMenu
+        disableScrollLock={true}
         anchorEl={anchorEl}
         open={open}
         onClose={closeMenu}

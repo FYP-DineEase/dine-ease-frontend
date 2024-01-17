@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUserState, userActions } from '@/store/user/userSlice';
 
 // Styles
 import * as Styles from './menu.styles';
@@ -9,9 +11,17 @@ import { Avatar, Badge, Fade, IconButton, MenuItem } from '@mui/material';
 // Icons
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
+import RestaurantIcon from '@mui/icons-material/Restaurant';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
+// Helpers
+import { getFileUrl } from '@/helpers/fileHelpers';
+import { UserRoles } from '@/utils/roles';
+
 const ProfileMenu = () => {
+  const dispatch = useDispatch();
+  const user = useSelector(selectUserState);
+
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -22,6 +32,13 @@ const ProfileMenu = () => {
   const closeMenu = () => {
     setAnchorEl(null);
   };
+
+  const handleLogout = () => {
+    dispatch(userActions.logout());
+    localStorage.clear();
+    closeMenu();
+  };
+
   return (
     <React.Fragment>
       <IconButton onClick={openMenu}>
@@ -44,12 +61,19 @@ const ProfileMenu = () => {
         >
           <Avatar
             alt="profile-avatar"
-            src="/assets/images/avatar.jpg"
+            src={
+              user.avatar &&
+              getFileUrl(
+                process.env.NEXT_PUBLIC_USER_BUCKET,
+                `${user.id}/avatar/${user.avatar}`
+              )
+            }
             sx={{ height: 55, width: 55 }}
           />
         </Badge>
       </IconButton>
       <ArrowMenu
+        disableScrollLock={true}
         anchorEl={anchorEl}
         open={open}
         onClose={closeMenu}
@@ -60,15 +84,25 @@ const ProfileMenu = () => {
         }}
         TransitionComponent={Fade}
       >
-        <Link href="/profile/123">
-          <MenuItem onClick={closeMenu}>
+        {user.role === UserRoles.MANAGER && (
+          <Link href={`/restaurant/listing`} onClick={closeMenu}>
+            <MenuItem>
+              <RestaurantIcon color="primary" fontSize="small" sx={{ mr: 1 }} />
+              <Text variant="sub" color="text.secondary">
+                List Restaurant
+              </Text>
+            </MenuItem>
+          </Link>
+        )}
+        <Link href={`/profile/${user.slug}`} onClick={closeMenu}>
+          <MenuItem>
             <SettingsIcon color="primary" fontSize="small" sx={{ mr: 1 }} />
             <Text variant="sub" color="text.secondary">
-              Profile Settings
+              Profile
             </Text>
           </MenuItem>
         </Link>
-        <MenuItem onClick={closeMenu}>
+        <MenuItem onClick={handleLogout}>
           <LogoutIcon color="primary" fontSize="small" sx={{ mr: 1 }} />
           <Text variant="sub" color="text.secondary">
             Logout

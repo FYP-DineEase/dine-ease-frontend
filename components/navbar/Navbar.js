@@ -1,5 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
+import { selectUserState } from '@/store/user/userSlice';
 
 // Components
 import Logo from '../logo/logo';
@@ -17,6 +19,8 @@ import { Text } from '../UI';
 import * as Styles from './navbar.styles';
 
 const Navbar = () => {
+  const user = useSelector(selectUserState);
+
   const navLinks = [
     { id: 'Home', link: '/', icon: <HomeIcon color="primary" /> },
     { id: 'Discover', link: '/', icon: <TravelExploreIcon color="primary" /> },
@@ -37,9 +41,11 @@ const Navbar = () => {
         {navLinks.map((item) => (
           <Link key={item.id} href={item.link}>
             {item.authItem ? (
-              <Styles.AuthLink fill={item.fill ? 1 : 0}>
-                <Text variant="body">{item.id}</Text>
-              </Styles.AuthLink>
+              !user.id && (
+                <Styles.AuthLink fill={item.fill ? 1 : 0}>
+                  <Text variant="body">{item.id}</Text>
+                </Styles.AuthLink>
+              )
             ) : (
               <Styles.LinkContainer>
                 <Text variant="body">{item.id}</Text>
@@ -47,8 +53,12 @@ const Navbar = () => {
             )}
           </Link>
         ))}
-        <NotificationMenu />
-        <ProfileMenu />
+        {user.id && (
+          <React.Fragment>
+            <NotificationMenu />
+            <ProfileMenu />
+          </React.Fragment>
+        )}
       </Styles.NavContainer>
       <NavbarDrawer navLinks={navLinks} />
     </Styles.AppBarContainer>

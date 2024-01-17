@@ -8,6 +8,10 @@ export const checkRestaurant = (params) => {
   return api.get(`http://localhost:${port}/api/${service}/check`, { params });
 };
 
+export const getRestaurantSlugs = () => {
+  return api.get(`http://localhost:${port}/api/${service}/all/slug`);
+};
+
 export const getRestaurantBySlug = (slug) => {
   return api.get(`http://localhost:${port}/api/${service}/${slug}`);
 };

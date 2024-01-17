@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
+import { selectUserState } from '@/store/user/userSlice';
 
 // Components
 import Logo from '@/components/logo/logo';
@@ -25,6 +27,7 @@ import { AuthLink } from '../navbar.styles';
 import MenuIcon from '@mui/icons-material/Menu';
 
 const NavbarDrawer = ({ navLinks }) => {
+  const user = useSelector(selectUserState);
   const [showDrawer, setShowDrawer] = useState(false);
 
   const handleNavDrawer = () => {
@@ -34,8 +37,12 @@ const NavbarDrawer = ({ navLinks }) => {
   return (
     <React.Fragment>
       <FlexContainer gap={1} sx={{ display: { xs: 'block', md: 'none' } }}>
-        <NotificationMenu />
-        <ProfileMenu />
+        {user.id && (
+          <React.Fragment>
+            <NotificationMenu />
+            <ProfileMenu />
+          </React.Fragment>
+        )}
         <IconButton onClick={handleNavDrawer}>
           <MenuIcon color="primary" sx={{ fontSize: 25 }} />
         </IconButton>
@@ -64,19 +71,23 @@ const NavbarDrawer = ({ navLinks }) => {
               )
           )}
         </List>
-        <Divider orientation="horizontal" variant="middle" />
-        <FlexContainer gap={1} mt={2}>
-          {navLinks.map(
-            (item) =>
-              item.authItem && (
-                <Link key={item.id} href={item.link}>
-                  <AuthLink fill={item.fill ? 1 : 0}>
-                    <Text variant="body">{item.id}</Text>
-                  </AuthLink>
-                </Link>
-              )
-          )}
-        </FlexContainer>
+        {!user.id && (
+          <React.Fragment>
+            <Divider orientation="horizontal" variant="middle" />
+            <FlexContainer gap={1} mt={2}>
+              {navLinks.map(
+                (item) =>
+                  item.authItem && (
+                    <Link key={item.id} href={item.link}>
+                      <AuthLink fill={item.fill ? 1 : 0}>
+                        <Text variant="body">{item.id}</Text>
+                      </AuthLink>
+                    </Link>
+                  )
+              )}
+            </FlexContainer>
+          </React.Fragment>
+        )}
       </Drawer>
     </React.Fragment>
   );
