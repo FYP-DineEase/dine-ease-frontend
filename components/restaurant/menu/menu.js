@@ -1,0 +1,84 @@
+import React from 'react';
+import Image from 'next/image';
+
+// Styles
+import * as Styles from './menu.styles';
+import { FlexContainer, Text } from '@/components/UI';
+import { Grid, Tab, Tabs } from '@mui/material';
+
+import menuData from '@/mockData/menu';
+
+const Menu = ({ value, handleChange, itemChangeHandler, items }) => {
+  return (
+    <Grid container>
+      <Grid item xs={12}>
+        <Styles.Header>
+          <Text variant="subHeader" color="primary" fontWeight={500}>
+            Choose & Pick
+          </Text>
+          <Text variant="header" fontWeight={800}>
+            Browse Menu
+          </Text>
+        </Styles.Header>
+      </Grid>
+      <Grid item xs={12} mb={5}>
+        <Tabs
+          variant="fullWidth"
+          value={value}
+          onChange={handleChange}
+          centered
+          scrollButtons="auto"
+        >
+          {Object.entries(menuData).map(([key, value]) => (
+            <Tab
+              key={key}
+              label={<Text variant="body">{key}</Text>}
+              sx={{ textTransform: 'none' }}
+              onClick={() => itemChangeHandler(value)}
+            />
+          ))}
+        </Tabs>
+      </Grid>
+      <Grid item xs={0} md={4} sx={{ display: { xs: 'none', md: 'block' } }}>
+        <Image
+          src={'/assets/images/restaurant/menu-image.png'}
+          alt="menu-image"
+          height={500}
+          width={500}
+        />
+      </Grid>
+      <Grid item xs={12} md={8}>
+        <Grid container columnSpacing={4} rowSpacing={4}>
+          {items.map((item) => (
+            <Grid item xs={12} md={6} key={item.name}>
+              <Styles.Card>
+                <FlexContainer gap={2}>
+                  <Image
+                    src={'/assets/images/restaurant/menu-image.png'}
+                    alt={item.name}
+                    height={100}
+                    width={100}
+                    style={{ borderRadius: '10px' }}
+                  />
+                  <FlexContainer
+                    sx={{ flexDirection: 'column', gap: 1, alignItems: 'flex-start' }}
+                  >
+                    <Text variant="main" fontWeight={800}>
+                      {item.name}
+                    </Text>
+                    <Text variant="body">{item.description}</Text>
+                    <Text variant="main" color="primary" fontWeight={800}>
+                      {item.price}
+                    </Text>
+                  </FlexContainer>
+                </FlexContainer>
+              </Styles.Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Grid>
+    </Grid>
+  );
+};
+
+export default Menu;

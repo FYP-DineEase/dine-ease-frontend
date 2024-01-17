@@ -10,7 +10,9 @@ const Logo = ({ color = 'primary', size = 'header' }) => {
     <Link href="/">
       <Styles.LogoContainer color={color}>
         <Styles.Logo variant={size} />
-        <Text variant={size}>DineEase</Text>
+        <Text variant={size} sx={{ display: { xs: 'none', md: 'block' } }}>
+          DineEase
+        </Text>
       </Styles.LogoContainer>
     </Link>
   );

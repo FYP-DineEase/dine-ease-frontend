@@ -24,6 +24,12 @@ export const SecondaryContainer = styled(Grid)({
   justifyContent: 'center',
 });
 
+export const SectionContainer = styled(SecondaryContainer)(({ theme }) => ({
+  height: 'auto',
+  marginTop: theme.spacing(16),
+  marginBottom: theme.spacing(16),
+}));
+
 export const FormContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
@@ -54,4 +60,8 @@ export const DashboardContent = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
     padding: `${theme.spacing(2)} ${theme.spacing(1)} `,
   },
+}));
+
+export const PageContent = styled(DashboardContent)(({ theme }) => ({
+  padding: `${theme.spacing(3)} ${theme.spacing(4)} `,
 }));

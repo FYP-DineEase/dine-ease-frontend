@@ -9,3 +9,4 @@ export * from './typography/index';
 export * from './modal/index';
 export * from './drawer/index';
 export * from './selectboxes/index';
+export * from './menu/index';

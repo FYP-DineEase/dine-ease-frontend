@@ -22,7 +22,7 @@ export const TabsContainer = styled(Box)(({ theme }) => ({
 export const FixedTabs = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.static.primary,
   marginTop: `${NAV_HEIGHT}px`,
-  transition: 'all 0.75s',
+  transition: 'opacity 0.75s',
   animation: 'fadeInDown 0.5s ease-out',
 
   '@keyframes fadeInDown': {

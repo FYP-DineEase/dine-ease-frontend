@@ -17,3 +17,9 @@ export const FormButton = styled(PrimaryButton)(({ theme }) => ({
   width: '50%',
   margin: 'auto',
 }));
+
+export const PaddedButton = styled(PrimaryButton)(({ theme }) => ({
+  padding: `${theme.spacing(2)} ${theme.spacing(4)}`,
+  borderRadius: '30px',
+  textTransform: 'none',
+}));

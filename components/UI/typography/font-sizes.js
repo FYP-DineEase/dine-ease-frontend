@@ -1,4 +1,8 @@
 export const baseFontSizes = {
+  bigHeader: {
+    default: '2.2rem',
+    small: '1.75rem',
+  },
   header: {
     default: '2rem',
     small: '1.75rem',

@@ -1,19 +1,26 @@
 import React from 'react';
 import Link from 'next/link';
 
-// components
+// Components
 import Logo from '../logo/logo';
+import NavbarDrawer from './drawer/drawer';
+import ProfileMenu from './profile-menu/menu';
+import NotificationMenu from './notification-menu/menu';
+
+// Icons
+import HomeIcon from '@mui/icons-material/Home';
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
+import InfoIcon from '@mui/icons-material/Info';
 
 // Styles
 import { Text } from '../UI';
 import * as Styles from './navbar.styles';
-import NavbarDrawer from './drawer/drawer';
 
 const Navbar = () => {
   const navLinks = [
-    { id: 'Home', link: '/' },
-    { id: 'Discover', link: '/' },
-    { id: 'About Us', link: '/' },
+    { id: 'Home', link: '/', icon: <HomeIcon color="primary" /> },
+    { id: 'Discover', link: '/', icon: <TravelExploreIcon color="primary" /> },
+    { id: 'About Us', link: '/', icon: <InfoIcon color="primary" /> },
     { id: 'Log In', link: '/login', authItem: true },
     {
       id: 'Sign Up',
@@ -40,6 +47,8 @@ const Navbar = () => {
             )}
           </Link>
         ))}
+        <NotificationMenu />
+        <ProfileMenu />
       </Styles.NavContainer>
       <NavbarDrawer navLinks={navLinks} />
     </Styles.AppBarContainer>

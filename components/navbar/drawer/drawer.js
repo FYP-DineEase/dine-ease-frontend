@@ -3,6 +3,8 @@ import Link from 'next/link';
 
 // Components
 import Logo from '@/components/logo/logo';
+import ProfileMenu from '../profile-menu/menu';
+import NotificationMenu from '../notification-menu/menu';
 
 // Styles
 import {
@@ -31,11 +33,15 @@ const NavbarDrawer = ({ navLinks }) => {
 
   return (
     <React.Fragment>
-      <IconButton onClick={handleNavDrawer} sx={{ display: { xs: 'block', md: 'none' } }}>
-        <MenuIcon color="primary" sx={{ fontSize: 25 }} />
-      </IconButton>
+      <FlexContainer gap={1} sx={{ display: { xs: 'block', md: 'none' } }}>
+        <NotificationMenu />
+        <ProfileMenu />
+        <IconButton onClick={handleNavDrawer}>
+          <MenuIcon color="primary" sx={{ fontSize: 25 }} />
+        </IconButton>
+      </FlexContainer>
       <Drawer
-        sx={{ '& .MuiDrawer-paper': { width: '60vw' } }}
+        sx={{ '& .MuiDrawer-paper': { width: '250px' } }}
         anchor="right"
         open={showDrawer}
         onClose={handleNavDrawer}
@@ -49,7 +55,7 @@ const NavbarDrawer = ({ navLinks }) => {
               !item.authItem && (
                 <Link key={item.id} href={item.link}>
                   <ListItem disablePadding>
-                    <ListItemButton sx={{ pl: 3 }}>
+                    <ListItemButton sx={{ pl: 5 }}>
                       <ListItemIcon>{item.icon}</ListItemIcon>
                       <ListItemText sx={{ color: 'secondary.main' }} primary={item.id} />
                     </ListItemButton>

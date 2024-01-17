@@ -11,7 +11,6 @@ export const AppBarContainer = styled(AppBar)(({ theme }) => ({
   width: '100%',
   background: theme.palette.static.primary,
   zIndex: '999',
-  transition: 'all 0.5s',
   boxShadow: 'none',
   borderBottom: `1px solid ${theme.palette.static.ternary}`,
 
@@ -40,7 +39,7 @@ export const AuthLink = styled(Button)(({ fill, theme }) => ({
   backgroundColor: fill ? theme.palette.primary.main : theme.palette.static.primary,
   boxShadow: !fill && `inset 0px 0px 0px 2px ${theme.palette.primary.main}`,
   padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
-  transition: 'box-shadow 0.3s',
+  transition: 'background-color 0.3s',
 
   '&:hover': {
     backgroundColor: fill ? theme.palette.secondary.main : theme.palette.static.primary,

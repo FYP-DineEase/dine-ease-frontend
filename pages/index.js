@@ -1,3 +1,8 @@
-export default function Home() {
-  return <h1>Home</h1>;
-}
+import React from 'react';
+import Home from '@/components/home/home';
+
+const HomePage = () => {
+  return <Home />;
+};
+
+export default HomePage;
