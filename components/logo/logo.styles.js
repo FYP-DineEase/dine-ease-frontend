@@ -1,6 +1,6 @@
 import { styled } from '@mui/material';
 import { LocalDining } from '@mui/icons-material';
-import { FlexContainer } from '@/components/UI';
+import { FlexContainer, Text } from '@/components/UI';
 
 export const LogoContainer = styled(FlexContainer)(({ color, theme }) => ({
   gap: theme.spacing(1),
@@ -8,9 +8,17 @@ export const LogoContainer = styled(FlexContainer)(({ color, theme }) => ({
   fontWeight: 500,
 }));
 
-export const Logo = styled(LocalDining)(({ variant, theme }) => ({
+export const Logo = styled(LocalDining)(({ theme }) => ({
   fontSize: '3.5rem',
   [theme.breakpoints.down('sm')]: {
-    fontSize: '2rem',
+    fontSize: '3rem',
+  },
+}));
+
+export const LogoText = styled(Text)(({ isHide, theme }) => ({
+  display: 'block',
+
+  [theme.breakpoints.down('md')]: {
+    display: isHide && 'none',
   },
 }));

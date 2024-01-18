@@ -1,16 +1,20 @@
 import React from 'react';
 import Link from 'next/link';
-
-// styles
-import { Text } from '../UI';
 import * as Styles from './logo.styles';
 
-const Logo = ({ color = 'primary', size = 'header' }) => {
+const Logo = ({
+  color = 'primary',
+  size = 'header',
+  isNavigate = false,
+  isHide = false,
+}) => {
   return (
-    <Link href="/">
+    <Link href={isNavigate ? '/' : ''}>
       <Styles.LogoContainer color={color}>
         <Styles.Logo variant={size} />
-        <Text variant={size}>DineEase</Text>
+        <Styles.LogoText variant={size} isHide={+isHide}>
+          DineEase
+        </Styles.LogoText>
       </Styles.LogoContainer>
     </Link>
   );

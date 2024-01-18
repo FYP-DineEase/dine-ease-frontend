@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 
+import TermsModal from '../terms-and-condition/modal/terms-modal';
+
 // Snackbar
 import { enqueueSnackbar } from 'notistack';
 import { getError } from '@/helpers/snackbarHelpers';
@@ -41,8 +43,9 @@ import {
 const SignupForm = () => {
   const router = useRouter();
 
-  const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState('User');
+  const [showTerms, setShowTerms] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const submitHandler = async (values) => {
     try {
@@ -75,140 +78,179 @@ const SignupForm = () => {
     onSubmit: submitHandler,
   });
 
+  const handleTermsClick = () => {
+    console.log(formik.values.agree);
+    if (formik.values.agree) {
+      formik.setFieldValue('agree', false);
+      return;
+    }
+    setShowTerms(true);
+  };
+
+  const handleCloseTerms = () => {
+    setShowTerms(false);
+  };
+
+  const handleAcceptTerms = () => {
+    formik.setFieldValue('agree', true);
+    handleCloseTerms();
+  };
+
   return (
-    <FormContainer component="form" onSubmit={formik.handleSubmit}>
-      <Text variant="header" textAlign={'center'} fontWeight={800}>
-        Welcome to&nbsp;
-        <Text variant="header" color="primary">
-          DineEase
-        </Text>
-      </Text>
-      <Text variant="main" textAlign={'center'} fontWeight={500} mb={3}>
-        Create your account
-      </Text>
-
-      <FlexContainer gap={2}>
-        <InputField
-          name="firstName"
-          label="First Name"
-          variant="outlined"
-          placeholder="Enter First Name"
-          value={formik.values.firstName}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.errors.firstName && Boolean(formik.touched.firstName)}
-          helperText={formik.touched.firstName && formik.errors.firstName}
+    <React.Fragment>
+      {showTerms && (
+        <TermsModal
+          open={showTerms}
+          handleClose={handleCloseTerms}
+          onAccept={handleAcceptTerms}
         />
-
-        <InputField
-          name="lastName"
-          label="Last Name"
-          variant="outlined"
-          placeholder="Enter Last Name"
-          value={formik.values.lastName}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.errors.lastName && Boolean(formik.touched.lastName)}
-          helperText={formik.touched.lastName && formik.errors.lastName}
-        />
-      </FlexContainer>
-
-      <InputField
-        name="email"
-        label="Email"
-        variant="outlined"
-        placeholder="Enter Email"
-        value={formik.values.email}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        error={formik.errors.email && Boolean(formik.touched.email)}
-        helperText={formik.touched.email && formik.errors.email}
-      />
-
-      <InputField
-        name="password"
-        label="Password"
-        variant="outlined"
-        placeholder="Enter Password"
-        type={showPassword ? 'text' : 'password'}
-        value={formik.values.password}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        error={formik.errors.password && Boolean(formik.touched.password)}
-        helperText={formik.touched.password && formik.errors.password}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end">
-                {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-      />
-
-      <InputField
-        name="confirmPassword"
-        label="Confirm Password"
-        variant="outlined"
-        placeholder="Confirm Password"
-        type={showPassword ? 'text' : 'password'}
-        value={formik.values.confirmPassword}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        error={formik.errors.confirmPassword && Boolean(formik.touched.confirmPassword)}
-        helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end">
-                {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-      />
-
-      <FlexContainer gap={2}>
-        {Object.values(UserRoles).map((r) => (
-          <Styles.RoleItem
-            key={r}
-            selected={+role.includes(r)}
-            onClick={() => setRole(r)}
-          >
-            {r === UserRoles.USER && <UserIcon />}
-            {r === UserRoles.MANAGER && <ManagerIcon />}
-            <Text variant="sub">{r}</Text>
-          </Styles.RoleItem>
-        ))}
-      </FlexContainer>
-
-      <FormGroup>
-        <FormControlLabel
-          sx={{ justifyContent: 'center' }}
-          control={
-            <CustomCheckbox
-              name="agree"
-              value={formik.values.agree}
-              onChange={formik.handleChange}
-            />
-          }
-          label="I agree to DineEase's Terms & Conditions"
-        />
-      </FormGroup>
-      <FormButton type="submit" disabled={formik.isSubmitting || !formik.values.agree}>
-        <Text variant="sub">Sign up</Text>
-      </FormButton>
-
-      <Link href="/login">
-        <Box sx={{ textAlign: 'center' }}>
-          <Text variant="body">Already have an account? </Text>
-          <Text variant="body" color="primary">
-            Login now.
+      )}
+      <FormContainer component="form" onSubmit={formik.handleSubmit}>
+        <Text variant="header" textAlign={'center'} fontWeight={800}>
+          Welcome to&nbsp;
+          <Text variant="header" color="primary">
+            DineEase
           </Text>
-        </Box>
-      </Link>
-    </FormContainer>
+        </Text>
+        <Text variant="main" textAlign={'center'} fontWeight={500} mb={3}>
+          Create your account
+        </Text>
+
+        <FlexContainer gap={2}>
+          <InputField
+            name="firstName"
+            label="First Name"
+            variant="outlined"
+            placeholder="Enter First Name"
+            value={formik.values.firstName}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.errors.firstName && Boolean(formik.touched.firstName)}
+            helperText={formik.touched.firstName && formik.errors.firstName}
+          />
+
+          <InputField
+            name="lastName"
+            label="Last Name"
+            variant="outlined"
+            placeholder="Enter Last Name"
+            value={formik.values.lastName}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.errors.lastName && Boolean(formik.touched.lastName)}
+            helperText={formik.touched.lastName && formik.errors.lastName}
+          />
+        </FlexContainer>
+
+        <InputField
+          name="email"
+          label="Email"
+          variant="outlined"
+          placeholder="Enter Email"
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.errors.email && Boolean(formik.touched.email)}
+          helperText={formik.touched.email && formik.errors.email}
+        />
+
+        <InputField
+          name="password"
+          label="Password"
+          variant="outlined"
+          placeholder="Enter Password"
+          type={showPassword ? 'text' : 'password'}
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.errors.password && Boolean(formik.touched.password)}
+          helperText={formik.touched.password && formik.errors.password}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end">
+                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+
+        <InputField
+          name="confirmPassword"
+          label="Confirm Password"
+          variant="outlined"
+          placeholder="Confirm Password"
+          type={showPassword ? 'text' : 'password'}
+          value={formik.values.confirmPassword}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.errors.confirmPassword && Boolean(formik.touched.confirmPassword)}
+          helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end">
+                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+
+        <FlexContainer gap={2}>
+          {Object.values(UserRoles).map((r) => (
+            <Styles.RoleItem
+              key={r}
+              selected={+role.includes(r)}
+              onClick={() => setRole(r)}
+            >
+              {r === UserRoles.USER && <UserIcon />}
+              {r === UserRoles.MANAGER && <ManagerIcon />}
+              <Text variant="sub">{r}</Text>
+            </Styles.RoleItem>
+          ))}
+        </FlexContainer>
+
+        <FormGroup>
+          <FormControlLabel
+            sx={{ justifyContent: 'center' }}
+            control={
+              <CustomCheckbox
+                name="agree"
+                checked={formik.values.agree}
+                value={formik.values.agree}
+                onClick={handleTermsClick}
+              />
+            }
+            label={
+              <Text variant="body">
+                I agree to DineEase&apos;s&nbsp;
+                <Styles.TermsText
+                  variant="body"
+                  color="primary"
+                  onClick={() => setShowTerms(true)}
+                >
+                  Terms & Conditions
+                </Styles.TermsText>
+              </Text>
+            }
+          />
+        </FormGroup>
+        <FormButton type="submit" disabled={formik.isSubmitting || !formik.values.agree}>
+          <Text variant="sub">Sign up</Text>
+        </FormButton>
+
+        <Link href="/login">
+          <Box sx={{ textAlign: 'center' }}>
+            <Text variant="body">Already have an account? </Text>
+            <Text variant="body" color="primary">
+              Login now.
+            </Text>
+          </Box>
+        </Link>
+      </FormContainer>
+    </React.Fragment>
   );
 };
 

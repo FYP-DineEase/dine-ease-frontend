@@ -36,7 +36,7 @@ const Navbar = () => {
 
   return (
     <Styles.AppBarContainer>
-      <Logo />
+      <Logo isHide={true} />
       <Styles.NavContainer>
         {navLinks.map((item) => (
           <Link key={item.id} href={item.link}>

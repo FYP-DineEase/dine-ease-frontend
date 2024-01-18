@@ -68,7 +68,7 @@ const ProfileMenu = () => {
                 `${user.id}/avatar/${user.avatar}`
               )
             }
-            sx={{ height: 55, width: 55 }}
+            sx={{ height: 50, width: 50 }}
           />
         </Badge>
       </IconButton>
