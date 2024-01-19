@@ -64,7 +64,7 @@ const NavbarDrawer = ({ navLinks }) => {
                   <ListItem disablePadding>
                     <ListItemButton sx={{ pl: 5 }}>
                       <ListItemIcon>{item.icon}</ListItemIcon>
-                      <ListItemText sx={{ color: 'secondary.main' }} primary={item.id} />
+                      <ListItemText sx={{ color: 'text.secondary' }} primary={item.id} />
                     </ListItemButton>
                   </ListItem>
                 </Link>

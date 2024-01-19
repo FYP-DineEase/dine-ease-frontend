@@ -106,14 +106,30 @@ const LegalitiesForm = ({ activeStep, handleNext, handleBack, location }) => {
             helperText={formik.touched.taxId && formik.errors.taxId}
           />
           <FormControl>
-            <FormLabel>Is your restaurant registered with FBR?</FormLabel>
+            <FormLabel
+              sx={{
+                '&.MuiFormLabel-root.Mui-focused': {
+                  color: 'text.secondary',
+                },
+              }}
+            >
+              Is your restaurant registered with FBR?
+            </FormLabel>
             <RadioGroup row value={legalities.fbr} onChange={fbrHandler}>
               <FormControlLabel value={true} control={<Radio />} label="Yes" />
               <FormControlLabel value={false} control={<Radio />} label="No" />
             </RadioGroup>
           </FormControl>
           <FormControl>
-            <FormLabel>Is your restaurant part of stock exchange?</FormLabel>
+            <FormLabel
+              sx={{
+                '&.MuiFormLabel-root.Mui-focused': {
+                  color: 'text.secondary',
+                },
+              }}
+            >
+              Is your restaurant part of stock exchange?
+            </FormLabel>
             <RadioGroup row value={legalities.stock} onChange={stockHandler}>
               <FormControlLabel value={true} control={<Radio />} label="Yes" />
               <FormControlLabel value={false} control={<Radio />} label="No" />
@@ -133,11 +149,7 @@ const LegalitiesForm = ({ activeStep, handleNext, handleBack, location }) => {
             />
           </FormGroup>
 
-          <PrimaryButton
-            type="submit"
-            disabled={!formik.isValid}
-            sx={{ ml: 'auto', mt: 4 }}
-          >
+          <PrimaryButton type="submit" disabled={!formik.isValid} sx={{ ml: 'auto' }}>
             <Text variant="body">Next</Text>
           </PrimaryButton>
         </FormContainer>

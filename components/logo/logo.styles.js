@@ -6,6 +6,7 @@ export const LogoContainer = styled(FlexContainer)(({ color, theme }) => ({
   gap: theme.spacing(1),
   color: color === 'primary' ? theme.palette.primary.main : theme.palette.text.primary,
   fontWeight: 500,
+  cursor: 'pointer',
 }));
 
 export const Logo = styled(LocalDining)(({ theme }) => ({

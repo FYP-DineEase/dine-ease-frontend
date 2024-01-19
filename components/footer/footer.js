@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 // Icons
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -7,13 +8,18 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
 
 // Styles
-import * as Styles from "./footer.styles";
+import * as Styles from './footer.styles';
 import { Divider, Grid } from '@mui/material';
 import { FlexContainer, Text } from '../UI';
 
 import Logo from '../logo/logo';
 
 const Footer = () => {
+  const router = useRouter();
+
+  const isDashboard = router.pathname.includes('dashboard');
+  if (isDashboard) return;
+  
   return (
     <Grid container justifyContent="center" rowGap={5} paddingBottom={5}>
       <Grid item xs={12}>

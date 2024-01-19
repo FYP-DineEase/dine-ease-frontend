@@ -18,10 +18,11 @@ export const ImagePlaceHolder = styled(FlexContainer)(({ theme }) => ({
 }));
 
 export const ImagePlaceContainer = styled(DashboardContent)(({ theme }) => ({
-  width: '50%',
+  width: '60%',
   padding: theme.spacing(4),
   borderRadius: 10,
   margin: 'auto',
+  transform: 'translate(0,50%)',
   textAlign: 'center',
 
   [theme.breakpoints.down('lg')]: {

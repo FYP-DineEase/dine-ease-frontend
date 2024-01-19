@@ -22,9 +22,9 @@ const Navbar = () => {
   const user = useSelector(selectUserState);
 
   const navLinks = [
-    { id: 'Home', link: '/', icon: <HomeIcon color="primary" /> },
-    { id: 'Discover', link: '/', icon: <TravelExploreIcon color="primary" /> },
-    { id: 'About Us', link: '/', icon: <InfoIcon color="primary" /> },
+    { id: 'Home', link: '/', icon: <HomeIcon /> },
+    { id: 'Discover', link: '/', icon: <TravelExploreIcon /> },
+    { id: 'About Us', link: '/', icon: <InfoIcon /> },
     { id: 'Log In', link: '/login', authItem: true },
     {
       id: 'Sign Up',

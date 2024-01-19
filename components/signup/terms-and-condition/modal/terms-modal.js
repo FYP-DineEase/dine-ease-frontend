@@ -45,7 +45,7 @@ const TermsModal = ({ open, handleClose, onAccept }) => {
           <Text variant="header" fontWeight={500} textAlign={'center'}>
             Terms of Service
           </Text>
-          <Logo isHide={true} />
+          <Logo isHide={true} isNavigate={false} />
         </FlexContainer>
         <Styles.CancelIcon onClick={handleClose}>
           <CloseIcon color="error" fontSize="large" />
