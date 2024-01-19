@@ -11,7 +11,13 @@ import MyLocationIcon from '@mui/icons-material/MyLocation';
 import { IconButton, Tooltip } from '@mui/material';
 import * as Styles from './marker-styles';
 
-const MapMarker = ({ newMarker, coordinates, confirmMark, flyToLocation }) => {
+const MapMarker = ({
+  newMarker,
+  resetMarker,
+  coordinates,
+  confirmMark,
+  flyToLocation,
+}) => {
   const [markerPosition, setMarkerPosition] = useState(coordinates);
   const [showOptions, setShowOptions] = useState(false);
 
@@ -56,7 +62,8 @@ const MapMarker = ({ newMarker, coordinates, confirmMark, flyToLocation }) => {
     event.stopPropagation();
     flyToLocation(1000);
     setShowOptions(false);
-    setMarkerPosition(coordinates);
+    setMarkerPosition(coordinates)
+    resetMarker();
   };
 
   return (

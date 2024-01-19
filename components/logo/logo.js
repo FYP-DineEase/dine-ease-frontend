@@ -12,7 +12,7 @@ const Logo = ({
     <Link href={isNavigate ? '/' : ''}>
       <Styles.LogoContainer color={color}>
         <Styles.Logo variant={size} />
-        <Styles.LogoText variant={size} isHide={+isHide}>
+        <Styles.LogoText variant={size} hide={+isHide}>
           DineEase
         </Styles.LogoText>
       </Styles.LogoContainer>

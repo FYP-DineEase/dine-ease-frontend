@@ -78,9 +78,14 @@ const Location = ({ location, updateLocation }) => {
     if (features.length > 0) {
       throw new Error('Unable to mark on water');
     }
+
     updateLocation(data);
     // eslint-disable-next-line
   }, []);
+
+  const resetMarker = () => {
+    setNewMarker(null);
+  };
 
   return (
     <Styles.MapContainer>
@@ -94,9 +99,10 @@ const Location = ({ location, updateLocation }) => {
         mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_API_TOKEN}
         mapStyle={'mapbox://styles/mapbox/streets-v12'}
       >
-        {latitude && longitude ? (
+        {(latitude && longitude) || newMarker ? (
           <MapMarker
             newMarker={newMarker}
+            resetMarker={resetMarker}
             confirmMark={confirmMark}
             flyToLocation={flyToLocation}
             coordinates={[longitude, latitude]}

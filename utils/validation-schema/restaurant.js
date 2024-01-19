@@ -18,7 +18,7 @@ export const restaurantLeglitiesSchema = yup.object().shape({
 
 export const restaurantLocationSchema = yup.object().shape({
   address: yup.string().required('Restaurant address is required.'),
-  country: yup.string().required('Restaurant Country is required.'),
+  place: yup.string().required('Restaurant place is required.'),
 });
 
 export const restaurantEditSchema = yup

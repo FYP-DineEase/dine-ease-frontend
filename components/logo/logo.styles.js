@@ -15,10 +15,10 @@ export const Logo = styled(LocalDining)(({ theme }) => ({
   },
 }));
 
-export const LogoText = styled(Text)(({ isHide, theme }) => ({
+export const LogoText = styled(Text)(({ hide, theme }) => ({
   display: 'block',
 
   [theme.breakpoints.down('md')]: {
-    display: isHide && 'none',
+    display: hide && 'none',
   },
 }));

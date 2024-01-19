@@ -59,17 +59,13 @@ const EditDetailsForm = () => {
   }, [details.location]);
 
   const initialValues = useMemo(() => {
-    const [city, state, country] = (location.country ?? '').split(', ');
-
     return {
       taxId: details.taxId || '',
       name: details.name || '',
       cuisine: details.cuisine || '',
       phoneNumber: details.phoneNumber || '',
       address: details.address || '',
-      city: city || '',
-      state: state || '',
-      country: country || '',
+      place: location.country || '',
     };
   }, [details, location]);
 
@@ -81,8 +77,7 @@ const EditDetailsForm = () => {
   const submitHandler = async (values) => {
     try {
       formik.setSubmitting(true);
-
-      const { city, state, country, ...payload } = values;
+      const { place, ...payload } = values;
       payload.location = location;
 
       await updateRestaurantDetails(details.id, payload);
@@ -235,27 +230,11 @@ const EditDetailsForm = () => {
               helperText={formik.touched.address && formik.errors.address}
             />
             <InputField
-              name="city"
-              label="City"
+              name="place"
+              label="Location"
               variant="outlined"
-              placeholder="Enter City"
-              value={formik.values.city}
-              disabled
-            />
-            <InputField
-              name="state"
-              label="State"
-              variant="outlined"
-              placeholder="Enter State"
-              value={formik.values.state}
-              disabled
-            />
-            <InputField
-              name="country"
-              label="Country"
-              variant="outlined"
-              placeholder="Enter Country"
-              value={formik.values.country}
+              placeholder="Location"
+              value={formik.values.place}
               disabled
             />
             {isMobile && (

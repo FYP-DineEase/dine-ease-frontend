@@ -74,14 +74,14 @@ const RestaurantCard = () => {
                 label={restaurant.status}
                 color={statusColors[restaurant.status]}
                 variant="outlined"
-                sx={{ position: 'absolute', top: 0, right: 0 }}
+                sx={{ position: 'absolute', top: 5, right: 5 }}
               />
               {restaurant.featured && (
                 <Chip
                   label={restaurant.featured && 'Featured'}
                   color="secondary"
                   variant="outlined"
-                  sx={{ position: 'absolute', top: 35, right: 0 }}
+                  sx={{ position: 'absolute', top: 40, right: 5 }}
                 />
               )}
               <Text variant="main" color="text.secondary" fontWeight={800}>

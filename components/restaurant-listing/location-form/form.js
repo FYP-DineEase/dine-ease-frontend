@@ -34,14 +34,11 @@ const LocationForm = ({ activeStep, handleNext, handleBack, location, legalValue
   }, [location]);
 
   const initialValues = useMemo(() => {
-    const [city, state, country] = (localLocation.country ?? '').split(', ');
-
     return {
       address: '',
-      city: city || '',
-      state: state || '',
-      country: country || '',
-      coordinates: localLocation.coordaintes,
+      place: localLocation.country,
+      latitude: localLocation.coordinates[0] || undefined,
+      longitude: localLocation.coordinates[1] || undefined,
     };
   }, [localLocation]);
 
@@ -74,29 +71,33 @@ const LocationForm = ({ activeStep, handleNext, handleBack, location, legalValue
             helperText={formik.touched.address && formik.errors.address}
           />
           <InputField
-            name="city"
-            label="City"
+            name="place"
+            label="Location"
             variant="outlined"
-            placeholder="Enter City"
-            value={formik.values.city}
+            placeholder="Location"
+            value={formik.values.place}
             disabled
           />
-          <InputField
-            name="state"
-            label="State"
-            variant="outlined"
-            placeholder="Enter State"
-            value={formik.values.state}
-            disabled
-          />
-          <InputField
-            name="country"
-            label="Country"
-            variant="outlined"
-            placeholder="Enter Country"
-            value={formik.values.country}
-            disabled
-          />
+
+          <FlexContainer gap={2}>
+            <InputField
+              name="longitude"
+              label="Longitude"
+              variant="outlined"
+              placeholder="Longitude"
+              value={parseFloat(formik.values.longitude).toFixed(2)}
+              disabled
+            />
+
+            <InputField
+              name="latitude"
+              label="Latitude"
+              variant="outlined"
+              placeholder="Latitude"
+              value={parseFloat(formik.values.latitude).toFixed(2)}
+              disabled
+            />
+          </FlexContainer>
 
           {isMobile && (
             <Box sx={{ width: '100%', height: '300px' }}>
