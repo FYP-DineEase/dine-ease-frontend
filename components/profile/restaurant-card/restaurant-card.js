@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { enqueueSnackbar } from 'notistack';
-import image from '@/public/assets/images/avatar.jpg';
 
 // Services
 import { getUserRestaurants } from '@/services';
@@ -18,6 +17,7 @@ import LocationIcon from '@mui/icons-material/LocationOn';
 
 // Helpers
 import { getError } from '@/helpers/snackbarHelpers';
+import { getFileUrl } from '@/helpers/fileHelpers';
 
 const RestaurantCard = () => {
   const [restaurants, setRestaurants] = useState([]);
@@ -62,7 +62,14 @@ const RestaurantCard = () => {
           >
             <CardMedia sx={{ height: '100%', width: '40%', position: 'relative' }}>
               <Image
-                src={image}
+                src={
+                  (restaurant.cover &&
+                    getFileUrl(
+                      process.env.NEXT_PUBLIC_RESTAURANT_BUCKET,
+                      `${restaurant.id}/cover/${restaurant.cover}`
+                    )) ||
+                  '/assets/images/bg-placeholder.png'
+                }
                 alt="menu-item"
                 sizes="100vw"
                 fill

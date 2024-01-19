@@ -49,6 +49,7 @@ const About = () => {
   const handleConfirmAvatar = async () => {
     try {
       setIsSubmitting(true);
+
       const formData = new FormData();
       formData.append('type', 'avatar');
       formData.append('file', newAvatar);

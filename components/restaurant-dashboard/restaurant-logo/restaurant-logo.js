@@ -1,21 +1,29 @@
 import React, { useState } from 'react';
+import { enqueueSnackbar } from 'notistack';
 import { useRestaurantContext } from '@/context/restaurant-context';
+
+// Services
+import { uploadRestaurantCover } from '@/services';
 
 // Styles
 import * as Styles from './restaurant-logo.styles';
 import { FlexContainer, Text } from '@/components/UI';
-import { Avatar, Box, Button, Divider, IconButton, Input, Tooltip } from '@mui/material';
+import { Avatar, Box, Divider, IconButton, Input, Tooltip } from '@mui/material';
 
+// Icons
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import { allowedImageTypes } from '@/utils/constants';
-
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { enqueueSnackbar } from 'notistack';
-import { validateImage } from '@/helpers/fileHelpers';
+
+// Utils
+import { allowedImageTypes } from '@/utils/constants';
+
+// Helpers
+import { getFileUrl, validateImage } from '@/helpers/fileHelpers';
+import { getError } from '@/helpers/snackbarHelpers';
 
 const RestaurantLogo = ({ open }) => {
-  const { details } = useRestaurantContext();
+  const { details, detailsHandler } = useRestaurantContext();
 
   const [newAvatar, setNewAvatar] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -30,28 +38,27 @@ const RestaurantLogo = ({ open }) => {
     }
   };
 
-  const handleConfirmAvatar = async () => {
-    // try {
-    //   setIsSubmitting(true);
-    //   const formData = new FormData();
-    //   formData.append('type', 'avatar');
-    //   formData.append('file', newAvatar);
-    //   const response = await updateProfileImage(formData);
-    //   detailsHandler({ avatar: response.data });
-    //   handleCancelAvatar();
-    //   enqueueSnackbar({
-    //     variant: 'success',
-    //     message: 'Avatar Updated Successfully!',
-    //   });
-    // } catch (e) {
-    //   enqueueSnackbar({ variant: 'error', message: getError(e) });
-    // } finally {
-    //   setIsSubmitting(false);
-    // }
-  };
-
   const handleCancelAvatar = () => {
     setNewAvatar(null);
+  };
+
+  const handleConfirmAvatar = async () => {
+    try {
+      setIsSubmitting(true);
+
+      const formData = new FormData();
+      formData.append('file', newAvatar);
+
+      const response = await uploadRestaurantCover(details.id, formData);
+      detailsHandler({ cover: response.data });
+      handleCancelAvatar();
+
+      enqueueSnackbar({ variant: 'success', message: 'Cover Updated' });
+    } catch (e) {
+      enqueueSnackbar({ variant: 'error', message: getError(e) });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -61,33 +68,41 @@ const RestaurantLogo = ({ open }) => {
           alt="restaurant-avatar"
           src={
             (newAvatar && URL.createObjectURL(newAvatar)) ||
+            (details.cover &&
+              getFileUrl(
+                process.env.NEXT_PUBLIC_RESTAURANT_BUCKET,
+                `${details.id}/cover/${details.cover}`
+              )) ||
             '/assets/images/bg-placeholder.png'
           }
           sx={{ height: 120, width: 120 }}
         />
-        <Styles.AvatarButton component="label" onChange={handleAvatarChange}>
-          <CameraAltIcon sx={{ color: 'white' }} fontSize="small" />
-          <Input
-            type="file"
-            inputProps={{
-              accept: allowedImageTypes.join(', '),
-            }}
-            sx={{ display: 'none' }}
-          />
-        </Styles.AvatarButton>
-        {newAvatar && (
-          <Styles.AvatarConfirmation>
-            <Tooltip title="Save Changes" placement="top" arrow>
-              <IconButton onClick={handleConfirmAvatar} disabled={!newAvatar}>
-                <CheckCircleIcon color="success" />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Cancel Changes" placement="top" arrow>
-              <IconButton onClick={handleCancelAvatar} disabled={!newAvatar}>
-                <CancelIcon color="error" />
-              </IconButton>
-            </Tooltip>
-          </Styles.AvatarConfirmation>
+        {!newAvatar ? (
+          <Styles.AvatarButton component="label" onChange={handleAvatarChange}>
+            <CameraAltIcon sx={{ color: 'white' }} fontSize="small" />
+            <Input
+              type="file"
+              inputProps={{
+                accept: allowedImageTypes.join(', '),
+              }}
+              sx={{ display: 'none' }}
+            />
+          </Styles.AvatarButton>
+        ) : (
+          !isSubmitting && (
+            <Styles.AvatarConfirmation>
+              <Tooltip title="Save Changes" placement="top" arrow>
+                <IconButton onClick={handleConfirmAvatar} disabled={!newAvatar}>
+                  <CheckCircleIcon color="success" />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Cancel Changes" placement="top" arrow>
+                <IconButton onClick={handleCancelAvatar} disabled={!newAvatar}>
+                  <CancelIcon color="error" />
+                </IconButton>
+              </Tooltip>
+            </Styles.AvatarConfirmation>
+          )
         )}
       </Box>
       <Text variant="subHeader" fontWeight={500}>

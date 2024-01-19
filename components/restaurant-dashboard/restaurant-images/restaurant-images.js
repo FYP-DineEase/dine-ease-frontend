@@ -72,26 +72,25 @@ const RestaurantImages = () => {
     );
   };
 
-  const filteredImages = () => {
-    const removedImages = [];
-    const updatedImages = images.filter((v, i) => {
-      if (selectedImages.includes(i)) {
-        removedImages.push(v);
-        return false;
-      }
-      return true;
-    });
-    setSelectedImages([]);
-    return { updatedImages, removedImages };
-  };
-
   const deleteImageHandler = async () => {
     try {
       setIsSubmitting(true);
-      const { updatedImages, removedImages } = filteredImages();
+
+      const removedImages = [];
+      const updatedImages = images.filter((v, i) => {
+        if (selectedImages.includes(i)) {
+          removedImages.push(v);
+          return false;
+        }
+        return true;
+      });
+
       await deleteRestaurantImages(details.id, { images: removedImages });
       detailsHandler({ images: updatedImages });
+
+      setSelectedImages([]);
       closeDeleteModal();
+
       enqueueSnackbar({ variant: 'success', message: 'Image(s) deleted' });
     } catch (e) {
       enqueueSnackbar({ variant: 'error', message: getError(e) });
@@ -103,6 +102,7 @@ const RestaurantImages = () => {
   const openDeleteModal = () => {
     setShowDeleteModal(true);
   };
+
   const closeDeleteModal = () => {
     setShowDeleteModal(false);
   };

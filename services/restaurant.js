@@ -32,6 +32,15 @@ export const listRestaurant = (payload) => {
   return api.post(`http://localhost:${port}/api/${service}`, payload);
 };
 
+export const uploadRestaurantCover = (restaurantId, payload) => {
+  const headers = { 'Content-Type': 'multipart/form-data' };
+  return api.post(
+    `http://localhost:${port}/api/${service}/upload/cover/${restaurantId}`,
+    payload,
+    { headers }
+  );
+};
+
 export const uploadRestaurantImages = (restaurantId, payload) => {
   const headers = { 'Content-Type': 'multipart/form-data' };
   return api.post(
