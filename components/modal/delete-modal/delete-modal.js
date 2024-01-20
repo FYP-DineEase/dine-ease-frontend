@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { enqueueSnackbar } from 'notistack';
 
 // Styles
 import { Button, Modal } from '@mui/material';
@@ -8,7 +9,23 @@ import { FlexContainer, Text } from '@/components/UI';
 // Icons
 import Delete from '@mui/icons-material/Delete';
 
-const DeleteModal = ({ showModal, handleCloseModal, deleteHandler, isSubmitting }) => {
+// Helpers
+import { getError } from '@/helpers/snackbarHelpers';
+
+const DeleteModal = ({ showModal, handleCloseModal, deleteHandler }) => {
+  const [loading, setLoading] = useState(false);
+
+  const clickHandler = async () => {
+    try {
+      setLoading(true);
+      await deleteHandler();
+    } catch (e) {
+      enqueueSnackbar({ variant: 'error', message: getError(e) });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Modal open={showModal} onClose={handleCloseModal}>
       <Styles.ModalContainer>
@@ -20,14 +37,14 @@ const DeleteModal = ({ showModal, handleCloseModal, deleteHandler, isSubmitting 
           Are you sure you want to perform this delete action?
         </Text>
         <FlexContainer gap={2}>
-          <Button variant="outlined" onClick={handleCloseModal} disabled={isSubmitting}>
+          <Button variant="outlined" onClick={handleCloseModal} disabled={loading}>
             <Text variant="body">Cancel</Text>
           </Button>
           <Button
             variant="contained"
             color="error"
-            onClick={deleteHandler}
-            disabled={isSubmitting}
+            onClick={clickHandler}
+            disabled={loading}
           >
             <Text variant="body" color="text.primary">
               Confirm

@@ -3,6 +3,8 @@ import Image from 'next/image';
 import { useFormik } from 'formik';
 import { enqueueSnackbar } from 'notistack';
 
+import { useRestaurantContext } from '@/context/restaurant-context';
+
 // Styles
 import {
   Button,
@@ -29,36 +31,43 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 // Services
 import { addMenuItem, updateMenuItem } from '@/services';
 
-// Assets
-import userImage from '@/public/assets/images/avatar.jpg';
-
 // Utils
 import { allowedImageTypes } from '@/utils/constants';
 import { menuItemSchema } from '@/utils/validation-schema/restaurant';
 
 // Helpers
 import { getError } from '@/helpers/snackbarHelpers';
+import { getFileUrl } from '@/helpers/fileHelpers';
 
-const ItemModal = ({
-  showModal,
-  setShowModal,
-  valuesSubmitHandler,
-  itemDetails = {},
-  headerTitle,
-}) => {
+const ItemModal = ({ showModal, setShowModal, itemDetails = {}, headerTitle }) => {
+  const { details, detailsHandler } = useRestaurantContext();
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
   const submitHandler = async (values) => {
     try {
       formik.setSubmitting(true);
 
-      // if(itemDetails) {
-      //   await addMenuItem(itemDetails)
-      // } else {
-      //   await updateMenuItem(itemDetails)
-      // }
+      // payload
+      const formData = new FormData();
+      for (const key in values) {
+        formData.append(key, values[key]);
+      }
 
-      valuesSubmitHandler(values);
+      if (itemDetails.name) {
+        const { data } = await updateMenuItem(details.id, itemDetails.id, formData);
+        
+        const menuItemIndex = details.menu.findIndex((m) => m.id === itemDetails.id);
+        const updatedMenu = [...details.menu];
+        updatedMenu[menuItemIndex] = data;
+
+        detailsHandler({ menu: updatedMenu });
+      } else {
+        formData.append('category', itemDetails.category);
+        formData.append('order', itemDetails.order);
+        const { data } = await addMenuItem(details.id, formData);
+        detailsHandler({ menu: [...details.menu, data] });
+      }
+
       setShowModal(false);
     } catch (e) {
       enqueueSnackbar({ variant: 'error', message: getError(e) });
@@ -112,7 +121,7 @@ const ItemModal = ({
               error={formik.errors.price && Boolean(formik.touched.price)}
               helperText={formik.touched.price && formik.errors.price}
               InputProps={{
-                startAdornment: <InputAdornment position="start">Rs</InputAdornment>,
+                startAdornment: <InputAdornment position="start">USD</InputAdornment>,
               }}
             />
             <InputField
@@ -137,13 +146,19 @@ const ItemModal = ({
           <FlexContainer gap={1} flexDirection="column">
             <Image
               src={
-                formik.values.image ? URL.createObjectURL(formik.values.image) : userImage
+                (formik.values.image === itemDetails.image &&
+                  getFileUrl(
+                    process.env.NEXT_PUBLIC_RESTAURANT_BUCKET,
+                    `${details.id}/menu/${itemDetails.image}`
+                  )) ||
+                (formik.values.image && URL.createObjectURL(formik.values.image)) ||
+                '/assets/images/bg-placeholder.png'
               }
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               alt={'menu-item'}
               height={230}
-              width={230}
+              width={260}
               style={{ borderRadius: '5px' }}
             />
             <InputLabel htmlFor="menu-item-image">

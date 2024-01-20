@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserState, userActions } from '@/store/user/userSlice';
 
@@ -20,6 +20,7 @@ import { UserRoles } from '@/utils/roles';
 
 const ProfileMenu = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const user = useSelector(selectUserState);
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -85,23 +86,29 @@ const ProfileMenu = () => {
         TransitionComponent={Fade}
       >
         {user.role === UserRoles.MANAGER && (
-          <Link href={`/restaurant/listing`} onClick={closeMenu}>
-            <MenuItem>
-              <RestaurantIcon color="primary" fontSize="small" sx={{ mr: 1 }} />
-              <Text variant="sub" color="text.secondary">
-                List Restaurant
-              </Text>
-            </MenuItem>
-          </Link>
-        )}
-        <Link href={`/profile/${user.slug}`} onClick={closeMenu}>
-          <MenuItem>
-            <SettingsIcon color="primary" fontSize="small" sx={{ mr: 1 }} />
+          <MenuItem
+            onClick={() => {
+              router.push(`/restaurant/listing`);
+              closeMenu();
+            }}
+          >
+            <RestaurantIcon color="primary" fontSize="small" sx={{ mr: 1 }} />
             <Text variant="sub" color="text.secondary">
-              Profile
+              List Restaurant
             </Text>
           </MenuItem>
-        </Link>
+        )}
+        <MenuItem
+          onClick={() => {
+            router.push(`/profile/${user.slug}`);
+            closeMenu();
+          }}
+        >
+          <SettingsIcon color="primary" fontSize="small" sx={{ mr: 1 }} />
+          <Text variant="sub" color="text.secondary">
+            Profile
+          </Text>
+        </MenuItem>
         <MenuItem onClick={handleLogout}>
           <LogoutIcon color="primary" fontSize="small" sx={{ mr: 1 }} />
           <Text variant="sub" color="text.secondary">

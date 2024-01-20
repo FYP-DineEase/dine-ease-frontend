@@ -47,7 +47,6 @@ const RestaurantImages = () => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
@@ -73,30 +72,20 @@ const RestaurantImages = () => {
   };
 
   const deleteImageHandler = async () => {
-    try {
-      setIsSubmitting(true);
+    const removedImages = [];
+    const updatedImages = images.filter((v, i) => {
+      if (selectedImages.includes(i)) {
+        removedImages.push(v);
+        return false;
+      }
+      return true;
+    });
 
-      const removedImages = [];
-      const updatedImages = images.filter((v, i) => {
-        if (selectedImages.includes(i)) {
-          removedImages.push(v);
-          return false;
-        }
-        return true;
-      });
-
-      await deleteRestaurantImages(details.id, { images: removedImages });
-      detailsHandler({ images: updatedImages });
-
-      setSelectedImages([]);
-      closeDeleteModal();
-
-      enqueueSnackbar({ variant: 'success', message: 'Image(s) deleted' });
-    } catch (e) {
-      enqueueSnackbar({ variant: 'error', message: getError(e) });
-    } finally {
-      setIsSubmitting(false);
-    }
+    await deleteRestaurantImages(details.id, { images: removedImages });
+    detailsHandler({ images: updatedImages });
+    setSelectedImages([]);
+    closeDeleteModal();
+    enqueueSnackbar({ variant: 'success', message: 'Image(s) deleted' });
   };
 
   const openDeleteModal = () => {
@@ -118,7 +107,6 @@ const RestaurantImages = () => {
         handleCloseModal={closeDeleteModal}
         showModal={showDeleteModal}
         deleteHandler={deleteImageHandler}
-        isSubmitting={isSubmitting}
       />
       <DashboardContainer container>
         {!images.length ? (

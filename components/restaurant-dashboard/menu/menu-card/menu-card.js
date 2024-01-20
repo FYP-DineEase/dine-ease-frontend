@@ -1,5 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
+import { enqueueSnackbar } from 'notistack';
+
+import { useRestaurantContext } from '@/context/restaurant-context';
+
+// Services
+import { deleteMenuItem } from '@/services';
 
 // Styles
 import * as Styles from './menu-card.styles';
@@ -15,21 +21,21 @@ import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import DeleteModal from '@/components/modal/delete-modal/delete-modal';
 import ItemModal from '../item-modal/item-modal';
 
-const MenuCard = ({ item, itemIndex, handleDelete, handleUpdate }) => {
-  const { name, description, price, image } = item;
+// Helpers
+import { getFileUrl } from '@/helpers/fileHelpers';
 
-  const values = useRef({ name: null, description: null, price: null, image: null });
+const MenuCard = ({ item }) => {
+  const { name, description, price, image, order } = item;
+
+  const { details, detailsHandler } = useRestaurantContext();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showItemModal, setShowItemModal] = useState(false);
 
-  const handleShowDeleteModal = () => setShowDeleteModal((prevState) => !prevState);
-
-  const valuesSubmitHandler = (value) => {
-    values.current.name = value.name;
-    values.current.description = value.description;
-    values.current.price = value.price;
-    values.current.image = value.image;
-    handleUpdate(itemIndex, values.current);
+  const handleDelete = async () => {
+    const { data } = await deleteMenuItem(details.id, item.id);
+    detailsHandler({ menu: data });
+    setShowDeleteModal(false);
+    enqueueSnackbar({ variant: 'success', message: 'Menu Item Deleted' });
   };
 
   return (
@@ -38,7 +44,6 @@ const MenuCard = ({ item, itemIndex, handleDelete, handleUpdate }) => {
         <ItemModal
           showModal={showItemModal}
           setShowModal={setShowItemModal}
-          valuesSubmitHandler={valuesSubmitHandler}
           itemDetails={item}
           headerTitle="Update Item"
         />
@@ -46,22 +51,19 @@ const MenuCard = ({ item, itemIndex, handleDelete, handleUpdate }) => {
       {showDeleteModal && (
         <DeleteModal
           showModal={showDeleteModal}
-          handleCloseModal={handleShowDeleteModal}
-          handleDelete={() => handleDelete(itemIndex)}
+          handleCloseModal={() => setShowDeleteModal(false)}
+          deleteHandler={handleDelete}
         />
       )}
-      <Card
-        sx={{
-          width: '220px',
-          height: '300px',
-          cursor: 'grab',
-        }}
-      >
+      <Card sx={{ width: '220px', height: '300px', cursor: 'grab' }}>
         <CardMedia sx={{ height: '150px', position: 'relative' }}>
           <Image
-            src={URL.createObjectURL(image)}
+            src={getFileUrl(
+              process.env.NEXT_PUBLIC_RESTAURANT_BUCKET,
+              `${details.id}/menu/${image}`
+            )}
             alt="menu-item"
-            sizes="100vw"
+            sizes="100%"
             fill
             style={{ objectFit: 'cover' }}
           />
@@ -77,12 +79,21 @@ const MenuCard = ({ item, itemIndex, handleDelete, handleUpdate }) => {
               </IconButton>
             </Tooltip>
           </FlexContainer>
-          <Text variant="sub" color="text.ternary">
+          <Text
+            variant="sub"
+            color="text.ternary"
+            sx={{
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+              textOverflow: 'ellipsis',
+              maxWidth: '100%',
+            }}
+          >
             {description}
           </Text>
           <FlexContainer sx={{ justifyContent: 'space-between', width: '100%' }}>
             <Text variant="body" fontWeight={500} color="text.secondary">
-              Rs {price}
+              USD {price}
             </Text>
             <Box>
               <Tooltip title="Edit Details" placement="top" arrow>
@@ -91,7 +102,7 @@ const MenuCard = ({ item, itemIndex, handleDelete, handleUpdate }) => {
                 </IconButton>
               </Tooltip>
               <Tooltip title="Delete Item" placement="top" arrow>
-                <IconButton onClick={() => setShowItemModal(true)}>
+                <IconButton onClick={() => setShowDeleteModal(true)}>
                   <Delete fontSize="small" />
                 </IconButton>
               </Tooltip>

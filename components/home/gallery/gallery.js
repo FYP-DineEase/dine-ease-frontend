@@ -65,7 +65,7 @@ const Gallery = () => {
                 src={`/assets/images/restaurant/${item.img}`}
                 alt={item.title}
                 fill
-                sizes="100vw"
+                sizes="100%"
                 style={{ objectFit: 'cover', borderRadius: '10px' }}
               />
             </ImageListItem>

@@ -1,18 +1,26 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { enqueueSnackbar } from 'notistack';
 import { ReactSortable } from 'react-sortablejs';
+
 import { useRestaurantContext } from '@/context/restaurant-context';
 
 // Components
 import ItemModal from '../item-modal/item-modal';
 
+// Services
+import { updateMenuOrder } from '@/services';
+
 // Styles
-import { Text } from '@/components/UI';
-import { AccordionDetails, Box } from '@mui/material';
+import { PrimaryButton, Text } from '@/components/UI';
+import { AccordionActions, AccordionDetails, Box, Button } from '@mui/material';
 import * as Styles from './menu-items.styles';
 
 // Icons
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import MenuCard from '../menu-card/menu-card';
+
+// Helpers
+import { getError } from '@/helpers/snackbarHelpers';
 
 const CardWrapper = React.forwardRef((props, ref) => {
   return (
@@ -24,53 +32,61 @@ const CardWrapper = React.forwardRef((props, ref) => {
 CardWrapper.displayName = 'CardWrapper';
 
 const MenuItems = ({ category }) => {
-  const { details } = useRestaurantContext();
+  const { details, detailsHandler } = useRestaurantContext();
 
   const [menu, setMenu] = useState([]);
   const [showItemModal, setShowItemModal] = useState(false);
-
-  const values = useRef({ name: null, description: null, price: null, image: null });
+  const [sorting, setSorting] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setMenu(details.menu.filter((v) => v.category === category));
+    const filteredMenu = details.menu
+      .filter((v) => v.category === category)
+      .sort((a, b) => a.order - b.order);
+
+    setMenu(filteredMenu);
   }, [details.menu, category]);
 
-  const valuesSubmitHandler = (data) => {
-    values.current.name = data.name;
-    values.current.description = data.description;
-    values.current.price = data.price;
-    values.current.image = data.image;
-    const newItem = { ...values.current, order: menu.length };
-    addMenuItem(newItem);
-  };
-
   const handleSort = (event) => {
-    const { oldIndex, newIndex } = event;
-    const updatedMenu = [...menu];
-    const draggedItemContent = updatedMenu.splice(oldIndex, 1)[0];
-    updatedMenu.splice(newIndex, 0, draggedItemContent);
+    setSorting(true);
 
-    updatedMenu.forEach((item, index) => {
+    const { oldIndex, newIndex } = event;
+
+    const detailsMenuCopy = JSON.parse(JSON.stringify(menu));
+
+    const draggedItemContent = detailsMenuCopy.splice(oldIndex, 1)[0];
+    detailsMenuCopy.splice(newIndex, 0, draggedItemContent);
+
+    detailsMenuCopy.forEach((item, index) => {
       item.order = index;
     });
 
-    setMenu(updatedMenu);
+    // Update menu state
+    setMenu(detailsMenuCopy);
   };
 
-  const addMenuItem = (newItem) => {
-    setMenu((prevState) => [...prevState, newItem]);
+  const confirmSort = async () => {
+    try {
+      setIsLoading(true);
+      const orders = menu.map((v) => ({ id: v.id, value: v.order }));
+      const { data } = await updateMenuOrder(details.id, { orders });
+      detailsHandler({ menu: data });
+      enqueueSnackbar({ variant: 'success', message: 'Menu Order Updated' });
+    } catch (e) {
+      enqueueSnackbar({ variant: 'error', message: getError(e) });
+    } finally {
+      setIsLoading(false);
+      setSorting(false);
+    }
   };
 
-  const deleteMenuItem = (itemIndex) => {
-    const updatedMenu = [...menu];
-    updatedMenu.splice(itemIndex, 1);
-    setMenu(updatedMenu);
-  };
-
-  const updateMenuItem = (itemIndex, updatedItem) => {
-    const updatedMenu = [...menu];
-    updatedMenu[itemIndex] = { ...updatedItem, order: updatedMenu[itemIndex].order };
-    setMenu(updatedMenu);
+  const cancelSort = () => {
+    setMenu(
+      details.menu
+        .filter((v) => v.category === category)
+        .sort((a, b) => a.order - b.order)
+    );
+    setSorting(false);
   };
 
   return (
@@ -79,8 +95,8 @@ const MenuItems = ({ category }) => {
         <ItemModal
           showModal={showItemModal}
           setShowModal={setShowItemModal}
-          valuesSubmitHandler={valuesSubmitHandler}
           headerTitle="Add Item"
+          itemDetails={{ category, order: menu.length }}
         />
       )}
       <AccordionDetails>
@@ -94,14 +110,8 @@ const MenuItems = ({ category }) => {
             delayOnTouchStart={true}
             delay={2}
           >
-            {menu.map((item, itemIndex) => (
-              <MenuCard
-                key={itemIndex}
-                item={item}
-                itemIndex={itemIndex}
-                handleDelete={deleteMenuItem}
-                handleUpdate={updateMenuItem}
-              />
+            {menu.map((item) => (
+              <MenuCard key={item.id} item={item} />
             ))}
           </ReactSortable>
           <Styles.AddItemPlaceholder onClick={() => setShowItemModal(true)}>
@@ -112,6 +122,18 @@ const MenuItems = ({ category }) => {
           </Styles.AddItemPlaceholder>
         </Styles.MenuItemsContainer>
       </AccordionDetails>
+      {sorting && (
+        <AccordionActions>
+          <PrimaryButton disabled={isLoading} onClick={confirmSort}>
+            Save
+          </PrimaryButton>
+          {!isLoading && (
+            <Button variant="outlined" color="error" onClick={cancelSort}>
+              Cancel
+            </Button>
+          )}
+        </AccordionActions>
+      )}
     </React.Fragment>
   );
 };
