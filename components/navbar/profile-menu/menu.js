@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserState, userActions } from '@/store/user/userSlice';
 
@@ -87,7 +87,8 @@ const ProfileMenu = () => {
       >
         {user.role === UserRoles.MANAGER && (
           <MenuItem
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               router.push(`/restaurant/listing`);
               closeMenu();
             }}
@@ -99,7 +100,8 @@ const ProfileMenu = () => {
           </MenuItem>
         )}
         <MenuItem
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
             router.push(`/profile/${user.slug}`);
             closeMenu();
           }}
