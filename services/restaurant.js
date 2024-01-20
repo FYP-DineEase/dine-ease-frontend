@@ -9,6 +9,18 @@ export const getRestaurantRecords = (restaurantId) => {
   return api.get(`http://localhost:${port}/api/${service}/records/${restaurantId}`);
 };
 
+// OTP
+export const generateOTP = (restaurantId) => {
+  return api.get(`http://localhost:${port}/api/${service}/generate-otp/${restaurantId}`);
+};
+
+export const verifyOTP = (restaurantId, payload) => {
+  return api.post(
+    `http://localhost:${port}/api/${service}/verify-otp/${restaurantId}`,
+    payload
+  );
+};
+
 // Restaurant
 export const checkRestaurant = (params) => {
   return api.get(`http://localhost:${port}/api/${service}/check`, { params });

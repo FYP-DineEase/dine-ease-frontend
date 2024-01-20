@@ -52,7 +52,7 @@ const Navigation = ({ open }) => {
           );
         })}
       </List>
-      <List sx={{ mt: 'auto', mb: 5 }}>
+      <List sx={{ mt: 'auto', mb: 4 }}>
         <Link href={`/`}>
           <ListItem>
             <DrawerListButton>

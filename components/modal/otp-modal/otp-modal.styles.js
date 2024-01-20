@@ -11,8 +11,8 @@ export const StyledOtp = styled(MuiOtpInput)(({ theme }) => ({
   },
 
   [theme.breakpoints.down('md')]: {
-   width: '280px',
-  }, 
+    width: '280px',
+  },
 }));
 
 export const ModalContainer = styled(ModalContent)(({ theme }) => ({
@@ -24,7 +24,8 @@ export const ModalContainer = styled(ModalContent)(({ theme }) => ({
   minWidth: '300px',
   backgroundColor: theme.palette.text.primary,
   border: 'none',
-  gap: theme.spacing(1.75),
+  gap: theme.spacing(2),
+
   [theme.breakpoints.down('md')]: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),

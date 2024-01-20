@@ -3,17 +3,18 @@ import { useFormik } from 'formik';
 import { enqueueSnackbar } from 'notistack';
 import { useRestaurantContext } from '@/context/restaurant-context';
 
+// Components
 import Location from '../location/location';
 
 // Styles
 import * as Styles from './form.styles';
 import {
+  Text,
   DashboardContent,
   FormButton,
   FormContainer,
   InputField,
   SelectField,
-  Text,
 } from '@/components/UI';
 import {
   AlertTitle,
@@ -23,8 +24,10 @@ import {
   FormControl,
   Grid,
   IconButton,
+  InputAdornment,
   InputLabel,
   MenuItem,
+  Tooltip,
   useMediaQuery,
 } from '@mui/material';
 
@@ -42,11 +45,16 @@ import { cuisineTypes } from '@/utils/constants';
 
 // Icons
 import CancelIcon from '@mui/icons-material/Cancel';
+import VerifiedIcon from '@mui/icons-material/Verified';
+import UnVerifiedIcon from '@mui/icons-material/NewReleases';
+import OtpModal from '@/components/modal/otp-modal/otp-modal';
 
 const EditDetailsForm = () => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('lg'));
 
   const { details, detailsHandler } = useRestaurantContext();
+
+  const [showOtpModal, setShowOtpModal] = useState(false);
   const [location, setLocation] = useState({
     coordinates: [null, null],
     country: '',
@@ -80,8 +88,9 @@ const EditDetailsForm = () => {
       const { place, ...payload } = values;
       payload.location = location;
 
-      await updateRestaurantDetails(details.id, payload);
-      detailsHandler(payload);
+      const { data } = await updateRestaurantDetails(details.id, payload);
+      detailsHandler(data);
+      formik.resetForm()
 
       enqueueSnackbar({
         variant: 'success',
@@ -113,6 +122,14 @@ const EditDetailsForm = () => {
 
   return (
     <DashboardContent>
+      {showOtpModal && (
+        <OtpModal
+          showModal={showOtpModal}
+          handleCloseModal={() => setShowOtpModal(false)}
+          restaurantId={details.id}
+          phoneNumber={formik.values.phoneNumber}
+        />
+      )}
       <Styles.StyledAlert severity="warning">
         <AlertTitle>
           <Text variant="body" fontWeight={800}>
@@ -205,6 +222,23 @@ const EditDetailsForm = () => {
               helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
               InputProps={{
                 inputComponent: PhoneInputCustom,
+                endAdornment: (
+                  <InputAdornment position="end" sx={{ cursor: 'pointer' }}>
+                    {details.isVerified ? (
+                      <Tooltip title="Verified" arrow>
+                        <VerifiedIcon />
+                      </Tooltip>
+                    ) : (
+                      <Tooltip
+                        title="Verify Now"
+                        arrow
+                        onClick={() => setShowOtpModal(true)}
+                      >
+                        <UnVerifiedIcon sx={{ fill: '#ff7675' }} />
+                      </Tooltip>
+                    )}
+                  </InputAdornment>
+                ),
               }}
             />
             <InputField
