@@ -43,9 +43,9 @@ const RestaurantCard = () => {
 
   if (restaurants.length === 0) {
     return (
-      <FlexContainer mt={10} gap={2}>
+      <FlexContainer mt={10} gap={2} textAlign="center">
         <RestaurantMenuIcon fontSize="large" color="primary" />
-        <Text variant="subHeader">Currently No Listed Restaurants</Text>
+        <Text variant="subHeader">Currently No Restaurants</Text>
       </FlexContainer>
     );
   }

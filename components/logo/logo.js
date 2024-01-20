@@ -1,22 +1,28 @@
 import React from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
+
 import * as Styles from './logo.styles';
 
 const Logo = ({
   color = 'primary',
   size = 'header',
-  isNavigate = false,
+  isNavigate = true,
   isHide = false,
 }) => {
+  const router = useRouter();
+
+  const clickHandler = () => {
+    if (!isNavigate) return;
+    router.push('/');
+  };
+
   return (
-    <Link href={isNavigate ? '/' : ''}>
-      <Styles.LogoContainer color={color}>
-        <Styles.Logo variant={size} />
-        <Styles.LogoText variant={size} hide={+isHide}>
-          DineEase
-        </Styles.LogoText>
-      </Styles.LogoContainer>
-    </Link>
+    <Styles.LogoContainer onClick={clickHandler} color={color}>
+      <Styles.Logo variant={size} />
+      <Styles.LogoText variant={size} hide={+isHide}>
+        DineEase
+      </Styles.LogoText>
+    </Styles.LogoContainer>
   );
 };
 

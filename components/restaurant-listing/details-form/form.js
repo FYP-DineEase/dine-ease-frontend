@@ -50,7 +50,6 @@ const DetailsForm = ({
     updatedCuisine.splice(index, 1);
     formik.setFieldValue('cuisine', updatedCuisine);
   };
-  
 
   const formik = useFormik({
     validateOnMount: true,
@@ -143,7 +142,7 @@ const DetailsForm = ({
               label="I agree that my phone is correct"
             />
           </FormGroup>
-          <FlexContainer sx={{ justifyContent: 'space-between', mt: 4 }}>
+          <FlexContainer sx={{ justifyContent: 'space-between', mt: 2 }}>
             <Button variant="outlined" onClick={handleBack}>
               <Text variant="body">Back</Text>
             </Button>

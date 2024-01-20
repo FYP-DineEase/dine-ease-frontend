@@ -100,12 +100,12 @@ const LocationForm = ({ activeStep, handleNext, handleBack, location, legalValue
           </FlexContainer>
 
           {isMobile && (
-            <Box sx={{ width: '100%', height: '300px' }}>
+            <Box sx={{ width: '100%', height: '250px' }}>
               <Location location={localLocation} updateLocation={updateLocation} />
             </Box>
           )}
 
-          <FlexContainer sx={{ justifyContent: 'space-between', mt: 4 }}>
+          <FlexContainer sx={{ justifyContent: 'space-between', mt: 2 }}>
             <Button variant="outlined" onClick={handleBack}>
               <Text variant="body">Back</Text>
             </Button>

@@ -13,7 +13,7 @@ export const FlexContainer = styled(Box)({
 
 export const PageContainer = styled(Box)({
   marginTop: `${NAV_HEIGHT}px`,
-  minHeight: `clamp(800px,100vh - ${NAV_HEIGHT}px,100vh - ${NAV_HEIGHT}px)`,
+  minHeight: `clamp(900px,100vh - ${NAV_HEIGHT}px,100vh - ${NAV_HEIGHT}px)`,
 });
 
 export const SecondaryContainer = styled(Grid)({
@@ -43,8 +43,6 @@ export const DashboardContainer = styled(Grid)(({ theme }) => ({
   marginLeft: `calc(${DASHBOARD_DRAWER_FULLWIDTH}px)`,
   width: `calc(100% - ${DASHBOARD_DRAWER_FULLWIDTH}px)`,
   padding: `${theme.spacing(2)} ${theme.spacing(1)}`,
-  height: `calc(100vh - ${NAV_HEIGHT}px)`,
-  overflow: 'auto',
 
   [theme.breakpoints.down('md')]: {
     marginLeft: `calc(${DASHBOARD_DRAWER_RESPONSIVEWIDTH}px)`,
