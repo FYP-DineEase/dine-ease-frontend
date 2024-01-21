@@ -26,7 +26,7 @@ const Menu = ({ value, handleChange, items = [] }) => {
         <Tabs
           variant="fullWidth"
           value={value}
-          onChange={handleChange}
+          onChange={(event, newValue) => handleChange(newValue)}
           centered
           scrollButtons="auto"
         >

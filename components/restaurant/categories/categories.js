@@ -22,6 +22,7 @@ const Categories = ({ restaurant }) => {
   const executeScroll = () => scroll.current.scrollIntoView();
 
   const handleChange = (newValue) => {
+    console.log(newValue);
     setValue(newValue);
     executeScroll();
   };

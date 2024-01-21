@@ -42,9 +42,16 @@ export const Status = {
 };
 
 export const MapZoomLevels = {
-  MAX_ZOOM_HEAT_MAP: 14,
-  MAP_MIN_ZOOM: 10,
+  // MAX_ZOOM_HEAT_MAP: 14,
+  // MAP_MIN_ZOOM: 10,
   MAP_ZOOM: 13,
+};
+
+export const MapProfiles = {
+  DRIVING: 'driving',
+  DRIVING_TRAFFIC: 'driving-traffic',
+  WALKING: 'walking',
+  CYCLING: 'cycling',
 };
 
 export const MenuCategory = {

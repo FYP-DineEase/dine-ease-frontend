@@ -2,9 +2,15 @@ import { styled } from '@mui/material';
 import { FlexContainer, PageContent } from '@/components/UI';
 
 export const Card = styled(PageContent)(({ theme }) => ({
+  position: 'absolute',
+  top: '20px',
+  right: '20px',
+  backgroundColor: theme.palette.text.primary,
+
   padding: `${theme.spacing(3)} ${theme.spacing(2)}`,
-  maxWidth: '450px',
+  width: '400px',
   borderRadius: '30px',
+
   [theme.breakpoints.down('md')]: {
     padding: `${theme.spacing(3)} ${theme.spacing(2)}`,
   },

@@ -2,14 +2,14 @@ import React from 'react';
 
 // Components
 import Information from './information/information';
-import DetailsCard from './map/details-card/details-card';
 import Categories from './categories/categories';
+import Map from './map/map';
 
 const Restaurant = ({ restaurant }) => {
   return (
     <React.Fragment>
       <Information restaurant={restaurant} />
-      {/* <DetailsCard /> */}
+      <Map restaurant={restaurant} />
       <Categories restaurant={restaurant} />
     </React.Fragment>
   );

@@ -52,7 +52,7 @@ const Information = ({ restaurant }) => {
               <LunchDiningIcon sx={{ color: 'text.primary' }} />
             </Styles.IconContainer>
             <Text variant="body" fontWeight={800}>
-              {restaurant.isVerified ? restaurant.phoneNumber : 'No Number'}
+              {restaurant.isVerified ? `+${restaurant.phoneNumber}` : 'No Number'}
             </Text>
             <Text variant="sub" fontWeight={500}>
               Contact Us

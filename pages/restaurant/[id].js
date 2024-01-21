@@ -10,7 +10,7 @@ export default RestaurantPage;
 
 export async function getStaticProps({ params }) {
   const response = await getRestaurantBySlug(params.id);
-  
+
   return {
     props: {
       restaurant: response.data,

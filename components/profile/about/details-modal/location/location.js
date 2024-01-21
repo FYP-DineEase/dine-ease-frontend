@@ -1,7 +1,6 @@
 import React, { useMemo, useCallback, useState, useRef } from 'react';
 
 // Map
-import {  } from 'react-map-gl';
 import ReactMapGL, { Marker, NavigationControl } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 

@@ -47,7 +47,7 @@ const imageData = [
   },
 ];
 
-const DetailsCard = () => {
+const DetailsCard = ({ restaurant }) => {
   const ratings = reviews.map((review) => review.rating);
 
   const ratingCounts = Array.from(
@@ -120,7 +120,7 @@ const DetailsCard = () => {
           src={`/assets/images/restaurant/${imageData[index].img}`}
           alt="review-image"
           fill
-          sizes="100vw"
+          sizes="100%"
           style={{ objectFit: 'cover', borderRadius: '10px' }}
         />
         {layout.overlay && (
@@ -138,7 +138,7 @@ const DetailsCard = () => {
     <Styles.Card>
       <FlexContainer sx={{ flexDirection: 'column', gap: 2, alignItems: 'flex-start' }}>
         <Text variant="subHeader" fontWeight={800}>
-          Kababjees Restaurant
+          {restaurant.name}
         </Text>
         <FlexContainer gap={1}>
           <Text variant="sub">3.7</Text>
@@ -157,13 +157,15 @@ const DetailsCard = () => {
           <Text variant="body" fontWeight={800} mr={1}>
             Address:
           </Text>
-          <Text variant="body">Pechs block 2 near sindhi muslim, Zahid Nehari</Text>
+          <Text variant="body">{restaurant.address}</Text>
         </Box>
         <Box>
           <Text variant="body" fontWeight={800} mr={1}>
             Contact:
           </Text>
-          <Text variant="body">+9233838313811</Text>
+          <Text variant="body">
+            {restaurant.isVerified ? `+${restaurant.phoneNumber}` : 'No Number'}
+          </Text>
         </Box>
         <FlexContainer gap={1}>
           <Text variant="main" fontWeight={500}>
