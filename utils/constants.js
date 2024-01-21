@@ -14,7 +14,11 @@ export const DASHBOARD_DRAWER_RESPONSIVEWIDTH = 70;
 
 export const cuisineTypes = ['Mexican', 'Italian', 'Chinese', 'Fast Food', 'Sea Food'];
 
-export const listingSteps = ['Restaurant Legalities', 'Restaurant Location', 'Restaurant Details'];
+export const listingSteps = [
+  'Restaurant Legalities',
+  'Restaurant Location',
+  'Restaurant Details',
+];
 
 export const fileSizeAllowed = 1024;
 
@@ -29,6 +33,12 @@ export const sortBy = {
 export const UserStorage = {
   AVATAR: 'avatar',
   COVER: 'cover',
+};
+
+export const Status = {
+  PENDING: 'pending',
+  APPROVED: 'approved',
+  REJECTED: 'rejected',
 };
 
 export const MapZoomLevels = {

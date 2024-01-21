@@ -41,7 +41,7 @@ import { getError } from '@/helpers/snackbarHelpers';
 // Utils
 import { restaurantEditSchema } from '@/utils/validation-schema/restaurant';
 import { PhoneInputCustom } from '@/utils/phone-input';
-import { cuisineTypes } from '@/utils/constants';
+import { Status, cuisineTypes } from '@/utils/constants';
 
 // Icons
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -90,7 +90,7 @@ const EditDetailsForm = () => {
 
       const { data } = await updateRestaurantDetails(details.id, payload);
       detailsHandler(data);
-      formik.resetForm()
+      formik.resetForm();
 
       enqueueSnackbar({
         variant: 'success',
@@ -130,20 +130,22 @@ const EditDetailsForm = () => {
           phoneNumber={formik.values.phoneNumber}
         />
       )}
-      <Styles.StyledAlert severity="warning">
-        <AlertTitle>
-          <Text variant="body" fontWeight={800}>
-            Warning
+      {details.status === Status.APPROVED && (
+        <Styles.StyledAlert severity="warning">
+          <AlertTitle>
+            <Text variant="body" fontWeight={800}>
+              Warning
+            </Text>
+          </AlertTitle>
+          <Text variant="body" fontWeight={500}>
+            Updating
+            <Text variant="body" fontWeight={800} mr={1} ml={1}>
+              Restaurant Name / Tax ID
+            </Text>
+            will be updated after approval by admin
           </Text>
-        </AlertTitle>
-        <Text variant="body" fontWeight={500}>
-          Updating
-          <Text variant="body" fontWeight={800} mr={1} ml={1}>
-            Restaurant Name / Tax ID
-          </Text>
-          will cause restaurant to be re-listed after approval by admin
-        </Text>
-      </Styles.StyledAlert>
+        </Styles.StyledAlert>
+      )}
       <Grid container justifyContent="center" alignItems="center">
         <Grid item xs={12} lg={5}>
           <FormContainer component="form" onSubmit={formik.handleSubmit}>

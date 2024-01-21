@@ -6,9 +6,10 @@ import * as Styles from './menu.styles';
 import { FlexContainer, Text } from '@/components/UI';
 import { Grid, Tab, Tabs } from '@mui/material';
 
-import menuData from '@/mockData/menu';
+// Utils
+import { MenuCategory } from '@/utils/constants';
 
-const Menu = ({ value, handleChange, itemChangeHandler, items }) => {
+const Menu = ({ value, handleChange, items = [] }) => {
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -29,12 +30,12 @@ const Menu = ({ value, handleChange, itemChangeHandler, items }) => {
           centered
           scrollButtons="auto"
         >
-          {Object.entries(menuData).map(([key, value]) => (
+          {Object.entries(MenuCategory).map(([key, value]) => (
             <Tab
               key={key}
-              label={<Text variant="body">{key}</Text>}
+              value={value.category}
+              label={<Text variant="body">{value.text}</Text>}
               sx={{ textTransform: 'none' }}
-              onClick={() => itemChangeHandler(value)}
             />
           ))}
         </Tabs>

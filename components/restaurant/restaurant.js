@@ -10,7 +10,7 @@ const Restaurant = ({ restaurant }) => {
     <React.Fragment>
       <Information restaurant={restaurant} />
       {/* <DetailsCard /> */}
-      <Categories />
+      <Categories restaurant={restaurant} />
     </React.Fragment>
   );
 };

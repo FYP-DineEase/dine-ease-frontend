@@ -19,6 +19,9 @@ import LocationIcon from '@mui/icons-material/LocationOn';
 import { getError } from '@/helpers/snackbarHelpers';
 import { getFileUrl } from '@/helpers/fileHelpers';
 
+// Utils
+import { Status } from '@/utils/constants';
+
 const RestaurantCard = () => {
   const [restaurants, setRestaurants] = useState([]);
 
@@ -36,9 +39,9 @@ const RestaurantCard = () => {
   }, []);
 
   const statusColors = {
-    approved: 'success',
-    pending: 'info',
-    rejected: 'error',
+    [Status.APPROVED]: 'success',
+    [Status.PENDING]: 'info',
+    [Status.REJECTED]: 'error',
   };
 
   if (restaurants.length === 0) {

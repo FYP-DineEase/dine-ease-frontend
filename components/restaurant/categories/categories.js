@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
 // Styles
@@ -9,24 +9,36 @@ import { Grid, useMediaQuery } from '@mui/material';
 // Component
 import Menu from '../menu/menu';
 
-import menuData from '@/mockData/menu';
+// Utils
+import { MenuCategory } from '@/utils/constants';
 
-const Categories = () => {
-  const [value, setValue] = useState(0);
-  const [items, setItems] = useState(menuData.Appetizer);
+const Categories = ({ restaurant }) => {
+  const [value, setValue] = useState(MenuCategory.APPETIZER.category);
+  const [menu, setMenu] = useState([]);
+
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
   const scroll = useRef(null);
 
   const executeScroll = () => scroll.current.scrollIntoView();
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (newValue) => {
     setValue(newValue);
     executeScroll();
   };
 
-  const itemChangeHandler = (menuItems) => {
-    setItems(menuItems);
-  };
+  useEffect(() => {
+    const reducedData = restaurant.menu.reduce((acc, item) => {
+      const { category, ...details } = item;
+
+      if (!acc[category]) {
+        acc[category] = [];
+      }
+
+      acc[category].push(details);
+      return acc;
+    }, {});
+    setMenu(reducedData);
+  }, [restaurant]);
 
   return (
     <SectionContainer
@@ -44,14 +56,9 @@ const Categories = () => {
           </Text>
         </Styles.Header>
       </Grid>
-      {Object.entries(menuData).map(([key, value], index) => (
+      {Object.entries(MenuCategory).map(([key, value]) => (
         <Grid item xs={12} md={3} key={key}>
-          <Styles.Card
-            onClick={() => {
-              handleChange(null, index);
-              itemChangeHandler(value);
-            }}
-          >
+          <Styles.Card onClick={() => handleChange(value.category)}>
             <Styles.ImageContainer>
               <Image
                 src={'/assets/images/restaurant/menu-image.png'}
@@ -61,19 +68,14 @@ const Categories = () => {
               />
             </Styles.ImageContainer>
             <Text variant="subHeader" fontWeight={500}>
-              {key}
+              {value.text}
             </Text>
-            <Text variant="body">({value.length} items)</Text>
+            <Text variant="body">({menu[value.category]?.length || 0} items)</Text>
           </Styles.Card>
         </Grid>
       ))}
       <Grid item xs={12} mt={8} ref={scroll}>
-        <Menu
-          value={value}
-          handleChange={handleChange}
-          itemChangeHandler={itemChangeHandler}
-          items={items}
-        />
+        <Menu value={value} handleChange={handleChange} items={menu[value]} />
       </Grid>
     </SectionContainer>
   );
