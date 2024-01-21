@@ -78,9 +78,9 @@ const ItemModal = ({ showModal, setShowModal, itemDetails = {}, headerTitle }) =
 
   const formik = useFormik({
     initialValues: {
-      name: itemDetails.name || 'item1',
-      price: itemDetails.price || 10,
-      description: itemDetails.description || 'This is a dummy description of an item',
+      name: itemDetails.name || '',
+      price: itemDetails.price || 0,
+      description: itemDetails.description || '',
       image: itemDetails.image || '',
     },
     validationSchema: menuItemSchema,

@@ -41,11 +41,13 @@ export const signupSchema = yup
     firstName: yup
       .string()
       .min(3, 'Must be at least 3 characters.')
+      .max(20, 'Must be at most 20 characters.')
       .matches(/^[a-zA-Z]+$/, 'First name should only contain letters.')
       .required('first name is required.'),
     lastName: yup
       .string()
       .min(3, 'Must be at least 3 characters.')
+      .max(20, 'Must be at most 20 characters.')
       .matches(/^[a-zA-Z]+$/, 'Last name should only contain letters.')
       .required('last name is required.'),
     agree: yup.boolean().oneOf([true], 'You must agree to the terms and conditions'),

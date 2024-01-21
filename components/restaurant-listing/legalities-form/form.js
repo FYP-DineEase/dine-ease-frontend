@@ -65,8 +65,8 @@ const LegalitiesForm = ({ activeStep, handleNext, handleBack, location }) => {
   const formik = useFormik({
     validateOnMount: true,
     initialValues: {
-      name: 'Restaurant 10',
-      taxId: '0000123456780',
+      name: '',
+      taxId: '',
       taxIdAgreement: false,
     },
     validationSchema: restaurantDetailsSchema,
