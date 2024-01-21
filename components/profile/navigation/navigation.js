@@ -17,10 +17,8 @@ import { Tabs, Tab, Box, Grid, Toolbar } from '@mui/material';
 import ReviewIcon from '@mui/icons-material/Reviews';
 import VoteIcon from '@mui/icons-material/ThumbsUpDown';
 import PlanIcon from '@mui/icons-material/EventNote';
-import BadgeIcon from '@mui/icons-material/EmojiEvents';
 import PollIcon from '@mui/icons-material/Poll';
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
-import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 
 // Utils
@@ -60,17 +58,6 @@ const Navigation = () => {
         <FlexContainer mt={10} gap={2}>
           <TipsAndUpdatesIcon fontSize="large" color="primary" />
           <Text variant="subHeader">Currently No Plans</Text>
-        </FlexContainer>
-      ),
-    },
-    {
-      value: 'Badges',
-      icon: <BadgeIcon fontSize="medium" />,
-      label: 'Badges',
-      childComponent: (
-        <FlexContainer mt={10} gap={2}>
-          <LocalPoliceIcon fontSize="large" color="primary" />
-          <Text variant="subHeader">Currently No Badges</Text>
         </FlexContainer>
       ),
     },

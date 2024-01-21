@@ -104,12 +104,6 @@ export const dashboardLinks = [
     icon: <WorkHistoryIcon />,
   },
   {
-    id: 'badges',
-    text: 'Badges',
-    hide: true,
-    icon: <LocalPoliceIcon />,
-  },
-  {
     id: 'restaurant-images',
     text: 'Images',
     hide: true,
