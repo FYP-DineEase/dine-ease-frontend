@@ -6,12 +6,13 @@ import { selectUserState, userActions } from '@/store/user/userSlice';
 // Styles
 import * as Styles from './menu.styles';
 import { ArrowMenu, Text } from '@/components/UI';
-import { Avatar, Badge, Fade, IconButton, MenuItem } from '@mui/material';
+import { Avatar, Badge, Box, Fade, IconButton, MenuItem } from '@mui/material';
 
 // Icons
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
+import MapIcon from '@mui/icons-material/Map';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 // Helpers
@@ -34,11 +35,32 @@ const ProfileMenu = () => {
     setAnchorEl(null);
   };
 
-  const handleLogout = () => {
-    dispatch(userActions.logout());
-    localStorage.clear();
-    closeMenu();
-  };
+  const profileLinks = [
+    {
+      value: 'Profile',
+      icon: <SettingsIcon color="primary" fontSize="small" />,
+      handler: () => router.push(`/profile/${user.slug}`),
+    },
+    {
+      value: 'List Restaurant',
+      icon: <RestaurantIcon color="primary" fontSize="small" />,
+      hide: user.role !== UserRoles.MANAGER,
+      handler: () => router.push('/restaurant/listing'),
+    },
+    {
+      value: 'Favourites Map',
+      icon: <MapIcon color="primary" fontSize="small" />,
+      handler: () => router.push(`/profile/${user.slug}`),
+    },
+    {
+      value: 'Logout',
+      icon: <LogoutIcon color="primary" fontSize="small" />,
+      handler: () => {
+        dispatch(userActions.logout());
+        localStorage.clear();
+      },
+    },
+  ];
 
   return (
     <React.Fragment>
@@ -85,38 +107,24 @@ const ProfileMenu = () => {
         }}
         TransitionComponent={Fade}
       >
-        {user.role === UserRoles.MANAGER && (
-          <MenuItem
-            onClick={(e) => {
-              e.preventDefault();
-              router.push(`/restaurant/listing`);
-              closeMenu();
-            }}
-          >
-            <RestaurantIcon color="primary" fontSize="small" sx={{ mr: 1 }} />
-            <Text variant="sub" color="text.secondary">
-              List Restaurant
-            </Text>
-          </MenuItem>
+        {profileLinks.map(
+          (i) =>
+            !i.hide && (
+              <MenuItem
+                key={i.value}
+                onClick={(e) => {
+                  e.preventDefault();
+                  i.handler();
+                  closeMenu();
+                }}
+              >
+                <Box sx={{ mr: 1, color: 'primary' }}>{i.icon}</Box>
+                <Text variant="sub" color="text.secondary">
+                  {i.value}
+                </Text>
+              </MenuItem>
+            )
         )}
-        <MenuItem
-          onClick={(e) => {
-            e.preventDefault();
-            router.push(`/profile/${user.slug}`);
-            closeMenu();
-          }}
-        >
-          <SettingsIcon color="primary" fontSize="small" sx={{ mr: 1 }} />
-          <Text variant="sub" color="text.secondary">
-            Profile
-          </Text>
-        </MenuItem>
-        <MenuItem onClick={handleLogout}>
-          <LogoutIcon color="primary" fontSize="small" sx={{ mr: 1 }} />
-          <Text variant="sub" color="text.secondary">
-            Logout
-          </Text>
-        </MenuItem>
       </ArrowMenu>
     </React.Fragment>
   );

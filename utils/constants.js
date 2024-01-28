@@ -5,7 +5,6 @@ import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
-import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
 import ImageIcon from '@mui/icons-material/Image';
 
 export const NAV_HEIGHT = 85;

@@ -18,8 +18,9 @@ import ReviewIcon from '@mui/icons-material/Reviews';
 import VoteIcon from '@mui/icons-material/ThumbsUpDown';
 import PlanIcon from '@mui/icons-material/EventNote';
 import PollIcon from '@mui/icons-material/Poll';
-import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 
 // Utils
 import { UserRoles } from '@/utils/roles';
@@ -60,6 +61,12 @@ const Navigation = () => {
           <Text variant="subHeader">Currently No Plans</Text>
         </FlexContainer>
       ),
+    },
+    {
+      value: 'Favourites',
+      icon: <FavoriteIcon fontSize="medium" />,
+      label: 'Favourites',
+      childComponent: <RestaurantCard />,
     },
     {
       value: 'Restaurants',

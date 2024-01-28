@@ -4,5 +4,6 @@ export const PORTS = {
   mail: 3003,
   'users-aggregate': 3004,
   restaurant: 3006,
+  map: 3008,
   meilisearch: 7700,
 };
