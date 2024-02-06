@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const baseURL = 'https://api.mapbox.com';
-const token = process.env.NEXT_PUBLIC_MAPBOX_API_TOKEN;
+const token = process.env.MAPBOX_API_TOKEN;
 
 // fetch location
 export async function fetchCountry(long, lat) {

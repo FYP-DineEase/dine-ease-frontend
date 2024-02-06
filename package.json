@@ -1,5 +1,5 @@
 {
-  "name": "dineease-frontend",
+  "name": "dine-ease-frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -39,6 +39,7 @@
     "react-sortablejs": "^6.1.4",
     "redux-persist": "^6.0.0",
     "slick-carousel": "^1.8.1",
+    "socket.io-client": "^4.7.4",
     "yup": "^1.2.0"
   },
   "devDependencies": {

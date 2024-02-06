@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { enqueueSnackbar } from 'notistack';
-import { useRestaurantContext } from '@/context/restaurant-context';
+import { useRestaurantContext } from '@/context/restaurant';
 
 // Styles
 import * as Styles from './restaurant-images.styles';
@@ -179,7 +179,7 @@ const RestaurantImages = () => {
                   >
                     <Styles.StyledImage
                       src={getFileUrl(
-                        process.env.NEXT_PUBLIC_RESTAURANT_BUCKET,
+                        process.env.AWS_S3_RESTAURANT_BUCKET,
                         `${details.id}/images/${image}`
                       )}
                       alt="restaurant-image"

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { NotificationContextProvider } from '@/context/notifications';
 
 // Styles
 import * as Styles from './menu.styles';
@@ -55,7 +56,7 @@ const NotificationMenu = () => {
     setAnchorEl(null);
   };
   return (
-    <React.Fragment>
+    <NotificationContextProvider>
       <IconButton onClick={openMenu}>
         <Badge
           overlap="circular"
@@ -124,7 +125,7 @@ const NotificationMenu = () => {
           ))}
         </Box>
       </ArrowMenu>
-    </React.Fragment>
+    </NotificationContextProvider>
   );
 };
 

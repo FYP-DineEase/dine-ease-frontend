@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import withAuth from '../auth/with-auth';
-import { RestaurantProvider } from '@/context/restaurant-context';
+import { RestaurantProvider } from '@/context/restaurant';
 
 // Components
 import Navigation from '../restaurant-dashboard/navigation/navigation';

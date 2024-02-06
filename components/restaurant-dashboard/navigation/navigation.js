@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useRestaurantContext } from '@/context/restaurant-context';
+import { useRestaurantContext } from '@/context/restaurant';
 
 // Styles
 import { List, ListItem, ListItemIcon, Tooltip } from '@mui/material';

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useFormik } from 'formik';
 import { enqueueSnackbar } from 'notistack';
 
-import { useRestaurantContext } from '@/context/restaurant-context';
+import { useRestaurantContext } from '@/context/restaurant';
 
 // Styles
 import {
@@ -148,7 +148,7 @@ const ItemModal = ({ showModal, setShowModal, itemDetails = {}, headerTitle }) =
               src={
                 (formik.values.image === itemDetails.image &&
                   getFileUrl(
-                    process.env.NEXT_PUBLIC_RESTAURANT_BUCKET,
+                    process.env.AWS_S3_RESTAURANT_BUCKET,
                     `${details.id}/menu/${itemDetails.image}`
                   )) ||
                 (formik.values.image && URL.createObjectURL(formik.values.image)) ||

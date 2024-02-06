@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { enqueueSnackbar } from 'notistack';
 
-import { useRestaurantContext } from '@/context/restaurant-context';
+import { useRestaurantContext } from '@/context/restaurant';
 
 // Services
 import { deleteMenuItem } from '@/services';
@@ -59,7 +59,7 @@ const MenuCard = ({ item }) => {
         <CardMedia sx={{ height: '150px', position: 'relative' }}>
           <Image
             src={getFileUrl(
-              process.env.NEXT_PUBLIC_RESTAURANT_BUCKET,
+              process.env.AWS_S3_RESTAURANT_BUCKET,
               `${details.id}/menu/${image}`
             )}
             alt="menu-item"

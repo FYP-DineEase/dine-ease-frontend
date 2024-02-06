@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { enqueueSnackbar } from 'notistack';
-import { useRestaurantContext } from '@/context/restaurant-context';
+import { useRestaurantContext } from '@/context/restaurant';
 
 // Styles
 import * as Styles from './preview-modal.styles';

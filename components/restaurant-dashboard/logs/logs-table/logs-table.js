@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { enqueueSnackbar } from 'notistack';
-import { useRestaurantContext } from '@/context/restaurant-context';
+import { useRestaurantContext } from '@/context/restaurant';
 
 // Services
 import { getRestaurantRecords } from '@/services';

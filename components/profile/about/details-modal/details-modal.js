@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbar } from 'notistack';
 import { userActions } from '@/store/user/userSlice';
-import { useProfileContext } from '@/context/profile-context';
+import { useProfileContext } from '@/context/profile';
 
 // Services
 import { updateProfileDetails } from '@/services';

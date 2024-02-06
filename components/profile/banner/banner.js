@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { enqueueSnackbar } from 'notistack';
-import { useProfileContext } from '@/context/profile-context';
+import { useProfileContext } from '@/context/profile';
 
 // Services
 import { updateProfileImage } from '@/services';
@@ -49,7 +49,7 @@ const Banner = () => {
           (newCover && URL.createObjectURL(newCover)) ||
           (cover &&
             getFileUrl(
-              process.env.NEXT_PUBLIC_USER_BUCKET,
+              process.env.AWS_S3_USER_BUCKET,
               `${details.id}/cover/${cover}`
             )) ||
           '/assets/images/bg-placeholder.png'

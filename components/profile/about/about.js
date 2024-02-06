@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { selectUserState, userActions } from '@/store/user/userSlice';
-import { useProfileContext } from '@/context/profile-context';
+import { useProfileContext } from '@/context/profile';
 
 // Components
 import EditProfileMenu from './menu/menu';
@@ -87,7 +87,7 @@ const About = () => {
               (newAvatar && URL.createObjectURL(newAvatar)) ||
               (details.avatar &&
                 getFileUrl(
-                  process.env.NEXT_PUBLIC_USER_BUCKET,
+                  process.env.AWS_S3_USER_BUCKET,
                   `${details.id}/avatar/${details.avatar}`
                 ))
             }

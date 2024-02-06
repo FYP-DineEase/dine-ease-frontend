@@ -1,7 +1,7 @@
 import { allowedImageTypes, fileSizeAllowed } from '@/utils/constants';
 
 export const getFileUrl = (bucket, key) => {
-  return `https://${bucket}.s3.${process.env.NEXT_PUBLIC_S3_REGION}.amazonaws.com/${key}`;
+  return `https://${bucket}.s3.${process.env.AWS_S3_REGION}.amazonaws.com/${key}`;
 };
 
 export const validateImage = (file) => {

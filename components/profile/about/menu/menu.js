@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { enqueueSnackbar } from 'notistack';
-import { useProfileContext } from '@/context/profile-context';
+import { useProfileContext } from '@/context/profile';
 
 // Styles
 import { Menu, MenuItem, Fade, InputLabel, Input, IconButton } from '@mui/material';

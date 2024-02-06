@@ -25,7 +25,7 @@ const ReviewsTable = () => {
 
   const filteredReviews = data.filter(
     (item) =>
-      item.fullName.toLowerCase().includes(filterText.toLowerCase()) ||
+      item.name.toLowerCase().includes(filterText.toLowerCase()) ||
       item.createdAt.toLowerCase().includes(filterText.toLowerCase())
   );
 
@@ -65,7 +65,7 @@ const ReviewsTable = () => {
             alt="user-avatar"
             sx={{ mr: 1.25, height: 35, width: 35 }}
           />
-          {row.fullName}
+          {row.name}
         </FlexContainer>
       ),
       sortable: 'true',
@@ -105,7 +105,7 @@ const ReviewsTable = () => {
   useEffect(() => {
     setLoading(true);
     const data = reviews.map((review) => ({
-      fullName: review.username,
+      name: review.username,
       rating: review.rating,
       createdAt: review.createdAt,
       icon: <VisibilityIcon />,

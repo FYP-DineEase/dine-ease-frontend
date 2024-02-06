@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { enqueueSnackbar } from 'notistack';
-import { useRestaurantContext } from '@/context/restaurant-context';
+import { useRestaurantContext } from '@/context/restaurant';
 
 // Services
 import { uploadRestaurantCover } from '@/services';
@@ -70,7 +70,7 @@ const RestaurantLogo = ({ open }) => {
             (newAvatar && URL.createObjectURL(newAvatar)) ||
             (details.cover &&
               getFileUrl(
-                process.env.NEXT_PUBLIC_RESTAURANT_BUCKET,
+                process.env.AWS_S3_RESTAURANT_BUCKET,
                 `${details.id}/cover/${details.cover}`
               )) ||
             '/assets/images/bg-placeholder.png'

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { useRestaurantContext } from '@/context/restaurant-context';
+import { useRestaurantContext } from '@/context/restaurant';
 
 // Services
 import { verifyOTP, generateOTP } from '@/services';

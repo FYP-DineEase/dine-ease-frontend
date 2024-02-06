@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { enqueueSnackbar } from 'notistack';
 import { ReactSortable } from 'react-sortablejs';
 
-import { useRestaurantContext } from '@/context/restaurant-context';
+import { useRestaurantContext } from '@/context/restaurant';
 
 // Components
 import ItemModal from '../item-modal/item-modal';
