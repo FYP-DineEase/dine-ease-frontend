@@ -1,8 +1,6 @@
 import { MeiliSearch } from 'meilisearch';
-import { PORTS } from '@/utils/port';
 
-const service = 'meilisearch';
-const port = PORTS[service];
+const port = 7700;
 
 export const connectToMeilisearch = () => {
   const client = new MeiliSearch({

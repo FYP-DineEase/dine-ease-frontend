@@ -1,9 +1,19 @@
 import axios from 'axios';
 
-const api = axios.create({
-  baseURL: '/',
-  timeout: 5000,
-});
+export const buildClient = ({ req }) => {
+  let baseURL = '/';
+  let headers = {};
+
+  // We are on server
+  if (typeof window === 'undefined') {
+    baseURL = 'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local';
+    headers = req.headers;
+  }
+
+  return axios.create({ baseURL, headers, timeout: 5000 });
+};
+
+const api = buildClient({}); // Create the API client
 
 api.interceptors.request.use((config) => {
   const token = typeof window !== 'undefined' && localStorage.getItem('token');
