@@ -59,7 +59,7 @@ const MenuCard = ({ item }) => {
         <CardMedia sx={{ height: '150px', position: 'relative' }}>
           <Image
             src={getFileUrl(
-              process.env.AWS_S3_RESTAURANT_BUCKET,
+              process.env.AWS_S3_RESTAURANTS_BUCKET,
               `${details.id}/menu/${image}`
             )}
             alt="menu-item"

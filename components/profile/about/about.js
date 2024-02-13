@@ -87,7 +87,7 @@ const About = () => {
               (newAvatar && URL.createObjectURL(newAvatar)) ||
               (details.avatar &&
                 getFileUrl(
-                  process.env.AWS_S3_USER_BUCKET,
+                  process.env.AWS_S3_USERS_BUCKET,
                   `${details.id}/avatar/${details.avatar}`
                 ))
             }

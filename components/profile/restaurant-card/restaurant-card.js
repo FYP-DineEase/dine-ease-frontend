@@ -68,7 +68,7 @@ const RestaurantCard = () => {
                 src={
                   (restaurant.cover &&
                     getFileUrl(
-                      process.env.AWS_S3_RESTAURANT_BUCKET,
+                      process.env.AWS_S3_RESTAURANTS_BUCKET,
                       `${restaurant.id}/cover/${restaurant.cover}`
                     )) ||
                   '/assets/images/bg-placeholder.png'
