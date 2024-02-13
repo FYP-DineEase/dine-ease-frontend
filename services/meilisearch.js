@@ -1,10 +1,8 @@
 import { MeiliSearch } from 'meilisearch';
 
-const port = 7700;
-
 export const connectToMeilisearch = () => {
   const client = new MeiliSearch({
-    host: `http://localhost:${port}`,
+    host: `http://localhost:7700`,
     apiKey: process.env.MEILI_SEARCH_TOKEN,
     headers: {
       Authorization: `Bearer ${process.env.MEILI_SEARCH_TOKEN}`,
