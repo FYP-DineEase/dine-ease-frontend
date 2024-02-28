@@ -21,7 +21,6 @@ export async function getStaticProps({ params }) {
 
 export async function getStaticPaths() {
   const response = await getRestaurantSlugs();
-
   const slugs = response.data;
 
   const paths = slugs

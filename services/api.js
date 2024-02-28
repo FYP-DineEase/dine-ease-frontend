@@ -1,19 +1,17 @@
 import axios from 'axios';
 
-export const buildClient = ({ req }) => {
-  let baseURL = '/';
-  let headers = {};
-
-  // We are on server
+export const buildClient = () => {
   if (typeof window === 'undefined') {
-    baseURL = 'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local';
-    headers = req.headers;
+    // We are on server
+    const baseURL = 'http://ingress-nginx-controller.ingress-nginx';
+    return axios.create({ baseURL, headers: { Host: 'dine-ease.dev' } });
+  } else {
+    // We must be on the browser
+    return axios.create({ baseURL: '/' });
   }
-
-  return axios.create({ baseURL, headers, timeout: 5000 });
 };
 
-const api = buildClient({}); // Create the API client
+const api = axios.create({ baseURL: '/', timeout: 5000 });
 
 api.interceptors.request.use((config) => {
   const token = typeof window !== 'undefined' && localStorage.getItem('token');

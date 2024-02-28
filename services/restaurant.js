@@ -1,60 +1,60 @@
-import api from './api';
+import api, { build } from './api';
 
 // Records
 export const getRestaurantRecords = (restaurantId) => {
-  return api.get(`/api/${service}/records/${restaurantId}`);
+  return api.get(`/api/restaurant/records/${restaurantId}`);
 };
 
 // OTP
 export const generateOTP = (restaurantId) => {
-  return api.get(`/api/${service}/generate-otp/${restaurantId}`);
+  return api.get(`/api/restaurant/generate-otp/${restaurantId}`);
 };
 
 export const verifyOTP = (restaurantId, payload) => {
-  return api.post(`/api/${service}/verify-otp/${restaurantId}`, payload);
+  return api.post(`/api/restaurant/verify-otp/${restaurantId}`, payload);
 };
 
 // Restaurant
 export const checkRestaurant = (params) => {
-  return api.get(`/api/${service}/check`, { params });
+  return api.get(`/api/restaurant/check`, { params });
 };
 
 export const getRestaurantSlugs = () => {
-  return api.get(`/api/${service}/all/slug`);
+  return buildClient().get(`/api/restaurant/all/slug`);
 };
 
 export const getRestaurantBySlug = (slug) => {
-  return api.get(`/api/${service}/${slug}`);
+  return buildClient().get(`/api/restaurant/${slug}`);
 };
 
 export const getApprovedRestaurants = () => {
-  return api.get(`/api/${service}/approved`);
+  return api.get(`/api/restaurant/approved`);
 };
 
 export const getUserRestaurants = () => {
-  return api.get(`/api/${service}/user`);
+  return api.get(`/api/restaurant/user`);
 };
 
 export const listRestaurant = (payload) => {
-  return api.post(`/api/${service}`, payload);
+  return api.post(`/api/restaurant`, payload);
 };
 
 export const uploadRestaurantCover = (restaurantId, payload) => {
   const headers = { 'Content-Type': 'multipart/form-data' };
-  return api.post(`/api/${service}/upload/cover/${restaurantId}`, payload, { headers });
+  return api.post(`/api/restaurant/upload/cover/${restaurantId}`, payload, { headers });
 };
 
 export const uploadRestaurantImages = (restaurantId, payload) => {
   const headers = { 'Content-Type': 'multipart/form-data' };
-  return api.post(`/api/${service}/upload/${restaurantId}`, payload, { headers });
+  return api.post(`/api/restaurant/upload/${restaurantId}`, payload, { headers });
 };
 
 export const updateRestaurantDetails = (restaurantId, payload) => {
-  return api.patch(`/api/${service}/details/${restaurantId}`, payload);
+  return api.patch(`/api/restaurant/details/${restaurantId}`, payload);
 };
 
 export const deleteRestaurantImages = (restaurantId, payload) => {
-  return api.delete(`/api/${service}/images/${restaurantId}`, {
+  return api.delete(`/api/restaurant/images/${restaurantId}`, {
     data: payload,
   });
 };

@@ -10,6 +10,7 @@ export default UserMapPage;
 
 export async function getStaticProps({ params }) {
   const response = await getMapBySlug(params.id);
+
   return {
     props: {
       data: response.data,
@@ -19,7 +20,7 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-  const response = await getAllMapSlugs();
+  const response = await getAllMapSlugs(client);
 
   const slugs = response.data;
 

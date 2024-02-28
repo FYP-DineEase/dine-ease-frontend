@@ -10,7 +10,7 @@ import '@/styles/globals.css';
 // Layout
 import Layout from '@/components/layout/layout';
 
-export default function App({ Component, pageProps, ...rest }) {
+const AppComponent = ({ Component, pageProps, ...rest }) => {
   const getLayout = Component.getLayout || ((page) => page);
 
   return (
@@ -22,4 +22,6 @@ export default function App({ Component, pageProps, ...rest }) {
       </PersistGate>
     </Provider>
   );
-}
+};
+
+export default AppComponent;

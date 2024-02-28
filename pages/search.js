@@ -18,34 +18,36 @@ const SearchPage = ({ restaurants }) => {
 export default SearchPage;
 
 export const getStaticProps = async () => {
-  const restaurantsData = await getApprovedRestaurants();
-  const { restaurants } = restaurantsData.data;
 
-  const restaurantsDummy = restaurants.map((restaurantDetails) => ({
-    ...restaurantDetails,
-    rating: getRandomValue(),
-    reviewsCount: Math.floor(Math.random() * 1000),
-  }));
+  // const { data } = await getApprovedRestaurants();
+  // const { restaurants } = data;
 
-  const client = connectToMeilisearch();
+  // const restaurantsDummy = restaurants.map((restaurantDetails) => ({
+  //   ...restaurantDetails,
+  //   rating: getRandomValue(),
+  //   reviewsCount: Math.floor(Math.random() * 1000),
+  // }));
 
-  client
-    .index('restaurants')
-    .addDocuments(restaurantsDummy, { primaryKey: 'id' })
-    .catch((error) => console.error('MeiliSearch Error:', error));
+  // const meili = connectToMeilisearch();
 
-  client
-    .index('restaurants')
-    .updateFilterableAttributes(['cuisine'])
-    .catch((error) => console.error('MeiliSearch Error:', error));
-    
-  client
-    .index('restaurants')
-    .updateSortableAttributes(['rating', 'reviewsCount'])
-    .catch((error) => console.error('MeiliSearch Error:', error));
+  // meili
+  //   .index('restaurants')
+  //   .addDocuments(restaurantsDummy, { primaryKey: 'id' })
+  //   .catch((error) => console.error('MeiliSearch Error:', error));
+
+  // meili
+  //   .index('restaurants')
+  //   .updateFilterableAttributes(['cuisine'])
+  //   .catch((error) => console.error('MeiliSearch Error:', error));
+
+  // meili
+  //   .index('restaurants')
+  //   .updateSortableAttributes(['rating', 'reviewsCount'])
+  //   .catch((error) => console.error('MeiliSearch Error:', error));
 
   return {
-    props: { restaurants: restaurantsDummy },
-    revalidate: 10,
+    // props: { restaurants: restaurantsDummy },
+    props: { restaurants: [] },
+    revalidate: 300,
   };
 };
