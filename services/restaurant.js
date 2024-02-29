@@ -1,4 +1,4 @@
-import api, { build } from './api';
+import api, { buildClient } from './api';
 
 // Records
 export const getRestaurantRecords = (restaurantId) => {

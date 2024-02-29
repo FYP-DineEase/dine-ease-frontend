@@ -11,6 +11,7 @@ const Restaurant = ({ restaurant }) => {
       <Information restaurant={restaurant} />
       <Map restaurant={restaurant} />
       <Categories restaurant={restaurant} />
+      <h1>Reviews</h1>
     </React.Fragment>
   );
 };
