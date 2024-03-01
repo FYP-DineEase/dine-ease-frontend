@@ -86,7 +86,7 @@ const Map = ({ restaurant }) => {
             width="100%"
             height="100%"
             onMove={onMove}
-            mapboxAccessToken={process.env.MAPBOX_API_TOKEN}
+            mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_API_TOKEN}
             mapStyle={'mapbox://styles/mapbox/streets-v12'}
           >
             <Marker latitude={latitude} longitude={longitude}>

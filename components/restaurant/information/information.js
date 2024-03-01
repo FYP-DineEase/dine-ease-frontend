@@ -20,7 +20,7 @@ const Information = ({ restaurant }) => {
               <LunchDiningIcon sx={{ color: 'text.primary' }} />
             </Styles.IconContainer>
             <Text variant="body" fontWeight={800}>
-              {restaurant.cuisine.join(', ')}
+              {restaurant.categories.join(', ')}
             </Text>
             <Text variant="sub" fontWeight={500}>
               Cuisines we offer

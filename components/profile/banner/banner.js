@@ -49,7 +49,7 @@ const Banner = () => {
           (newCover && URL.createObjectURL(newCover)) ||
           (cover &&
             getFileUrl(
-              process.env.AWS_S3_USERS_BUCKET,
+              process.env.NEXT_PUBLIC_AWS_S3_USERS_BUCKET,
               `${details.id}/cover/${cover}`
             )) ||
           '/assets/images/bg-placeholder.png'
