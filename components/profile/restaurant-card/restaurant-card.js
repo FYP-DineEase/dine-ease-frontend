@@ -68,7 +68,7 @@ const RestaurantCard = () => {
                 src={
                   (restaurant.cover &&
                     getFileUrl(
-                      process.env.AWS_S3_RESTAURANTS_BUCKET,
+                      process.env.NEXT_PUBLIC_AWS_S3_RESTAURANTS_BUCKET,
                       `${restaurant.id}/cover/${restaurant.cover}`
                     )) ||
                   '/assets/images/bg-placeholder.png'
@@ -100,7 +100,7 @@ const RestaurantCard = () => {
               <Styles.IconContainer>
                 <RestaurantMenuIcon color="primary" />
                 <Text variant="sub" color="text.secondary">
-                  {restaurant.cuisine.join(' / ')}
+                  {restaurant.categories.join(' / ')}
                 </Text>
               </Styles.IconContainer>
               <Styles.IconContainer>

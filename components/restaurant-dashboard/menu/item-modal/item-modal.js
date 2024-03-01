@@ -148,7 +148,7 @@ const ItemModal = ({ showModal, setShowModal, itemDetails = {}, headerTitle }) =
               src={
                 (formik.values.image === itemDetails.image &&
                   getFileUrl(
-                    process.env.AWS_S3_RESTAURANTS_BUCKET,
+                    process.env.NEXT_PUBLIC_AWS_S3_RESTAURANTS_BUCKET,
                     `${details.id}/menu/${itemDetails.image}`
                   )) ||
                 (formik.values.image && URL.createObjectURL(formik.values.image)) ||

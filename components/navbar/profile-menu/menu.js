@@ -87,7 +87,7 @@ const ProfileMenu = () => {
             src={
               user.avatar &&
               getFileUrl(
-                process.env.AWS_S3_USERS_BUCKET,
+                process.env.NEXT_PUBLIC_AWS_S3_USERS_BUCKET,
                 `${user.id}/avatar/${user.avatar}`
               )
             }

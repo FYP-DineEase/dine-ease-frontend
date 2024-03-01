@@ -70,7 +70,7 @@ const RestaurantLogo = ({ open }) => {
             (newAvatar && URL.createObjectURL(newAvatar)) ||
             (details.cover &&
               getFileUrl(
-                process.env.AWS_S3_RESTAURANTS_BUCKET,
+                process.env.NEXT_PUBLIC_AWS_S3_RESTAURANTS_BUCKET,
                 `${details.id}/cover/${details.cover}`
               )) ||
             '/assets/images/bg-placeholder.png'

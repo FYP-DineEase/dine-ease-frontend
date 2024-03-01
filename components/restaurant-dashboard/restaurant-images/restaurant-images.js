@@ -179,7 +179,7 @@ const RestaurantImages = () => {
                   >
                     <Styles.StyledImage
                       src={getFileUrl(
-                        process.env.AWS_S3_RESTAURANTS_BUCKET,
+                        process.env.NEXT_PUBLIC_AWS_S3_RESTAURANTS_BUCKET,
                         `${details.id}/images/${image}`
                       )}
                       alt="restaurant-image"
