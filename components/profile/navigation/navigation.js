@@ -1,7 +1,9 @@
 import React, { useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useOnScreen } from '@/hooks/useOnScreen';
+
+import { useSelector } from 'react-redux';
 import { selectUserState } from '@/store/user/userSlice';
+import { useProfileContext } from '@/context/profile';
 
 // Components
 import About from '../about/about';
@@ -27,6 +29,7 @@ import { UserRoles } from '@/utils/roles';
 
 const Navigation = () => {
   const user = useSelector(selectUserState);
+  const { details } = useProfileContext();
 
   const tabsRef = useRef(null);
   const tabsOnScreen = useOnScreen(tabsRef);
@@ -38,7 +41,7 @@ const Navigation = () => {
       value: 'Reviews',
       icon: <ReviewIcon fontSize="medium" />,
       label: 'Reviews',
-      childComponent: <Review />,
+      childComponent: <Review profileDetails={details} />,
     },
     {
       value: 'Votes',

@@ -92,7 +92,9 @@ const About = () => {
                 ))
             }
             sx={{ height: '100%', width: '100%', border: '1px solid rgba(0, 0, 0, 0.2)' }}
-          />
+          >
+            {!details.avatar && details.firstName.slice(0, 1)}
+          </Avatar>
           {newAvatar && !isSubmitting && (
             <Styles.AvatarConfirmation>
               <Tooltip title="Save Changes" placement="top" arrow>
