@@ -1,18 +1,72 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+
+// Styles
+import { FlexContainer, Text } from '../UI';
+import { Box, Avatar, ImageList, ImageListItem, Pagination } from '@mui/material';
+import * as Styles from './review.styles';
+
+// Helpers
+import { getError } from '@/helpers/snackbarHelpers';
+import { getDate, getTimePassed } from '@/helpers/dateHelpers';
+
+// Snackbar
+import { enqueueSnackbar } from 'notistack';
+
+// Services
+import { getRestaurantReview, getUserReview } from '@/services/review';
 
 // Components
 import VoteOptions from './vote-options/vote';
 
-// Styles
-import { Text } from '../UI';
-import { Box, Avatar, ImageList, ImageListItem, Typography } from '@mui/material';
-import * as Styles from './review.styles';
-
 import userImage from '@/public/assets/images/avatar.jpg';
 
-const Review = () => {
+const Review = ({ restaurantDetails = null, profileDetails = null }) => {
+  const [reviews, setReviews] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(0);
+  const reviewLimit = useRef(10);
+  const offset = (page - 1) * 10;
+
+  const name = profileDetails && `${profileDetails.firstName} ${profileDetails.lastName}`;
+
   const images = [userImage, userImage, userImage];
+
+  const fetchRestaurantReviews = async () => {
+    try {
+      const response = await getRestaurantReview(
+        restaurantDetails.id,
+        reviewLimit.current,
+        offset
+      );
+      setReviews(response.data.reviews);
+      if (!totalPage) setTotalPage(Math.ceil(response.data.count / reviewLimit.current));
+    } catch (e) {
+      enqueueSnackbar({ variant: 'error', message: getError(e) });
+    }
+  };
+
+  const fetchUserReviews = async () => {
+    try {
+      const response = await getUserReview(profileDetails.id);
+      setReviews(response.data);
+      if (!totalPage) setTotalPage(Math.ceil(response.data.length / reviewLimit.current));
+    } catch (e) {
+      enqueueSnackbar({ variant: 'error', message: getError(e) });
+    }
+  };
+
+  useEffect(() => {
+    if (restaurantDetails?.id) fetchRestaurantReviews();
+  }, [restaurantDetails?.id, page]);
+
+  useEffect(() => {
+    if (profileDetails?.id) fetchUserReviews();
+  }, [profileDetails?.id]);
+
+  const pageHandler = (event, newPage) => {
+    setPage(newPage);
+  };
 
   const renderImages = () => {
     const imageCount = Math.min(images.length, 3);
@@ -49,72 +103,54 @@ const Review = () => {
 
   return (
     <React.Fragment>
-      <Styles.ReviewCard>
-        <Styles.UserDetails>
-          <Avatar
-            sx={{ width: 72, height: 72 }}
-            alt="Remy Sharp"
-            src={'/assets/images/avatar.jpg'}
-          />
-          <Box>
-            <Text variant="main" fontWeight={500} sx={{ display: 'block' }}>
-              Mujtaba Shafiq
+      {reviews
+        .slice(
+          profileDetails ? (page - 1) * reviewLimit.current : 0,
+          profileDetails ? page * reviewLimit.current : reviews.length
+        )
+        .map((review) => (
+          <Styles.ReviewCard key={review.slug}>
+            <Styles.UserDetails>
+              <Avatar sx={{ width: 72, height: 72 }}>
+                {review.userId.name?.slice(0, 1) || name?.slice(0, 1)}
+              </Avatar>
+              <Box>
+                <Text variant="main" fontWeight={500} sx={{ display: 'block' }}>
+                  {review.userId.name || name}
+                </Text>
+                <Text variant="body" sx={{ display: 'block', mt: 0.5 }}>
+                  {getDate(review.createdAt)}, {getTimePassed(review.createdAt)}
+                </Text>
+              </Box>
+            </Styles.UserDetails>
+            <Text variant="body" sx={{ display: 'block', mt: 2 }}>
+              {review.content}
             </Text>
-            <Text variant="body" sx={{ display: 'block', mt: 0.5 }}>
-              10 Oct 2023, 11:59 pm
-            </Text>
-          </Box>
-        </Styles.UserDetails>
-        <Text variant="body" sx={{ display: 'block', mt: 2 }}>
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-          Ipsum has been standard dummy text ever since the 1500s, when an unknown printer
-          took a galley of type and scrambled it to make a type specimen book.
-          <Text variant="body" sx={{ display: 'block', mt: 2 }}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-            Lorem Ipsum has been standard dummy text ever since the 1500s, when an unknown
-            printer took a galley of type and scrambled it to make a type specimen book.
-          </Text>
-        </Text>
-        <Box sx={{ width: '100%', mt: 3 }}>
-          <ImageList rowHeight={200} cols={2} variant="quilted">
-            {renderImages()}
-          </ImageList>
-        </Box>
-        {/* <VoteOptions /> */}
-      </Styles.ReviewCard>
-      <Styles.ReviewCard>
-        <Styles.UserDetails>
-          <Avatar
-            sx={{ width: 72, height: 72 }}
-            alt="Remy Sharp"
-            src={'/assets/images/avatar.jpg'}
-          />
-          <Box>
-            <Text variant="main" fontWeight={500} sx={{ display: 'block' }}>
-              Mujtaba Shafiq
-            </Text>
-            <Text variant="body" sx={{ display: 'block', mt: 0.5 }}>
-              10 Oct 2023, 11:59 pm
-            </Text>
-          </Box>
-        </Styles.UserDetails>
-        <Text variant="body" sx={{ display: 'block', mt: 2 }}>
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-          Ipsum has been standard dummy text ever since the 1500s, when an unknown printer
-          took a galley of type and scrambled it to make a type specimen book.
-          <Text variant="body" sx={{ display: 'block', mt: 2 }}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-            Lorem Ipsum has been standard dummy text ever since the 1500s, when an unknown
-            printer took a galley of type and scrambled it to make a type specimen book.
-          </Text>
-        </Text>
-        <Box sx={{ width: '100%', mt: 3 }}>
-          <ImageList rowHeight={200} cols={2} variant="quilted">
-            {renderImages()}
-          </ImageList>
-        </Box>
-        {/* <VoteOptions /> */}
-      </Styles.ReviewCard>
+            <Box sx={{ width: '100%', mt: 3 }}>
+              <ImageList rowHeight={200} cols={2} variant="quilted">
+                {renderImages()}
+              </ImageList>
+            </Box>
+            {/* <VoteOptions /> */}
+          </Styles.ReviewCard>
+        ))}
+      <FlexContainer>
+        <Pagination
+          color="primary"
+          count={totalPage}
+          variant="outlined"
+          shape="rounded"
+          sx={{
+            mt: 3,
+            mb: 3,
+            '& .MuiPaginationItem-root:not(.Mui-selected)': {
+              color: 'text.secondary',
+            },
+          }}
+          page={page}
+          onChange={pageHandler}
+        />
+      </FlexContainer>
     </React.Fragment>
   );
 };
