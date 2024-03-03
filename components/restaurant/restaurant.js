@@ -4,6 +4,7 @@ import React from 'react';
 import Information from './information/information';
 import Categories from './categories/categories';
 import Map from './map/map';
+import RestaurantReviews from './reviews-section/reviews/reviews';
 
 const Restaurant = ({ restaurant }) => {
   return (
@@ -11,7 +12,7 @@ const Restaurant = ({ restaurant }) => {
       <Information restaurant={restaurant} />
       <Map restaurant={restaurant} />
       <Categories restaurant={restaurant} />
-      <h1>Reviews</h1>
+      <RestaurantReviews restaurant={restaurant}/>
     </React.Fragment>
   );
 };

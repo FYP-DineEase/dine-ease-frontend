@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { useRestaurantContext } from '@/context/restaurant';
 
 // Styles
 import * as Styles from './details-card.styles';
 import { FlexContainer, Text } from '@/components/UI';
-import { Box, ImageList, ImageListItem } from '@mui/material';
+import { Box, ImageList, ImageListItem, Rating } from '@mui/material';
 
 // Icons
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
+
+// Helpers
+import { getError } from '@/helpers/snackbarHelpers';
+
+// Snackbar
+import { enqueueSnackbar } from 'notistack';
+
+// Services
+import { getRestaurantReview } from '@/services/review';
 
 //Chart
 import {
@@ -21,8 +31,6 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
-
-import { reviews } from '@/mockData/mockData';
 
 const imageData = [
   {
@@ -48,6 +56,22 @@ const imageData = [
 ];
 
 const DetailsCard = ({ restaurant }) => {
+  const [reviews, setReviews] = useState([]);
+
+  const { details } = useRestaurantContext();
+
+  const fetchReviews = async () => {
+    try {
+      const response = await getRestaurantReview(details.id);
+      setReviews(response.data.reviews);
+    } catch (e) {
+      enqueueSnackbar({ variant: 'error', message: getError(e) });
+    }
+  };
+
+  useEffect(() => {
+    if (details.id) fetchReviews();
+  }, [details.id]);
   const ratings = reviews.map((review) => review.rating);
 
   const ratingCounts = Array.from(
@@ -141,8 +165,10 @@ const DetailsCard = ({ restaurant }) => {
           {restaurant.name}
         </Text>
         <FlexContainer gap={1}>
-          <Text variant="sub">3.7</Text>
-          <Box>stars</Box>
+          <Rating value={restaurant.rating} precision={0.5} readOnly size="large" />
+          <Text variant="body" fontWeight={600}>
+            {restaurant.rating} stars
+          </Text>
         </FlexContainer>
         <ImageList
           variant="quilted"
