@@ -1,6 +1,8 @@
 import React from 'react';
 import { ProfileProvider } from '@/context/profile';
+
 import { getAllUserSlugs, getUserBySlug } from '@/services';
+
 import Profile from '@/components/profile/profile';
 
 function ProfilePage({ user }) {

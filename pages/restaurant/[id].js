@@ -1,9 +1,16 @@
 import React from 'react';
-import Restaurant from '@/components/restaurant/restaurant';
+import { RestaurantProvider } from '@/context/restaurant';
+
 import { getRestaurantBySlug, getRestaurantSlugs } from '@/services';
 
+import Restaurant from '@/components/restaurant/restaurant';
+
 const RestaurantPage = ({ restaurant }) => {
-  return <Restaurant restaurant={restaurant} />;
+  return (
+    <RestaurantProvider>
+      <Restaurant restaurant={restaurant} />
+    </RestaurantProvider>
+  );
 };
 
 export default RestaurantPage;
