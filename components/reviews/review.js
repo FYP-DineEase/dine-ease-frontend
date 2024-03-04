@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
 // Styles
+import * as Styles from './review.styles';
 import { FlexContainer, Text } from '../UI';
 import { Box, Avatar, ImageList, ImageListItem, Pagination } from '@mui/material';
-import * as Styles from './review.styles';
 
 // Helpers
 import { getError } from '@/helpers/snackbarHelpers';
@@ -131,7 +131,7 @@ const Review = ({ restaurantDetails = null, profileDetails = null }) => {
                 {renderImages()}
               </ImageList>
             </Box>
-            {/* <VoteOptions /> */}
+            <VoteOptions votes={review.votes} />
           </Styles.ReviewCard>
         ))}
       <FlexContainer>
