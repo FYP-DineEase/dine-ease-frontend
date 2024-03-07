@@ -47,13 +47,7 @@ export const menuItemSchema = yup.object().shape({
     .max(15, 'Must be at most 15 characters.')
     .matches(/^[a-zA-Z]+$/, 'Name should only contain letters.')
     .required('Name is required.'),
-  price: yup
-    .number()
-    .positive('Price must be a positive value')
-    .min(1, 'Price must be at least 1')
-    .max(10000, 'Price must be at most 10,000')
-    .integer('Price must be an integer')
-    .required('Price is required'),
+  price: yup.string().required('Price is required'),
   description: yup
     .string()
     .min(3, 'Must be at least 3 characters.')
