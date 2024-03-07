@@ -27,13 +27,13 @@ const RestaurantReviews = ({ restaurant }) => {
           </Text>
         </Styles.Header>
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} md={8}>
         <AddReview />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} md={8} sx={{ mb: 4, mt: 4 }}>
         <RatingChart restaurant={restaurant} />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} md={8}>
         <Review restaurantDetails={details} />
       </Grid>
     </SectionContainer>
