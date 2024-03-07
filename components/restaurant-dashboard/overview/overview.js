@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 //Styles
 import { Grid } from '@mui/material';
@@ -10,24 +10,45 @@ import RatingDistribution from './rating-distribution/rating-distribution';
 import ReviewTrend from './review-trend/review-trend';
 import CustomerSatisfaction from './customer-satisfaction/customer-satisfaction';
 import RecentReviews from './recent-reviews/recent-reviews';
+import { useRestaurantContext } from '@/context/restaurant';
+import { getRestaurantReview } from '@/services/review';
+import { getError } from '@/helpers/snackbarHelpers';
+import { enqueueSnackbar } from 'notistack';
 
 const Overview = () => {
+  const [reviews, setReviews] = useState([]);
+
+  const { details } = useRestaurantContext();
+
+  const fetchReviews = async () => {
+    try {
+      const response = await getRestaurantReview(details.id);
+      setReviews(response.data.reviews);
+    } catch (e) {
+      enqueueSnackbar({ variant: 'error', message: getError(e) });
+    }
+  };
+
+  useEffect(() => {
+    if (details.id) fetchReviews();
+  }, [details.id]);
+
   return (
     <DashboardContainer container columnSpacing={1} rowGap={1}>
       <Grid item xs={12} lg={7}>
-        <Cards />
+        <Cards reviews={reviews} />
       </Grid>
       <Grid item xs={12} lg={5}>
-        <CustomerSatisfaction />
+        <CustomerSatisfaction reviews={reviews} />
       </Grid>
       <Grid item xs={12} lg={7}>
-        <ReviewTrend />
+        <ReviewTrend reviews={reviews} />
       </Grid>
       <Grid item xs={12} lg={5}>
-        <RatingDistribution />
+        <RatingDistribution reviews={reviews} />
       </Grid>
       <Grid item xs={12}>
-        <RecentReviews />
+        <RecentReviews reviews={reviews} />
       </Grid>
     </DashboardContainer>
   );

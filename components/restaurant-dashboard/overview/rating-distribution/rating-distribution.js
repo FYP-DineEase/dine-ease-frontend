@@ -17,9 +17,7 @@ import {
 import { Bar } from 'react-chartjs-2';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-import { reviews } from '@/mockData/mockData';
-
-const RatingDistribution = () => {
+const RatingDistribution = ({ reviews }) => {
   const ratings = reviews.map((review) => review.rating);
 
   const ratingCounts = Array.from(
@@ -43,7 +41,7 @@ const RatingDistribution = () => {
     },
     scales: {
       x: {
-        display: true,
+        display: false,
       },
       y: {
         display: true,
@@ -60,6 +58,7 @@ const RatingDistribution = () => {
         label: 'Number Of Ratings',
         data: ratingCounts.reverse(),
         backgroundColor: 'orange',
+        barBorderRadius: 10,
       },
     ],
   };

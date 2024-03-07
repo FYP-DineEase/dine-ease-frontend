@@ -27,9 +27,7 @@ ChartJS.register(
   Legend
 );
 
-import { reviews } from '@/mockData/mockData';
-
-const ReviewTrend = () => {
+const ReviewTrend = ({ reviews }) => {
   const currentDate = new Date();
 
   const lastMonthReviews = reviews.filter((review) => {

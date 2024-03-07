@@ -4,7 +4,7 @@ import DataTable from 'react-data-table-component';
 
 //Styles
 import { DashboardContent, FlexContainer } from '@/components/UI';
-import { Avatar, IconButton, Tooltip } from '@mui/material';
+import { Avatar, IconButton, Rating, Tooltip } from '@mui/material';
 
 //Icons
 import PersonIcon from '@mui/icons-material/Person';
@@ -14,9 +14,9 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import userImage from '@/public/assets/images/avatar.jpg';
 
-import { reviews } from '@/mockData/mockData';
+import { getDate } from '@/helpers/dateHelpers';
 
-const RecentReviews = () => {
+const RecentReviews = ({ reviews }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -47,7 +47,7 @@ const RecentReviews = () => {
           Rating
         </FlexContainer>
       ),
-      selector: (row) => row.rating,
+      selector: (row) => <Rating value={row.rating} size="small" readOnly />,
       sortable: 'true',
       center: 'true',
     },
@@ -58,7 +58,7 @@ const RecentReviews = () => {
           Posted On
         </FlexContainer>
       ),
-      selector: (row) => row.createdAt,
+      selector: (row) => getDate(row.createdAt),
       sortable: 'true',
       center: 'true',
     },
@@ -75,7 +75,7 @@ const RecentReviews = () => {
   useEffect(() => {
     setLoading(true);
     const data = reviews.map((review) => ({
-      name: review.username,
+      name: review.userId.name,
       rating: review.rating,
       createdAt: review.createdAt,
       icon: <VisibilityIcon />,
@@ -83,7 +83,7 @@ const RecentReviews = () => {
     }));
     setData(data);
     setLoading(false);
-  }, []);
+  }, [reviews]);
 
   return (
     <DashboardContent>

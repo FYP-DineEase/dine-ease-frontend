@@ -41,7 +41,7 @@ import { getError } from '@/helpers/snackbarHelpers';
 // Utils
 import { restaurantEditSchema } from '@/utils/validation-schema/restaurant';
 import { PhoneInputCustom } from '@/utils/phone-input';
-import { Status, cuisineTypes } from '@/utils/constants';
+import { Status, categoryTypes } from '@/utils/constants';
 
 // Icons
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -70,7 +70,7 @@ const EditDetailsForm = () => {
     return {
       taxId: details.taxId || '',
       name: details.name || '',
-      cuisine: details.cuisine || '',
+      categories: details.categories || [],
       phoneNumber: details.phoneNumber || '',
       address: details.address || '',
       place: location.country || '',
@@ -115,9 +115,9 @@ const EditDetailsForm = () => {
   };
 
   const handleDelete = (index) => {
-    const updatedCuisine = [...formik.values.cuisine];
-    updatedCuisine.splice(index, 1);
-    formik.setFieldValue('cuisine', updatedCuisine);
+    const updatedCategory = [...formik.values.categories];
+    updatedCategory.splice(index, 1);
+    formik.setFieldValue('categories', updatedCategory);
   };
 
   return (
@@ -167,13 +167,15 @@ const EditDetailsForm = () => {
               error={formik.errors.name && Boolean(formik.touched.name)}
               helperText={formik.touched.name && formik.errors.name}
             />
-            <FormControl error={formik.errors.cuisine && Boolean(formik.touched.cuisine)}>
-              <InputLabel>Cuisine</InputLabel>
+            <FormControl
+              error={formik.errors.categories && Boolean(formik.touched.categories)}
+            >
+              <InputLabel>Category</InputLabel>
               <SelectField
-                name="cuisine"
+                name="categories"
                 multiple
-                label="cuisine"
-                value={formik.values.cuisine}
+                label="Categories"
+                value={formik.values.categories}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 renderValue={(selected) => (
@@ -200,17 +202,17 @@ const EditDetailsForm = () => {
                   </Box>
                 )}
               >
-                {cuisineTypes.map((cuisine) => (
-                  <MenuItem key={cuisine} value={cuisine}>
+                {categoryTypes.map((category) => (
+                  <MenuItem key={category} value={category}>
                     <Text variant="sub" color="text.secondary" fontWeight={500}>
-                      {cuisine}
+                      {category}
                     </Text>
                   </MenuItem>
                 ))}
               </SelectField>
-              {formik.touched.cuisine && formik.errors.cuisine && (
+              {formik.touched.categories && formik.errors.categories && (
                 <Text variant="sub" color="error">
-                  {formik.errors.cuisine}
+                  {formik.errors.categories}
                 </Text>
               )}
             </FormControl>

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useRestaurantContext } from '@/context/restaurant';
@@ -45,7 +45,7 @@ const Navigation = ({ open }) => {
                   selected={selectedPage.includes(item.id)}
                 >
                   <ListItemIcon>{item.icon}</ListItemIcon>
-                  <DrawerListText primary={item.text} open={open} />
+                  <DrawerListText primary={item.text} open={open}/>
                 </DrawerListButton>
               </DrawerListItem>
             </Tooltip>

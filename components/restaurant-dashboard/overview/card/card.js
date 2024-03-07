@@ -5,31 +5,34 @@ import { DashboardContent, FlexContainer, Text } from '@/components/UI';
 import { Card, CardContent } from '@mui/material';
 
 import { Home } from '@mui/icons-material';
+import { useRestaurantContext } from '@/context/restaurant';
 
-const Cards = () => {
+const Cards = ({ reviews }) => {
+  const { details } = useRestaurantContext();
+
   const statistics = [
     {
       icon: <Home fontSize="large" />,
       text: 'Reviews',
-      content: 120,
+      content: details.count,
       background: 'rgba(152,33,35,0.55)',
     },
     {
       icon: <Home fontSize="large" />,
       text: 'Rating',
-      content: 3,
+      content: details.rating,
       background: 'rgba(15,157,226,0.55)',
     },
     {
       icon: <Home fontSize="large" />,
       text: 'Reviews',
-      content: 120,
+      content: details.count,
       background: 'rgba(20,162,67,0.55)',
     },
     {
       icon: <Home fontSize="large" />,
       text: 'Rating',
-      content: 5,
+      content: details.rating,
       background: 'rgba(156,20,162,0.55)',
     },
   ];
