@@ -2,22 +2,21 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import DataTable from 'react-data-table-component';
 
-//Styles
+// Styles
 import { DashboardContent, FlexContainer, InputField } from '@/components/UI';
-import { Avatar, IconButton, InputAdornment, Tooltip } from '@mui/material';
+import { Avatar, IconButton, InputAdornment, Rating, Tooltip } from '@mui/material';
 
-//Icons
+// Icons
 import PersonIcon from '@mui/icons-material/Person';
 import StarIcon from '@mui/icons-material/Star';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Search } from '@mui/icons-material';
+import Search from '@mui/icons-material/Search';
 
-import userImage from '@/public/assets/images/avatar.jpg';
+// Helpers
+import { getDate } from '@/helpers/dateHelpers';
 
-import { reviews } from '@/mockData/mockData';
-
-const ReviewsTable = () => {
+const ReviewsTable = ({ reviews }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -61,10 +60,18 @@ const ReviewsTable = () => {
       selector: (row) => (
         <FlexContainer>
           <Avatar
-            src={row.avatar.src}
-            alt="user-avatar"
-            sx={{ mr: 1.25, height: 35, width: 35 }}
-          />
+            alt="User Avatar"
+            src={
+              row.avatar &&
+              getFileUrl(
+                process.env.NEXT_PUBLIC_AWS_S3_USERS_BUCKET,
+                `${row.id}/avatar/${row.avatar}`
+              )
+            }
+            sx={{ height: 35, width: 35, mr: 1.25 }}
+          >
+            {!row.avatar && row.name.slice(0, 1)}
+          </Avatar>
           {row.name}
         </FlexContainer>
       ),
@@ -77,7 +84,7 @@ const ReviewsTable = () => {
           Rating
         </FlexContainer>
       ),
-      selector: (row) => row.rating,
+      selector: (row) => <Rating value={row.rating} size="small" readOnly />,
       sortable: 'true',
       center: 'true',
     },
@@ -88,7 +95,7 @@ const ReviewsTable = () => {
           Posted On
         </FlexContainer>
       ),
-      selector: (row) => row.createdAt,
+      selector: (row) => getDate(row.createdAt),
       sortable: 'true',
       center: 'true',
     },
@@ -105,15 +112,16 @@ const ReviewsTable = () => {
   useEffect(() => {
     setLoading(true);
     const data = reviews.map((review) => ({
-      name: review.username,
+      name: review.userId.name,
       rating: review.rating,
       createdAt: review.createdAt,
       icon: <VisibilityIcon />,
-      avatar: userImage,
+      avatar: review.userId.avatar,
+      id: review.userId.id,
     }));
     setData(data);
     setLoading(false);
-  }, []);
+  }, [reviews]);
 
   return (
     <DashboardContent>
