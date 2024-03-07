@@ -58,6 +58,7 @@ const ProfileMenu = () => {
       handler: () => {
         dispatch(userActions.logout());
         localStorage.clear();
+        router.push('/login')
       },
     },
   ];
