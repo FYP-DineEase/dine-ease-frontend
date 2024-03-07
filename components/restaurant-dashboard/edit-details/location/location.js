@@ -9,10 +9,12 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import * as Styles from './location.styles';
 import { ResetMarker } from './marker/marker-styles';
 import { Tooltip } from '@mui/material';
-import LocationIcon from '@mui/icons-material/NearMe';
 
 // Utils
 import { MapZoomLevels } from '@/utils/constants';
+
+// Icons
+import LocationIcon from '@mui/icons-material/NearMe';
 
 const Location = ({ location, updateLocation }) => {
   const { coordinates } = location;
@@ -87,6 +89,10 @@ const Location = ({ location, updateLocation }) => {
     setNewMarker(null);
   };
 
+  useEffect(() => {
+    fetchLocation();
+  }, []);
+
   return (
     <Styles.MapContainer>
       <ReactMapGL
@@ -109,7 +115,7 @@ const Location = ({ location, updateLocation }) => {
           />
         ) : (
           <Tooltip title="My Location" placement="left" arrow>
-            <ResetMarker onClick={fetchLocation}>
+            <ResetMarker>
               <LocationIcon />
             </ResetMarker>
           </Tooltip>
