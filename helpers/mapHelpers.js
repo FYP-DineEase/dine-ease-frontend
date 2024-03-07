@@ -20,6 +20,17 @@ export async function fetchCountry(long, lat) {
   return location;
 }
 
+// fetch currency
+export async function fetchCurrency(country) {
+  const apiUrl = `https://restcountries.com/v3.1/name/${country}`;
+
+  const response = await axios.get(apiUrl);
+  const currencyDetails = response.data[0].currencies;
+  const currencyType = Object.keys(currencyDetails)[0];
+
+  return currencyType;
+}
+
 // get route
 export async function getRoute(unit, start, end) {
   const apiUrl = `https://api.mapbox.com/directions/v5/mapbox/${unit}/${start[0]},${start[1]};${end[0]},${end[1]}?steps=true&geometries=geojson&access_token=${token}`;
