@@ -55,7 +55,7 @@ const ItemModal = ({ showModal, setShowModal, itemDetails = {}, headerTitle }) =
 
       if (itemDetails.name) {
         const { data } = await updateMenuItem(details.id, itemDetails.id, formData);
-        
+
         const menuItemIndex = details.menu.findIndex((m) => m.id === itemDetails.id);
         const updatedMenu = [...details.menu];
         updatedMenu[menuItemIndex] = data;
@@ -79,13 +79,19 @@ const ItemModal = ({ showModal, setShowModal, itemDetails = {}, headerTitle }) =
   const formik = useFormik({
     initialValues: {
       name: itemDetails.name || '',
-      price: itemDetails.price || 0,
+      price: itemDetails.price || '',
       description: itemDetails.description || '',
       image: itemDetails.image || '',
     },
     validationSchema: menuItemSchema,
     onSubmit: submitHandler,
   });
+
+  const priceChangeHandler = (event) => {
+    const price = event.target.value.replace(/\D/g, '');
+    const formattedPrice = price.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    formik.setFieldValue('price', formattedPrice);
+  };
 
   return (
     <Modal open={showModal} onClose={() => setShowModal(false)}>
@@ -116,7 +122,7 @@ const ItemModal = ({ showModal, setShowModal, itemDetails = {}, headerTitle }) =
               variant="outlined"
               placeholder="Enter Price"
               value={formik.values.price}
-              onChange={formik.handleChange}
+              onChange={priceChangeHandler}
               onBlur={formik.handleBlur}
               error={formik.errors.price && Boolean(formik.touched.price)}
               helperText={formik.touched.price && formik.errors.price}
