@@ -1,10 +1,10 @@
 import { styled, IconButton } from '@mui/material';
 import { FlexContainer } from '@/components/UI';
 
-export const ImagePlaceHolder = styled(FlexContainer)(({ theme }) => ({
+export const ImagePlaceHolder = styled(FlexContainer)(({ theme, modal }) => ({
   flexDirection: 'column',
-  width: '150px',
-  height: '130px',
+  height: modal ? '220px' : '130px',
+  width: modal ? '100%' : '150px',
   gap: theme.spacing(1),
   border: `1px dashed ${theme.palette.primary.main}`,
   cursor: 'pointer',
