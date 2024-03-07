@@ -16,22 +16,22 @@ import { CustomCheckbox, InputField, Text } from '@/components/UI';
 import Search from '@mui/icons-material/Search';
 
 // Utils
-import { cuisineTypes, sortBy } from '@/utils/constants';
+import { categoryTypes, sortBy } from '@/utils/constants';
 
 const SearchFilters = ({
   sortTypeHandler,
-  cuisineSelectionHandler,
-  selectedCuisines,
+  categorySelectionHandler,
+  selectedCategories,
   selectedSortType,
 }) => {
   const [filterText, setFilterText] = useState('');
 
-  const filteredCuisines = cuisineTypes.filter((cuisine) =>
-    cuisine.toLowerCase().includes(filterText.toLowerCase())
+  const filteredCategories = categoryTypes.filter((category) =>
+    category.toLowerCase().includes(filterText.toLowerCase())
   );
 
-  const cuisineChangeHandler = (cuisine) => {
-    cuisineSelectionHandler(cuisine);
+  const categoryChangeHandler = (category) => {
+    categorySelectionHandler(category);
   };
 
   const sortChangeHandler = (sortType) => {
@@ -62,7 +62,7 @@ const SearchFilters = ({
       </Box>
       <Box>
         <Text variant="main" fontWeight={500}>
-          Cuisines
+          Categories
         </Text>
         <InputField
           name="search"
@@ -80,17 +80,17 @@ const SearchFilters = ({
           }}
           sx={{ mb: 2, mt: 2 }}
         />
-        {filteredCuisines.map((cuisine, index) => (
+        {filteredCategories.map((category, index) => (
           <FormGroup key={index}>
             <FormControlLabel
               control={
                 <CustomCheckbox
-                  checked={selectedCuisines.includes(cuisine)}
-                  value={cuisine}
-                  onChange={() => cuisineChangeHandler(cuisine)}
+                  checked={selectedCategories.includes(category)}
+                  value={category}
+                  onChange={() => categoryChangeHandler(category)}
                 />
               }
-              label={cuisine}
+              label={category}
             />
           </FormGroup>
         ))}

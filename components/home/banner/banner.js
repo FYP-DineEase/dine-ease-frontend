@@ -14,7 +14,7 @@ const Banner = () => {
       <Grid item xs={12} md={6} sx={{ order: { xs: 1, md: 0 } }}>
         <Styles.BannerContent>
           <Text variant="bigHeader" fontWeight={800}>
-            Dive into unlimited cuisine options
+            Dive into unlimited options of categories
             <Text variant="bigHeader" color="primary" fontWeight={800} ml={1}>
               DineEase.
             </Text>

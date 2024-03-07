@@ -26,10 +26,6 @@ export const loginSchema = yup
   .object()
   .concat(emailSchema)
   .shape({
-    email: yup
-      .string()
-      .email('Please enter a valid email.')
-      .required('Email is a required.'),
     password: yup.string().required('Password is a required.'),
   });
 

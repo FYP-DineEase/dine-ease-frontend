@@ -25,9 +25,9 @@ const ListingConfirmation = ({
       formik.setSubmitting(true);
 
       const { name, taxId } = legalValues;
-      const { cuisine, phoneNumber } = detailValues;
+      const { categories, phoneNumber } = detailValues;
       const { location, address } = locationValues;
-      const payload = { name, taxId, cuisine, location, address, phoneNumber };
+      const payload = { name, taxId, categories, location, address, phoneNumber };
 
       const { data } = await listRestaurant(payload);
 

@@ -37,7 +37,7 @@ export const getStaticProps = async () => {
 
   // meili
   //   .index('restaurants')
-  //   .updateFilterableAttributes(['cuisine'])
+  //   .updateFilterableAttributes(['categories'])
   //   .catch((error) => console.error('MeiliSearch Error:', error));
 
   // meili

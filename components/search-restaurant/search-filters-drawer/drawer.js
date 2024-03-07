@@ -21,23 +21,23 @@ import Search from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
 
 // Utils
-import { cuisineTypes, sortBy } from '@/utils/constants';
+import { categoryTypes, sortBy } from '@/utils/constants';
 
 const FilterDrawer = ({
   sortTypeHandler,
-  cuisineSelectionHandler,
-  selectedCuisines,
+  categorySelectionHandler,
+  selectedCategories,
   selectedSortType,
 }) => {
   const [showDrawer, setShowDrawer] = useState(false);
   const [filterText, setFilterText] = useState('');
 
-  const filteredCuisines = cuisineTypes.filter((cuisine) =>
-    cuisine.toLowerCase().includes(filterText.toLowerCase())
+  const filteredCategories = categoryTypes.filter((category) =>
+    category.toLowerCase().includes(filterText.toLowerCase())
   );
 
-  const cuisineChangeHandler = (cuisine) => {
-    cuisineSelectionHandler(cuisine);
+  const categoryChangeHandler = (category) => {
+    categorySelectionHandler(category);
   };
 
   const sortChangeHandler = (sortType) => {
@@ -96,7 +96,7 @@ const FilterDrawer = ({
             <Box>
               <Box pl={2}>
                 <Text variant="subHeader" fontWeight={500} color="text.secondary">
-                  Cuisines
+                  Categories
                 </Text>
               </Box>
               <InputField
@@ -115,18 +115,18 @@ const FilterDrawer = ({
                 }}
                 sx={{ mb: 1, mt: 2 }}
               />
-              {filteredCuisines.map((cuisine, index) => (
-                <ListItemButton sx={{ pl: 2, pt: 0, pb: 0 }} key={cuisine}>
+              {filteredCategories.map((category, index) => (
+                <ListItemButton sx={{ pl: 2, pt: 0, pb: 0 }} key={category}>
                   <FormGroup key={index}>
                     <FormControlLabel
                       control={
                         <CustomCheckbox
-                          checked={selectedCuisines.includes(cuisine)}
-                          value={cuisine}
-                          onChange={() => cuisineChangeHandler(cuisine)}
+                          checked={selectedCategories.includes(category)}
+                          value={category}
+                          onChange={() => categoryChangeHandler(category)}
                         />
                       }
-                      label={cuisine}
+                      label={category}
                       sx={{
                         '& .MuiFormControlLabel-label': {
                           color: 'text.secondary',

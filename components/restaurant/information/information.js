@@ -23,7 +23,7 @@ const Information = ({ restaurant }) => {
               {restaurant.categories.join(', ')}
             </Text>
             <Text variant="sub" fontWeight={500}>
-              Cuisines we offer
+              Categories we offer
             </Text>
           </FlexContainer>
           <Divider

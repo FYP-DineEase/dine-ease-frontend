@@ -519,7 +519,7 @@ export const logs = [
 export const restaurants = [
   {
     name: 'The Pizza Hut',
-    cuisine: ['Mexican', 'Italian', 'Chinese', 'Fast Food', 'Sea Food'],
+    categories: ['Mexican', 'Italian', 'Chinese', 'Fast Food', 'Sea Food'],
     menu: [
       {
         Appetizer: ['Salad', 'Cheese Sticks'],
@@ -530,7 +530,7 @@ export const restaurants = [
   },
   {
     name: 'Sizzling Wok',
-    cuisine: ['Chinese'],
+    categories: ['Chinese'],
     menu: [
       {
         Appetizer: ['Spring Rolls', 'Wontons'],
@@ -541,7 +541,7 @@ export const restaurants = [
   },
   {
     name: 'Mamma Mia Pizzeria',
-    cuisine: ['Italian', 'Fast Food'],
+    categories: ['Italian', 'Fast Food'],
     menu: [
       {
         Appetizer: ['Bruschetta', 'Caprese Salad'],
@@ -552,7 +552,7 @@ export const restaurants = [
   },
   {
     name: 'Dragon Delights',
-    cuisine: ['Chinese', 'Fast Food'],
+    categories: ['Chinese', 'Fast Food'],
     menu: [
       {
         Appetizer: ['Edamame', 'Gyoza'],
@@ -563,7 +563,7 @@ export const restaurants = [
   },
   {
     name: 'Speedy Bites',
-    cuisine: ['Fast Food', 'Italian'],
+    categories: ['Fast Food', 'Italian'],
     menu: [
       {
         Appetizer: ['Mozzarella Sticks', 'Onion Rings'],
@@ -574,7 +574,7 @@ export const restaurants = [
   },
   {
     name: 'Ocean Feast',
-    cuisine: ['Seafood'],
+    categories: ['Seafood'],
     menu: [
       {
         Appetizer: ['Calamari', 'Shrimp Cocktail'],
@@ -585,7 +585,7 @@ export const restaurants = [
   },
   {
     name: 'Taste of Asia',
-    cuisine: ['Chinese'],
+    categories: ['Chinese'],
     menu: [
       {
         Appetizer: ['Samosa', 'Egg Rolls'],
@@ -596,7 +596,7 @@ export const restaurants = [
   },
   {
     name: 'Green Garden Cafe',
-    cuisine: ['Mexican'],
+    categories: ['Mexican'],
     menu: [
       {
         Appetizer: ['Hummus Platter', 'Vegetable Spring Rolls'],
@@ -607,7 +607,7 @@ export const restaurants = [
   },
   {
     name: 'Flavors of Mexico',
-    cuisine: ['Mexican'],
+    categories: ['Mexican'],
     menu: [
       {
         Appetizer: ['Guacamole', 'Queso Fundido'],
@@ -618,7 +618,7 @@ export const restaurants = [
   },
   {
     name: 'Spice Fusion',
-    cuisine: ['Italian'],
+    categories: ['Italian'],
     menu: [
       {
         Appetizer: ['Samosa Chaat', 'Falafel'],
@@ -629,7 +629,7 @@ export const restaurants = [
   },
   {
     name: 'Burger Haven',
-    cuisine: ['Fast Food', 'American'],
+    categories: ['Fast Food', 'American'],
     menu: [
       {
         Appetizer: ['Cheese Fries', 'Onion Rings'],
@@ -640,7 +640,7 @@ export const restaurants = [
   },
   {
     name: 'Noodle Nirvana',
-    cuisine: ['Chinese'],
+    categories: ['Chinese'],
     menu: [
       {
         Appetizer: ['Potstickers', 'Tom Yum Soup'],
@@ -651,7 +651,7 @@ export const restaurants = [
   },
   {
     name: 'Mediterranean Delights',
-    cuisine: ['Mexican', 'Italian'],
+    categories: ['Mexican', 'Italian'],
     menu: [
       {
         Appetizer: ['Feta Bruschetta', 'Greek Salad'],
@@ -662,7 +662,7 @@ export const restaurants = [
   },
   {
     name: 'Tandoori Nights',
-    cuisine: ['Italian'],
+    categories: ['Italian'],
     menu: [
       {
         Appetizer: ['Chicken Tikka', 'Paneer Tikka'],
@@ -673,7 +673,7 @@ export const restaurants = [
   },
   {
     name: 'Sushi Savor',
-    cuisine: ['Italian'],
+    categories: ['Italian'],
     menu: [
       {
         Appetizer: ['Edamame', 'Miso Soup'],
@@ -684,7 +684,7 @@ export const restaurants = [
   },
   {
     name: 'Tasty Tandoor',
-    cuisine: ['Italian'],
+    categories: ['Italian'],
     menu: [
       {
         Appetizer: ['Vegetable Samosa', 'Chicken Seekh Kebab'],
@@ -695,7 +695,7 @@ export const restaurants = [
   },
   {
     name: 'Pasta Paradise',
-    cuisine: ['Italian'],
+    categories: ['Italian'],
     menu: [
       {
         Appetizer: ['Garlic Bread', 'Caprese Salad'],
@@ -706,7 +706,7 @@ export const restaurants = [
   },
   {
     name: 'Sizzling Szechuan',
-    cuisine: ['Chinese'],
+    categories: ['Chinese'],
     menu: [
       {
         Appetizer: ['Egg Rolls', 'Hot and Sour Soup'],
@@ -717,7 +717,7 @@ export const restaurants = [
   },
   {
     name: 'Veggie Vibes',
-    cuisine: ['Sea Food'],
+    categories: ['Sea Food'],
     menu: [
       {
         Appetizer: ['Brussels Sprouts Chips', 'Sweet Potato Fries'],
@@ -728,7 +728,7 @@ export const restaurants = [
   },
   {
     name: 'Crispy Crunch',
-    cuisine: ['Fast Food', 'Sea Food'],
+    categories: ['Fast Food', 'Sea Food'],
     menu: [
       {
         Appetizer: ['Chicken Wings', 'Mozzarella Bites'],

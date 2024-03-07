@@ -25,16 +25,16 @@ const client = connectToMeilisearch();
 const ListedRestaurants = ({ restaurants }) => {
   const [filterText, setFilterText] = useState('');
   const [filteredRestaurants, setFilteredRestaurants] = useState(restaurants);
-  const [selectedCuisines, setSelectedCuisines] = useState([]);
-  const [filteredCuisines, setFilteredCuisines] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [filteredCategories, setFilteredCategories] = useState([]);
   const [selectedSortType, setSelectedSortType] = useState(null);
 
-  const cuisineSelectionHandler = (cuisine) => {
-    setSelectedCuisines((prevSelected) => {
-      if (prevSelected.includes(cuisine)) {
-        return prevSelected.filter((prevCuisine) => prevCuisine !== cuisine);
+  const categorySelectionHandler = (category) => {
+    setSelectedCategories((prevSelected) => {
+      if (prevSelected.includes(category)) {
+        return prevSelected.filter((prevCategory) => prevCategory !== category);
       } else {
-        return [...prevSelected, cuisine];
+        return [...prevSelected, category];
       }
     });
   };
@@ -44,44 +44,44 @@ const ListedRestaurants = ({ restaurants }) => {
   };
 
   useEffect(() => {
-    const cuisines = selectedCuisines.map((cuisine) => [`cuisine = "${cuisine}"`]);
-    setFilteredCuisines(cuisines);
-  }, [selectedCuisines]);
+    const categories = selectedCategories.map((category) => [`category = "${category}"`]);
+    setFilteredCategories(categories);
+  }, [selectedCategories]);
 
   useEffect(() => {
     client
       .index('restaurants')
       .search(filterText, {
-        filter: filteredCuisines,
+        filter: filteredCategories,
         sort: selectedSortType && [`${selectedSortType}:desc`],
       })
       .then((res) => {
         setFilteredRestaurants(res.hits);
       })
       .catch((error) => console.error('MeiliSearch Error:', error));
-  }, [filterText, filteredCuisines, selectedSortType]);
+  }, [filterText, filteredCategories, selectedSortType]);
 
   return (
     <Styles.SearchContainer>
       <SearchFilters
         sortTypeHandler={sortTypeHandler}
-        cuisineSelectionHandler={cuisineSelectionHandler}
-        selectedCuisines={selectedCuisines}
+        categorySelectionHandler={categorySelectionHandler}
+        selectedCategories={selectedCategories}
         selectedSortType={selectedSortType}
       />
       <Styles.Search>
         <FlexContainer sx={{ justifyContent: 'space-between', gap: 8 }}>
           <FilterDrawer
             sortTypeHandler={sortTypeHandler}
-            cuisineSelectionHandler={cuisineSelectionHandler}
-            selectedCuisines={selectedCuisines}
+            categorySelectionHandler={categorySelectionHandler}
+            selectedCategories={selectedCategories}
             selectedSortType={selectedSortType}
           />
           <InputField
             name="search"
             label="Search"
             variant="outlined"
-            placeholder="Search Restaurants, Cuisines, Food"
+            placeholder="Search Restaurants, Categories, Food"
             onChange={(event) => setFilterText(event.target.value)}
             value={filterText}
             InputProps={{
@@ -127,10 +127,10 @@ const ListedRestaurants = ({ restaurants }) => {
                     </Box>
                   </FlexContainer>
                   <Styles.Cuisines>
-                    {restaurant.cuisine.map((cuisineType) => (
+                    {restaurant.categories.map((categoryType) => (
                       <Chip
-                        key={cuisineType}
-                        label={cuisineType}
+                        key={categoryType}
+                        label={categoryType}
                         sx={{ color: 'text.secondary' }}
                       />
                     ))}

@@ -17,7 +17,7 @@ export const restaurantDetailsSchema = yup.object().shape({
 });
 
 export const restaurantLeglitiesSchema = yup.object().shape({
-  cuisine: yup.array().min(1, 'Cuisine type is required.'),
+  categories: yup.array().min(1, 'Category type is required.'),
   phoneNumber: yup.string().required('Contact Number is required.'),
   contactAgreement: yup
     .boolean()
