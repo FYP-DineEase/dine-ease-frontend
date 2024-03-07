@@ -9,6 +9,7 @@ export const ReviewCard = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
   borderRadius: '15px',
   wordSpacing: 2,
+  marginBottom: theme.spacing(1),
 }));
 
 export const UserDetails = styled(FlexContainer)(({ theme }) => ({
