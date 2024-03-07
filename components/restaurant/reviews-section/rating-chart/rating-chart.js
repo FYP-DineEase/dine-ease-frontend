@@ -83,29 +83,40 @@ const RatingChart = ({ restaurant }) => {
       {
         data: ratingCounts.reverse(),
         backgroundColor: 'orange',
-        barBorderRadius: 30,
       },
     ],
   };
 
+  const satisfactionPercentage = (restaurant.rating / 5) * 100;
+
   return (
     <Grid container justifyContent="center">
-      <Grid item xs={4}>
-        <FlexContainer sx={{ flexDirection: 'column', gap: 1.5, height: '100%' }}>
-          <Text variant="body" fontWeight={600}>
-            Average Rating
+      <Grid item xs={12} md={6}>
+        <FlexContainer sx={{ flexDirection: 'column', gap: 1, height: '100%' }}>
+          <Text variant="body" fontWeight={500} sx={{ letterSpacing: 1.5 }}>
+            RATING SUMMARY
           </Text>
+          <FlexContainer gap={1}>
+            <Text variant="subHeader" fontWeight={800}>
+              {restaurant.rating}
+            </Text>
+            <Text variant="sub" fontWeight={500}>
+              ({restaurant.count} Reviews)
+            </Text>
+          </FlexContainer>
           <Rating
             name="rating"
             readOnly
             value={restaurant.rating}
             precision={0.5}
-            size="large"
+            sx={{ fontSize: '2.5rem' }}
           />
-          <Text variant="body">{restaurant.count} Reviews</Text>
+          <Text variant="sub" fontWeight={500}>
+            {satisfactionPercentage.toFixed(0)}% reviewers recommend this restaurant
+          </Text>
         </FlexContainer>
       </Grid>
-      <Grid item xs={4}>
+      <Grid item xs={12} md={6} sx={{ mt: 2 }}>
         <Box sx={{ height: '200px' }}>
           <Bar data={data} options={options} />
         </Box>
