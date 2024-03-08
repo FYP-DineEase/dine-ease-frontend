@@ -9,26 +9,28 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  BarElement,
+  PointElement,
+  LineElement,
   Title,
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+import { Line } from 'react-chartjs-2';
 
-const RatingDistribution = ({ reviews }) => {
-  const ratings = reviews.map((review) => review.rating);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
-  const ratingCounts = Array.from(
-    { length: 5 },
-    (_, index) => ratings.filter((rating) => rating === index + 1).length
-  );
-
+const ReviewSentimentChart = ({ reviews }) => {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    indexAxis: 'y',
     plugins: {
       legend: {
         display: false,
@@ -36,29 +38,30 @@ const RatingDistribution = ({ reviews }) => {
       },
       title: {
         display: true,
-        text: 'Total Ratings Distribution',
+        text: 'Postive Review',
       },
     },
     scales: {
       x: {
-        display: false,
+        display: true,
       },
       y: {
+        ticks: {
+          stepSize: 1,
+        },
         display: true,
       },
     },
   };
 
-  const labels = ['5', '4', '3', '2', '1'];
-
   const data = {
-    labels: labels,
+    labels: [],
     datasets: [
       {
-        label: 'Number Of Ratings',
-        data: ratingCounts.reverse(),
+        label: 'Number of Reviews',
+        data: [],
         backgroundColor: 'orange',
-        barBorderRadius: 10,
+        cubicInterpolationMode: 'monotone',
       },
     ],
   };
@@ -66,10 +69,10 @@ const RatingDistribution = ({ reviews }) => {
   return (
     <DashboardContent>
       <Box sx={{ height: '300px' }}>
-        <Bar data={data} options={options} />
+        <Line data={data} options={options} />
       </Box>
     </DashboardContent>
   );
 };
 
-export default RatingDistribution;
+export default ReviewSentimentChart;

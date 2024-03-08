@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from 'react';
 
+import { useRestaurantContext } from '@/context/restaurant';
+
 //Styles
 import { Grid } from '@mui/material';
 import { DashboardContainer } from '@/components/UI';
 
+// Services
+import { getRestaurantReview } from '@/services/review';
+
+// Helpers
+import { getError } from '@/helpers/snackbarHelpers';
+
+// Snackbar
+import { enqueueSnackbar } from 'notistack';
+
 //Components
 import Cards from './card/card';
-import RatingDistribution from './rating-distribution/rating-distribution';
-import ReviewTrend from './review-trend/review-trend';
 import CustomerSatisfaction from './customer-satisfaction/customer-satisfaction';
 import RecentReviews from './recent-reviews/recent-reviews';
-import { useRestaurantContext } from '@/context/restaurant';
-import { getRestaurantReview } from '@/services/review';
-import { getError } from '@/helpers/snackbarHelpers';
-import { enqueueSnackbar } from 'notistack';
 
 const Overview = () => {
   const [reviews, setReviews] = useState([]);
@@ -41,12 +46,12 @@ const Overview = () => {
       <Grid item xs={12} lg={5}>
         <CustomerSatisfaction reviews={reviews} />
       </Grid>
-      <Grid item xs={12} lg={7}>
+      {/* <Grid item xs={12} lg={7}>
         <ReviewTrend reviews={reviews} />
-      </Grid>
-      <Grid item xs={12} lg={5}>
+      </Grid> */}
+      {/* <Grid item xs={12} lg={5}>
         <RatingDistribution reviews={reviews} />
-      </Grid>
+      </Grid> */}
       <Grid item xs={12}>
         <RecentReviews reviews={reviews} />
       </Grid>

@@ -1,8 +1,8 @@
 import React from 'react';
 
 //Styles
-import { DashboardContent, Text } from '@/components/UI';
 import * as Styles from './customer-satisfaction.styles';
+import { DashboardContent, Text } from '@/components/UI';
 
 //Icons
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
@@ -57,7 +57,7 @@ const CustomerSatisfaction = ({ reviews }) => {
   const { icon } = getSatisfactionDetails(satisfactionPercentage);
 
   return (
-    <DashboardContent>
+    <DashboardContent minHeight="170px">
       <Styles.SatisfactionContainer>
         {icon}
         <Text variant="header" fontWeight={800}>
