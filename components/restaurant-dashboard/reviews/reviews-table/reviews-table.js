@@ -118,6 +118,7 @@ const ReviewsTable = ({ reviews }) => {
       icon: <VisibilityIcon />,
       avatar: review.userId.avatar,
       id: review.userId.id,
+      reviewId: review.id,
     }));
     setData(data);
     setLoading(false);
@@ -132,9 +133,10 @@ const ReviewsTable = ({ reviews }) => {
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
         pagination
-        paginationPerPage={8}
-        paginationRowsPerPageOptions={[8]}
+        paginationPerPage={9}
+        paginationRowsPerPageOptions={[9]}
         progressPending={loading}
+        keyField="reviewId"
       />
     </DashboardContent>
   );

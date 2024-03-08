@@ -16,6 +16,8 @@ import { enqueueSnackbar } from 'notistack';
 
 // Component
 import ReviewsTable from './reviews-table/reviews-table';
+import ReviewDistributionChart from './reviews-chart/rating-distribution-chart';
+import ReviewSentimentChart from './reviews-chart/sentiment-chart';
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -37,9 +39,12 @@ const Reviews = () => {
 
   return (
     <DashboardContainer container columnSpacing={2} rowGap={1}>
-      {/* <Grid item xs={12}>
-        <ReviewChart reviews={reviews} />
-      </Grid> */}
+      <Grid item xs={7}>
+        <ReviewDistributionChart reviews={reviews} />
+      </Grid>
+      <Grid item xs={5}>
+        <ReviewSentimentChart reviews={reviews} />
+      </Grid>
       <Grid item xs={12}>
         <ReviewsTable reviews={reviews} />
       </Grid>
