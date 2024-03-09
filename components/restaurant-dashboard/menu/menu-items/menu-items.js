@@ -11,9 +11,9 @@ import ItemModal from '../item-modal/item-modal';
 import { updateMenuOrder } from '@/services';
 
 // Styles
+import * as Styles from './menu-items.styles';
 import { PrimaryButton, Text } from '@/components/UI';
 import { AccordionActions, AccordionDetails, Box, Button } from '@mui/material';
-import * as Styles from './menu-items.styles';
 
 // Icons
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -31,7 +31,7 @@ const CardWrapper = React.forwardRef((props, ref) => {
 });
 CardWrapper.displayName = 'CardWrapper';
 
-const MenuItems = ({ category }) => {
+const MenuItems = ({ category, currencyType }) => {
   const { details, detailsHandler } = useRestaurantContext();
 
   const [menu, setMenu] = useState([]);
@@ -97,6 +97,7 @@ const MenuItems = ({ category }) => {
           setShowModal={setShowItemModal}
           headerTitle="Add Item"
           itemDetails={{ category, order: menu.length }}
+          currencyType={currencyType}
         />
       )}
       <AccordionDetails>
@@ -111,7 +112,7 @@ const MenuItems = ({ category }) => {
             delay={2}
           >
             {menu.map((item) => (
-              <MenuCard key={item.id} item={item} />
+              <MenuCard key={item.id} item={item} currencyType={currencyType} />
             ))}
           </ReactSortable>
           <Styles.AddItemPlaceholder onClick={() => setShowItemModal(true)}>

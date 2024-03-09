@@ -39,7 +39,13 @@ import { menuItemSchema } from '@/utils/validation-schema/restaurant';
 import { getError } from '@/helpers/snackbarHelpers';
 import { getFileUrl } from '@/helpers/fileHelpers';
 
-const ItemModal = ({ showModal, setShowModal, itemDetails = {}, headerTitle }) => {
+const ItemModal = ({
+  showModal,
+  setShowModal,
+  itemDetails = {},
+  headerTitle,
+  currencyType,
+}) => {
   const { details, detailsHandler } = useRestaurantContext();
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
@@ -127,7 +133,9 @@ const ItemModal = ({ showModal, setShowModal, itemDetails = {}, headerTitle }) =
               error={formik.errors.price && Boolean(formik.touched.price)}
               helperText={formik.touched.price && formik.errors.price}
               InputProps={{
-                startAdornment: <InputAdornment position="start">USD</InputAdornment>,
+                startAdornment: (
+                  <InputAdornment position="start">{currencyType}</InputAdornment>
+                ),
               }}
             />
             <InputField

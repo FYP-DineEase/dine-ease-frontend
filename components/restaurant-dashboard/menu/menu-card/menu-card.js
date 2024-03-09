@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { enqueueSnackbar } from 'notistack';
 
@@ -23,12 +23,8 @@ import ItemModal from '../item-modal/item-modal';
 
 // Helpers
 import { getFileUrl } from '@/helpers/fileHelpers';
-import { fetchCurrency } from '@/helpers/mapHelpers';
-import { getError } from '@/helpers/snackbarHelpers';
 
-const MenuCard = ({ item }) => {
-  const [currencyType, setCurrencyType] = useState('');
-
+const MenuCard = ({ item, currencyType }) => {
   const { name, description, price, image, order } = item;
 
   const { details, detailsHandler } = useRestaurantContext();
@@ -44,19 +40,6 @@ const MenuCard = ({ item }) => {
     enqueueSnackbar({ variant: 'success', message: 'Menu Item Deleted' });
   };
 
-  const getCurrencyType = async () => {
-    try {
-      const currency = await fetchCurrency(details.location.country);
-      setCurrencyType(currency);
-    } catch (e) {
-      enqueueSnackbar({ variant: 'error', message: getError(e) });
-    }
-  };
-
-  useEffect(() => {
-    getCurrencyType();
-  }, []);
-
   return (
     <React.Fragment>
       {showItemModal && (
@@ -65,6 +48,7 @@ const MenuCard = ({ item }) => {
           setShowModal={setShowItemModal}
           itemDetails={item}
           headerTitle="Update Item"
+          currencyType={currencyType}
         />
       )}
       {showDeleteModal && (
