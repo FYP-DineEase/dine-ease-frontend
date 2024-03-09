@@ -9,7 +9,7 @@ import { Grid, Tab, Tabs } from '@mui/material';
 // Utils
 import { MenuCategory } from '@/utils/constants';
 
-const Menu = ({ value, handleChange, items = [] }) => {
+const Menu = ({ value, handleChange, items = [], currencyType }) => {
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -69,7 +69,7 @@ const Menu = ({ value, handleChange, items = [] }) => {
                     </Text>
                     <Text variant="body">{item.description}</Text>
                     <Text variant="main" color="primary" fontWeight={800}>
-                      {item.price}
+                      {currencyType} {item.price}
                     </Text>
                   </FlexContainer>
                 </FlexContainer>

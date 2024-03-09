@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { enqueueSnackbar } from 'notistack';
 
 // Styles
 import * as Styles from './categories.styles';
@@ -12,17 +13,36 @@ import Menu from '../menu/menu';
 // Utils
 import { MenuCategory } from '@/utils/constants';
 
+// Helpers
+import { fetchCurrency } from '@/helpers/mapHelpers';
+import { getError } from '@/helpers/snackbarHelpers';
+
 const Categories = ({ restaurant }) => {
   const [value, setValue] = useState(MenuCategory.APPETIZER.category);
   const [menu, setMenu] = useState([]);
+  const [currencyType, setCurrencyType] = useState('');
 
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
   const scroll = useRef(null);
 
-  const executeScroll = () => scroll.current.scrollIntoView();
+  const executeScroll = () => {
+    if (scroll.current) scroll.current.scrollIntoView();
+  };
+
+  const getCurrencyType = async () => {
+    try {
+      const currency = await fetchCurrency(restaurant.location.country);
+      setCurrencyType(currency);
+    } catch (e) {
+      enqueueSnackbar({ variant: 'error', message: getError(e) });
+    }
+  };
+
+  useEffect(() => {
+    getCurrencyType();
+  }, []);
 
   const handleChange = (newValue) => {
-    console.log(newValue);
     setValue(newValue);
     executeScroll();
   };
@@ -75,9 +95,16 @@ const Categories = ({ restaurant }) => {
           </Styles.Card>
         </Grid>
       ))}
-      <Grid item xs={12} mt={8} ref={scroll}>
-        <Menu value={value} handleChange={handleChange} items={menu[value]} />
-      </Grid>
+      {menu.length && (
+        <Grid item xs={12} mt={8} ref={scroll}>
+          <Menu
+            value={value}
+            handleChange={handleChange}
+            items={menu[value]}
+            currencyType={currencyType}
+          />
+        </Grid>
+      )}
     </SectionContainer>
   );
 };
