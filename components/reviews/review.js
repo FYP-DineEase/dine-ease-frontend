@@ -21,6 +21,7 @@ import {
 // Icons
 import Delete from '@mui/icons-material/Delete';
 import Edit from '@mui/icons-material/Edit';
+import ReviewIcon from '@mui/icons-material/Reviews';
 
 // Helpers
 import { getError } from '@/helpers/snackbarHelpers';
@@ -143,6 +144,15 @@ const Review = ({ restaurantDetails = null, profileDetails = null }) => {
     ));
   };
 
+  if (!reviews.length) {
+    return (
+      <FlexContainer mt={10} gap={2}>
+        <ReviewIcon fontSize="large" color="primary" />
+        <Text variant="subHeader">Currently No Reviews</Text>
+      </FlexContainer>
+    );
+  }
+
   return (
     <React.Fragment>
       {showDeleteModal && (
@@ -220,9 +230,7 @@ const Review = ({ restaurantDetails = null, profileDetails = null }) => {
                 {renderImages()}
               </ImageList>
             </Box>
-            {user.id !== (review.userId.id || review.userId) && (
-              <VoteOptions votes={review.votes} />
-            )}
+            {user.id && <VoteOptions votes={review.votes} />}
           </Styles.ReviewCard>
         ))}
       <FlexContainer>

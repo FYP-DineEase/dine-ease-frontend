@@ -130,16 +130,9 @@ const AddReview = ({ review = null, isModal = false, updateHandler }) => {
         minRows={isModal ? 4 : 6}
         maxRows={isModal ? 4 : 6}
       />
-      <FlexContainer sx={{ justifyContent: 'left', gap: 1.5, mt: 4, flexWrap: 'wrap' }}>
+      <Styles.ImageContainer>
         {previewImages.map((image, index) => (
-          <Box
-            key={index}
-            sx={{
-              position: 'relative',
-              height: isModal ? '220px' : '130px',
-              width: isModal ? '100%' : '150px',
-            }}
-          >
+          <Styles.Image key={index} modal={+isModal}>
             <Image
               src={URL.createObjectURL(image)}
               alt="preview-image"
@@ -156,7 +149,7 @@ const AddReview = ({ review = null, isModal = false, updateHandler }) => {
             >
               <Delete fontSize="small" sx={{ color: 'text.primary' }} />
             </Styles.ImageDeleteIcon>
-          </Box>
+          </Styles.Image>
         ))}
         <Styles.ImagePlaceHolder
           component="label"
@@ -173,16 +166,9 @@ const AddReview = ({ review = null, isModal = false, updateHandler }) => {
             sx={{ display: 'none' }}
           />
         </Styles.ImagePlaceHolder>
-        <PrimaryButton
-          type="submit"
-          disabled={formik.isSubmitting}
-          sx={{
-            ml: 'auto',
-            position: isModal && 'absolute',
-            bottom: isModal && 20,
-            right: isModal && 30,
-          }}
-        >
+      </Styles.ImageContainer>
+      <FlexContainer mt={2}>
+        <PrimaryButton type="submit" disabled={formik.isSubmitting}>
           <Text variant="body">{isModal ? 'Update' : 'Post Review'}</Text>
         </PrimaryButton>
       </FlexContainer>
