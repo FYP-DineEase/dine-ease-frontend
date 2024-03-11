@@ -20,7 +20,7 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-  const response = await getAllMapSlugs(client);
+  const response = await getAllMapSlugs();
 
   const slugs = response.data;
 
