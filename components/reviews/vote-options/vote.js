@@ -26,6 +26,7 @@ const dummyVotes = [
 const VoteOptions = () => {
   const user = useSelector(selectUserState);
   const [votes, setVotes] = useState(dummyVotes);
+  const [userVote, setUserVote] = useState('');
 
   const voteCounts = votes.reduce((acc, vote) => {
     if (acc[vote.type]) {
@@ -46,21 +47,22 @@ const VoteOptions = () => {
 
   const handleVote = (voteType) => {
     const updatedVotes = [...votes];
-    const voteExists = votes.some((vote) => vote.userId === user.id);
+    const updateIndex = updatedVotes.findIndex((vote) => vote.userId === user.id);
 
-    if (voteExists) {
-      const updateIndex = updatedVotes.findIndex((vote) => vote.userId === user.id);
+    if (updateIndex !== -1) {
       const sameVoteType = updatedVotes[updateIndex].type?.includes(voteType);
 
       if (!sameVoteType) {
         updatedVotes[updateIndex].type = voteType;
+        setUserVote(voteType);
       } else {
         updatedVotes.splice(updateIndex, 1);
+        setUserVote(null);
       }
     } else {
       updatedVotes.push({ type: voteType, userId: user.id });
+      setUserVote(voteType);
     }
-
     setVotes(updatedVotes);
   };
 
@@ -72,6 +74,7 @@ const VoteOptions = () => {
             startIcon={item.icon}
             value={item.value}
             onClick={() => handleVote(item.value)}
+            selected={item.value === userVote}
             sx={{ borderRadius: 5 }}
           >
             {item.count}

@@ -15,6 +15,13 @@ export const ReviewCard = styled(Box)(({ theme }) => ({
 export const UserDetails = styled(FlexContainer)(({ theme }) => ({
   justifyContent: 'flex-start',
   gap: theme.spacing(2),
+  position: 'relative',
+}));
+
+export const ReviewOptions = styled(Box)(({ theme }) => ({
+  position: 'absolute',
+  top: 0,
+  right: -5,
 }));
 
 export const ImageCountOverlay = styled(FlexContainer)(({ theme }) => ({

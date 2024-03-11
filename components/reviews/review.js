@@ -196,7 +196,7 @@ const Review = ({ restaurantDetails = null, profileDetails = null }) => {
                 </Text>
               </Box>
               {user.id === (review.userId.id || review.userId) && (
-                <Box ml="auto">
+                <Styles.ReviewOptions>
                   <Tooltip title="Update Review" placement="top" arrow>
                     <IconButton
                       onClick={() => {
@@ -205,7 +205,7 @@ const Review = ({ restaurantDetails = null, profileDetails = null }) => {
                       }}
                       color="primary"
                     >
-                      <Edit />
+                      <Edit fontSize={isMobile ? 'small' : 'medium'} />
                     </IconButton>
                   </Tooltip>
                   <Tooltip title="Delete Review" placement="top" arrow>
@@ -216,10 +216,10 @@ const Review = ({ restaurantDetails = null, profileDetails = null }) => {
                       }}
                       color="primary"
                     >
-                      <Delete />
+                      <Delete fontSize={isMobile ? 'small' : 'medium'} />
                     </IconButton>
                   </Tooltip>
-                </Box>
+                </Styles.ReviewOptions>
               )}
             </Styles.UserDetails>
             <Text variant="body" sx={{ display: 'block', mt: 2 }}>
