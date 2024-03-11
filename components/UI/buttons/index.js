@@ -1,10 +1,11 @@
 import { Button, styled } from '@mui/material';
 
-export const PrimaryButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.text.primary,
-
+export const PrimaryButton = styled(Button)(({ theme, selected }) => ({
+  color: selected ? theme.palette.secondary.main : theme.palette.text.primary,
+  backgroundColor: selected && theme.palette.static.primary,
   '&:hover': {
     backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.text.primary,
   },
 }));
 
