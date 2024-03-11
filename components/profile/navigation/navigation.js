@@ -13,7 +13,7 @@ import RestaurantCard from '../restaurant-card/restaurant-card';
 // Styles
 import * as Styles from './navigation.styles';
 import { FlexContainer, Text } from '@/components/UI';
-import { Tabs, Tab, Box, Grid, Toolbar } from '@mui/material';
+import { Tabs, Tab, Box, Grid, Toolbar, Divider } from '@mui/material';
 
 // Icons
 import ReviewIcon from '@mui/icons-material/Reviews';
@@ -26,6 +26,41 @@ import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 
 // Utils
 import { UserRoles } from '@/utils/roles';
+import Activity from '@/components/activity/activity';
+
+import userImage from '@/public/assets/images/avatar.jpg';
+const notification = [
+  {
+    image: userImage,
+    message: 'Mujtaba upvoted your comment in Kababjees Restaurant',
+    date: '12 Dec',
+  },
+  {
+    image: userImage,
+    message: 'Mujtaba upvoted your comment in Kababjees Restaurant',
+    date: '13 Dec',
+  },
+  {
+    image: userImage,
+    message: 'Mujtaba upvoted your comment in Kababjees Restaurant',
+    date: '14 Dec',
+  },
+  {
+    image: userImage,
+    message: 'Mujtaba upvoted your comment in Kababjees Restaurant',
+    date: '15 Dec',
+  },
+  {
+    image: userImage,
+    message: 'Mujtaba upvoted your comment in Kababjees Restaurant',
+    date: '16 Dec',
+  },
+  {
+    image: userImage,
+    message: 'Mujtaba upvoted your comment in Kababjees Restaurant',
+    date: '17 Dec',
+  },
+];
 
 const Navigation = () => {
   const user = useSelector(selectUserState);
@@ -47,12 +82,12 @@ const Navigation = () => {
       value: 'Votes',
       icon: <VoteIcon fontSize="medium" />,
       label: 'Votes',
-      childComponent: (
-        <FlexContainer mt={10} gap={2}>
-          <PollIcon fontSize="large" color="primary" />
-          <Text variant="subHeader">Currently No Votes</Text>
-        </FlexContainer>
-      ),
+      childComponent: notification.map((item, index) => (
+        <React.Fragment key={index}>
+          <Activity item={item} />
+          <Divider orientation="horizontal" sx={{ mt: 2, mb: 2 }} />
+        </React.Fragment>
+      )),
     },
     {
       value: 'Plans',

@@ -10,6 +10,7 @@ import { Avatar, Badge, Box, Divider, Fade, IconButton, MenuItem } from '@mui/ma
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
 import userImage from '@/public/assets/images/avatar.jpg';
+import Activity from '@/components/activity/activity';
 
 const notification = [
   {
@@ -83,8 +84,8 @@ const NotificationMenu = () => {
         PaperProps={{
           elevation: 0,
           style: {
-            maxHeight: '500px',
-            maxWidth: '350px',
+            maxHeight: '550px',
+            maxWidth: '400px',
           },
         }}
         TransitionComponent={Fade}
@@ -95,30 +96,11 @@ const NotificationMenu = () => {
           </Text>
         </Box>
         <Divider variant="middle" orientation="horizontal" sx={{ mb: 1 }} />
-        <Box sx={{ height: '425px', overflow: 'auto' }}>
+        <Box sx={{ height: '450px', overflow: 'auto' }}>
           {notification.map((item, index) => (
             <Box key={index}>
               <MenuItem onClick={closeMenu} sx={{ whiteSpace: 'normal' }}>
-                <FlexContainer gap={2}>
-                  <Avatar
-                    src={item.image.src}
-                    alt="notification"
-                    sx={{ height: 50, width: 50 }}
-                  />
-                  <FlexContainer
-                    sx={{
-                      flexDirection: 'column',
-                      alignItems: 'flex-start',
-                    }}
-                  >
-                    <Text variant="sub" color="text.secondary">
-                      {item.message}
-                    </Text>
-                    <Text variant="sub" color="text.secondary">
-                      {item.date}
-                    </Text>
-                  </FlexContainer>
-                </FlexContainer>
+                <Activity item={item} />
               </MenuItem>
               <Divider variant="middle" orientation="horizontal" />
             </Box>
