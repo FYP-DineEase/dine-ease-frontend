@@ -67,7 +67,7 @@ const Map = ({ restaurant }) => {
   // }, []);
 
   return (
-    <SectionContainer container>
+    <SectionContainer container sx={{ width: '100%' }}>
       <Grid item xs={12}>
         <Styles.Header>
           <Text variant="subHeader" color="primary" fontWeight={500}>

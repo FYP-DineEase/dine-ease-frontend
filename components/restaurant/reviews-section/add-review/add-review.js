@@ -92,7 +92,7 @@ const AddReview = ({ review = null, isModal = false, updateHandler }) => {
               }
               sx={{ height: 72, width: 72, border: '1px solid rgba(0, 0, 0, 0.2)' }}
             >
-              {!user.avatar && user.name.slice(0, 1)}
+              {!user.avatar && user.name?.slice(0, 1)}
             </Avatar>
             <Text variant="main" fontWeight={500}>
               {user.name}

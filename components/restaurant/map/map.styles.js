@@ -3,7 +3,7 @@ import { FlexContainer } from '@/components/UI';
 
 export const MapContainer = styled(Box)(({ theme }) => ({
   height: '700px',
-  width: '90%',
+  width: '100%',
   margin: 'auto',
   borderRadius: '10px',
   overflow: 'hidden',
