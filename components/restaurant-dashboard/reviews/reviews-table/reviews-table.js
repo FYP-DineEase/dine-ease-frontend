@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import DataTable from 'react-data-table-component';
 
@@ -15,12 +15,24 @@ import Search from '@mui/icons-material/Search';
 
 // Helpers
 import { getDate } from '@/helpers/dateHelpers';
+import ReviewModal from '../review-modal/review-modal';
 
 const ReviewsTable = ({ reviews }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const reviewDetails = useRef(null);
 
   const [filterText, setFilterText] = useState('');
+
+  const openModalHandler = (review) => {
+    reviewDetails.current = review;
+    setShowReviewModal(true);
+  };
+
+  const closeModalHandler = () => {
+    setShowReviewModal(false);
+  };
 
   const filteredReviews = data.filter(
     (item) =>
@@ -102,7 +114,7 @@ const ReviewsTable = ({ reviews }) => {
     {
       selector: (row) => (
         <Tooltip title="Show Review" placement="top">
-          <IconButton>{row.icon}</IconButton>
+          <IconButton onClick={() => openModalHandler(row)}>{row.icon}</IconButton>
         </Tooltip>
       ),
       center: 'true',
@@ -114,6 +126,7 @@ const ReviewsTable = ({ reviews }) => {
     const data = reviews.map((review) => ({
       name: review.userId.name,
       rating: review.rating,
+      content: review.content,
       createdAt: review.createdAt,
       icon: <VisibilityIcon />,
       avatar: review.userId.avatar,
@@ -125,20 +138,29 @@ const ReviewsTable = ({ reviews }) => {
   }, [reviews]);
 
   return (
-    <DashboardContent>
-      <DataTable
-        columns={columns}
-        data={filteredReviews}
-        responsive
-        subHeader
-        subHeaderComponent={subHeaderComponentMemo}
-        pagination
-        paginationPerPage={9}
-        paginationRowsPerPageOptions={[9]}
-        progressPending={loading}
-        keyField="reviewId"
-      />
-    </DashboardContent>
+    <React.Fragment>
+      {showReviewModal && (
+        <ReviewModal
+          showModal={showReviewModal}
+          handleCloseModal={closeModalHandler}
+          review={reviewDetails.current}
+        />
+      )}
+      <DashboardContent>
+        <DataTable
+          columns={columns}
+          data={filteredReviews}
+          responsive
+          subHeader
+          subHeaderComponent={subHeaderComponentMemo}
+          pagination
+          paginationPerPage={9}
+          paginationRowsPerPageOptions={[9]}
+          progressPending={loading}
+          keyField="reviewId"
+        />
+      </DashboardContent>
+    </React.Fragment>
   );
 };
 

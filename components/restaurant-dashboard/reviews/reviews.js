@@ -39,10 +39,10 @@ const Reviews = () => {
 
   return (
     <DashboardContainer container columnSpacing={2} rowGap={1}>
-      <Grid item xs={7}>
+      <Grid item xs={12} sm={7}>
         <ReviewDistributionChart reviews={reviews} />
       </Grid>
-      <Grid item xs={5}>
+      <Grid item xs={12} sm={5}>
         <ReviewSentimentChart reviews={reviews} />
       </Grid>
       <Grid item xs={12}>

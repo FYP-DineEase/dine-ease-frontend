@@ -1,16 +1,33 @@
 import React, { useRef, useState } from 'react';
 import { useRestaurantContext } from '@/context/restaurant';
 
-//Styles
+// Styles
 import * as Styles from './recent-reviews.styles';
 import { DashboardContent, FlexContainer, Text } from '@/components/UI';
 import { Avatar, Box, Divider, Grid, Pagination, Rating } from '@mui/material';
 
+// Icons
+import ReviewIcon from '@mui/icons-material/Reviews';
+
 // Helpers
 import { getDate } from '@/helpers/dateHelpers';
 
+// Components
+import ReviewModal from '../../reviews/review-modal/review-modal';
+
 const RecentReviews = ({ reviews }) => {
   const { details } = useRestaurantContext();
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const reviewDetails = useRef(null);
+
+  const openModalHandler = (review) => {
+    reviewDetails.current = { ...review, name: review.userId.name };
+    setShowReviewModal(true);
+  };
+
+  const closeModalHandler = () => {
+    setShowReviewModal(false);
+  };
 
   const [page, setPage] = useState(1);
   const reviewLimit = useRef(4);
@@ -23,6 +40,13 @@ const RecentReviews = ({ reviews }) => {
 
   return (
     <React.Fragment>
+      {showReviewModal && (
+        <ReviewModal
+          showModal={showReviewModal}
+          handleCloseModal={closeModalHandler}
+          review={reviewDetails.current}
+        />
+      )}
       <Grid container columnSpacing={1}>
         <Grid item xs={12}>
           <Styles.Header variant="subHeader">Recent Reviews</Styles.Header>
@@ -81,28 +105,41 @@ const RecentReviews = ({ reviews }) => {
                 </Styles.Details>
                 <Text variant="body" sx={{ display: 'block', mt: 2 }}>
                   {review.content.slice(0, 250)}
-                  {review.content.length > 250 && '...'}
+                  <Text
+                    variant="body"
+                    sx={{ textDecoration: 'underline', color: 'blue', cursor: 'pointer' }}
+                    onClick={() => openModalHandler(review)}
+                  >
+                    {review.content.length > 250 && '...See More'}
+                  </Text>
                 </Text>
               </DashboardContent>
             </Grid>
           ))}
       </Grid>
-      <FlexContainer>
-        <Pagination
-          color="primary"
-          count={totalPage}
-          variant="outlined"
-          shape="rounded"
-          sx={{
-            mt: 3,
-            '& .MuiPaginationItem-root:not(.Mui-selected)': {
-              color: 'text.secondary',
-            },
-          }}
-          page={page}
-          onChange={pageHandler}
-        />
-      </FlexContainer>
+      {reviews.length ? (
+        <FlexContainer>
+          <Pagination
+            color="primary"
+            count={totalPage}
+            variant="outlined"
+            shape="rounded"
+            sx={{
+              mt: 3,
+              '& .MuiPaginationItem-root:not(.Mui-selected)': {
+                color: 'text.secondary',
+              },
+            }}
+            page={page}
+            onChange={pageHandler}
+          />
+        </FlexContainer>
+      ) : (
+        <FlexContainer mt={5} gap={2}>
+          <ReviewIcon fontSize="large" color="primary" />
+          <Text variant="subHeader">Currently No Reviews</Text>
+        </FlexContainer>
+      )}
     </React.Fragment>
   );
 };

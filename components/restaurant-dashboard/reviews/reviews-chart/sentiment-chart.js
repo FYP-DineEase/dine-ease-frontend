@@ -39,8 +39,6 @@ const ReviewSentimentChart = ({ reviews }) => {
     return acc;
   }, {});
 
-  console.log(countByType);
-
   const options = {
     responsive: true,
     maintainAspectRatio: false,
