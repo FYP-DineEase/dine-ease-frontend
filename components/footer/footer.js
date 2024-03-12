@@ -17,8 +17,8 @@ import Logo from '../logo/logo';
 const Footer = () => {
   const router = useRouter();
 
-  const isDashboard = router.pathname.includes('dashboard');
-  if (isDashboard) return;
+  const hide = router.pathname.includes('dashboard') || router.pathname.includes('map');
+  if (hide) return;
   
   return (
     <Grid container justifyContent="center" rowGap={5} paddingBottom={5}>
