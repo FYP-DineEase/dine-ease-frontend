@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
+import React, { useState, useMemo, useCallback, useRef } from 'react';
 
 // Map
 import ReactMapGL, { Marker, NavigationControl } from 'react-map-gl';
@@ -8,11 +8,14 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import * as Styles from './navigation-map.styles';
 
 // Utils
-import { useSelector } from 'react-redux';
-import { selectUserState } from '@/store/user/userSlice';
+import { MapThemes, MapZoomLevels } from '@/utils/constants';
+
+//Components
+import MapTheme from './map-theme/map-theme';
+import FavouriteRestaurants from './favourite-restaurants/favourite-restaurants';
 
 const NavigationMap = ({ data }) => {
-  const user = useSelector(selectUserState);
+  const [theme, setTheme] = useState(data.theme);
 
   const location = data.restaurants[0]?.location?.coordinates;
   const longitude = location[0] || 0;
@@ -40,32 +43,47 @@ const NavigationMap = ({ data }) => {
     });
   }, []);
 
+  const flyToLocation = useCallback((long, lat) => {
+    mapRef.current?.flyTo({
+      center: [long, lat],
+      duration: 1500,
+      zoom: MapZoomLevels.MAP_ZOOM,
+    });
+  }, []);
+
   const onMove = useCallback(({ viewState }) => {
     setViewState(viewState);
   }, []);
 
   return (
-    <Styles.MapContainer>
-      <ReactMapGL
-        {...viewState}
-        ref={mapRef}
-        width="100%"
-        height="100%"
-        onMove={onMove}
-        mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_API_TOKEN}
-        mapStyle={'mapbox://styles/mapbox/streets-v12'}
-      >
-        {data.restaurants.map((i) => {
-          const { coordinates } = i.location;
-          return (
-            <Marker key={i.slug} longitude={coordinates[0]} latitude={coordinates[1]}>
-              <Styles.Pin />
-            </Marker>
-          );
-        })}
-        <NavigationControl position={'bottom-right'} showCompass={false} />
-      </ReactMapGL>
-    </Styles.MapContainer>
+    <React.Fragment>
+      <MapTheme selectedTheme={theme} setTheme={setTheme} details={data.userId} />
+      <FavouriteRestaurants
+        restaurants={data.restaurants}
+        flyToLocation={flyToLocation}
+      />
+      <Styles.MapContainer>
+        <ReactMapGL
+          {...viewState}
+          ref={mapRef}
+          width="100%"
+          height="100%"
+          onMove={onMove}
+          mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_API_TOKEN}
+          mapStyle={MapThemes[theme]}
+        >
+          {data.restaurants.map((i) => {
+            const { coordinates } = i.location;
+            return (
+              <Marker key={i.slug} longitude={coordinates[0]} latitude={coordinates[1]}>
+                <Styles.Pin />
+              </Marker>
+            );
+          })}
+          <NavigationControl position={'bottom-right'} showCompass={false} />
+        </ReactMapGL>
+      </Styles.MapContainer>
+    </React.Fragment>
   );
 };
 

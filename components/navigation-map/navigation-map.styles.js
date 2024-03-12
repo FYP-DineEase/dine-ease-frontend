@@ -6,6 +6,7 @@ import { NAV_HEIGHT } from '@/utils/constants';
 export const MapContainer = styled(FlexContainer)(({ theme }) => ({
   height: `calc(100vh - ${NAV_HEIGHT}px)`,
   width: '100vw',
+  zIndex: -1,
 
   '.mapboxgl-compact': {
     display: 'none',
