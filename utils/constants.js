@@ -53,6 +53,14 @@ export const MapZoomLevels = {
   MAP_ZOOM: 13,
 };
 
+export const MapThemes = {
+  light: 'mapbox://styles/mapbox/light-v11',
+  dark: 'mapbox://styles/mapbox/dark-v11',
+  streets: 'mapbox://styles/mapbox/streets-v12',
+  satellite: 'mapbox://styles/mapbox/satellite-streets-v12',
+  night: 'mapbox://styles/mapbox/navigation-night-v1',
+};
+
 export const MapProfiles = {
   DRIVING: 'driving',
   DRIVING_TRAFFIC: 'driving-traffic',
