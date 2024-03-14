@@ -40,12 +40,20 @@ export const Status = {
   REJECTED: 'rejected',
 };
 
-export const periods = [
+export const Periods = [
   { id: '30 Days', value: 1 },
   { id: '3 Months', value: 3 },
   { id: '6 Months', value: 6 },
   { id: '1 Year', value: 12 },
 ];
+
+export const VoteTypes = {
+  LIKE: 'like',
+  DISLIKE: 'dislike',
+  COOL: 'cool',
+  FUNNY: 'funny',
+  USEFUL: 'useful',
+};
 
 export const MapZoomLevels = {
   // MAX_ZOOM_HEAT_MAP: 14,

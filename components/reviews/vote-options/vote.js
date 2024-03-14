@@ -14,6 +14,9 @@ import LaughIcon from '@mui/icons-material/SentimentVerySatisfied';
 import UsefulIcon from '@mui/icons-material/Lightbulb';
 import CoolIcon from '@mui/icons-material/AutoAwesome';
 
+// Utils
+import { VoteTypes } from '@/utils/constants';
+
 const dummyVotes = [
   { type: 'like', userId: '65d8f8525b89ca028e417237' },
   { type: 'like', userId: '65d8f8525b89ca028e417241' },
@@ -38,11 +41,15 @@ const VoteOptions = () => {
   }, {});
 
   const options = [
-    { icon: <ThumbUpIcon />, value: 'like', count: voteCounts?.like || 0 },
-    { icon: <ThumbDownIcon />, value: 'dislike', count: voteCounts?.dislike || 0 },
-    { icon: <LaughIcon />, value: 'funny', count: voteCounts?.funny || 0 },
-    { icon: <CoolIcon />, value: 'cool', count: voteCounts?.cool || 0 },
-    { icon: <UsefulIcon />, value: 'useful', count: voteCounts?.useful || 0 },
+    { icon: <ThumbUpIcon />, value: VoteTypes.LIKE, count: voteCounts?.like || 0 },
+    {
+      icon: <ThumbDownIcon />,
+      value: VoteTypes.DISLIKE,
+      count: voteCounts?.dislike || 0,
+    },
+    { icon: <LaughIcon />, value: VoteTypes.FUNNY, count: voteCounts?.funny || 0 },
+    { icon: <CoolIcon />, value: VoteTypes.COOL, count: voteCounts?.cool || 0 },
+    { icon: <UsefulIcon />, value: VoteTypes.USEFUL, count: voteCounts?.useful || 0 },
   ];
 
   const handleVote = (voteType) => {
