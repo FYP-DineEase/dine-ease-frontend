@@ -11,27 +11,34 @@ function ProfilePage({ user }) {
 
 export default ProfilePage;
 
-export async function getStaticProps({ params }) {
-  const { data } = await getUserBySlug(params.id);
-
+ProfilePage.getInitialProps = async ({ query }) => {
+  const { data } = await getUserBySlug(query.id);
   return {
-    props: {
-      user: data,
-    },
+    user: data,
   };
-}
+};
 
-export async function getStaticPaths() {
-  const { data } = await getAllUserSlugs();
+// export async function getStaticProps({ params }) {
+//   const { data } = await getUserBySlug(params.id);
 
-  const paths = data
-    ? data.map((s) => ({
-        params: { id: s.slug },
-      }))
-    : [];
+//   return {
+//     props: {
+//       user: data,
+//     },
+//   };
+// }
 
-  return {
-    paths,
-    fallback: 'blocking',
-  };
-}
+// export async function getStaticPaths() {
+//   const { data } = await getAllUserSlugs();
+
+//   const paths = data
+//     ? data.map((s) => ({
+//         params: { id: s.slug },
+//       }))
+//     : [];
+
+//   return {
+//     paths,
+//     fallback: 'blocking',
+//   };
+// }
