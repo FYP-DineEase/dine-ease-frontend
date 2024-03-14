@@ -1,48 +1,97 @@
-import React from 'react';
+import React, { useState } from 'react';
+import dayjs from 'dayjs';
 
 //Styles
+import * as Styles from './review-sentiment-chart.styles';
 import { Box } from '@mui/material';
-import { DashboardContent } from '@/components/UI';
+import { DashboardContent, Text } from '@/components/UI';
 
-//Chart
+// Utils
+import { Periods } from '@/utils/constants';
+
+// Chart
+import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Line } from 'react-chartjs-2';
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+const ReviewSentimentChart = ({ mixedReviews, reviewsType }) => {
+  const [selectedPeriod, setSelectedPeriod] = useState(1);
 
-const ReviewSentimentChart = ({ reviews }) => {
+  const dummyReviews = mixedReviews.map((review) => ({
+    ...review,
+    type: review.rating > 2.5 ? 'positive' : 'negative',
+  }));
+
+  const reviews = dummyReviews.filter((review) => review.type === reviewsType);
+
+  const filterReviewsByDateRange = (reviews) => {
+    const currentDate = dayjs();
+    const filteredReviews = reviews.filter((review) => {
+      const reviewDate = dayjs(review.createdAt);
+      return reviewDate.isAfter(currentDate.subtract(selectedPeriod, 'month'));
+    });
+    return filteredReviews;
+  };
+
+  const filteredReviews = filterReviewsByDateRange(reviews);
+
+  const occurrencesCount = (filteredReviews) => {
+    const dayOccurrences = {};
+
+    filteredReviews.forEach((review) => {
+      const day = dayjs(review.createdAt).locale('en').format('DD MMMM YYYY');
+      const type = review.type;
+
+      if (!dayOccurrences[day]) {
+        dayOccurrences[day] = {
+          [reviewsType]: 0,
+        };
+      }
+
+      dayOccurrences[day][type]++;
+    });
+
+    return dayOccurrences;
+  };
+
+  const occurrences = occurrencesCount(filteredReviews);
+
+  const sortedOccurences = Object.keys(occurrences)
+    .map((date) => ({
+      date: dayjs(date, 'DD MMMM'),
+      value: occurrences[date],
+    }))
+    .sort((a, b) => a.date - b.date)
+    .reduce((acc, curr) => {
+      const formattedDate = curr.date.format('DD MMMM YYYY');
+      acc[formattedDate] = curr.value;
+      return acc;
+    }, {});
+
   const options = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        display: false,
-        // position: 'top',
+        display: true,
       },
       title: {
-        display: true,
-        text: 'Postive Review',
+        display: false,
       },
     },
     scales: {
       x: {
+        ticks: {
+          maxTicksLimit: 5,
+        },
         display: true,
       },
       y: {
@@ -55,12 +104,15 @@ const ReviewSentimentChart = ({ reviews }) => {
   };
 
   const data = {
-    labels: [],
+    labels: Object.keys(sortedOccurences),
     datasets: [
       {
-        label: 'Number of Reviews',
-        data: [],
+        label: `${reviewsType} Reviews`,
+        data: Object.values(sortedOccurences).map(
+          (occurrence) => occurrence[reviewsType]
+        ),
         backgroundColor: 'orange',
+        borderColor: 'orange',
         cubicInterpolationMode: 'monotone',
       },
     ],
@@ -68,8 +120,21 @@ const ReviewSentimentChart = ({ reviews }) => {
 
   return (
     <DashboardContent>
-      <Box sx={{ height: '300px' }}>
-        <Line data={data} options={options} />
+      <Styles.OptionContainer>
+        {Periods.map((period) => (
+          <Styles.Option
+            key={period.id}
+            selected={period.value === selectedPeriod}
+            onClick={() => setSelectedPeriod(period.value)}
+          >
+            <Text variant="sub" fontWeight={600}>
+              {period.id}
+            </Text>
+          </Styles.Option>
+        ))}
+      </Styles.OptionContainer>
+      <Box sx={{ height: '280px' }}>
+        <Bar data={data} options={options} />
       </Box>
     </DashboardContent>
   );

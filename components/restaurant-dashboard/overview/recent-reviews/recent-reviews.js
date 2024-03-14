@@ -80,7 +80,7 @@ const RecentReviews = ({ reviews }) => {
                     </Text>
                   </Box>
                 </Styles.Details>
-                <Divider orientation="horizontal" sx={{ mb: 2, mt: 2 }} />
+                <Divider orientation="horizontal" sx={{ mb: 1, mt: 1 }} />
                 <Styles.Details>
                   <Avatar
                     alt="restaurant-avatar"
@@ -125,7 +125,7 @@ const RecentReviews = ({ reviews }) => {
             variant="outlined"
             shape="rounded"
             sx={{
-              mt: 3,
+              mt: 2.5,
               '& .MuiPaginationItem-root:not(.Mui-selected)': {
                 color: 'text.secondary',
               },

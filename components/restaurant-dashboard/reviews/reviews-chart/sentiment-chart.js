@@ -72,7 +72,7 @@ const ReviewSentimentChart = ({ reviews }) => {
     datasets: [
       {
         label: 'Number of Records',
-        data: Object.values(countByType).reverse(),
+        data: [countByType['positive'], countByType['negative']],
         backgroundColor: ['orange', 'red'],
       },
     ],

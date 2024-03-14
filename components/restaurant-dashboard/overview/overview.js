@@ -19,6 +19,7 @@ import { enqueueSnackbar } from 'notistack';
 import Cards from './card/card';
 import CustomerSatisfaction from './customer-satisfaction/customer-satisfaction';
 import RecentReviews from './recent-reviews/recent-reviews';
+import ReviewSentimentChart from './review-sentiment-chart/review-sentiment-chart';
 
 const Overview = () => {
   const [reviews, setReviews] = useState([]);
@@ -46,12 +47,12 @@ const Overview = () => {
       <Grid item xs={12} lg={5}>
         <CustomerSatisfaction reviews={reviews} />
       </Grid>
-      {/* <Grid item xs={12} lg={7}>
-        <ReviewTrend reviews={reviews} />
-      </Grid> */}
-      {/* <Grid item xs={12} lg={5}>
-        <RatingDistribution reviews={reviews} />
-      </Grid> */}
+      <Grid item xs={12} lg={6}>
+        <ReviewSentimentChart mixedReviews={reviews} reviewsType="positive" />
+      </Grid>
+      <Grid item xs={12} lg={6}>
+        <ReviewSentimentChart mixedReviews={reviews} reviewsType="negative" />
+      </Grid>
       <Grid item xs={12}>
         <RecentReviews reviews={reviews} />
       </Grid>
