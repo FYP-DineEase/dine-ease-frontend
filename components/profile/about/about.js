@@ -113,7 +113,7 @@ const About = () => {
         {details.id === user.id && (
           <EditProfileMenu handleAvatar={handleAvatar} openModal={openModal} />
         )}
-        <Styles.DetailsContainer>
+        <Styles.Details>
           <Text variant="main" fontWeight={500}>
             {details.firstName} {details.lastName}
           </Text>
@@ -145,7 +145,7 @@ const About = () => {
               </Text>
             </React.Fragment>
           )}
-        </Styles.DetailsContainer>
+        </Styles.Details>
       </Styles.AboutContainer>
     </React.Fragment>
   );

@@ -6,9 +6,10 @@ import { selectUserState } from '@/store/user/userSlice';
 import { useProfileContext } from '@/context/profile';
 
 // Components
-import About from '../about/about';
 import Review from '@/components/reviews/review';
 import RestaurantCard from '../restaurant-card/restaurant-card';
+import ReviewsGraph from '../reviews-graph/reviews-graph';
+import VotesGraph from '../votes-graph/votes-graph';
 
 // Styles
 import * as Styles from './navigation.styles';
@@ -77,6 +78,7 @@ const Navigation = () => {
       icon: <ReviewIcon fontSize="medium" />,
       label: 'Reviews',
       childComponent: <Review profileDetails={details} />,
+      detailComponent: <ReviewsGraph profileDetails={details} />,
     },
     {
       value: 'Votes',
@@ -88,6 +90,7 @@ const Navigation = () => {
           <Divider orientation="horizontal" sx={{ mt: 2, mb: 2 }} />
         </React.Fragment>
       )),
+      detailComponent: <VotesGraph profileDetails={details} />,
     },
     {
       value: 'Plans',
@@ -147,7 +150,7 @@ const Navigation = () => {
           </Toolbar>
         </Styles.FixedTabs>
       )}
-      <Grid item xs={12} lg={6} sx={{ order: { xs: 2, lg: 0 } }}>
+      <Grid item xs={12} lg={6} sx={{ order: { xs: 3, lg: 0 } }}>
         <Styles.TabItemContainer>
           <Styles.TabsContainer ref={tabsRef}>
             <Tabs
@@ -174,8 +177,8 @@ const Navigation = () => {
           <Box sx={{ mt: 2 }}>{tabItems[value].childComponent}</Box>
         </Styles.TabItemContainer>
       </Grid>
-      <Grid item xs={12} lg={3} sx={{ order: { xs: 1, lg: 0 } }}>
-        <About />
+      <Grid item xs={12} lg={3} sx={{ order: { xs: 2, lg: 0 } }}>
+        {tabItems[value].detailComponent}
       </Grid>
     </React.Fragment>
   );
