@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import Link from 'next/link';
 import Image from 'next/image';
+import { useSelector } from 'react-redux';
 import { selectUserState } from '@/store/user/userSlice';
 
 // Styles
@@ -16,6 +17,7 @@ import {
   useMediaQuery,
   Tooltip,
   IconButton,
+  Badge,
 } from '@mui/material';
 
 // Icons
@@ -26,6 +28,8 @@ import ReviewIcon from '@mui/icons-material/Reviews';
 // Helpers
 import { getError } from '@/helpers/snackbarHelpers';
 import { getDate, getTimePassed } from '@/helpers/dateHelpers';
+import { getBadge } from '@/helpers/badgeHelpers';
+import { getFileUrl } from '@/helpers/fileHelpers';
 
 // Snackbar
 import { enqueueSnackbar } from 'notistack';
@@ -178,13 +182,43 @@ const Review = ({ restaurantDetails = null, profileDetails = null }) => {
         .map((review) => (
           <Styles.ReviewCard key={review.slug}>
             <Styles.UserDetails>
-              <Avatar sx={{ width: 72, height: 72 }}>
-                {review.userId.name?.slice(0, 1) || name?.slice(0, 1)}
-              </Avatar>
+              <Link
+                href={`/profile/${review.userId.slug}`}
+                style={{ pointerEvents: review.userId.slug ? 'auto' : 'none' }}
+              >
+                <Badge
+                  overlap="circular"
+                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                  badgeContent={getBadge(review.userId.createdAt)}
+                >
+                  <Avatar
+                    src={
+                      (review.userId.avatar &&
+                        getFileUrl(
+                          process.env.NEXT_PUBLIC_AWS_S3_USERS_BUCKET,
+                          `${review.userId.id}/avatar/${review.userId.avatar}`
+                        )) ||
+                      (profileDetails &&
+                        getFileUrl(
+                          process.env.NEXT_PUBLIC_AWS_S3_USERS_BUCKET,
+                          `${profileDetails.id}/avatar/${profileDetails.avatar}`
+                        ))
+                    }
+                    sx={{ width: 72, height: 72 }}
+                  >
+                    {review.userId.name?.slice(0, 1) || name?.slice(0, 1)}
+                  </Avatar>
+                </Badge>
+              </Link>
               <Box>
-                <Text variant="main" fontWeight={500} sx={{ display: 'block' }}>
-                  {review.userId.name || name}
-                </Text>
+                <Link
+                  href={`/profile/${review.userId.slug}`}
+                  style={{ pointerEvents: review.userId.slug ? 'auto' : 'none' }}
+                >
+                  <Text variant="main" fontWeight={500} sx={{ display: 'block' }}>
+                    {review.userId.name || name}
+                  </Text>
+                </Link>
                 <Rating
                   value={review.rating}
                   precision={0.5}

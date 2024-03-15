@@ -13,7 +13,7 @@ import { updateProfileImage } from '@/services';
 
 // Styles
 import * as Styles from './about.styles';
-import { Avatar, IconButton, Tooltip } from '@mui/material';
+import { Avatar, Badge, IconButton, Tooltip } from '@mui/material';
 import { Text } from '@/components/UI';
 
 // Snackbar
@@ -23,6 +23,8 @@ import { enqueueSnackbar } from 'notistack';
 import { getDate } from '@/helpers/dateHelpers';
 import { getFileUrl } from '@/helpers/fileHelpers';
 import { getError } from '@/helpers/snackbarHelpers';
+import { getBadge } from '@/helpers/badgeHelpers';
+import { getBadgeTitle } from '@/helpers/badgeHelpers';
 
 // Icons
 import InfoIcon from '@mui/icons-material/InfoOutlined';
@@ -81,20 +83,35 @@ const About = () => {
       {showModal && <DetailsModal showModal={showModal} closeModal={closeModal} />}
       <Styles.AboutContainer>
         <Styles.ProfileAvatarContainer>
-          <Avatar
-            alt="User Avatar"
-            src={
-              (newAvatar && URL.createObjectURL(newAvatar)) ||
-              (details.avatar &&
-                getFileUrl(
-                  process.env.NEXT_PUBLIC_AWS_S3_USERS_BUCKET,
-                  `${details.id}/avatar/${details.avatar}`
-                ))
+          <Badge
+            overlap="circular"
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            badgeContent={
+              <Tooltip title={getBadgeTitle(details.createdAt)} placement="bottom" arrow>
+                {getBadge(details.createdAt, 'large')}
+              </Tooltip>
             }
-            sx={{ height: '100%', width: '100%', border: '1px solid rgba(0, 0, 0, 0.2)' }}
+            sx={{ width: '100%', height: '100%' }}
           >
-            {!details.avatar && details.firstName.slice(0, 1)}
-          </Avatar>
+            <Avatar
+              alt="User Avatar"
+              src={
+                (newAvatar && URL.createObjectURL(newAvatar)) ||
+                (details.avatar &&
+                  getFileUrl(
+                    process.env.NEXT_PUBLIC_AWS_S3_USERS_BUCKET,
+                    `${details.id}/avatar/${details.avatar}`
+                  ))
+              }
+              sx={{
+                height: '100%',
+                width: '100%',
+                border: '1px solid rgba(0, 0, 0, 0.2)',
+              }}
+            >
+              {!details.avatar && details.firstName.slice(0, 1)}
+            </Avatar>
+          </Badge>
           {newAvatar && !isSubmitting && (
             <Styles.AvatarConfirmation>
               <Tooltip title="Save Changes" placement="top" arrow>
