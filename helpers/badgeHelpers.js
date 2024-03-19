@@ -17,6 +17,8 @@ export const getBadge = (joinDate, size) => {
       return <Filter3TwoToneIcon fontSize={size} color="error" />;
     case yearsSinceJoin >= 1:
       return <Filter1TwoToneIcon fontSize={size} color="primary" />;
+    default:
+      return null;
   }
 };
 
@@ -27,10 +29,12 @@ export const getBadgeTitle = (joinDate) => {
 
   switch (true) {
     case yearsSinceJoin >= 5:
-      return "Member from 5+ Years";
+      return 'Member from 5+ Years';
     case yearsSinceJoin >= 3:
-      return "Member from 3+ Years";
+      return 'Member from 3+ Years';
     case yearsSinceJoin >= 1:
-      return "Member from 1+ Years";
+      return 'Member from 1+ Years';
+    default:
+      return null;
   }
 };

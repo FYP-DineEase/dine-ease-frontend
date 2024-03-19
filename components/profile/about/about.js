@@ -87,9 +87,15 @@ const About = () => {
             overlap="circular"
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             badgeContent={
-              <Tooltip title={getBadgeTitle(details.createdAt)} placement="bottom" arrow>
-                {getBadge(details.createdAt, 'large')}
-              </Tooltip>
+              getBadge(details.createdAt) && (
+                <Tooltip
+                  title={getBadgeTitle(details.createdAt)}
+                  placement="bottom"
+                  arrow
+                >
+                  {getBadge(details.createdAt, 'large')}
+                </Tooltip>
+              )
             }
             sx={{ width: '100%', height: '100%' }}
           >
