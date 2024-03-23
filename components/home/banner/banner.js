@@ -1,44 +1,73 @@
-import React from 'react';
-import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
 
 // Styles
 import * as Styles from './banner.styles';
-import { Grid, useMediaQuery } from '@mui/material';
-import { PaddedButton, SectionContainer, Text } from '@/components/UI';
+import { FlexContainer, PaddedButton, Text } from '@/components/UI';
 
 const Banner = () => {
-  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
+  const banner = [
+    {
+      text: 'Discover, Dine, Decide – With DineEase, Your Citys Culinary Compass.',
+      img: 'mix.jpg',
+    },
+    { text: 'Your Guide to Local Gems.', img: 'bbq.jpg' },
+    { text: 'Satisfy Your Cravings, Rate Your Raves.', img: 'mexican.jpg' },
+    {
+      text: 'From Hidden Cafés to Bustling Bars: Review Your Way Through the Best.',
+      img: 'sea-food.jpg',
+    },
+  ];
+
+  const [currentImage, setCurrentImage] = useState(0);
+  const [progress, setProgress] = useState(new Array(banner.length).fill(0));
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (currentImage === banner.length - 1) {
+        setCurrentImage(0);
+        setProgress(new Array(banner.length).fill(0));
+      } else {
+        setCurrentImage((prev) => prev + 1);
+      }
+    }, 4000);
+
+    setProgress((prevProgress) => {
+      const newProgress = [...prevProgress];
+      newProgress[currentImage] = 100;
+      return newProgress;
+    });
+    return () => clearTimeout(timeout);
+  }, [currentImage]);
 
   return (
-    <SectionContainer container columnSpacing={!isMobile ? 10 : 0}>
-      <Grid item xs={12} md={6} sx={{ order: { xs: 1, md: 0 } }}>
-        <Styles.BannerContent>
-          <Text variant="bigHeader" fontWeight={800}>
-            Dive into unlimited options of categories
-            <Text variant="bigHeader" color="primary" fontWeight={800} ml={1}>
-              DineEase.
-            </Text>
-          </Text>
-          <Text variant="subHeader">
-            Where Each Plate Weaves a Story of Culinary Mastery and Passionate
-            Craftsmanship
-          </Text>
-          <PaddedButton>
-            <Text variant="main" fontWeight={800}>
-              Discover Restaurants
-            </Text>
-          </PaddedButton>
-        </Styles.BannerContent>
-      </Grid>
-      <Styles.BannerImage item xs={12} md={6}>
-        <Image
-          src={'/assets/images/food.svg'}
-          fill={true}
-          sizes="100vw"
-          alt="login-image"
-        />
-      </Styles.BannerImage>
-    </SectionContainer>
+    <Styles.BannerContainer>
+      <Styles.StyledImage
+        fill
+        sizes="100%"
+        alt="banner"
+        src={`/assets/images/restaurant/${banner[currentImage].img}`}
+        key={currentImage}
+      />
+      <Styles.BannerTextContainer>
+        <Styles.Header key={currentImage}>
+          <Text variant="bigHeader">{banner[currentImage].text}</Text>
+        </Styles.Header>
+        <PaddedButton sx={{ mt: 3, mb: 2 }}>
+          <Text variant="main">Explore Restaurants</Text>
+        </PaddedButton>
+        <FlexContainer gap={1}>
+          {banner.map((banner, index) => (
+            <Styles.ProgressContainer key={index}>
+              <Styles.Progress
+                sx={{
+                  width: `${progress[index]}%`,
+                }}
+              />
+            </Styles.ProgressContainer>
+          ))}
+        </FlexContainer>
+      </Styles.BannerTextContainer>
+    </Styles.BannerContainer>
   );
 };
 

@@ -12,8 +12,8 @@ const Home = () => {
     <React.Fragment>
       <Banner />
       {/* <RestaurantCard/> */}
-      <About />
       <Gallery />
+      <About />
       <Services />
     </React.Fragment>
   );
