@@ -16,6 +16,6 @@ export const updateTheme = (payload) => {
   return api.patch(`/api/map/theme`, payload);
 };
 
-export const deleteMapRestaurant = (payload) => {
-  return api.patch(`/api/map`, payload);
+export const deleteMapRestaurant = (restaurantId) => {
+  return api.patch(`/api/map/${restaurantId}`);
 };
