@@ -10,6 +10,7 @@ export const InformationContent = styled(PageContent)(({ theme }) => ({
   textAlign: 'center',
   paddingTop: theme.spacing(6),
   paddingBottom: theme.spacing(6),
+  backgroundColor: theme.palette.static.primary,
 
   [theme.breakpoints.down('md')]: {
     flexDirection: 'column',

@@ -14,7 +14,7 @@ import Delete from '@mui/icons-material/Delete';
 import ImageIcon from '@mui/icons-material/Image';
 
 // Helpers
-import { validateImage } from '@/helpers/fileHelpers';
+import { getFileUrl, validateImage } from '@/helpers/fileHelpers';
 import { getError } from '@/helpers/snackbarHelpers';
 
 // Snackbar
@@ -24,7 +24,12 @@ import { enqueueSnackbar } from 'notistack';
 import { reviewSchema } from '@/utils/validation-schema/review';
 import { allowedImageTypes } from '@/utils/constants';
 
-const AddReview = ({ review = null, isModal = false, updateHandler }) => {
+const AddReview = ({
+  addReviewHandler,
+  review = null,
+  isModal = false,
+  updateHandler,
+}) => {
   const user = useSelector(selectUserState);
   const [previewImages, setPreviewImages] = useState(review?.images || []);
   const deletedImages = useRef([]);
@@ -39,32 +44,38 @@ const AddReview = ({ review = null, isModal = false, updateHandler }) => {
     }
   };
 
-  const deleteImageHandler = (index) => {
+  const deleteImageHandler = (index, image) => {
     setPreviewImages((prevImages) => {
       prevImages.splice(index, 1);
       return prevImages.slice();
     });
-    if (isModal) deletedImages.current.push(index);
+    if (isModal && typeof image === 'string') {
+      deletedImages.current.push(image);
+    }
   };
 
   const submitHandler = async (values) => {
-    try {
-      formik.setSubmitting(true);
-      updateHandler({ ...values, images: previewImages });
-      //   enqueueSnackbar({
-      //     variant: 'success',
-      //     message: 'Profile Updated',
-      //     onEnter: () => closeModal(),
-      //   });
-    } catch (e) {
-      //   enqueueSnackbar({
-      //     variant: 'error',
-      //     message: getError(e),
-      //     onExited: () => closeModal(),
-      //   });
-    } finally {
-      formik.setSubmitting(false);
+    formik.setSubmitting(true);
+    const formData = new FormData();
+    for (const key in values) {
+      formData.append(key, values[key]);
     }
+    previewImages.forEach((image) => {
+      formData.append('files', image);
+    });
+    if (isModal) {
+      deletedImages.current.forEach((image) => {
+        formData.append('deletedImages', image);
+        console.log(image);
+      });
+      await updateHandler(formData);
+    } else {
+      await addReviewHandler(formData);
+    }
+
+    formik.setSubmitting(false);
+    formik.resetForm();
+    setPreviewImages([]);
   };
 
   const formik = useFormik({
@@ -134,7 +145,14 @@ const AddReview = ({ review = null, isModal = false, updateHandler }) => {
         {previewImages.map((image, index) => (
           <Styles.Image key={index} modal={+isModal}>
             <Image
-              src={URL.createObjectURL(image)}
+              src={
+                typeof image === 'string'
+                  ? getFileUrl(
+                      process.env.NEXT_PUBLIC_AWS_S3_REVIEWS_BUCKET,
+                      `${review.restaurantId}/${review.id}/${image}`
+                    )
+                  : URL.createObjectURL(image)
+              }
               alt="preview-image"
               fill
               sizes="100%"
@@ -145,7 +163,7 @@ const AddReview = ({ review = null, isModal = false, updateHandler }) => {
               disableRipple
               sx={{ backgroundColor: 'red' }}
               color="inherit"
-              onClick={() => deleteImageHandler(index)}
+              onClick={() => deleteImageHandler(index, image)}
             >
               <Delete fontSize="small" sx={{ color: 'text.primary' }} />
             </Styles.ImageDeleteIcon>

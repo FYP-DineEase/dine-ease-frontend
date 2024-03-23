@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useRestaurantContext } from '@/context/restaurant';
 
@@ -14,6 +14,11 @@ import AddReview from '../add-review/add-review';
 
 const RestaurantReviews = ({ restaurant }) => {
   const { details } = useRestaurantContext();
+  const [postedReview, setPostedReview] = useState(null);
+
+  const addReviewHandler = (review) => {
+    setPostedReview(review);
+  };
 
   return (
     <SectionContainer container>
@@ -28,13 +33,18 @@ const RestaurantReviews = ({ restaurant }) => {
         </Styles.Header>
       </Grid>
       <Grid item xs={12} md={8}>
-        <AddReview />
+        <AddReview addReviewHandler={addReviewHandler} />
       </Grid>
       <Grid item xs={12} md={8} sx={{ mb: 4, mt: 4 }}>
         <RatingChart restaurant={restaurant} />
       </Grid>
       <Grid item xs={12} md={8}>
-        <Review restaurantDetails={details} />
+        <Review
+          restaurant={restaurant}
+          postedReview={postedReview}
+          setPostedReview={setPostedReview}
+          restaurantDetails={details}
+        />
       </Grid>
     </SectionContainer>
   );
