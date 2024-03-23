@@ -6,6 +6,7 @@ const initialState = {
   avatar: null,
   cover: null,
   newCover: null,
+  mapSlug: null,
   location: {
     country: null,
     coordinates: [null, null], // [0] is longitude, [1] is latitude
