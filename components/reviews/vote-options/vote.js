@@ -4,7 +4,7 @@ import { selectUserState } from '@/store/user/userSlice';
 
 // Styles
 import * as Styles from './vote.styles';
-import { PrimaryButton } from '@/components/UI';
+import { PaddedButton, PrimaryButton } from '@/components/UI';
 import { Tooltip } from '@mui/material';
 
 // Icons
@@ -16,20 +16,21 @@ import CoolIcon from '@mui/icons-material/AutoAwesome';
 
 // Utils
 import { VoteTypes } from '@/utils/constants';
+import { addVote, deleteVote, updateVote } from '@/services/review';
 
-const dummyVotes = [
-  { type: 'like', userId: '65d8f8525b89ca028e417237' },
-  { type: 'like', userId: '65d8f8525b89ca028e417241' },
-  { type: 'funny', userId: '65d8f8525b89ca028e417242' },
-  { type: 'like', userId: '65d8f8525b89ca028e417243' },
-  { type: 'dislike', userId: '65d8f8525b89ca028e417244' },
-  { type: 'cool', userId: '65d8f8525b89ca028e417245' },
-];
+// Snackbar
+import { enqueueSnackbar } from 'notistack';
 
-const VoteOptions = () => {
+// Helpers
+import { getError } from '@/helpers/snackbarHelpers';
+
+const VoteOptions = ({ reviewId, reviewVotes }) => {
   const user = useSelector(selectUserState);
-  const [votes, setVotes] = useState(dummyVotes);
-  const [userVote, setUserVote] = useState('');
+  const [votes, setVotes] = useState(reviewVotes);
+  const [userVote, setUserVote] = useState(
+    reviewVotes.filter((vote) => vote.userId === user.id)[0]?.type || null
+  );
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const voteCounts = votes.reduce((acc, vote) => {
     if (acc[vote.type]) {
@@ -52,40 +53,53 @@ const VoteOptions = () => {
     { icon: <UsefulIcon />, value: VoteTypes.USEFUL, count: voteCounts?.useful || 0 },
   ];
 
-  const handleVote = (voteType) => {
+  const handleVote = async (voteType) => {
     const updatedVotes = [...votes];
     const updateIndex = updatedVotes.findIndex((vote) => vote.userId === user.id);
 
-    if (updateIndex !== -1) {
-      const sameVoteType = updatedVotes[updateIndex].type?.includes(voteType);
+    try {
+      setIsSubmitting(true);
+      if (updateIndex !== -1) {
+        const sameVoteType = updatedVotes[updateIndex].type?.includes(voteType);
 
-      if (!sameVoteType) {
-        updatedVotes[updateIndex].type = voteType;
-        setUserVote(voteType);
+        if (!sameVoteType) {
+          updateVote(updatedVotes[updateIndex].id, {
+            type: voteType,
+          });
+          updatedVotes[updateIndex].type = voteType;
+          setUserVote(voteType);
+        } else {
+          await deleteVote(updatedVotes[updateIndex].id);
+          updatedVotes.splice(updateIndex, 1);
+          setUserVote(null);
+        }
       } else {
-        updatedVotes.splice(updateIndex, 1);
-        setUserVote(null);
+        const response = await addVote(reviewId, { type: voteType });
+        updatedVotes.push(response.data);
+        setUserVote(voteType);
       }
-    } else {
-      updatedVotes.push({ type: voteType, userId: user.id });
-      setUserVote(voteType);
+    } catch (e) {
+      enqueueSnackbar({ variant: 'error', message: getError(e) });
+    } finally {
+      setVotes(updatedVotes);
+      setIsSubmitting(false);
     }
-    setVotes(updatedVotes);
   };
 
   return (
     <Styles.Container>
       {options.map((item) => (
         <Tooltip key={item.value} title={item.value} placement="top" arrow>
-          <PrimaryButton
+          <Styles.VoteButton
             startIcon={item.icon}
             value={item.value}
             onClick={() => handleVote(item.value)}
             selected={item.value === userVote}
+            disabled={isSubmitting}
             sx={{ borderRadius: 5 }}
           >
             {item.count}
-          </PrimaryButton>
+          </Styles.VoteButton>
         </Tooltip>
       ))}
     </Styles.Container>

@@ -35,17 +35,28 @@ import { getFileUrl } from '@/helpers/fileHelpers';
 import { enqueueSnackbar } from 'notistack';
 
 // Services
-import { getRestaurantReview, getUserReview } from '@/services/review';
+import {
+  addReview,
+  deleteReview,
+  getRestaurantReview,
+  getUserReview,
+  updateReview,
+} from '@/services/review';
 
 // Components
 import VoteOptions from './vote-options/vote';
 import DeleteModal from '../modal/delete-modal/delete-modal';
 import ReviewUpdateModal from './update-modal/update-modal';
 
-import userImage from '@/public/assets/images/avatar.jpg';
-
-const Review = ({ restaurantDetails = null, profileDetails = null }) => {
+const Review = ({
+  restaurant,
+  postedReview,
+  setPostedReview,
+  restaurantDetails = null,
+  profileDetails = null,
+}) => {
   const user = useSelector(selectUserState);
+
   const [reviews, setReviews] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
@@ -60,8 +71,6 @@ const Review = ({ restaurantDetails = null, profileDetails = null }) => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
   const name = profileDetails && `${profileDetails.firstName} ${profileDetails.lastName}`;
-
-  const images = [userImage, userImage, userImage];
 
   const fetchRestaurantReviews = async () => {
     try {
@@ -95,6 +104,10 @@ const Review = ({ restaurantDetails = null, profileDetails = null }) => {
     if (profileDetails?.id) fetchUserReviews();
   }, [profileDetails?.id]);
 
+  useEffect(() => {
+    if (postedReview) handlePostReview(postedReview);
+  }, [postedReview]);
+
   const pageHandler = (event, newPage) => {
     setPage(newPage);
     if (scroll.current) {
@@ -105,23 +118,62 @@ const Review = ({ restaurantDetails = null, profileDetails = null }) => {
   };
 
   const handleReviewDelete = async () => {
+    const response = await deleteReview(reviewDetails.current.id);
     setReviews((prevState) =>
       prevState.filter((review) => review.id !== reviewDetails.current.id)
     );
-    setShowDeleteModal(false);
+    enqueueSnackbar({
+      variant: 'success',
+      message: response.data,
+    });
   };
 
-  const handleReviewUpdate = async (review) => {
-    const updatedReviews = [...reviews];
-    const updateIndex = updatedReviews.findIndex(
-      (review) => review.id === reviewDetails.current.id
-    );
-    updatedReviews[updateIndex] = { ...updatedReviews[updateIndex], ...review };
-    setReviews(updatedReviews);
-    setShowUpdateModal(false);
+  const handleReviewUpdate = async (formData) => {
+    try {
+      const response = await updateReview(reviewDetails.current.id, formData);
+      const updatedReviews = [...reviews];
+      const updateIndex = updatedReviews.findIndex(
+        (review) => review.id === reviewDetails.current.id
+      );
+      updatedReviews[updateIndex] = response.data;
+      console.log(response.data);
+      setReviews(updatedReviews);
+      setShowUpdateModal(false);
+      enqueueSnackbar({
+        variant: 'success',
+        message: 'Review Updated',
+      });
+    } catch (e) {
+      enqueueSnackbar({
+        variant: 'error',
+        message: getError(e),
+        onExit: () => setShowUpdateModal(false),
+      });
+    }
   };
 
-  const renderImages = () => {
+  const handlePostReview = async (formData) => {
+    try {
+      const response = await addReview(restaurant.id, formData);
+      const review = {
+        ...response.data,
+        userId: { id: user.id, avatar: user.avatar, slug: user.slug, name: user.name },
+      };
+      setReviews((prevState) => [review, ...prevState]);
+      setPostedReview(null);
+      enqueueSnackbar({
+        variant: 'success',
+        message: 'Review Posted',
+      });
+    } catch (e) {
+      enqueueSnackbar({
+        variant: 'error',
+        message: getError(e),
+      });
+    }
+  };
+
+  const renderImages = (restaurantId, reviewId, images) => {
     const imageCount = Math.min(images.length, 3);
     const layout = [
       { rows: 2, cols: images.length === 1 ? 2 : 1 },
@@ -137,10 +189,16 @@ const Review = ({ restaurantDetails = null, profileDetails = null }) => {
     return layout.slice(0, imageCount).map((layout, index) => (
       <ImageListItem key={index} rows={layout.rows} cols={layout.cols}>
         <Image
-          src={images[index]}
+          src={
+            images.length &&
+            getFileUrl(
+              process.env.NEXT_PUBLIC_AWS_S3_REVIEWS_BUCKET,
+              `${restaurantId}/${reviewId}/${images[index]}`
+            )
+          }
           alt="review-image"
           fill
-          sizes="100vw"
+          sizes="100%"
           style={{ objectFit: 'cover' }}
         />
         {layout.overlay && (
@@ -268,10 +326,10 @@ const Review = ({ restaurantDetails = null, profileDetails = null }) => {
               </Text>
               <Box sx={{ width: '100%', mt: 3 }}>
                 <ImageList rowHeight={isMobile ? 150 : 200} cols={2} variant="quilted">
-                  {renderImages()}
+                  {renderImages(review.restaurantId, review.id, review.images)}
                 </ImageList>
               </Box>
-              {user.id && <VoteOptions votes={review.votes} />}
+              {user.id && <VoteOptions reviewId={review.id} reviewVotes={review.votes} />}
             </Styles.ReviewCard>
           ))}
       </Box>
