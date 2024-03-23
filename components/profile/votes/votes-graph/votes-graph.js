@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useProfileContext } from '@/context/profile';
 
 // Styles
 import { Box } from '@mui/material';
@@ -11,7 +12,7 @@ import { getError } from '@/helpers/snackbarHelpers';
 import { enqueueSnackbar } from 'notistack';
 
 // Services
-import { getUserReview } from '@/services/review';
+import { getUserVotes } from '@/services/review';
 
 // Utils
 import { VoteTypes } from '@/utils/constants';
@@ -40,30 +41,29 @@ ChartJS.register(
 );
 import { Pie } from 'react-chartjs-2';
 
-const VotesGraph = ({ profileDetails }) => {
-  const [reviews, setReviews] = useState([]);
+const VotesGraph = () => {
+  const [votes, setVotes] = useState([]);
+  const { details } = useProfileContext();
 
-  const fetchUserReviews = async () => {
+  const fetchUserVotes = async () => {
     try {
-      const response = await getUserReview(profileDetails.id);
-      setReviews(response.data);
+      const response = await getUserVotes(details.id);
+      setVotes(response.data);
     } catch (e) {
       enqueueSnackbar({ variant: 'error', message: getError(e) });
     }
   };
 
   useEffect(() => {
-    if (profileDetails?.id) fetchUserReviews();
-  }, [profileDetails?.id]);
+    if (details?.id) fetchUserVotes();
+  }, [details?.id]);
 
-  const countByType = reviews.reduce((accumulator, review) => {
-    review.votes.forEach((vote) => {
-      if (accumulator[vote.type]) {
-        accumulator[vote.type]++;
-      } else {
-        accumulator[vote.type] = 1;
-      }
-    });
+  const countByType = votes.reduce((accumulator, vote) => {
+    if (accumulator[vote.type]) {
+      accumulator[vote.type]++;
+    } else {
+      accumulator[vote.type] = 1;
+    }
     return accumulator;
   }, {});
 

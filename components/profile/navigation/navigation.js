@@ -9,59 +9,24 @@ import { useProfileContext } from '@/context/profile';
 import Review from '@/components/reviews/review';
 import RestaurantCard from '../restaurant-card/restaurant-card';
 import ReviewsGraph from '../reviews-graph/reviews-graph';
-import VotesGraph from '../votes-graph/votes-graph';
+import VotesGraph from '../votes/votes-graph/votes-graph';
+import VotesActivity from '@/components/profile/votes/vote-activity/vote-activity';
 
 // Styles
 import * as Styles from './navigation.styles';
 import { FlexContainer, Text } from '@/components/UI';
-import { Tabs, Tab, Box, Grid, Toolbar, Divider } from '@mui/material';
+import { Tabs, Tab, Box, Grid, Toolbar } from '@mui/material';
 
 // Icons
 import ReviewIcon from '@mui/icons-material/Reviews';
 import VoteIcon from '@mui/icons-material/ThumbsUpDown';
 import PlanIcon from '@mui/icons-material/EventNote';
-import PollIcon from '@mui/icons-material/Poll';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 
 // Utils
 import { UserRoles } from '@/utils/roles';
-import Activity from '@/components/activity/activity';
-
-import userImage from '@/public/assets/images/avatar.jpg';
-const notification = [
-  {
-    image: userImage,
-    message: 'Mujtaba upvoted your comment in Kababjees Restaurant',
-    date: '12 Dec',
-  },
-  {
-    image: userImage,
-    message: 'Mujtaba upvoted your comment in Kababjees Restaurant',
-    date: '13 Dec',
-  },
-  {
-    image: userImage,
-    message: 'Mujtaba upvoted your comment in Kababjees Restaurant',
-    date: '14 Dec',
-  },
-  {
-    image: userImage,
-    message: 'Mujtaba upvoted your comment in Kababjees Restaurant',
-    date: '15 Dec',
-  },
-  {
-    image: userImage,
-    message: 'Mujtaba upvoted your comment in Kababjees Restaurant',
-    date: '16 Dec',
-  },
-  {
-    image: userImage,
-    message: 'Mujtaba upvoted your comment in Kababjees Restaurant',
-    date: '17 Dec',
-  },
-];
 
 const Navigation = () => {
   const user = useSelector(selectUserState);
@@ -84,13 +49,8 @@ const Navigation = () => {
       value: 'Votes',
       icon: <VoteIcon fontSize="medium" />,
       label: 'Votes',
-      childComponent: notification.map((item, index) => (
-        <React.Fragment key={index}>
-          <Activity item={item} />
-          <Divider orientation="horizontal" sx={{ mt: 2, mb: 2 }} />
-        </React.Fragment>
-      )),
-      detailComponent: <VotesGraph profileDetails={details} />,
+      childComponent: <VotesActivity />,
+      detailComponent: <VotesGraph />,
     },
     {
       value: 'Plans',
