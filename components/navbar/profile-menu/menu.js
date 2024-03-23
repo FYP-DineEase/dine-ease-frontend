@@ -50,7 +50,8 @@ const ProfileMenu = () => {
     {
       value: 'Favourites Map',
       icon: <MapIcon color="primary" fontSize="small" />,
-      handler: () => router.push(`/profile/${user.slug}`),
+      hide: !user.mapSlug,
+      handler: () => router.push(`/map/${user.mapSlug}`),
     },
     {
       value: 'Logout',
@@ -58,7 +59,7 @@ const ProfileMenu = () => {
       handler: () => {
         dispatch(userActions.logout());
         localStorage.clear();
-        router.push('/login')
+        router.push('/login');
       },
     },
   ];

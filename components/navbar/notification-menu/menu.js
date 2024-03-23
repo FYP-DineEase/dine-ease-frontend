@@ -10,7 +10,7 @@ import { Avatar, Badge, Box, Divider, Fade, IconButton, MenuItem } from '@mui/ma
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
 import userImage from '@/public/assets/images/avatar.jpg';
-import Activity from '@/components/activity/activity';
+import Activity from '@/components/profile/votes/vote-activity/vote-activity';
 
 const notification = [
   {
@@ -100,7 +100,26 @@ const NotificationMenu = () => {
           {notification.map((item, index) => (
             <Box key={index}>
               <MenuItem onClick={closeMenu} sx={{ whiteSpace: 'normal' }}>
-                <Activity item={item} />
+                <FlexContainer gap={2} sx={{ justifyContent: 'left' }}>
+                  <Avatar
+                    src={item.image.src}
+                    alt="notification"
+                    sx={{ height: 60, width: 60 }}
+                  />
+                  <FlexContainer
+                    sx={{
+                      flexDirection: 'column',
+                      alignItems: 'flex-start',
+                    }}
+                  >
+                    <Text variant="body" color="text.secondary">
+                      {item.message}
+                    </Text>
+                    <Text variant="sub" color="text.secondary">
+                      {item.date}
+                    </Text>
+                  </FlexContainer>
+                </FlexContainer>
               </MenuItem>
               <Divider variant="middle" orientation="horizontal" />
             </Box>
