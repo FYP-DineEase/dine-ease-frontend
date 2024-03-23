@@ -8,16 +8,6 @@ import { Box, Divider, Rating, useMediaQuery } from '@mui/material';
 
 const FavouriteRestaurants = ({ restaurants, flyToLocation }) => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
-  const duplicateArrayContent = (array, times) => {
-    let duplicatedArray = [];
-    for (let i = 0; i < times; i++) {
-      duplicatedArray = [...duplicatedArray, ...array];
-    }
-    return duplicatedArray;
-  };
-
-  // Duplicating the array content
-  const duplicatedRestaurants = duplicateArrayContent(restaurants, 20);
 
   const locationUpdateHandler = (coordinates) => {
     flyToLocation(coordinates[0], coordinates[1]);
@@ -25,7 +15,7 @@ const FavouriteRestaurants = ({ restaurants, flyToLocation }) => {
 
   return (
     <Styles.ListContainer>
-      {duplicatedRestaurants.map((restaurant, index) => (
+      {restaurants.map((restaurant, index) => (
         <Box
           onClick={() => locationUpdateHandler(restaurant.location.coordinates)}
           key={index}

@@ -10,6 +10,15 @@ import { Avatar, Box, Collapse, IconButton, Tooltip } from '@mui/material';
 // Icons
 import PaletteIcon from '@mui/icons-material/Palette';
 
+// Services
+import { updateTheme } from '@/services';
+
+// Snackbar
+import { enqueueSnackbar } from 'notistack';
+
+// Helpers
+import { getError } from '@/helpers/snackbarHelpers';
+
 const MapTheme = ({ selectedTheme, setTheme, details }) => {
   const user = useSelector(selectUserState);
 
@@ -43,8 +52,14 @@ const MapTheme = ({ selectedTheme, setTheme, details }) => {
     setShowPalette((prevState) => !prevState);
   };
 
-  const themeChangeHandler = (theme) => {
-    setTheme(theme);
+  const themeChangeHandler = async (theme) => {
+    try {
+      const response = await updateTheme({ theme: theme });
+      setTheme(theme);
+      enqueueSnackbar({ variant: 'success', message: response.data });
+    } catch (e) {
+      enqueueSnackbar({ variant: 'error', message: getError(e) });
+    }
   };
 
   return (
