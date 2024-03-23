@@ -23,6 +23,7 @@ const DeleteModal = ({ showModal, handleCloseModal, deleteHandler }) => {
       enqueueSnackbar({ variant: 'error', message: getError(e) });
     } finally {
       setLoading(false);
+      handleCloseModal();
     }
   };
 
