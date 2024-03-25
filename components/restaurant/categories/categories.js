@@ -95,7 +95,7 @@ const Categories = ({ restaurant }) => {
           </Styles.Card>
         </Grid>
       ))}
-      {menu.length && (
+      {Object.keys(menu).length > 0 && (
         <Grid item xs={12} mt={8} ref={scroll}>
           <Menu
             value={value}

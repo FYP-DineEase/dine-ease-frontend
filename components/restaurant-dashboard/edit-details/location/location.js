@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
+import React, { useState, useMemo, useCallback, useRef } from 'react';
 
 // Map
 import ReactMapGL, { NavigationControl } from 'react-map-gl';
@@ -89,10 +89,6 @@ const Location = ({ location, updateLocation }) => {
     setNewMarker(null);
   };
 
-  useEffect(() => {
-    fetchLocation();
-  }, []);
-
   return (
     <Styles.MapContainer>
       <ReactMapGL
@@ -115,7 +111,7 @@ const Location = ({ location, updateLocation }) => {
           />
         ) : (
           <Tooltip title="My Location" placement="left" arrow>
-            <ResetMarker>
+            <ResetMarker onClick={fetchLocation}>
               <LocationIcon />
             </ResetMarker>
           </Tooltip>

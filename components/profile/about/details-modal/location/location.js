@@ -70,10 +70,6 @@ const Location = ({ location, updateLocation }) => {
     // eslint-disable-next-line
   }, [coordinates, latitude, longitude, flyToLocation]);
 
-  useEffect(() => {
-    locationHandler();
-  }, []);
-
   return (
     <Styles.UserMapContainer>
       <ReactMapGL
@@ -92,7 +88,7 @@ const Location = ({ location, updateLocation }) => {
         )}
 
         <Tooltip title="location" placement="top" arrow>
-          <Styles.UserMarkerFinder>
+          <Styles.UserMarkerFinder onClick={locationHandler}>
             <MyLocationIcon />
           </Styles.UserMarkerFinder>
         </Tooltip>

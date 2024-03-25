@@ -15,29 +15,36 @@ const RestaurantPage = ({ restaurant }) => {
 
 export default RestaurantPage;
 
-export async function getStaticProps({ params }) {
-  const response = await getRestaurantBySlug(params.id);
-
+RestaurantPage.getInitialProps = async ({ query }) => {
+  const { data } = await getRestaurantBySlug(query.id);
   return {
-    props: {
-      restaurant: response.data,
-    },
-    revalidate: 300,
+    restaurant: data,
   };
-}
+};
 
-export async function getStaticPaths() {
-  const response = await getRestaurantSlugs();
-  const slugs = response.data;
+// export async function getStaticProps({ params }) {
+//   const response = await getRestaurantBySlug(params.id);
 
-  const paths = slugs
-    ? slugs.map((s) => ({
-        params: { id: s.slug },
-      }))
-    : [];
+//   return {
+//     props: {
+//       restaurant: response.data,
+//     },
+//     revalidate: 300,
+//   };
+// }
 
-  return {
-    paths,
-    fallback: false,
-  };
-}
+// export async function getStaticPaths() {
+//   const response = await getRestaurantSlugs();
+//   const slugs = response.data;
+
+//   const paths = slugs
+//     ? slugs.map((s) => ({
+//         params: { id: s.slug },
+//       }))
+//     : [];
+
+//   return {
+//     paths,
+//     fallback: false,
+//   };
+// }

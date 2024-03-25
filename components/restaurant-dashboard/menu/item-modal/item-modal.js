@@ -53,29 +53,33 @@ const ItemModal = ({
     try {
       formik.setSubmitting(true);
 
-      // payload
-      const formData = new FormData();
-      for (const key in values) {
-        formData.append(key, values[key]);
-      }
+      values.name = values.name.trim(); 
+      values.description = values.description.trim();
+      console.log(values);
+      // // payload
+      // const formData = new FormData();
+      // for (const key in values) {
+      //   formData.append(key, values[key]);
+      // }
 
-      if (itemDetails.name) {
-        const { data } = await updateMenuItem(details.id, itemDetails.id, formData);
+      // if (itemDetails.name) {
+      //   const { data } = await updateMenuItem(details.id, itemDetails.id, formData);
 
-        const menuItemIndex = details.menu.findIndex((m) => m.id === itemDetails.id);
-        const updatedMenu = [...details.menu];
-        updatedMenu[menuItemIndex] = data;
+      //   const menuItemIndex = details.menu.findIndex((m) => m.id === itemDetails.id);
+      //   const updatedMenu = [...details.menu];
+      //   updatedMenu[menuItemIndex] = data;
 
-        detailsHandler({ menu: updatedMenu });
-      } else {
-        formData.append('category', itemDetails.category);
-        formData.append('order', itemDetails.order);
-        const { data } = await addMenuItem(details.id, formData);
-        detailsHandler({ menu: [...details.menu, data] });
-      }
+      //   detailsHandler({ menu: updatedMenu });
+      // } else {
+      //   formData.append('category', itemDetails.category);
+      //   formData.append('order', itemDetails.order);
+      //   const { data } = await addMenuItem(details.id, formData);
+      //   detailsHandler({ menu: [...details.menu, data] });
+      // }
 
-      setShowModal(false);
+      // setShowModal(false);
     } catch (e) {
+      console.log(e);
       enqueueSnackbar({ variant: 'error', message: getError(e) });
     } finally {
       formik.setSubmitting(false);
@@ -92,12 +96,6 @@ const ItemModal = ({
     validationSchema: menuItemSchema,
     onSubmit: submitHandler,
   });
-
-  const priceChangeHandler = (event) => {
-    const price = event.target.value.replace(/\D/g, '');
-    const formattedPrice = price.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    formik.setFieldValue('price', formattedPrice);
-  };
 
   return (
     <Modal open={showModal} onClose={() => setShowModal(false)}>
@@ -128,7 +126,7 @@ const ItemModal = ({
               variant="outlined"
               placeholder="Enter Price"
               value={formik.values.price}
-              onChange={priceChangeHandler}
+              onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={formik.errors.price && Boolean(formik.touched.price)}
               helperText={formik.touched.price && formik.errors.price}

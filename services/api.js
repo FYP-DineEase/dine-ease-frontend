@@ -7,7 +7,7 @@ export const buildClient = () => {
     return axios.create({ baseURL, headers: { Host: 'dine-ease.dev' } });
   } else {
     // We must be on the browser
-    return axios.create({ baseURL: '/' });
+    return axios.create({ baseURL: '/', timeout: 5000 });
   }
 };
 

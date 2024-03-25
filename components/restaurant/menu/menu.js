@@ -10,6 +10,8 @@ import { Grid, Tab, Tabs } from '@mui/material';
 import { MenuCategory } from '@/utils/constants';
 
 const Menu = ({ value, handleChange, items = [], currencyType }) => {
+  const numberFormat = new Intl.NumberFormat();
+
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -69,7 +71,7 @@ const Menu = ({ value, handleChange, items = [], currencyType }) => {
                     </Text>
                     <Text variant="body">{item.description}</Text>
                     <Text variant="main" color="primary" fontWeight={800}>
-                      {currencyType} {item.price}
+                      {currencyType} {numberFormat.format(item.price)}
                     </Text>
                   </FlexContainer>
                 </FlexContainer>

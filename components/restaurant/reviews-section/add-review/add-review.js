@@ -56,13 +56,18 @@ const AddReview = ({
 
   const submitHandler = async (values) => {
     formik.setSubmitting(true);
+
+    values.content = values.content.trim()
+    
     const formData = new FormData();
     for (const key in values) {
       formData.append(key, values[key]);
     }
+
     previewImages.forEach((image) => {
       formData.append('files', image);
     });
+
     if (isModal) {
       deletedImages.current.forEach((image) => {
         formData.append('deletedImages', image);

@@ -62,19 +62,19 @@ export const deleteRestaurantImages = (restaurantId, payload) => {
 // Menu
 export const addMenuItem = (restaurantId, payload) => {
   const headers = { 'Content-Type': 'multipart/form-data' };
-  return api.post(`/api/menu/${restaurantId}`, payload, {
+  return api.post(`/api/restaurant/menu/${restaurantId}`, payload, {
     headers,
   });
 };
 
 export const updateMenuItem = (restaurantId, menuId, payload) => {
-  return api.patch(`/api/menu/${restaurantId}/${menuId}`, payload);
+  return api.patch(`/api/restaurant/menu/${restaurantId}/${menuId}`, payload);
 };
 
 export const updateMenuOrder = (restaurantId, payload) => {
-  return api.patch(`/api/menu/${restaurantId}`, payload);
+  return api.patch(`/api/restaurant/menu/${restaurantId}`, payload);
 };
 
 export const deleteMenuItem = (restaurantId, menuId) => {
-  return api.delete(`/api/menu/${restaurantId}/${menuId}`);
+  return api.delete(`/api/restaurant/menu/${restaurantId}/${menuId}`);
 };
