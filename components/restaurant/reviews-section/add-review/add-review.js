@@ -37,6 +37,9 @@ const AddReview = ({
   const imageChangeHandler = (event) => {
     try {
       const newImages = event.target.files;
+      if (previewImages.length + newImages.length > 10) {
+        throw new Error('Maximum 10 images allowed');
+      }
       for (const file of newImages) validateImage(file);
       setPreviewImages((prevImages) => [...prevImages, ...newImages]);
     } catch (e) {
@@ -57,8 +60,8 @@ const AddReview = ({
   const submitHandler = async (values) => {
     formik.setSubmitting(true);
 
-    values.content = values.content.trim()
-    
+    values.content = values.content.trim();
+
     const formData = new FormData();
     for (const key in values) {
       formData.append(key, values[key]);
@@ -91,6 +94,10 @@ const AddReview = ({
     validationSchema: reviewSchema,
     onSubmit: submitHandler,
   });
+
+  if (!user.id) {
+    return;
+  }
 
   return (
     <Box component="form" onSubmit={formik.handleSubmit}>

@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { useSelector } from 'react-redux';
+import { selectUserState } from '@/store/user/userSlice';
 
 // Styles
 import * as Styles from './banner.styles';
 import { FlexContainer, SectionContainer, Text } from '@/components/UI';
+import { Grid, Rating, Tooltip } from '@mui/material';
 
 // Helpers
 import { getFileUrl } from '@/helpers/fileHelpers';
-import { Grid, Rating, Tooltip } from '@mui/material';
+import { getError } from '@/helpers/snackbarHelpers';
+
+// Snackbar
+import { enqueueSnackbar } from 'notistack';
 
 // Icons
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
@@ -15,11 +21,37 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import StarIcon from '@mui/icons-material/Star';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
+// Services
+import { addMapRestaurant, deleteMapRestaurant, getMapBySlug } from '@/services';
+
 const Banner = ({ restaurant }) => {
+  const user = useSelector(selectUserState);
+
   const [currentImage, setCurrentImage] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
 
   const { images } = restaurant;
+
+  const getFavoriteDetails = async () => {
+    try {
+      const response = await getMapBySlug(user.mapSlug);
+      const { restaurants } = response.data;
+      setIsFavorite(
+        restaurants.some(
+          (currentRestaurant) => currentRestaurant.name === restaurant.name
+        )
+      );
+    } catch (e) {
+      enqueueSnackbar({
+        variant: 'error',
+        message: getError(e),
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (user?.mapSlug) getFavoriteDetails();
+  }, []);
 
   const forwardImageHandler = () => {
     if (currentImage === images.length - 1) {
@@ -37,7 +69,32 @@ const Banner = ({ restaurant }) => {
     }
   };
 
-  const favoriteHandler = async () => {};
+  const favoriteHandler = async () => {
+    try {
+      if (isFavorite) {
+        const response = await deleteMapRestaurant(restaurant.id);
+        setIsFavorite(false);
+        enqueueSnackbar({
+          variant: 'success',
+          message: response.data,
+        });
+      } else {
+        const response = await addMapRestaurant({
+          restaurantId: restaurant.id,
+        });
+        setIsFavorite(true);
+        enqueueSnackbar({
+          variant: 'success',
+          message: response.data,
+        });
+      }
+    } catch (e) {
+      enqueueSnackbar({
+        variant: 'error',
+        message: getError(e),
+      });
+    }
+  };
 
   return (
     <SectionContainer container sx={{ mt: 0, mb: 0, width: '100%' }}>
@@ -90,7 +147,7 @@ const Banner = ({ restaurant }) => {
             arrow
             sx={{ zIndex: 999 }}
           >
-            <Styles.FavoriteIcon onClick={favoriteHandler}>
+            <Styles.FavoriteIcon onClick={favoriteHandler} selected={+isFavorite}>
               <FavoriteIcon fontSize="large" />
             </Styles.FavoriteIcon>
           </Tooltip>

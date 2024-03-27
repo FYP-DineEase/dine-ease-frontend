@@ -41,7 +41,7 @@ export const RestaurantDetails = styled(Box)(({ theme }) => ({
   zIndex: 2,
   position: 'absolute',
   top: '75%',
-  left: '25%',
+  left: '22%',
   color: theme.palette.static.primary,
 
   [theme.breakpoints.down('md')]: {
@@ -53,8 +53,8 @@ export const RestaurantDetails = styled(Box)(({ theme }) => ({
 export const FavoriteIcon = styled(IconButton)(({ theme, selected }) => ({
   position: 'absolute',
   top: '78%',
-  right: '25%',
-  color: theme.palette.primary.main,
+  right: '22%',
+  color: selected ? theme.palette.primary.main : theme.palette.static.primary,
 
   [theme.breakpoints.down('md')]: {
     top: '5%',
