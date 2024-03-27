@@ -21,14 +21,12 @@ import CloseIcon from '@mui/icons-material/Close';
 
 // Helpers
 import { getDate, getTimePassed } from '@/helpers/dateHelpers';
-
-import userImage from '@/public/assets/images/avatar.jpg';
+import { getFileUrl } from '@/helpers/fileHelpers';
 
 const ReviewModal = ({ review, showModal, handleCloseModal }) => {
-  const images = [userImage, userImage, userImage];
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
-  const renderImages = () => {
+  const renderImages = (restaurantId, reviewId, images) => {
     const imageCount = Math.min(images.length, 3);
     const layout = [
       { rows: 2, cols: images.length === 1 ? 2 : 1 },
@@ -44,10 +42,16 @@ const ReviewModal = ({ review, showModal, handleCloseModal }) => {
     return layout.slice(0, imageCount).map((layout, index) => (
       <ImageListItem key={index} rows={layout.rows} cols={layout.cols}>
         <Image
-          src={images[index]}
+          src={
+            images.length &&
+            getFileUrl(
+              process.env.NEXT_PUBLIC_AWS_S3_REVIEWS_BUCKET,
+              `${restaurantId}/${reviewId}/${images[index]}`
+            )
+          }
           alt="review-image"
           fill
-          sizes="100vw"
+          sizes="100%"
           style={{ objectFit: 'cover' }}
         />
         {layout.overlay && (
@@ -100,7 +104,7 @@ const ReviewModal = ({ review, showModal, handleCloseModal }) => {
           </Text>
           <Box sx={{ width: '100%', mt: 3 }}>
             <ImageList rowHeight={isMobile ? 150 : 200} cols={2} variant="quilted">
-              {renderImages()}
+              {renderImages(review.restaurantId, review.id, review.images)}
             </ImageList>
           </Box>
         </Styles.ReviewCard>

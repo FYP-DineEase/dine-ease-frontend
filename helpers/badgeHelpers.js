@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
 
 // Icons
-import Filter1TwoToneIcon from '@mui/icons-material/Filter1TwoTone';
-import Filter3TwoToneIcon from '@mui/icons-material/Filter3TwoTone';
-import Filter5TwoToneIcon from '@mui/icons-material/Filter5TwoTone';
+import FlareTwoToneIcon from '@mui/icons-material/FlareTwoTone';
+import AssistantTwoToneIcon from '@mui/icons-material/AssistantTwoTone';
+import WorkspacePremiumTwoToneIcon from '@mui/icons-material/WorkspacePremiumTwoTone';
 
 export const getBadge = (joinDate, size) => {
   const userJoinDate = dayjs(joinDate);
@@ -12,11 +12,11 @@ export const getBadge = (joinDate, size) => {
 
   switch (true) {
     case yearsSinceJoin >= 5:
-      return <Filter5TwoToneIcon fontSize={size} sx={{ color: 'purple' }} />;
+      return <WorkspacePremiumTwoToneIcon fontSize={size} sx={{ color: 'purple' }} />;
     case yearsSinceJoin >= 3:
-      return <Filter3TwoToneIcon fontSize={size} color="error" />;
+      return <AssistantTwoToneIcon fontSize={size} color="secondary" />;
     case yearsSinceJoin >= 1:
-      return <Filter1TwoToneIcon fontSize={size} color="primary" />;
+      return <FlareTwoToneIcon fontSize={size} color="error" />;
     default:
       return null;
   }

@@ -132,6 +132,7 @@ const ReviewsTable = ({ reviews }) => {
       avatar: review.userId.avatar,
       id: review.userId.id,
       reviewId: review.id,
+      images: review.images,
     }));
     setData(data);
     setLoading(false);

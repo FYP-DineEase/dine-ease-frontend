@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useRestaurantContext } from '@/context/restaurant';
+import { useSelector } from 'react-redux';
+import { selectUserState } from '@/store/user/userSlice';
 
 // Styles
 import { List, ListItem, ListItemIcon, Tooltip } from '@mui/material';
@@ -16,6 +18,7 @@ import { dashboardLinks } from '@/utils/constants';
 const Navigation = ({ open }) => {
   const router = useRouter();
   const value = router.asPath.split('/');
+  const user = useSelector(selectUserState);
 
   const { details } = useRestaurantContext();
 
@@ -45,7 +48,7 @@ const Navigation = ({ open }) => {
                   selected={selectedPage.includes(item.id)}
                 >
                   <ListItemIcon>{item.icon}</ListItemIcon>
-                  <DrawerListText primary={item.text} open={open}/>
+                  <DrawerListText primary={item.text} open={open} />
                 </DrawerListButton>
               </DrawerListItem>
             </Tooltip>
@@ -53,7 +56,7 @@ const Navigation = ({ open }) => {
         })}
       </List>
       <List sx={{ mt: 'auto', mb: 4 }}>
-        <Link href={`/`}>
+        <Link href={`/profile/${user.slug}`}>
           <ListItem>
             <DrawerListButton>
               <ListItemIcon>
