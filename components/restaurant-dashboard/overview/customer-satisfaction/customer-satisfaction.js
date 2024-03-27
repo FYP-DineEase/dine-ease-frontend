@@ -53,7 +53,7 @@ const CustomerSatisfaction = ({ reviews }) => {
   const totalRatings = reviews.reduce((sum, review) => sum + review.rating, 0);
   const averageRating = totalRatings / reviews.length;
 
-  const satisfactionPercentage = (averageRating / 5) * 100;
+  const satisfactionPercentage = (averageRating / 5) * 100 || 100;
   const { icon } = getSatisfactionDetails(satisfactionPercentage);
 
   return (

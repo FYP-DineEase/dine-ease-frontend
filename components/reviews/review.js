@@ -135,8 +135,11 @@ const Review = ({
       const updateIndex = updatedReviews.findIndex(
         (review) => review.id === reviewDetails.current.id
       );
-      updatedReviews[updateIndex] = response.data;
-      console.log(response.data);
+      const review = {
+        ...response.data,
+        userId: { id: user.id, avatar: user.avatar, slug: user.slug, name: user.name },
+      };
+      updatedReviews[updateIndex] = review;
       setReviews(updatedReviews);
       setShowUpdateModal(false);
       enqueueSnackbar({
