@@ -17,9 +17,9 @@ import FavouriteRestaurants from './favourite-restaurants/favourite-restaurants'
 const NavigationMap = ({ data }) => {
   const [theme, setTheme] = useState(data.theme);
 
-  const location = data.restaurants[0]?.location?.coordinates;
-  const longitude = location[0] || 0;
-  const latitude = location[1] || 0;
+  const { coordinates } = data.restaurants.length && data.restaurants[0]?.location;
+  const longitude = (coordinates && coordinates[0]) || 0;
+  const latitude = (coordinates && coordinates[1]) || 0;
 
   const mapRef = useRef(null);
 

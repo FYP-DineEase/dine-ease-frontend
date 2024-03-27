@@ -4,7 +4,10 @@ import Image from 'next/image';
 // Styles
 import * as Styles from './favourite-restaurants.styles';
 import { FlexContainer, Text } from '@/components/UI';
-import { Box, Divider, Rating, useMediaQuery } from '@mui/material';
+import { Divider, Rating, useMediaQuery } from '@mui/material';
+
+// Helpers
+import { getFileUrl } from '@/helpers/fileHelpers';
 
 const FavouriteRestaurants = ({ restaurants, flyToLocation }) => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
@@ -16,18 +19,18 @@ const FavouriteRestaurants = ({ restaurants, flyToLocation }) => {
   return (
     <Styles.ListContainer>
       {restaurants.map((restaurant, index) => (
-        <Box
+        <Styles.Restaurant
           onClick={() => locationUpdateHandler(restaurant.location.coordinates)}
           key={index}
         >
           <Styles.RestaurantImage>
             <Image
               src={
-                //   (details.cover &&
-                //     getFileUrl(
-                //       process.env.NEXT_PUBLIC_AWS_S3_RESTAURANTS_BUCKET,
-                //       `${details.id}/cover/${details.cover}`
-                //     )) ||
+                (restaurant.cover &&
+                  getFileUrl(
+                    process.env.NEXT_PUBLIC_AWS_S3_RESTAURANTS_BUCKET,
+                    `${restaurant.id}/cover/${restaurant.cover}`
+                  )) ||
                 '/assets/images/bg-placeholder.png'
               }
               alt="restaurant"
@@ -36,8 +39,8 @@ const FavouriteRestaurants = ({ restaurants, flyToLocation }) => {
               style={{ objectFit: 'cover', borderRadius: '5px' }}
             />
           </Styles.RestaurantImage>
-          <FlexContainer sx={{ gap: 6, mt: 2 }}>
-            <Text variant={isMobile ? 'body' : 'subHeader'} fontWeight={500}>
+          <FlexContainer sx={{ justifyContent: 'space-between', mt: 2 }}>
+            <Text variant="main" fontWeight={500}>
               {restaurant.name}
             </Text>
             <Rating
@@ -48,7 +51,7 @@ const FavouriteRestaurants = ({ restaurants, flyToLocation }) => {
             />
           </FlexContainer>
           {!isMobile && <Divider variant="middle" flexItem sx={{ mt: 3, mb: 3 }} />}
-        </Box>
+        </Styles.Restaurant>
       ))}
     </Styles.ListContainer>
   );
