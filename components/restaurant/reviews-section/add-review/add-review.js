@@ -1,5 +1,4 @@
-import React, { useRef, useState } from 'react';
-import Image from 'next/image';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { selectUserState } from '@/store/user/userSlice';
@@ -10,7 +9,6 @@ import { FlexContainer, InputField, PrimaryButton, Text } from '@/components/UI'
 import { Avatar, Box, Input, Rating } from '@mui/material';
 
 // Icons
-import Delete from '@mui/icons-material/Delete';
 import ImageIcon from '@mui/icons-material/Image';
 
 // Helpers
@@ -24,6 +22,9 @@ import { enqueueSnackbar } from 'notistack';
 import { reviewSchema } from '@/utils/validation-schema/review';
 import { allowedImageTypes } from '@/utils/constants';
 
+// Components
+import AddReviewImages from './add-review-images';
+
 const AddReview = ({
   addReviewHandler,
   review = null,
@@ -33,6 +34,8 @@ const AddReview = ({
   const user = useSelector(selectUserState);
   const [previewImages, setPreviewImages] = useState(review?.images || []);
   const deletedImages = useRef([]);
+
+  const memoizedPreviewImages = useMemo(() => previewImages, [previewImages]);
 
   const imageChangeHandler = (event) => {
     try {
@@ -47,7 +50,7 @@ const AddReview = ({
     }
   };
 
-  const deleteImageHandler = (index, image) => {
+  const deleteImageHandler = useCallback((index, image) => {
     setPreviewImages((prevImages) => {
       prevImages.splice(index, 1);
       return prevImages.slice();
@@ -55,7 +58,7 @@ const AddReview = ({
     if (isModal && typeof image === 'string') {
       deletedImages.current.push(image);
     }
-  };
+  }, []);
 
   const submitHandler = async (values) => {
     formik.setSubmitting(true);
@@ -154,33 +157,11 @@ const AddReview = ({
         maxRows={isModal ? 4 : 6}
       />
       <Styles.ImageContainer>
-        {previewImages.map((image, index) => (
-          <Styles.Image key={index} modal={+isModal}>
-            <Image
-              src={
-                typeof image === 'string'
-                  ? getFileUrl(
-                      process.env.NEXT_PUBLIC_AWS_S3_REVIEWS_BUCKET,
-                      `${review.restaurantId}/${review.id}/${image}`
-                    )
-                  : URL.createObjectURL(image)
-              }
-              alt="preview-image"
-              fill
-              sizes="100%"
-              style={{ objectFit: 'cover', borderRadius: '5px' }}
-            />
-
-            <Styles.ImageDeleteIcon
-              disableRipple
-              sx={{ backgroundColor: 'red' }}
-              color="inherit"
-              onClick={() => deleteImageHandler(index, image)}
-            >
-              <Delete fontSize="small" sx={{ color: 'text.primary' }} />
-            </Styles.ImageDeleteIcon>
-          </Styles.Image>
-        ))}
+        <AddReviewImages
+          previewImages={memoizedPreviewImages}
+          isModal={isModal}
+          deleteImageHandler={deleteImageHandler}
+        />
         <Styles.ImagePlaceHolder
           component="label"
           onChange={imageChangeHandler}
