@@ -178,6 +178,7 @@ const EditDetailsForm = () => {
                 value={formik.values.categories}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                MenuProps={{ PaperProps: { sx: { maxHeight: 400 } } }}
                 renderValue={(selected) => (
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                     {selected.map((value, index) => (
