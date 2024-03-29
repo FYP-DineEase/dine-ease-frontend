@@ -161,6 +161,7 @@ const AddReview = ({
           previewImages={memoizedPreviewImages}
           isModal={isModal}
           deleteImageHandler={deleteImageHandler}
+          review={review}
         />
         <Styles.ImagePlaceHolder
           component="label"

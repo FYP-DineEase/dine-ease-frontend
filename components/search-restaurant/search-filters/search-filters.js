@@ -80,20 +80,22 @@ const SearchFilters = ({
           }}
           sx={{ mb: 2, mt: 2 }}
         />
-        {filteredCategories.map((category, index) => (
-          <FormGroup key={index}>
-            <FormControlLabel
-              control={
-                <CustomCheckbox
-                  checked={selectedCategories.includes(category)}
-                  value={category}
-                  onChange={() => categoryChangeHandler(category)}
-                />
-              }
-              label={category}
-            />
-          </FormGroup>
-        ))}
+        <Box sx={{ maxHeight: '60vh', overflowY: 'auto', overflowX: 'hidden' }}>
+          {filteredCategories.map((category, index) => (
+            <FormGroup key={index}>
+              <FormControlLabel
+                control={
+                  <CustomCheckbox
+                    checked={selectedCategories.includes(category)}
+                    value={category}
+                    onChange={() => categoryChangeHandler(category)}
+                  />
+                }
+                label={category}
+              />
+            </FormGroup>
+          ))}
+        </Box>
       </Box>
     </Styles.FilterContainer>
   );

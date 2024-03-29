@@ -57,7 +57,7 @@ const FilterDrawer = ({
         open={showDrawer}
         onClose={handleNavDrawer}
       >
-        <List sx={{ mt: 5 }} disablePadding>
+        <List sx={{ mt: 3 }} disablePadding>
           <ListItem sx={{ pt: 0, pb: 0 }}>
             <Box>
               <Box pl={2}>
@@ -115,27 +115,29 @@ const FilterDrawer = ({
                 }}
                 sx={{ mb: 1, mt: 2 }}
               />
-              {filteredCategories.map((category, index) => (
-                <ListItemButton sx={{ pl: 2, pt: 0, pb: 0 }} key={category}>
-                  <FormGroup key={index}>
-                    <FormControlLabel
-                      control={
-                        <CustomCheckbox
-                          checked={selectedCategories.includes(category)}
-                          value={category}
-                          onChange={() => categoryChangeHandler(category)}
-                        />
-                      }
-                      label={category}
-                      sx={{
-                        '& .MuiFormControlLabel-label': {
-                          color: 'text.secondary',
-                        },
-                      }}
-                    />
-                  </FormGroup>
-                </ListItemButton>
-              ))}
+              <Box sx={{ maxHeight: '50vh', overflowY: 'auto', overflowX: 'hidden' }}>
+                {filteredCategories.map((category, index) => (
+                  <ListItemButton sx={{ pl: 2, pt: 0, pb: 0 }} key={category}>
+                    <FormGroup key={index}>
+                      <FormControlLabel
+                        control={
+                          <CustomCheckbox
+                            checked={selectedCategories.includes(category)}
+                            value={category}
+                            onChange={() => categoryChangeHandler(category)}
+                          />
+                        }
+                        label={category}
+                        sx={{
+                          '& .MuiFormControlLabel-label': {
+                            color: 'text.secondary',
+                          },
+                        }}
+                      />
+                    </FormGroup>
+                  </ListItemButton>
+                ))}
+              </Box>
             </Box>
           </ListItem>
         </List>

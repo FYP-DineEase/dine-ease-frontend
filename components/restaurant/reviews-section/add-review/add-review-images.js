@@ -10,7 +10,7 @@ import Delete from '@mui/icons-material/Delete';
 // Helpers
 import { getFileUrl } from '@/helpers/fileHelpers';
 
-const AddReviewImages = ({ previewImages, isModal, deleteImageHandler }) => {
+const AddReviewImages = ({ previewImages, isModal, deleteImageHandler, review }) => {
   return previewImages.map((image, index) => (
     <Styles.Image key={index} modal={+isModal}>
       <Image
