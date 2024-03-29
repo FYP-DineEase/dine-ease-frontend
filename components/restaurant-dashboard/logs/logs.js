@@ -10,9 +10,6 @@ const Logs = () => {
   return (
     <DashboardContainer container columnSpacing={2} rowGap={1}>
       <Grid item xs={12}>
-        <div>halo</div>
-      </Grid>
-      <Grid item xs={12}>
         <LogsTable />
       </Grid>
     </DashboardContainer>
