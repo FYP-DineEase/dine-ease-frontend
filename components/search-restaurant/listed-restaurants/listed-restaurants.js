@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
 // Styles
 import * as Styles from './listed-restaurants.styles';
 import { FlexContainer, InputField, Text } from '@/components/UI';
-import { Box, Chip, Divider, InputAdornment, Pagination } from '@mui/material';
+import { Box, Chip, Divider, InputAdornment, Pagination, Rating } from '@mui/material';
 
 // Icons
 import LocationIcon from '@mui/icons-material/LocationOn';
@@ -24,10 +24,13 @@ const client = connectToMeilisearch();
 
 const ListedRestaurants = ({ restaurants }) => {
   const [filterText, setFilterText] = useState('');
-  const [filteredRestaurants, setFilteredRestaurants] = useState(restaurants);
+  const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [selectedSortType, setSelectedSortType] = useState(null);
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(0);
+  const searchLimit = useRef(10);
 
   const categorySelectionHandler = (category) => {
     setSelectedCategories((prevSelected) => {
@@ -44,7 +47,9 @@ const ListedRestaurants = ({ restaurants }) => {
   };
 
   useEffect(() => {
-    const categories = selectedCategories.map((category) => [`category = "${category}"`]);
+    const categories = selectedCategories.map((category) => [
+      `categories = "${category}"`,
+    ]);
     setFilteredCategories(categories);
   }, [selectedCategories]);
 
@@ -54,12 +59,20 @@ const ListedRestaurants = ({ restaurants }) => {
       .search(filterText, {
         filter: filteredCategories,
         sort: selectedSortType && [`${selectedSortType}:desc`],
+        hitsPerPage: searchLimit.current,
+        page: page,
       })
       .then((res) => {
         setFilteredRestaurants(res.hits);
+        setTotalPage(res.totalPages);
+        console.log(res);
       })
       .catch((error) => console.error('MeiliSearch Error:', error));
-  }, [filterText, filteredCategories, selectedSortType]);
+  }, [filterText, filteredCategories, selectedSortType, page]);
+
+  const pageHandler = (event, newPage) => {
+    setPage(newPage);
+  };
 
   return (
     <Styles.SearchContainer>
@@ -101,7 +114,7 @@ const ListedRestaurants = ({ restaurants }) => {
         </Box>
         <Styles.ListContainer>
           {filteredRestaurants.map((restaurant) => (
-            <React.Fragment key={restaurant.name}>
+            <React.Fragment key={restaurant.id}>
               <Styles.RestaurantContainer>
                 <Styles.RestaurantImage>
                   <Image
@@ -118,12 +131,15 @@ const ListedRestaurants = ({ restaurants }) => {
                       {restaurant.name}
                     </Text>
                     <Box>
-                      <Box>{restaurant.rating}</Box>
-                      <Box>
-                        <Text variant="sub">
-                          {restaurant.rating}({restaurant.reviewsCount} reviews)
-                        </Text>
-                      </Box>
+                      <Rating
+                        value={restaurant.rating}
+                        precision={0.5}
+                        size="small"
+                        readOnly
+                      />
+                      <Text variant="sub" sx={{ display: 'block' }}>
+                        {restaurant.rating}({restaurant.count} reviews)
+                      </Text>
                     </Box>
                   </FlexContainer>
                   <Styles.Cuisines>
@@ -137,11 +153,13 @@ const ListedRestaurants = ({ restaurants }) => {
                   </Styles.Cuisines>
                   <Styles.IconContainer>
                     <LocationIcon color="primary" />
-                    <Text variant="sub">123, Main Street, Near Heaven, abcdefg</Text>
+                    <Text variant="sub">{restaurant.address}</Text>
                   </Styles.IconContainer>
                   <Styles.IconContainer>
                     <CallIcon color="primary" />
-                    <Text variant="sub">03043030210</Text>
+                    <Text variant="sub">
+                      {restaurant.isVerified ? `+${restaurant.phoneNumber}` : 'No Number'}
+                    </Text>
                   </Styles.IconContainer>
                 </Styles.RestaurantContent>
               </Styles.RestaurantContainer>
@@ -152,7 +170,7 @@ const ListedRestaurants = ({ restaurants }) => {
         <FlexContainer>
           <Pagination
             color="primary"
-            count={10}
+            count={totalPage}
             variant="outlined"
             shape="rounded"
             sx={{
@@ -162,7 +180,8 @@ const ListedRestaurants = ({ restaurants }) => {
                 color: 'text.secondary',
               },
             }}
-            //   onChange={pageHandler}
+            page={page}
+            onChange={pageHandler}
           />
         </FlexContainer>
       </Styles.Search>

@@ -18,7 +18,7 @@ export const Search = styled(Box)(({ theme }) => ({
 export const IconContainer = styled(FlexContainer)(({ theme }) => ({
   justifyContent: 'left',
   marginTop: theme.spacing(2),
-  gap: theme.spacing(2),
+  gap: theme.spacing(1),
 }));
 
 export const ListContainer = styled(Box)(({ theme }) => ({
