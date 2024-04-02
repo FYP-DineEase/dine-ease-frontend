@@ -171,7 +171,7 @@ export const allowedImageTypes = ['image/png', 'image/jpeg', 'image/jpg'];
 
 export const sortBy = {
   rating: 'Top Rated',
-  reviewsCount: 'Most Reviewed',
+  count: 'Most Reviewed',
   recommended: 'Recommended',
 };
 
