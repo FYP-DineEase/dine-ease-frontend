@@ -20,6 +20,6 @@ export const updateTheme = (payload) => {
   return api.patch(`http://localhost:${port}/api/${service}/theme`, payload);
 };
 
-export const deleteMapRestaurant = (payload) => {
-  return api.patch(`http://localhost:${port}/api/${service}`, payload);
+export const deleteMapRestaurant = (restaurantId) => {
+  return api.delete(`http://localhost:${port}/api/${service}/${restaurantId}`);
 };

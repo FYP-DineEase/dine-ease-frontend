@@ -18,6 +18,7 @@ import { enqueueSnackbar } from 'notistack';
 
 // Helpers
 import { getError } from '@/helpers/snackbarHelpers';
+import { getFileUrl } from '@/helpers/fileHelpers';
 
 const MapTheme = ({ selectedTheme, setTheme, details }) => {
   const user = useSelector(selectUserState);

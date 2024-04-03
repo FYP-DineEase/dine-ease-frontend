@@ -12,15 +12,15 @@ const SearchPage = ({ restaurants }) => {
 export default SearchPage;
 
 export const getStaticProps = async () => {
-  // const { data } = await getApprovedRestaurants();
-  // const { restaurants } = data;
+  const { data } = await getApprovedRestaurants();
+  const { restaurants } = data;
 
   const meili = connectToMeilisearch();
 
-  // meili
-  //   .index('restaurants')
-  //   .addDocuments(restaurants, { primaryKey: 'id' })
-  //   .catch((error) => console.error('MeiliSearch Error:', error));
+  meili
+    .index('restaurants')
+    .addDocuments(restaurants, { primaryKey: 'id' })
+    .catch((error) => console.error('MeiliSearch Error:', error));
 
   meili
     .index('restaurants')
@@ -33,7 +33,7 @@ export const getStaticProps = async () => {
     .catch((error) => console.error('MeiliSearch Error:', error));
 
   return {
-    props: { restaurants: [] },
+    props: { restaurants: restaurants },
     revalidate: 300,
   };
 };

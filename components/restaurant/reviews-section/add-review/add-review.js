@@ -133,7 +133,7 @@ const AddReview = ({
               formik.setFieldValue('rating', newValue);
             }}
             onBlur={formik.handleBlur}
-            sx={{ fontSize: '2.2rem' }}
+            size='large'
           />
           {formik.errors.rating && Boolean(formik.touched.rating) && (
             <Text variant="sub" color="error" sx={{ display: 'block' }}>

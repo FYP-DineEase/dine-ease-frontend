@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { useSelector } from 'react-redux';
-import { selectUserState } from '@/store/user/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUserState, userActions } from '@/store/user/userSlice';
 
 // Styles
 import * as Styles from './banner.styles';
@@ -26,14 +26,17 @@ import { addMapRestaurant, deleteMapRestaurant, getMapBySlug } from '@/services'
 
 const Banner = ({ restaurant }) => {
   const user = useSelector(selectUserState);
+  const dispatch = useDispatch();
 
   const [currentImage, setCurrentImage] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { images } = restaurant;
 
   const getFavoriteDetails = async () => {
     try {
+      setIsSubmitting(true);
       const response = await getMapBySlug(user.mapSlug);
       const { restaurants } = response.data;
       setIsFavorite(
@@ -46,6 +49,8 @@ const Banner = ({ restaurant }) => {
         variant: 'error',
         message: getError(e),
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -71,6 +76,7 @@ const Banner = ({ restaurant }) => {
 
   const favoriteHandler = async () => {
     try {
+      setIsSubmitting(true);
       if (isFavorite) {
         const response = await deleteMapRestaurant(restaurant.id);
         setIsFavorite(false);
@@ -85,14 +91,17 @@ const Banner = ({ restaurant }) => {
         setIsFavorite(true);
         enqueueSnackbar({
           variant: 'success',
-          message: response.data,
+          message: 'Restaurant Added Successfully',
         });
+        dispatch(userActions.updateDetails({ mapSlug: response.data }));
       }
     } catch (e) {
       enqueueSnackbar({
         variant: 'error',
         message: getError(e),
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -147,7 +156,11 @@ const Banner = ({ restaurant }) => {
             arrow
             sx={{ zIndex: 999 }}
           >
-            <Styles.FavoriteIcon onClick={favoriteHandler} selected={+isFavorite}>
+            <Styles.FavoriteIcon
+              onClick={favoriteHandler}
+              selected={+isFavorite}
+              disabled={isSubmitting}
+            >
               <FavoriteIcon fontSize="large" />
             </Styles.FavoriteIcon>
           </Tooltip>
