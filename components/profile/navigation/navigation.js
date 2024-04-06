@@ -11,6 +11,7 @@ import RestaurantCard from '../restaurant-card/restaurant-card';
 import ReviewsGraph from '../reviews-graph/reviews-graph';
 import VotesGraph from '../votes/votes-graph/votes-graph';
 import VotesActivity from '@/components/profile/votes/vote-activity/vote-activity';
+import DiningPlanCard from '../dining-plan-card/dining-plan-card';
 
 // Styles
 import * as Styles from './navigation.styles';
@@ -23,7 +24,6 @@ import VoteIcon from '@mui/icons-material/ThumbsUpDown';
 import PlanIcon from '@mui/icons-material/EventNote';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 
 // Utils
 import { UserRoles } from '@/utils/roles';
@@ -56,18 +56,13 @@ const Navigation = () => {
       value: 'Plans',
       icon: <PlanIcon fontSize="medium" />,
       label: 'Plans',
-      childComponent: (
-        <FlexContainer mt={10} gap={2}>
-          <TipsAndUpdatesIcon fontSize="large" color="primary" />
-          <Text variant="subHeader">Currently No Plans</Text>
-        </FlexContainer>
-      ),
+      childComponent: <DiningPlanCard />,
     },
     {
       value: 'Favourites',
       icon: <FavoriteIcon fontSize="medium" />,
       label: 'Favourites',
-      childComponent: <RestaurantCard />,
+      childComponent: <RestaurantCard mapSlug={user.mapSlug} />,
     },
     {
       value: 'Restaurants',
