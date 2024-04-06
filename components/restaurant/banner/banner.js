@@ -137,7 +137,7 @@ const Banner = ({ restaurant }) => {
             <Text variant="header" fontWeight={900} sx={{ display: 'block', mb: 1 }}>
               {restaurant.name}
             </Text>
-            <FlexContainer>
+            <FlexContainer sx={{ justifyContent: 'left' }}>
               <Rating
                 value={restaurant.rating}
                 readOnly

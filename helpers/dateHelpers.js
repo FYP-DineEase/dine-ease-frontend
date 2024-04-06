@@ -11,7 +11,11 @@ export const getDate = (time) => {
   return dayjs(time).locale('en').format('DD MMMM YYYY');
 };
 
+export const getTime = (time) => {
+  return dayjs(time).locale('en').format('h:mm A');
+};
+
 export const getOtpTimer = (ttl) => {
-  dayjs.extend(duration)
+  dayjs.extend(duration);
   return dayjs.duration(ttl, 'seconds').format('m:ss');
 };

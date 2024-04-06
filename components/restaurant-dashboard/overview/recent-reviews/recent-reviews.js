@@ -11,6 +11,7 @@ import ReviewIcon from '@mui/icons-material/Reviews';
 
 // Helpers
 import { getDate } from '@/helpers/dateHelpers';
+import { getFileUrl } from '@/helpers/fileHelpers';
 
 // Components
 import ReviewModal from '../../reviews/review-modal/review-modal';

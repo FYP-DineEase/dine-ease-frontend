@@ -53,31 +53,30 @@ const ItemModal = ({
     try {
       formik.setSubmitting(true);
 
-      values.name = values.name.trim(); 
+      values.name = values.name.trim();
       values.description = values.description.trim();
-      console.log(values);
-      // // payload
-      // const formData = new FormData();
-      // for (const key in values) {
-      //   formData.append(key, values[key]);
-      // }
 
-      // if (itemDetails.name) {
-      //   const { data } = await updateMenuItem(details.id, itemDetails.id, formData);
+      const formData = new FormData();
+      for (const key in values) {
+        formData.append(key, values[key]);
+      }
 
-      //   const menuItemIndex = details.menu.findIndex((m) => m.id === itemDetails.id);
-      //   const updatedMenu = [...details.menu];
-      //   updatedMenu[menuItemIndex] = data;
+      if (itemDetails.name) {
+        const { data } = await updateMenuItem(details.id, itemDetails.id, formData);
 
-      //   detailsHandler({ menu: updatedMenu });
-      // } else {
-      //   formData.append('category', itemDetails.category);
-      //   formData.append('order', itemDetails.order);
-      //   const { data } = await addMenuItem(details.id, formData);
-      //   detailsHandler({ menu: [...details.menu, data] });
-      // }
+        const menuItemIndex = details.menu.findIndex((m) => m.id === itemDetails.id);
+        const updatedMenu = [...details.menu];
+        updatedMenu[menuItemIndex] = data;
 
-      // setShowModal(false);
+        detailsHandler({ menu: updatedMenu });
+      } else {
+        formData.append('category', itemDetails.category);
+        formData.append('order', itemDetails.order);
+        const { data } = await addMenuItem(details.id, formData);
+        detailsHandler({ menu: [...details.menu, data] });
+      }
+
+      setShowModal(false);
     } catch (e) {
       console.log(e);
       enqueueSnackbar({ variant: 'error', message: getError(e) });
