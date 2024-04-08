@@ -72,7 +72,6 @@ const DiningPlanCard = () => {
     );
     updatedPlans[updateIndex] = response.data;
     setPlans(updatedPlans);
-    console.log(response.data);
   };
 
   if (plans.length === 0) {

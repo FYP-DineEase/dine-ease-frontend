@@ -21,6 +21,6 @@ export const diningPlanSchema = yup.object().shape({
     .min(10, 'Must be at least 10 characters.')
     .max(300, 'Must be at most 300 characters.')
     .required('Description is required.'),
-  date: yup.string().required('date is required.'),
+  date: yup.string().required("Plan Date is required."),
   restaurant: yup.string().required('Restaurant Name is required.'),
 });
