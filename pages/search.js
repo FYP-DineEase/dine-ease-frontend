@@ -5,6 +5,8 @@ import SearchRestaurant from '@/components/search-restaurant/search-restaurant';
 import { getApprovedRestaurants } from '@/services';
 import { connectToMeilisearch } from '@/services/meilisearch';
 
+const meili = connectToMeilisearch();
+
 const SearchPage = ({ restaurants }) => {
   return <SearchRestaurant restaurants={restaurants} />;
 };
@@ -15,7 +17,9 @@ export const getStaticProps = async () => {
   const { data } = await getApprovedRestaurants();
   const { restaurants } = data;
 
-  const meili = connectToMeilisearch();
+  restaurants.forEach((restaurant) => {
+    restaurant.categories = restaurant.categories[0].split(', ');
+  });
 
   meili
     .index('restaurants')
