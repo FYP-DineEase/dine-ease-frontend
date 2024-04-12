@@ -9,4 +9,5 @@ export const PORTS = {
   review: 3008,
   notification: 3009,
   subscription: 3010,
+  meilisearch: 31330,
 };

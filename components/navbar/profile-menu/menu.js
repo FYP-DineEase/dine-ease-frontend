@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserState, userActions } from '@/store/user/userSlice';
+import { useNotificationContext } from '@/context/notifications';
 
 // Styles
 import * as Styles from './menu.styles';
@@ -27,9 +28,11 @@ const ProfileMenu = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const user = useSelector(selectUserState);
+  const { socket } = useNotificationContext();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
   const openMenu = (e) => {
     setAnchorEl(e.currentTarget);
   };
@@ -77,6 +80,7 @@ const ProfileMenu = () => {
       handler: () => {
         dispatch(userActions.logout());
         localStorage.clear();
+        socket.close();
         router.push('/login');
       },
     },

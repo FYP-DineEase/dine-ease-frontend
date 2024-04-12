@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
-import { NotificationContextProvider } from '@/context/notifications';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { enqueueSnackbar } from 'notistack';
+import { selectUserState } from '@/store/user/userSlice';
+import { useNotificationContext } from '@/context/notifications';
 
 // Styles
 import * as Styles from './menu.styles';
@@ -8,46 +11,38 @@ import { Avatar, Badge, Box, Divider, Fade, IconButton, MenuItem } from '@mui/ma
 
 // Icons
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import InfoIcon from '@mui/icons-material/InfoOutlined';
 
-import userImage from '@/public/assets/images/avatar.jpg';
-import Activity from '@/components/profile/votes/vote-activity/vote-activity';
+// Helpers
+import { getError } from '@/helpers/snackbarHelpers';
+import { getTimePassed } from '@/helpers/dateHelpers';
 
-const notification = [
-  {
-    image: userImage,
-    message: 'Mujtaba upvoted your comment in Kababjees Restaurant',
-    date: '12 Dec',
-  },
-  {
-    image: userImage,
-    message: 'Mujtaba upvoted your comment in Kababjees Restaurant',
-    date: '13 Dec',
-  },
-  {
-    image: userImage,
-    message: 'Mujtaba upvoted your comment in Kababjees Restaurant',
-    date: '14 Dec',
-  },
-  {
-    image: userImage,
-    message: 'Mujtaba upvoted your comment in Kababjees Restaurant',
-    date: '15 Dec',
-  },
-  {
-    image: userImage,
-    message: 'Mujtaba upvoted your comment in Kababjees Restaurant',
-    date: '16 Dec',
-  },
-  {
-    image: userImage,
-    message: 'Mujtaba upvoted your comment in Kababjees Restaurant',
-    date: '17 Dec',
-  },
-];
+// Services
+import { getNotifications } from '@/services/notifications';
 
 const NotificationMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [notifications, setNotifications] = useState([]);
+
   const open = Boolean(anchorEl);
+  const user = useSelector(selectUserState);
+  const { socket } = useNotificationContext();
+
+  useEffect(() => {
+    // if(user.id) socket.connect();
+    if (user.id) console.log('connecting to socket server');
+  }, [socket, user.id]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await getNotifications(user.id);
+        setNotifications(response.data);
+      } catch (e) {
+        enqueueSnackbar({ variant: 'error', message: getError(e) });
+      }
+    })();
+  }, [user.id]);
 
   const openMenu = (e) => {
     setAnchorEl(e.currentTarget);
@@ -56,8 +51,9 @@ const NotificationMenu = () => {
   const closeMenu = () => {
     setAnchorEl(null);
   };
+
   return (
-    <NotificationContextProvider>
+    <>
       <IconButton onClick={openMenu}>
         <Badge
           overlap="circular"
@@ -66,7 +62,7 @@ const NotificationMenu = () => {
           badgeContent={
             <Styles.Badge>
               <Text variant="sub" color="text.primary">
-                {notification.length}
+                {notifications.length}
               </Text>
             </Styles.Badge>
           }
@@ -97,26 +93,32 @@ const NotificationMenu = () => {
         </Box>
         <Divider variant="middle" orientation="horizontal" sx={{ mb: 1 }} />
         <Box sx={{ height: '450px', overflow: 'auto' }}>
-          {notification.map((item, index) => (
+          {notifications.map((item, index) => (
             <Box key={index}>
               <MenuItem onClick={closeMenu} sx={{ whiteSpace: 'normal' }}>
                 <FlexContainer gap={2} sx={{ justifyContent: 'left' }}>
-                  <Avatar
-                    src={item.image.src}
-                    alt="notification"
-                    sx={{ height: 60, width: 60 }}
-                  />
+                  {item.category === 'system' ? (
+                    <InfoIcon color="info" sx={{ height: 60, width: 60 }} />
+                  ) : (
+                    <Avatar
+                      src={item.image.src}
+                      alt="notification"
+                      sx={{ height: 60, width: 60 }}
+                    />
+                  )}
+
                   <FlexContainer
                     sx={{
                       flexDirection: 'column',
                       alignItems: 'flex-start',
+                      gap: 0.5,
                     }}
                   >
                     <Text variant="body" color="text.secondary">
-                      {item.message}
+                      {item.content}
                     </Text>
                     <Text variant="sub" color="text.secondary">
-                      {item.date}
+                      {getTimePassed(item.createdAt)}
                     </Text>
                   </FlexContainer>
                 </FlexContainer>
@@ -126,7 +128,7 @@ const NotificationMenu = () => {
           ))}
         </Box>
       </ArrowMenu>
-    </NotificationContextProvider>
+    </>
   );
 };
 

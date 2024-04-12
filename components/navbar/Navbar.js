@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { selectUserState } from '@/store/user/userSlice';
+import { NotificationContextProvider } from '@/context/notifications';
 
 // Components
 import Logo from '../logo/logo';
@@ -54,10 +55,10 @@ const Navbar = () => {
           </Link>
         ))}
         {user.id && (
-          <React.Fragment>
+          <NotificationContextProvider>
             <NotificationMenu />
             <ProfileMenu />
-          </React.Fragment>
+          </NotificationContextProvider>
         )}
       </Styles.NavContainer>
       <NavbarDrawer navLinks={navLinks} />
