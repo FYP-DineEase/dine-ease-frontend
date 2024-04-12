@@ -12,6 +12,7 @@ import { Avatar, Badge, Box, Divider, Fade, IconButton, MenuItem } from '@mui/ma
 // Icons
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import InfoIcon from '@mui/icons-material/InfoOutlined';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 
 // Helpers
 import { getError } from '@/helpers/snackbarHelpers';
@@ -53,7 +54,7 @@ const NotificationMenu = () => {
   };
 
   return (
-    <>
+    <React.Fragment>
       <IconButton onClick={openMenu}>
         <Badge
           overlap="circular"
@@ -80,7 +81,7 @@ const NotificationMenu = () => {
         PaperProps={{
           elevation: 0,
           style: {
-            maxHeight: '550px',
+            maxHeight: '450px',
             maxWidth: '400px',
           },
         }}
@@ -92,44 +93,53 @@ const NotificationMenu = () => {
           </Text>
         </Box>
         <Divider variant="middle" orientation="horizontal" sx={{ mb: 1 }} />
-        <Box sx={{ height: '450px', overflow: 'auto' }}>
-          {notifications.map((item, index) => (
-            <Box key={index}>
-              <MenuItem onClick={closeMenu} sx={{ whiteSpace: 'normal' }}>
-                <FlexContainer gap={2} sx={{ justifyContent: 'left' }}>
-                  {item.category === 'system' ? (
-                    <InfoIcon color="info" sx={{ height: 60, width: 60 }} />
-                  ) : (
-                    <Avatar
-                      src={item.image.src}
-                      alt="notification"
-                      sx={{ height: 60, width: 60 }}
-                    />
-                  )}
+        {notifications.length > 0 ? (
+          <Box sx={{ height: '450px', overflow: 'auto' }}>
+            {notifications.map((item, index) => (
+              <Box key={index}>
+                <MenuItem onClick={closeMenu} sx={{ whiteSpace: 'normal' }}>
+                  <FlexContainer gap={2} sx={{ justifyContent: 'left' }}>
+                    {item.category === 'system' ? (
+                      <InfoIcon color="info" sx={{ height: 60, width: 60 }} />
+                    ) : (
+                      <Avatar
+                        src={item.image.src}
+                        alt="notification"
+                        sx={{ height: 60, width: 60 }}
+                      />
+                    )}
 
-                  <FlexContainer
-                    sx={{
-                      flexDirection: 'column',
-                      alignItems: 'flex-start',
-                      gap: 0.5,
-                    }}
-                  >
-                    <Text variant="body" color="text.secondary">
-                      {item.content}
-                    </Text>
-                    <Text variant="sub" color="text.secondary">
-                      {getTimePassed(item.createdAt)}
-                    </Text>
+                    <FlexContainer
+                      sx={{
+                        flexDirection: 'column',
+                        alignItems: 'flex-start',
+                        gap: 0.5,
+                      }}
+                    >
+                      <Text variant="body" color="text.secondary">
+                        {item.content}
+                      </Text>
+                      <Text variant="sub" color="text.secondary">
+                        {getTimePassed(item.createdAt)}
+                      </Text>
+                    </FlexContainer>
                   </FlexContainer>
-                </FlexContainer>
-              </MenuItem>
-              <Divider variant="middle" orientation="horizontal" />
-            </Box>
-          ))}
-        </Box>
+                </MenuItem>
+                <Divider variant="middle" orientation="horizontal" />
+              </Box>
+            ))}
+          </Box>
+        ) : (
+          <FlexContainer gap={1.5} p={2}>
+            <NotificationsActiveIcon fontSize="large" color="primary" />
+            <Text variant="main" color="text.secondary" fontWeight={500}>
+              Currently No Notifications
+            </Text>
+          </FlexContainer>
+        )}
       </ArrowMenu>
-    </>
+    </React.Fragment>
   );
 };
 
-export default NotificationMenu;
+export default React.memo(NotificationMenu);
