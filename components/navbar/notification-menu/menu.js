@@ -19,25 +19,102 @@ import { getError } from '@/helpers/snackbarHelpers';
 import { getTimePassed } from '@/helpers/dateHelpers';
 
 // Services
-import { getNotifications } from '@/services/notifications';
+import { getNotifications, readNotifications } from '@/services/notifications';
 
 const NotificationMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [notifications, setNotifications] = useState([]);
+  const [readTimeout, setReadTimeout] = useState(null);
+  const [unReadNotifications, setUnReadNotifications] = useState(new Set());
 
-  const open = Boolean(anchorEl);
   const user = useSelector(selectUserState);
   const { socket } = useNotificationContext();
 
-  useEffect(() => {
-    // if(user.id) socket.connect();
-    if (user.id) console.log('connecting to socket server');
-  }, [socket, user.id]);
+  const open = Boolean(anchorEl);
 
+  // socket connection
+  useEffect(() => {
+    if (user.id) socket.connect();
+    // eslint-disable-next-line
+  }, [user.id]);
+
+  // update notification
+  useEffect(() => {
+    const createNotification = (data) => {
+      setUnReadNotifications((prev) => new Set(prev.add(data.id)));
+      setNotifications((prev) => [data, ...prev]);
+    };
+
+    socket.on('notification-created', createNotification);
+    return () => {
+      socket.off('notification-created', createNotification);
+    };
+  }, [socket]);
+
+  // update notification
+  useEffect(() => {
+    const updateNotification = (data) => {
+      setNotifications((prev) => {
+        const filtered = prev.filter((v) => {
+          if (v.uid === data.uid) {
+            setUnReadNotifications((prev) => new Set(prev.add(v.id)));
+          }
+          return v.uid !== data.uid;
+        });
+
+        return [data, ...filtered];
+      });
+    };
+
+    socket.on('notification-updated', updateNotification);
+    return () => {
+      socket.off('notification-updated', updateNotification);
+    };
+  }, [socket]);
+
+  // delete notification
+  useEffect(() => {
+    const deleteNotification = (data) => {
+      const deleteIds = new Set();
+
+      setNotifications((prev) => {
+        const filtered = prev.filter((v) => {
+          if (v.uid === data.uid) {
+            deleteIds.add(v.id);
+          }
+          return v.uid !== data.uid;
+        });
+
+        return filtered;
+      });
+
+      setUnReadNotifications((prev) => {
+        const updatedSet = new Set(prev);
+        deleteIds.forEach((id) => updatedSet.delete(id));
+        return updatedSet;
+      });
+    };
+
+    socket.on('notification-deleted', deleteNotification);
+    return () => {
+      socket.off('notification-deleted', deleteNotification);
+    };
+  }, [socket]);
+
+  // notifications initialization
   useEffect(() => {
     (async () => {
       try {
+        const unRead = new Set();
         const response = await getNotifications(user.id);
+
+        response.data.map((notification) => {
+          if (!notification.isRead) {
+            unRead.add(notification.id);
+          }
+        });
+
+        setUnReadNotifications(unRead);
         setNotifications(response.data);
       } catch (e) {
         enqueueSnackbar({ variant: 'error', message: getError(e) });
@@ -45,11 +122,23 @@ const NotificationMenu = () => {
     })();
   }, [user.id]);
 
-  const openMenu = (e) => {
+  const openMenu = async (e) => {
+    let timeout;
     setAnchorEl(e.currentTarget);
+  
+    if (unReadNotifications.size > 0) {
+      timeout = setTimeout(async () => {
+        await readNotifications({ ids: Array.from(unReadNotifications) });
+        setUnReadNotifications(new Set());
+      }, 1000);
+    }
+  
+    setReadTimeout(timeout);
   };
-
+  
   const closeMenu = () => {
+    clearTimeout(readTimeout);
+    setReadTimeout(null);
     setAnchorEl(null);
   };
 
@@ -61,11 +150,13 @@ const NotificationMenu = () => {
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           sx={{ cursor: 'pointer' }}
           badgeContent={
-            <Styles.Badge>
-              <Text variant="sub" color="text.primary">
-                {notifications.length}
-              </Text>
-            </Styles.Badge>
+            unReadNotifications.size > 0 && (
+              <Styles.Badge>
+                <Text variant="sub" color="text.primary">
+                  {unReadNotifications.size}
+                </Text>
+              </Styles.Badge>
+            )
           }
         >
           <NotificationsIcon color="primary" sx={{ fontSize: '1.75rem' }} />
@@ -95,34 +186,30 @@ const NotificationMenu = () => {
         <Divider variant="middle" orientation="horizontal" sx={{ mb: 1 }} />
         {notifications.length > 0 ? (
           <Box sx={{ height: '450px', overflow: 'auto' }}>
-            {notifications.map((item, index) => (
-              <Box key={index}>
+            {notifications.map((item) => (
+              <Box key={item.id}>
                 <MenuItem onClick={closeMenu} sx={{ whiteSpace: 'normal' }}>
                   <FlexContainer gap={2} sx={{ justifyContent: 'left' }}>
                     {item.category === 'system' ? (
                       <InfoIcon color="info" sx={{ height: 60, width: 60 }} />
                     ) : (
                       <Avatar
-                        src={item.image.src}
+                        src={item.image && item.image.src}
                         alt="notification"
                         sx={{ height: 60, width: 60 }}
                       />
                     )}
 
-                    <FlexContainer
-                      sx={{
-                        flexDirection: 'column',
-                        alignItems: 'flex-start',
-                        gap: 0.5,
-                      }}
+                    <Styles.NotificationContainer
+                      isUnRead={+unReadNotifications.has(item.id)}
                     >
                       <Text variant="body" color="text.secondary">
                         {item.content}
                       </Text>
                       <Text variant="sub" color="text.secondary">
-                        {getTimePassed(item.createdAt)}
+                        {getTimePassed(item.updatedAt)}
                       </Text>
-                    </FlexContainer>
+                    </Styles.NotificationContainer>
                   </FlexContainer>
                 </MenuItem>
                 <Divider variant="middle" orientation="horizontal" />
@@ -142,4 +229,4 @@ const NotificationMenu = () => {
   );
 };
 
-export default React.memo(NotificationMenu);
+export default NotificationMenu;

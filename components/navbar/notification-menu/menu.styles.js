@@ -1,6 +1,13 @@
 import { styled } from '@mui/material';
 import { FlexContainer } from '@/components/UI';
 
+export const NotificationContainer = styled(FlexContainer)(({ isUnRead, theme }) => ({
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  gap: 0.5,
+  fontWeight: isUnRead && 700,
+}));
+
 export const Badge = styled(FlexContainer)(({ theme }) => ({
   height: '20px',
   width: '20px',

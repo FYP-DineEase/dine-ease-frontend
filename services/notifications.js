@@ -8,6 +8,6 @@ export const getNotifications = () => {
   return api.get(`http://localhost:${port}/api/notifications`);
 };
 
-// export const readNotifications = (payload) => {
-//   return api.post(`http://localhost:${port}/api/${service}`, payload);
-// };
+export const readNotifications = (payload) => {
+  return api.post(`http://localhost:${port}/api/notifications`, payload);
+};
