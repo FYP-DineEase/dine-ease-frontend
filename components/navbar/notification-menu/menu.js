@@ -54,15 +54,20 @@ const NotificationMenu = () => {
   // update notification
   useEffect(() => {
     const updateNotification = (data) => {
+      const newIds = new Set();
+
       setNotifications((prev) => {
         const filtered = prev.filter((v) => {
-          if (v.uid === data.uid) {
-            setUnReadNotifications((prev) => new Set(prev.add(v.id)));
-          }
+          if (v.uid === data.uid) newIds.add(v.id);
           return v.uid !== data.uid;
         });
-
         return [data, ...filtered];
+      });
+
+      setUnReadNotifications((prev) => {
+        const updatedSet = new Set(prev);
+        newIds.forEach((id) => updatedSet.add(id));
+        return updatedSet;
       });
     };
 
@@ -79,12 +84,9 @@ const NotificationMenu = () => {
 
       setNotifications((prev) => {
         const filtered = prev.filter((v) => {
-          if (v.uid === data.uid) {
-            deleteIds.add(v.id);
-          }
+          if (v.uid === data.uid) deleteIds.add(v.id);
           return v.uid !== data.uid;
         });
-
         return filtered;
       });
 
