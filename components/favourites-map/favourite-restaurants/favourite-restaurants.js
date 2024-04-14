@@ -9,7 +9,12 @@ import { Divider, Rating, useMediaQuery } from '@mui/material';
 // Helpers
 import { getFileUrl } from '@/helpers/fileHelpers';
 
-const FavouriteRestaurants = ({ restaurants, flyToLocation }) => {
+const FavouriteRestaurants = ({
+  restaurants,
+  flyToLocation,
+  hoverIdHandler,
+  resetHoverIdHandler,
+}) => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
   const locationUpdateHandler = (coordinates) => {
@@ -20,6 +25,8 @@ const FavouriteRestaurants = ({ restaurants, flyToLocation }) => {
     <Styles.ListContainer>
       {restaurants.map((restaurant, index) => (
         <Styles.Restaurant
+          onMouseEnter={() => hoverIdHandler(restaurant.id)}
+          onMouseLeave={resetHoverIdHandler}
           onClick={() => locationUpdateHandler(restaurant.location.coordinates)}
           key={index}
         >

@@ -1,49 +1,33 @@
-import React, { useMemo, useCallback, useState, useRef, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-
-import { selectUserState } from '@/store/user/userSlice';
+import React, { lazy, useMemo, useCallback, useState, useRef } from 'react';
 
 // Map
-import ReactMapGL, { Marker, Source, Layer, NavigationControl } from 'react-map-gl';
+import ReactMapGL, { Marker, NavigationControl } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-
-// Components
-import DetailsCard from './details-card/details-card';
+const HeatMap = lazy(() => import('./heat-map/heat-map'));
 
 // Styles
 import * as Styles from './map.styles';
-import { Box, Grid, Tooltip } from '@mui/material';
-import { SectionContainer, Text } from '@/components/UI';
-
-// Icons
-import MarkerIcon from '@mui/icons-material/Room';
-import MyLocationIcon from '@mui/icons-material/MyLocation';
-
-// Helpers
-import { getRoute } from '@/helpers/mapHelpers';
+import { Box } from '@mui/material';
 
 // Utils
-import { NAV_HEIGHT, MapProfiles, MapZoomLevels } from '@/utils/constants';
+import { NAV_HEIGHT, MapZoomLevels } from '@/utils/constants';
 
-const Map = () => {
-  // const { coordinates } = restaurant.location;
-  const longitude = 0;
-  const latitude = 0;
-
-  const mapRef = useRef(null);
-
-  const user = useSelector(selectUserState);
+const Map = ({ restaurants, hoverId }) => {
+  const { coordinates } = restaurants[0].location;
+  const longitude = coordinates[0];
+  const latitude = coordinates[1];
 
   const initialView = useMemo(
     () => ({
       latitude,
       longitude,
-      zoom: 2,
-      minZoom: 2,
+      zoom: 5,
+      minZoom: 4,
     }),
     [latitude, longitude]
   );
 
+  const mapRef = useRef(null);
   const [viewState, setViewState] = useState(initialView);
 
   const onMove = useCallback(({ viewState }) => {
@@ -58,10 +42,6 @@ const Map = () => {
     });
   }, []);
 
-  const locationHandler = useCallback(async () => {
-    flyToLocation(longitude, latitude);
-  }, [latitude, longitude, flyToLocation]);
-
   return (
     <Box sx={{ height: `calc(100vh - ${NAV_HEIGHT}px)`, position: 'relative' }}>
       <Styles.MapContainer>
@@ -74,7 +54,19 @@ const Map = () => {
           mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_API_TOKEN}
           mapStyle={'mapbox://styles/mapbox/streets-v12'}
         >
-          <NavigationControl position={'top-left'} showCompass={false} />
+          {viewState.zoom >= MapZoomLevels.MAX_ZOOM_HEAT_MAP ? (
+            restaurants.map((i) => {
+              const { coordinates } = i.location;
+              return (
+                <Marker key={i.slug} longitude={coordinates[0]} latitude={coordinates[1]}>
+                  <Styles.Pin hovering={+(i.id === hoverId)} />
+                </Marker>
+              );
+            })
+          ) : (
+            <HeatMap restaurants={restaurants} />
+          )}
+          <NavigationControl position={'bottom-right'} showCompass={false} />
         </ReactMapGL>
       </Styles.MapContainer>
     </Box>

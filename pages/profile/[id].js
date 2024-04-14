@@ -1,9 +1,7 @@
 import React from 'react';
 import { ProfileProvider } from '@/context/profile';
-
-import { getAllUserSlugs, getUserBySlug } from '@/services';
-
 import Profile from '@/components/profile/profile';
+import { getAllUserSlugs, getUserBySlug } from '@/services';
 
 function ProfilePage({ user }) {
   return <ProfileProvider initialValue={user}>{user && <Profile />}</ProfileProvider>;

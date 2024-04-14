@@ -1,37 +1,42 @@
 import React from 'react';
 import { getAllMapSlugs, getMapBySlug } from '@/services';
-import NavigationMap from '@/components/navigation-map/navigation-map';
+import FavouritesMap from '@/components/favourites-map/favourites-map'; 
 
 function UserMapPage({ data }) {
-  return <NavigationMap data={data} />;
+  return <FavouritesMap data={data} />;
 }
 
 export default UserMapPage;
 
-export async function getStaticProps({ params }) {
-  const response = await getMapBySlug(params.id);
+UserMapPage.getInitialProps = async ({ query }) => {
+  const { data } = await getMapBySlug(query.id);
+  return { data };
+};
 
-  return {
-    props: {
-      data: response.data,
-    },
-    revalidate: 300,
-  };
-}
+// export async function getStaticProps({ params }) {
+//   const response = await getMapBySlug(params.id);
 
-export async function getStaticPaths() {
-  const response = await getAllMapSlugs();
+//   return {
+//     props: {
+//       data: response.data,
+//     },
+//     revalidate: 300,
+//   };
+// }
 
-  const slugs = response.data;
+// export async function getStaticPaths() {
+//   const response = await getAllMapSlugs();
 
-  const paths = slugs
-    ? slugs.map((s) => ({
-        params: { id: s.slug },
-      }))
-    : [];
+//   const slugs = response.data;
 
-  return {
-    paths,
-    fallback: false,
-  };
-}
+//   const paths = slugs
+//     ? slugs.map((s) => ({
+//         params: { id: s.slug },
+//       }))
+//     : [];
+
+//   return {
+//     paths,
+//     fallback: false,
+//   };
+// }

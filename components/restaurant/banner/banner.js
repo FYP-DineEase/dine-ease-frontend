@@ -39,11 +39,13 @@ const Banner = ({ restaurant }) => {
       setIsSubmitting(true);
       const response = await getMapBySlug(user.mapSlug);
       const { restaurants } = response.data;
-      setIsFavorite(
-        restaurants.some(
-          (currentRestaurant) => currentRestaurant.name === restaurant.name
-        )
-      );
+
+      restaurants.map((v) => {
+        if (v.id === restaurant.id) {
+          console.log(v.id, restaurant.id);
+          setIsFavorite(true);
+        }
+      });
     } catch (e) {
       enqueueSnackbar({
         variant: 'error',

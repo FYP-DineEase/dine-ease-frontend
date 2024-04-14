@@ -202,7 +202,7 @@ export const VoteTypes = {
 };
 
 export const MapZoomLevels = {
-  // MAX_ZOOM_HEAT_MAP: 14,
+  MAX_ZOOM_HEAT_MAP: 14,
   // MAP_MIN_ZOOM: 10,
   MAP_ZOOM: 13,
 };

@@ -22,7 +22,7 @@ import userImage from '@/public/assets/images/avatar.jpg';
 
 const client = connectToMeilisearch();
 
-const ListedRestaurants = ({ restaurants }) => {
+const ListedRestaurants = ({ restaurants, hoverIdHandler, resetHoverIdHandler }) => {
   const [filterText, setFilterText] = useState('');
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -115,7 +115,10 @@ const ListedRestaurants = ({ restaurants }) => {
         <Styles.ListContainer>
           {filteredRestaurants.map((restaurant) => (
             <React.Fragment key={restaurant.id}>
-              <Styles.RestaurantContainer>
+              <Styles.RestaurantContainer
+                onMouseEnter={() => hoverIdHandler(restaurant.id)}
+                onMouseLeave={resetHoverIdHandler}
+              >
                 <Styles.RestaurantImage>
                   <Image
                     src={userImage}

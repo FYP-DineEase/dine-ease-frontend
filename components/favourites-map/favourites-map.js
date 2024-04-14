@@ -5,19 +5,20 @@ import ReactMapGL, { Marker, NavigationControl } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 // Styles
-import * as Styles from './navigation-map.styles';
+import * as Styles from './favourites-map.styles';
 
 // Utils
 import { MapThemes, MapZoomLevels } from '@/utils/constants';
 
-//Components
+// Components
 import MapTheme from './map-theme/map-theme';
 import FavouriteRestaurants from './favourite-restaurants/favourite-restaurants';
 
-const NavigationMap = ({ data }) => {
+const FavouritesMap = ({ data }) => {
   const [theme, setTheme] = useState(data.theme);
+  const [hoverId, setHoverId] = useState(null);
 
-  const { coordinates } = data.restaurants.length && data.restaurants[0]?.location;
+  const { coordinates } = data.restaurants?.length && data.restaurants[0].location;
   const longitude = (coordinates && coordinates[0]) || 0;
   const latitude = (coordinates && coordinates[1]) || 0;
 
@@ -28,20 +29,12 @@ const NavigationMap = ({ data }) => {
       latitude,
       longitude,
       zoom: 5,
-      minZoom: 5,
+      minZoom: 4,
     }),
     [latitude, longitude]
   );
 
   const [viewState, setViewState] = useState(initialView);
-
-  const locationPath = useCallback((lng, lat) => {
-    mapRef.current?.flyTo({
-      center: [lng, lat],
-      duration: 2000,
-      zoom: 6,
-    });
-  }, []);
 
   const flyToLocation = useCallback((long, lat) => {
     mapRef.current?.flyTo({
@@ -55,12 +48,23 @@ const NavigationMap = ({ data }) => {
     setViewState(viewState);
   }, []);
 
+  const hoverIdHandler = (value) => {
+    if (value === hoverId) return;
+    setHoverId(value);
+  };
+
+  const resetHoverIdHandler = () => {
+    setHoverId(null);
+  };
+
   return (
     <React.Fragment>
       <MapTheme selectedTheme={theme} setTheme={setTheme} details={data.userId} />
       <FavouriteRestaurants
         restaurants={data.restaurants}
         flyToLocation={flyToLocation}
+        hoverIdHandler={hoverIdHandler}
+        resetHoverIdHandler={resetHoverIdHandler}
       />
       <Styles.MapContainer>
         <ReactMapGL
@@ -76,7 +80,7 @@ const NavigationMap = ({ data }) => {
             const { coordinates } = i.location;
             return (
               <Marker key={i.slug} longitude={coordinates[0]} latitude={coordinates[1]}>
-                <Styles.Pin />
+                <Styles.Pin hovering={+(i.id === hoverId)} />
               </Marker>
             );
           })}
@@ -87,4 +91,4 @@ const NavigationMap = ({ data }) => {
   );
 };
 
-export default React.memo(NavigationMap);
+export default React.memo(FavouritesMap);
