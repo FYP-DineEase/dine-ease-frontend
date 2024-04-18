@@ -127,17 +127,17 @@ const NotificationMenu = () => {
   const openMenu = async (e) => {
     let timeout;
     setAnchorEl(e.currentTarget);
-  
+
     if (unReadNotifications.size > 0) {
       timeout = setTimeout(async () => {
         await readNotifications({ ids: Array.from(unReadNotifications) });
         setUnReadNotifications(new Set());
       }, 1000);
     }
-  
+
     setReadTimeout(timeout);
   };
-  
+
   const closeMenu = () => {
     clearTimeout(readTimeout);
     setReadTimeout(null);
@@ -173,9 +173,9 @@ const NotificationMenu = () => {
         anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
         PaperProps={{
           elevation: 0,
-          style: {
-            maxHeight: '450px',
-            maxWidth: '400px',
+          sx: {
+            maxHeight: { xs: '450px', md: '550px' },
+            maxWidth: { xs: '300px', md: '400px' },
           },
         }}
         TransitionComponent={Fade}
@@ -187,7 +187,7 @@ const NotificationMenu = () => {
         </Box>
         <Divider variant="middle" orientation="horizontal" sx={{ mb: 1 }} />
         {notifications.length > 0 ? (
-          <Box sx={{ height: '450px', overflow: 'auto' }}>
+          <Box sx={{ maxHeight: '375px', overflow: 'auto' }}>
             {notifications.map((item) => (
               <Box key={item.id}>
                 <MenuItem onClick={closeMenu} sx={{ whiteSpace: 'normal' }}>

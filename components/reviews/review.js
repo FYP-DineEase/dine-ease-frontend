@@ -332,7 +332,11 @@ const Review = ({
                   {renderImages(review.restaurantId, review.id, review.images)}
                 </ImageList>
               </Box>
-              {user.id && <VoteOptions reviewId={review.id} reviewVotes={review.votes} />}
+              <VoteOptions
+                reviewId={review.id}
+                reviewVotes={review.votes}
+                reviewUserId={review.userId.id || review.userId}
+              />
             </Styles.ReviewCard>
           ))}
       </Box>

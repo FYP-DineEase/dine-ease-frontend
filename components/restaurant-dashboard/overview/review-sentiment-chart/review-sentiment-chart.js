@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 //Styles
 import * as Styles from './review-sentiment-chart.styles';
 import { Box } from '@mui/material';
-import { DashboardContent, Text } from '@/components/UI';
+import { DashboardContent, FlexContainer, Text } from '@/components/UI';
 
 // Utils
 import { Periods } from '@/utils/constants';
@@ -22,15 +22,10 @@ import {
 } from 'chart.js';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const ReviewSentimentChart = ({ mixedReviews, reviewsType }) => {
+const ReviewSentimentChart = ({ mixedReviews, sentiment }) => {
   const [selectedPeriod, setSelectedPeriod] = useState(1);
 
-  const dummyReviews = mixedReviews.map((review) => ({
-    ...review,
-    type: review.rating > 2.5 ? 'positive' : 'negative',
-  }));
-
-  const reviews = dummyReviews.filter((review) => review.type === reviewsType);
+  const reviews = mixedReviews.filter((review) => review.sentiment === sentiment);
 
   const filterReviewsByDateRange = (reviews) => {
     const currentDate = dayjs();
@@ -48,11 +43,11 @@ const ReviewSentimentChart = ({ mixedReviews, reviewsType }) => {
 
     filteredReviews.forEach((review) => {
       const day = dayjs(review.createdAt).locale('en').format('DD MMMM YYYY');
-      const type = review.type;
+      const type = review.sentiment;
 
       if (!dayOccurrences[day]) {
         dayOccurrences[day] = {
-          [reviewsType]: 0,
+          [sentiment]: 0,
         };
       }
 
@@ -63,18 +58,6 @@ const ReviewSentimentChart = ({ mixedReviews, reviewsType }) => {
   };
 
   const occurrences = occurrencesCount(filteredReviews);
-
-  const sortedOccurences = Object.keys(occurrences)
-    .map((date) => ({
-      date: dayjs(date, 'DD MMMM'),
-      value: occurrences[date],
-    }))
-    .sort((a, b) => a.date - b.date)
-    .reduce((acc, curr) => {
-      const formattedDate = curr.date.format('DD MMMM YYYY');
-      acc[formattedDate] = curr.value;
-      return acc;
-    }, {});
 
   const options = {
     responsive: true,
@@ -104,13 +87,13 @@ const ReviewSentimentChart = ({ mixedReviews, reviewsType }) => {
   };
 
   const data = {
-    labels: Object.keys(sortedOccurences),
+    labels: Object.keys(occurrences).reverse(),
     datasets: [
       {
-        label: `${reviewsType} Reviews`,
-        data: Object.values(sortedOccurences).map(
-          (occurrence) => occurrence[reviewsType]
-        ),
+        label: `${sentiment} Reviews`,
+        data: Object.values(occurrences)
+          .reverse()
+          .map((occurrence) => occurrence[sentiment]),
         backgroundColor: 'orange',
         borderColor: 'orange',
         cubicInterpolationMode: 'monotone',
@@ -120,19 +103,26 @@ const ReviewSentimentChart = ({ mixedReviews, reviewsType }) => {
 
   return (
     <DashboardContent>
-      <Styles.OptionContainer>
-        {Periods.map((period) => (
-          <Styles.Option
-            key={period.id}
-            selected={period.value === selectedPeriod}
-            onClick={() => setSelectedPeriod(period.value)}
-          >
-            <Text variant="sub" fontWeight={600}>
-              {period.id}
-            </Text>
-          </Styles.Option>
-        ))}
-      </Styles.OptionContainer>
+      <FlexContainer sx={{ justifyContent: 'space-between', mb: 1 }}>
+        <Styles.StyledAlert severity="warning">
+          <Text variant="sub" fontWeight={500}>
+            Sarcastic reviews can cause inaccuracy.
+          </Text>
+        </Styles.StyledAlert>
+        <Styles.OptionContainer>
+          {Periods.map((period) => (
+            <Styles.Option
+              key={period.id}
+              selected={period.value === selectedPeriod}
+              onClick={() => setSelectedPeriod(period.value)}
+            >
+              <Text variant="sub" fontWeight={600}>
+                {period.id}
+              </Text>
+            </Styles.Option>
+          ))}
+        </Styles.OptionContainer>
+      </FlexContainer>
       <Box sx={{ height: '280px' }}>
         <Bar data={data} options={options} />
       </Box>

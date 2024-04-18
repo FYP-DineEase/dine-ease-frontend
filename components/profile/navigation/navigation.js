@@ -15,7 +15,7 @@ import DiningPlanCard from '../dining-plan-card/dining-plan-card';
 
 // Styles
 import * as Styles from './navigation.styles';
-import { FlexContainer, Text } from '@/components/UI';
+import { Text } from '@/components/UI';
 import { Tabs, Tab, Box, Grid, Toolbar } from '@mui/material';
 
 // Icons
@@ -62,7 +62,7 @@ const Navigation = () => {
       value: 'Favourites',
       icon: <FavoriteIcon fontSize="medium" />,
       label: 'Favourites',
-      childComponent: <RestaurantCard mapSlug={user.mapSlug} />,
+      childComponent: <RestaurantCard mapSlug={user.mapSlug} favouriteTab={true} />,
     },
     {
       value: 'Restaurants',

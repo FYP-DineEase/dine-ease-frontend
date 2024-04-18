@@ -29,12 +29,7 @@ ChartJS.register(
 import { Pie } from 'react-chartjs-2';
 
 const ReviewSentimentChart = ({ reviews }) => {
-  const dummyReviews = reviews.map((review) => ({
-    ...review,
-    sentiment: review.rating > 2.5 ? 'positive' : 'negative',
-  }));
-
-  const countByType = dummyReviews.reduce((acc, review) => {
+  const countByType = reviews.reduce((acc, review) => {
     acc[review.sentiment] = (acc[review.sentiment] || 0) + 1;
     return acc;
   }, {});
@@ -68,12 +63,12 @@ const ReviewSentimentChart = ({ reviews }) => {
   };
 
   const data = {
-    labels: ['Positive Reviews', 'Negative Reviews'],
+    labels: ['Positive Reviews', 'Negative Reviews', 'Neutral Reviews'],
     datasets: [
       {
         label: 'Number of Records',
-        data: [countByType['positive'], countByType['negative']],
-        backgroundColor: ['orange', 'red'],
+        data: [countByType['positive'], countByType['negative'], countByType['neutral']],
+        backgroundColor: ['orange', 'red', 'yellow'],
       },
     ],
   };

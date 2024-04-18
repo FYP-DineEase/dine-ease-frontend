@@ -4,7 +4,6 @@ import { selectUserState } from '@/store/user/userSlice';
 
 // Styles
 import * as Styles from './vote.styles';
-import { PaddedButton, PrimaryButton } from '@/components/UI';
 import { Tooltip } from '@mui/material';
 
 // Icons
@@ -24,13 +23,18 @@ import { enqueueSnackbar } from 'notistack';
 // Helpers
 import { getError } from '@/helpers/snackbarHelpers';
 
-const VoteOptions = ({ reviewId, reviewVotes }) => {
+// Components
+import AuthenticationModal from '@/components/modal/authentication-modal/authentication-modal';
+
+const VoteOptions = ({ reviewId, reviewVotes, reviewUserId }) => {
   const user = useSelector(selectUserState);
   const [votes, setVotes] = useState(reviewVotes);
   const [userVote, setUserVote] = useState(
     reviewVotes.filter((vote) => vote.userId === user.id)[0]?.type || null
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   const voteCounts = votes.reduce((acc, vote) => {
     if (acc[vote.type]) {
@@ -54,13 +58,22 @@ const VoteOptions = ({ reviewId, reviewVotes }) => {
   ];
 
   const handleVote = async (voteType) => {
+    if (!user.id) {
+      setShowAuthModal(true);
+      return;
+    }
+
+    if (reviewUserId === user.id) {
+      return;
+    }
+
     const updatedVotes = [...votes];
     const updateIndex = updatedVotes.findIndex((vote) => vote.userId === user.id);
 
     try {
       setIsSubmitting(true);
       if (updateIndex !== -1) {
-        const sameVoteType = updatedVotes[updateIndex].type?.includes(voteType);
+        const sameVoteType = updatedVotes[updateIndex].type === voteType;
 
         if (!sameVoteType) {
           updateVote(updatedVotes[updateIndex].id, {
@@ -87,22 +100,30 @@ const VoteOptions = ({ reviewId, reviewVotes }) => {
   };
 
   return (
-    <Styles.Container>
-      {options.map((item) => (
-        <Tooltip key={item.value} title={item.value} placement="top" arrow>
-          <Styles.VoteButton
-            startIcon={item.icon}
-            value={item.value}
-            onClick={() => handleVote(item.value)}
-            selected={item.value === userVote}
-            disabled={isSubmitting}
-            sx={{ borderRadius: 5 }}
-          >
-            {item.count}
-          </Styles.VoteButton>
-        </Tooltip>
-      ))}
-    </Styles.Container>
+    <React.Fragment>
+      {showAuthModal && (
+        <AuthenticationModal
+          showModal={showAuthModal}
+          handleCloseModal={() => setShowAuthModal(false)}
+        />
+      )}
+      <Styles.Container>
+        {options.map((item) => (
+          <Tooltip key={item.value} title={item.value} placement="top" arrow>
+            <Styles.VoteButton
+              startIcon={item.icon}
+              value={item.value}
+              onClick={() => handleVote(item.value)}
+              selected={item.value === userVote}
+              disabled={isSubmitting}
+              sx={{ borderRadius: 5 }}
+            >
+              {item.count}
+            </Styles.VoteButton>
+          </Tooltip>
+        ))}
+      </Styles.Container>
+    </React.Fragment>
   );
 };
 

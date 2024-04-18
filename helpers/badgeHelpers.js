@@ -13,7 +13,7 @@ export const getBadge = (joinDate, size) => {
   switch (true) {
     case yearsSinceJoin >= 5:
       return (
-        <WorkspacePremiumTwoToneIcon fontSize={size} sx={{ color: '#9F2B68' }} />
+        <WorkspacePremiumTwoToneIcon fontSize={size} sx={{ color: '#162ba6' }} />
       );
     case yearsSinceJoin >= 3:
       return <AssistantTwoToneIcon fontSize={size} color="secondary" />;

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { enqueueSnackbar } from 'notistack';
 import { useRestaurantContext } from '@/context/restaurant';
 
 // Components
@@ -34,7 +33,7 @@ const Menu = () => {
       const currency = await fetchCurrency(details.location.country);
       setCurrencyType(currency);
     } catch (e) {
-      enqueueSnackbar({ variant: 'error', message: getError(e) });
+      console.log(getError(e));
     }
   };
 

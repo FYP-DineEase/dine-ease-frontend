@@ -141,7 +141,7 @@ const DetailsCard = ({ restaurant }) => {
       </ImageListItem>
     ));
   };
-
+  
   return (
     <Styles.Card>
       <FlexContainer sx={{ flexDirection: 'column', gap: 2, alignItems: 'flex-start' }}>
@@ -167,7 +167,9 @@ const DetailsCard = ({ restaurant }) => {
           <Text variant="body" fontWeight={800} mr={1}>
             Address:
           </Text>
-          <Text variant="body">{restaurant.address}</Text>
+          <Text variant="body">
+            {restaurant.address} , {restaurant.location.country}
+          </Text>
         </Box>
         <Box>
           <Text variant="body" fontWeight={800} mr={1}>

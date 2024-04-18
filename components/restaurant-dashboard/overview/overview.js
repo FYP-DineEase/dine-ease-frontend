@@ -48,10 +48,10 @@ const Overview = () => {
         <CustomerSatisfaction reviews={reviews} />
       </Grid>
       <Grid item xs={12} lg={6}>
-        <ReviewSentimentChart mixedReviews={reviews} reviewsType="positive" />
+        <ReviewSentimentChart mixedReviews={reviews} sentiment="positive" />
       </Grid>
       <Grid item xs={12} lg={6}>
-        <ReviewSentimentChart mixedReviews={reviews} reviewsType="negative" />
+        <ReviewSentimentChart mixedReviews={reviews} sentiment="negative" />
       </Grid>
       <Grid item xs={12}>
         <RecentReviews reviews={reviews} />

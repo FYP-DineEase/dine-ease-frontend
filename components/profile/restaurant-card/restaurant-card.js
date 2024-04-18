@@ -22,7 +22,7 @@ import { getFileUrl } from '@/helpers/fileHelpers';
 // Utils
 import { Status } from '@/utils/constants';
 
-const RestaurantCard = ({ mapSlug = null }) => {
+const RestaurantCard = ({ mapSlug = null, favouriteTab = false }) => {
   const [restaurants, setRestaurants] = useState([]);
 
   const fetchUserRestaurants = async () => {
@@ -44,9 +44,13 @@ const RestaurantCard = ({ mapSlug = null }) => {
   };
 
   useEffect(() => {
-    if (mapSlug) fetchFavouriteRestaurants();
-    else fetchUserRestaurants();
-  }, [mapSlug]);
+    setRestaurants([]);
+    if (mapSlug) {
+      fetchFavouriteRestaurants();
+    } else if (!favouriteTab) {
+      fetchUserRestaurants();
+    }
+  }, [mapSlug, favouriteTab]);
 
   const statusColors = {
     [Status.APPROVED]: 'success',

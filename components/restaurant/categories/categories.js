@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { enqueueSnackbar } from 'notistack';
 
 // Styles
 import * as Styles from './categories.styles';
@@ -34,7 +33,7 @@ const Categories = ({ restaurant }) => {
       const currency = await fetchCurrency(restaurant.location.country);
       setCurrencyType(currency);
     } catch (e) {
-      enqueueSnackbar({ variant: 'error', message: getError(e) });
+      console.log(getError(e));
     }
   };
 

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { selectUserState } from '@/store/user/userSlice';
 
@@ -56,8 +57,9 @@ const MapTheme = ({ selectedTheme, setTheme, details }) => {
   const themeChangeHandler = async (theme) => {
     try {
       const response = await updateTheme({ theme: theme });
-      setTheme(theme);
       enqueueSnackbar({ variant: 'success', message: response.data });
+      setTheme(theme);
+      showPalleteHandler();
     } catch (e) {
       enqueueSnackbar({ variant: 'error', message: getError(e) });
     }
@@ -66,19 +68,21 @@ const MapTheme = ({ selectedTheme, setTheme, details }) => {
   return (
     <Styles.ProfileContainer>
       <Tooltip title={details.name} placement="bottom" arrow>
-        <Avatar
-          alt="User Avatar"
-          src={
-            details.avatar &&
-            getFileUrl(
-              process.env.NEXT_PUBLIC_AWS_S3_USERS_BUCKET,
-              `${details.id}/avatar/${details.avatar}`
-            )
-          }
-          sx={{ height: 65, width: 65, border: '1px solid rgba(0, 0, 0, 0.2)' }}
-        >
-          {!details.avatar && details.name.slice(0, 1)}
-        </Avatar>
+        <Link href={`/profile/${details.slug}`}>
+          <Avatar
+            alt="User Avatar"
+            src={
+              details.avatar &&
+              getFileUrl(
+                process.env.NEXT_PUBLIC_AWS_S3_USERS_BUCKET,
+                `${details.id}/avatar/${details.avatar}`
+              )
+            }
+            sx={{ height: 65, width: 65, border: '1px solid rgba(0, 0, 0, 0.2)' }}
+          >
+            {!details.avatar && details.name.slice(0, 1)}
+          </Avatar>
+        </Link>
       </Tooltip>
       {user.id === details.id && (
         <Box

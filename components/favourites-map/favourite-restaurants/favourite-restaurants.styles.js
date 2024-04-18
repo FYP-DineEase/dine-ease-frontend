@@ -8,7 +8,7 @@ export const ListContainer = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.static.primary,
   zIndex: 1,
   width: '300px',
-  height: '80%',
+  height: '75%',
   transform: 'translateY(-50%)',
   cursor: 'pointer',
   borderRadius: '5px',

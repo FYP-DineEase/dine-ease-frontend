@@ -1,4 +1,4 @@
-import { styled } from '@mui/material';
+import { styled, Alert } from '@mui/material';
 import { FlexContainer, PaddedButton } from '@/components/UI';
 
 export const Option = styled(PaddedButton)(({ theme, selected }) => ({
@@ -16,4 +16,8 @@ export const OptionContainer = styled(FlexContainer)(({ theme }) => ({
   justifyContent: 'right',
   marginBottom: theme.spacing(1),
   flexWrap: 'wrap',
+}));
+
+export const StyledAlert = styled(Alert)(({ theme }) => ({
+  width: '50%',
 }));

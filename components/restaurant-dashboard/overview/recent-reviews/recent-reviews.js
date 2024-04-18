@@ -105,13 +105,13 @@ const RecentReviews = ({ reviews }) => {
                   </Box>
                 </Styles.Details>
                 <Text variant="body" sx={{ display: 'block', mt: 2 }}>
-                  {review.content.slice(0, 250)}
+                  {review.content.slice(0, 200)}
                   <Text
                     variant="body"
                     sx={{ textDecoration: 'underline', color: 'blue', cursor: 'pointer' }}
                     onClick={() => openModalHandler(review)}
                   >
-                    {review.content.length > 250 && '...See More'}
+                    {review.content.length > 200 && '...See More'}
                   </Text>
                 </Text>
               </DashboardContent>

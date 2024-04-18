@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 // Styles
 import * as Styles from './banner.styles';
@@ -52,9 +53,11 @@ const Banner = () => {
         <Styles.Header key={currentImage}>
           <Text variant="bigHeader">{banner[currentImage].text}</Text>
         </Styles.Header>
-        <PaddedButton sx={{ mt: 3, mb: 2 }}>
-          <Text variant="main">Explore Restaurants</Text>
-        </PaddedButton>
+        <Link href={'/search'}>
+          <PaddedButton sx={{ mt: 3, mb: 2 }}>
+            <Text variant="main">Explore Restaurants</Text>
+          </PaddedButton>
+        </Link>
         <FlexContainer gap={1}>
           {banner.map((banner, index) => (
             <Styles.ProgressContainer key={index}>

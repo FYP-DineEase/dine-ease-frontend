@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
 // Styles
+import * as Styles from './reviews-graph.styles';
 import { DetailsContainer, FlexContainer, Text } from '@/components/UI';
-import { Box } from '@mui/material';
+import { Box, Tooltip } from '@mui/material';
 
 // Icons
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import WavingHandIcon from '@mui/icons-material/WavingHand';
 
 // Services
 import { getUserReview } from '@/services/review';
@@ -24,11 +26,10 @@ import {
   LinearScale,
   BarElement,
   Title,
-  Tooltip,
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Legend);
 
 const ReviewsGraph = ({ profileDetails }) => {
   const [reviews, setReviews] = useState([]);
@@ -52,6 +53,11 @@ const ReviewsGraph = ({ profileDetails }) => {
     { length: 5 },
     (_, index) => ratings.filter((rating) => rating === index + 1).length
   );
+
+  const countByType = reviews.reduce((acc, review) => {
+    acc[review.sentiment] = (acc[review.sentiment] || 0) + 1;
+    return acc;
+  }, {});
 
   const options = {
     responsive: true,
@@ -100,24 +106,30 @@ const ReviewsGraph = ({ profileDetails }) => {
           Reviews Sentiment
         </Text>
         <FlexContainer gap={7} mt={2}>
-          <Box>
-            <ThumbUpIcon sx={{ fontSize: '3.5rem' }} color="primary" />
-            <Text
-              variant="body"
-              sx={{ display: 'block', textAlign: 'center', fontWeight: 500 }}
-            >
-              23
-            </Text>
-          </Box>
-          <Box>
-            <ThumbDownIcon sx={{ fontSize: '3.5rem' }} color="error" />
-            <Text
-              variant="body"
-              sx={{ display: 'block', textAlign: 'center', fontWeight: 500 }}
-            >
-              4
-            </Text>
-          </Box>
+          <Tooltip title="Positive Reviews" arrow>
+            <Box>
+              <ThumbUpIcon sx={{ fontSize: '3.5rem' }} color="primary" />
+              <Styles.SentimentText variant="body">
+                {countByType['positive'] || 0}
+              </Styles.SentimentText>
+            </Box>
+          </Tooltip>
+          <Tooltip title="Negative Reviews" arrow>
+            <Box>
+              <ThumbDownIcon sx={{ fontSize: '3.5rem' }} color="error" />
+              <Styles.SentimentText variant="body">
+                {countByType['negative'] || 0}
+              </Styles.SentimentText>
+            </Box>
+          </Tooltip>
+          <Tooltip title="Neutral Reviews" arrow>
+            <Box>
+              <WavingHandIcon sx={{ fontSize: '3.5rem' }} color="warning" />
+              <Styles.SentimentText variant="body">
+                {countByType['neutral'] || 0}
+              </Styles.SentimentText>
+            </Box>
+          </Tooltip>
         </FlexContainer>
       </Box>
     </DetailsContainer>
