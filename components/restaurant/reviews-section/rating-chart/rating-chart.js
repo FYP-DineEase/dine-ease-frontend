@@ -81,6 +81,7 @@ const RatingChart = ({ restaurant }) => {
     labels: labels,
     datasets: [
       {
+        label: 'Number Of Ratings',
         data: ratingCounts.reverse(),
         backgroundColor: 'orange',
       },

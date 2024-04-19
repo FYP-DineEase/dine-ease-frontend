@@ -14,11 +14,13 @@ import Search from '@mui/icons-material/Search';
 // Utils
 import { connectToMeilisearch } from '@/services/meilisearch';
 
+// Helpers
+import { getFileUrl } from '@/helpers/fileHelpers';
+
 // Components
 import FilterDrawer from '../search-filters-drawer/drawer';
 import SearchFilters from '../search-filters/search-filters';
-
-import userImage from '@/public/assets/images/avatar.jpg';
+import Link from 'next/link';
 
 const client = connectToMeilisearch();
 
@@ -40,6 +42,10 @@ const ListedRestaurants = ({ restaurants, hoverIdHandler, resetHoverIdHandler })
         return [...prevSelected, category];
       }
     });
+  };
+
+  const categoryResetHandler = () => {
+    setSelectedCategories([]);
   };
 
   const sortTypeHandler = (type) => {
@@ -79,6 +85,7 @@ const ListedRestaurants = ({ restaurants, hoverIdHandler, resetHoverIdHandler })
       <SearchFilters
         sortTypeHandler={sortTypeHandler}
         categorySelectionHandler={categorySelectionHandler}
+        categoryResetHandler={categoryResetHandler}
         selectedCategories={selectedCategories}
         selectedSortType={selectedSortType}
       />
@@ -114,14 +121,25 @@ const ListedRestaurants = ({ restaurants, hoverIdHandler, resetHoverIdHandler })
         </Box>
         <Styles.ListContainer>
           {filteredRestaurants.map((restaurant) => (
-            <React.Fragment key={restaurant.id}>
+            <Link
+              href={`/restaurant/${restaurant.slug}`}
+              target="_blank"
+              key={restaurant.id}
+            >
               <Styles.RestaurantContainer
                 onMouseEnter={() => hoverIdHandler(restaurant.id)}
                 onMouseLeave={resetHoverIdHandler}
               >
                 <Styles.RestaurantImage>
                   <Image
-                    src={userImage}
+                    src={
+                      (restaurant.cover &&
+                        getFileUrl(
+                          process.env.NEXT_PUBLIC_AWS_S3_RESTAURANTS_BUCKET,
+                          `${restaurant.id}/cover/${restaurant.cover}`
+                        )) ||
+                      '/assets/images/bg-placeholder.png'
+                    }
                     alt="restaurant"
                     fill
                     sizes="100vw"
@@ -133,17 +151,17 @@ const ListedRestaurants = ({ restaurants, hoverIdHandler, resetHoverIdHandler })
                     <Text variant="main" fontWeight={800}>
                       {restaurant.name}
                     </Text>
-                    <Box>
+                    <FlexContainer sx={{ flexDirection: 'column' }}>
                       <Rating
                         value={restaurant.rating}
                         precision={0.5}
                         size="small"
                         readOnly
                       />
-                      <Text variant="sub" sx={{ display: 'block' }}>
-                        {restaurant.rating}({restaurant.count} reviews)
+                      <Text variant="sub" sx={{ display: 'block', textAlign: 'center' }}>
+                        {restaurant.rating} ({restaurant.count} reviews)
                       </Text>
-                    </Box>
+                    </FlexContainer>
                   </FlexContainer>
                   <Styles.Cuisines>
                     {restaurant.categories.map((categoryType) => (
@@ -167,7 +185,7 @@ const ListedRestaurants = ({ restaurants, hoverIdHandler, resetHoverIdHandler })
                 </Styles.RestaurantContent>
               </Styles.RestaurantContainer>
               <Divider />
-            </React.Fragment>
+            </Link>
           ))}
         </Styles.ListContainer>
         <FlexContainer>

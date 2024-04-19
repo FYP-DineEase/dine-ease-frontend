@@ -53,5 +53,5 @@ export const RestaurantContent = styled(Box)(({ theme }) => ({
 export const Cuisines = styled(FlexContainer)(({ theme }) => ({
   justifyContent: 'left',
   gap: theme.spacing(0.5),
-  overflowX: 'auto',
+  flexWrap: 'wrap'
 }));
