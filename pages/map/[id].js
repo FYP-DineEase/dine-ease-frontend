@@ -1,16 +1,32 @@
 import React from 'react';
 import { getAllMapSlugs, getMapBySlug } from '@/services';
-import FavouritesMap from '@/components/favourites-map/favourites-map'; 
+import FavouritesMap from '@/components/favourites-map/favourites-map';
+import { useRouter } from 'next/router';
 
-function UserMapPage({ data }) {
+function UserMapPage({ data, notFound }) {
+  const router = useRouter();
+
+  if (notFound) {
+    router.push('/404');
+    return;
+  }
+
   return <FavouritesMap data={data} />;
 }
 
 export default UserMapPage;
 
 UserMapPage.getInitialProps = async ({ query }) => {
-  const { data } = await getMapBySlug(query.id);
-  return { data };
+  try {
+    const { data } = await getMapBySlug(query.id);
+    return {
+      data: data,
+    };
+  } catch (e) {
+    return {
+      notFound: true,
+    };
+  }
 };
 
 // export async function getStaticProps({ params }) {

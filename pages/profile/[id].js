@@ -1,19 +1,32 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import { ProfileProvider } from '@/context/profile';
 import Profile from '@/components/profile/profile';
 import { getAllUserSlugs, getUserBySlug } from '@/services';
 
-function ProfilePage({ user }) {
+function ProfilePage({ user, notFound }) {
+  const router = useRouter();
+
+  if (notFound) {
+    router.push('/404');
+    return;
+  }
   return <ProfileProvider initialValue={user}>{user && <Profile />}</ProfileProvider>;
 }
 
 export default ProfilePage;
 
 ProfilePage.getInitialProps = async ({ query }) => {
-  const { data } = await getUserBySlug(query.id);
-  return {
-    user: data,
-  };
+  try {
+    const { data } = await getUserBySlug(query.id);
+    return {
+      user: data,
+    };
+  } catch (e) {
+    return {
+      notFound: true,
+    };
+  }
 };
 
 // export async function getStaticProps({ params }) {

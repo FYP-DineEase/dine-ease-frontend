@@ -20,4 +20,5 @@ export const Pin = styled(LocationIcon)(({ hovering, theme }) => ({
   transition: 'all 0.5s',
   transform: hovering && 'scale(1.3)',
   stroke: hovering ? theme.palette.primary.main : 'rgba(255, 255, 255, 0.3)',
+  cursor:"pointer"
 }));

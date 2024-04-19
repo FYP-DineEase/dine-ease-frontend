@@ -4,8 +4,15 @@ import { RestaurantProvider } from '@/context/restaurant';
 import { getRestaurantBySlug, getRestaurantSlugs } from '@/services';
 
 import Restaurant from '@/components/restaurant/restaurant';
+import { useRouter } from 'next/router';
 
-const RestaurantPage = ({ restaurant }) => {
+const RestaurantPage = ({ restaurant, notFound }) => {
+  const router = useRouter();
+
+  if (notFound) {
+    router.push('/404');
+    return;
+  }
   return (
     <RestaurantProvider>
       <Restaurant restaurant={restaurant} />
@@ -16,10 +23,16 @@ const RestaurantPage = ({ restaurant }) => {
 export default RestaurantPage;
 
 RestaurantPage.getInitialProps = async ({ query }) => {
-  const { data } = await getRestaurantBySlug(query.id);
-  return {
-    restaurant: data,
-  };
+  try {
+    const { data } = await getRestaurantBySlug(query.id);
+    return {
+      restaurant: data,
+    };
+  } catch (e) {
+    return {
+      notFound: true,
+    };
+  }
 };
 
 // export async function getStaticProps({ params }) {

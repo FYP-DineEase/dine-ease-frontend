@@ -203,7 +203,7 @@ const NotificationMenu = () => {
                     )}
 
                     <Styles.NotificationContainer
-                      isUnRead={+unReadNotifications.has(item.id)}
+                      isunread={+unReadNotifications.has(item.id)}
                     >
                       <Text variant="body" color="text.secondary">
                         {item.content}

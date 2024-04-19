@@ -4,7 +4,7 @@ import Image from 'next/image';
 // Styles
 import * as Styles from './favourite-restaurants.styles';
 import { FlexContainer, Text } from '@/components/UI';
-import { Divider, Rating, useMediaQuery } from '@mui/material';
+import { Box, Divider, Rating, useMediaQuery } from '@mui/material';
 
 // Helpers
 import { getFileUrl } from '@/helpers/fileHelpers';
@@ -50,14 +50,19 @@ const FavouriteRestaurants = ({
             <Text variant="main" fontWeight={500}>
               {restaurant.name}
             </Text>
-            <Rating
-              value={restaurant.rating}
-              readOnly
-              precision={0.5}
-              size={isMobile ? 'small' : 'medium'}
-            />
+            <Box>
+              <Rating
+                value={restaurant.rating}
+                readOnly
+                precision={0.5}
+                size={isMobile ? 'small' : 'medium'}
+              />
+              <Text variant="sub" sx={{ display: 'block', textAlign: 'center' }}>
+                {restaurant.rating} ({restaurant.count} reviews)
+              </Text>
+            </Box>
           </FlexContainer>
-          {!isMobile && <Divider variant="middle" flexItem sx={{ mt: 3, mb: 3 }} />}
+          {!isMobile && <Divider flexItem sx={{ mt: 2, mb: 2 }} />}
         </Styles.Restaurant>
       ))}
     </Styles.ListContainer>
