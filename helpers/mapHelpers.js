@@ -37,5 +37,18 @@ export async function getRoute(unit, start, end) {
 
   const response = await axios.get(apiUrl);
   const coords = response.data.routes[0].geometry.coordinates;
-  console.log(coords);
+}
+
+export async function getSuggestions(searchText) {
+  const apiUrl = `https://api.mapbox.com/search/searchbox/v1/suggest?q=${searchText}&session_token=0dfc37c3-b8fd-4711-88ef-d87c4f1058cf&limit=10&types=place,neighborhood,street,address,region,district,locality,postcode,poi&access_token=${token}`;
+
+  const response = await axios.get(apiUrl);
+  return response.data.suggestions;
+}
+
+export async function getCoordinates(mapbox_id) {
+  const apiUrl = `https://api.mapbox.com/search/searchbox/v1/retrieve/${mapbox_id}?session_token=0dfc37c3-b8fd-4711-88ef-d87c4f1058cf&access_token=${token}`;
+
+  const response = await axios.get(apiUrl);
+  return response.data.features[0].geometry.coordinates;
 }

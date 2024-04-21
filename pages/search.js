@@ -17,18 +17,23 @@ export const getStaticProps = async () => {
   const { data } = await getApprovedRestaurants();
   const { restaurants } = data;
 
-  restaurants.forEach((restaurant) => {
-    restaurant.categories = restaurant.categories[0].split(', ');
-  });
+  const modifiedRestaurants = restaurants.map((restaurant) => ({
+    ...restaurant,
+    categories: restaurant.categories[0].split(', '),
+    _geo: {
+      lat: restaurant.location.coordinates[1],
+      lng: restaurant.location.coordinates[0],
+    },
+  }));
 
   meili
     .index('restaurants')
-    .addDocuments(restaurants, { primaryKey: 'id' })
+    .addDocuments(modifiedRestaurants, { primaryKey: 'id' })
     .catch((error) => console.error('MeiliSearch Error:', error));
 
   meili
     .index('restaurants')
-    .updateFilterableAttributes(['categories'])
+    .updateFilterableAttributes(['categories', '_geo'])
     .catch((error) => console.error('MeiliSearch Error:', error));
 
   meili
@@ -37,7 +42,7 @@ export const getStaticProps = async () => {
     .catch((error) => console.error('MeiliSearch Error:', error));
 
   return {
-    props: { restaurants: restaurants },
+    props: { restaurants: modifiedRestaurants },
     revalidate: 300,
   };
 };

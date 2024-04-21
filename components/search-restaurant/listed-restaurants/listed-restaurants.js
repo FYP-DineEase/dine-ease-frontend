@@ -1,84 +1,114 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 
 // Styles
 import * as Styles from './listed-restaurants.styles';
-import { FlexContainer, InputField, Text } from '@/components/UI';
-import { Box, Chip, Divider, InputAdornment, Pagination, Rating } from '@mui/material';
+import { FlexContainer, InputField, PrimaryButton, Text } from '@/components/UI';
+import {
+  Autocomplete,
+  Box,
+  Chip,
+  CircularProgress,
+  Divider,
+  InputAdornment,
+  Pagination,
+  Rating,
+  createFilterOptions,
+} from '@mui/material';
 
 // Icons
 import LocationIcon from '@mui/icons-material/LocationOn';
 import CallIcon from '@mui/icons-material/Call';
 import Search from '@mui/icons-material/Search';
-
-// Utils
-import { connectToMeilisearch } from '@/services/meilisearch';
+import MyLocationIcon from '@mui/icons-material/MyLocation';
 
 // Helpers
 import { getFileUrl } from '@/helpers/fileHelpers';
+import { getCoordinates, getSuggestions } from '@/helpers/mapHelpers';
 
 // Components
 import FilterDrawer from '../search-filters-drawer/drawer';
 import SearchFilters from '../search-filters/search-filters';
-import Link from 'next/link';
 
-const client = connectToMeilisearch();
+const ListedRestaurants = ({
+  restaurants,
+  hoverIdHandler,
+  resetHoverIdHandler,
+  sortTypeHandler,
+  categorySelectionHandler,
+  categoryResetHandler,
+  selectedCategories,
+  selectedSortType,
+  filterText,
+  setFilterText,
+  filteredRestaurants,
+  pageHandler,
+  totalPage,
+  page,
+  setLocation,
+  initialCoordinates,
+}) => {
+  const [open, setOpen] = useState(false);
+  const defaultOption = useMemo(
+    () => ({
+      name: 'My Current Location',
+      mapbox_id: 'default',
+    }),
+    []
+  );
 
-const ListedRestaurants = ({ restaurants, hoverIdHandler, resetHoverIdHandler }) => {
-  const [filterText, setFilterText] = useState('');
-  const [filteredRestaurants, setFilteredRestaurants] = useState([]);
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const [filteredCategories, setFilteredCategories] = useState([]);
-  const [selectedSortType, setSelectedSortType] = useState(null);
-  const [page, setPage] = useState(1);
-  const [totalPage, setTotalPage] = useState(0);
-  const searchLimit = useRef(10);
+  const [searchLocation, setSearchLocation] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState(defaultOption);
+  const [suggestions, setSuggestions] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const categorySelectionHandler = (category) => {
-    setSelectedCategories((prevSelected) => {
-      if (prevSelected.includes(category)) {
-        return prevSelected.filter((prevCategory) => prevCategory !== category);
-      } else {
-        return [...prevSelected, category];
+  const suggestionChangeHandler = async () => {
+    try {
+      setLoading(true);
+      const response = await getSuggestions(searchLocation);
+      setSuggestions(response);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const selectedLocationHandler = async (value) => {
+    setSelectedLocation(value);
+    if (value?.mapbox_id === 'default') {
+      setLocation((prevState) => ({
+        ...prevState,
+        lng: initialCoordinates.lng,
+        lat: initialCoordinates.lat,
+      }));
+    } else if (value) {
+      try {
+        const response = await getCoordinates(value.mapbox_id);
+        const [longitude, latitude] = response;
+        setLocation((prevState) => ({ ...prevState, lng: longitude, lat: latitude }));
+      } catch (e) {
+        console.log(e);
       }
-    });
+    }
   };
 
-  const categoryResetHandler = () => {
-    setSelectedCategories([]);
-  };
+  const _filterOptions = createFilterOptions();
 
-  const sortTypeHandler = (type) => {
-    setSelectedSortType(type);
+  const filterOptions = (options, state) => {
+    const results = _filterOptions(options, state);
+
+    if (!results.includes(defaultOption)) {
+      results.unshift(defaultOption);
+    }
+
+    return results;
   };
 
   useEffect(() => {
-    const categories = selectedCategories.map((category) => [
-      `categories = "${category}"`,
-    ]);
-    setFilteredCategories(categories);
-  }, [selectedCategories]);
-
-  useEffect(() => {
-    client
-      .index('restaurants')
-      .search(filterText, {
-        filter: filteredCategories,
-        sort: selectedSortType && [`${selectedSortType}:desc`],
-        hitsPerPage: searchLimit.current,
-        page: page,
-      })
-      .then((res) => {
-        setFilteredRestaurants(res.hits);
-        setTotalPage(res.totalPages);
-        console.log(res);
-      })
-      .catch((error) => console.error('MeiliSearch Error:', error));
-  }, [filterText, filteredCategories, selectedSortType, page]);
-
-  const pageHandler = (event, newPage) => {
-    setPage(newPage);
-  };
+    if (searchLocation) suggestionChangeHandler();
+  }, [searchLocation]);
 
   return (
     <Styles.SearchContainer>
@@ -90,7 +120,7 @@ const ListedRestaurants = ({ restaurants, hoverIdHandler, resetHoverIdHandler })
         selectedSortType={selectedSortType}
       />
       <Styles.Search>
-        <FlexContainer sx={{ justifyContent: 'space-between', gap: 8 }}>
+        <FlexContainer sx={{ justifyContent: 'left', mb: 2 }}>
           <FilterDrawer
             sortTypeHandler={sortTypeHandler}
             categorySelectionHandler={categorySelectionHandler}
@@ -104,21 +134,96 @@ const ListedRestaurants = ({ restaurants, hoverIdHandler, resetHoverIdHandler })
             placeholder="Search Restaurants, Categories, Food"
             onChange={(event) => setFilterText(event.target.value)}
             value={filterText}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Search />
-                </InputAdornment>
-              ),
-            }}
-            sx={{ maxWidth: '350px', mb: 2, mr: 2 }}
+            sx={{ maxWidth: '300px' }}
           />
+          <Autocomplete
+            open={open}
+            onOpen={() => {
+              setOpen(true);
+            }}
+            onClose={() => {
+              setOpen(false);
+            }}
+            value={selectedLocation}
+            onChange={(e, value) => selectedLocationHandler(value)}
+            inputValue={searchLocation}
+            onInputChange={(e, value) => setSearchLocation(value)}
+            isOptionEqualToValue={(option, value) => option.mapbox_id === value.mapbox_id}
+            getOptionLabel={(option) => option.name}
+            options={suggestions}
+            loading={loading}
+            filterOptions={filterOptions}
+            ListboxProps={{ style: { maxHeight: 450 } }}
+            sx={{ width: '350px' }}
+            renderOption={(props, value) => {
+              return (
+                <Box component="li" {...props} key={value.mapbox_id}>
+                  <FlexContainer
+                    sx={{
+                      flexDirection: 'column',
+                      justifyContent: 'left',
+                      alignItems: 'flex-start',
+                    }}
+                  >
+                    <FlexContainer gap={1}>
+                      {value?.mapbox_id === 'default' && (
+                        <MyLocationIcon color="primary" fontSize="small" />
+                      )}
+                      <Text variant="body" color="text.secondary" fontWeight={600}>
+                        {value.name}
+                      </Text>
+                    </FlexContainer>
+
+                    <Text variant="sub" color="text.ternary">
+                      {value.place_formatted}
+                    </Text>
+                  </FlexContainer>
+                </Box>
+              );
+            }}
+            renderInput={(params) => (
+              <InputField
+                {...params}
+                label="Location"
+                variant="outlined"
+                placeholder="Type any location, place, landmark."
+                InputProps={{
+                  ...params.InputProps,
+                  startAdornment: (
+                    <InputAdornment position="end">
+                      {selectedLocation?.mapbox_id === 'default' && (
+                        <MyLocationIcon color="primary" fontSize="small" />
+                      )}
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <React.Fragment>
+                      {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                      {params.InputProps.endAdornment}
+                    </React.Fragment>
+                  ),
+                }}
+              />
+            )}
+          />
+          <PrimaryButton sx={{ height: '55px', borderRadius: 0 }}>
+            <Search sx={{ color: 'white' }} />
+          </PrimaryButton>
         </FlexContainer>
-        <Box mb={1}>
-          <Text variant="subHeader" fontWeight={800}>
-            Search Results for
-          </Text>
-        </Box>
+        {filterText && selectedLocation && (
+          <Box mb={1}>
+            <Text variant="subHeader">
+              Search Results for
+              <Text variant="subHeader" fontWeight={500} sx={{ mr: 1, ml: 1 }}>
+                {filterText}
+              </Text>
+              near
+              <Text variant="subHeader" fontWeight={500} sx={{ mr: 1, ml: 1 }}>
+                {selectedLocation.name}
+              </Text>
+            </Text>
+          </Box>
+        )}
         <Styles.ListContainer>
           {filteredRestaurants.map((restaurant) => (
             <Link
@@ -210,4 +315,4 @@ const ListedRestaurants = ({ restaurants, hoverIdHandler, resetHoverIdHandler })
   );
 };
 
-export default ListedRestaurants;
+export default React.memo(ListedRestaurants);

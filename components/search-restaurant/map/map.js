@@ -1,4 +1,4 @@
-import React, { lazy, useMemo, useCallback, useState, useRef } from 'react';
+import React, { lazy, useMemo, useCallback, useState, useRef, useEffect } from 'react';
 
 // Map
 import ReactMapGL, { Marker, NavigationControl } from 'react-map-gl';
@@ -12,15 +12,15 @@ import { Box } from '@mui/material';
 // Utils
 import { NAV_HEIGHT, MapZoomLevels } from '@/utils/constants';
 
-const Map = ({ restaurants, hoverId }) => {
-  const { coordinates } = restaurants[0].location;
-  const longitude = coordinates[0];
-  const latitude = coordinates[1];
+const Map = ({ restaurants, hoverId, location }) => {
+  const { coordinates } = restaurants.length && restaurants[0]?.location;
+  const longitude = (coordinates && coordinates[0]) || location.lng;
+  const latitude = (coordinates && coordinates[1]) || location.lat;
 
   const initialView = useMemo(
     () => ({
-      latitude,
-      longitude,
+      latitude: latitude,
+      longitude: longitude,
       zoom: 5,
       minZoom: 4,
     }),
@@ -29,6 +29,15 @@ const Map = ({ restaurants, hoverId }) => {
 
   const mapRef = useRef(null);
   const [viewState, setViewState] = useState(initialView);
+
+  useEffect(() => {
+    setViewState((prevState) => ({
+      ...prevState,
+      latitude: latitude,
+      longitude: longitude,
+      zoom: 10,
+    }));
+  }, [restaurants, location]);
 
   const onMove = useCallback(({ viewState }) => {
     setViewState(viewState);
