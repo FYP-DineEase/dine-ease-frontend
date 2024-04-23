@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { selectUserState } from '@/store/user/userSlice';
 import { enqueueSnackbar } from 'notistack';
+
+import StripeCheckout from 'react-stripe-checkout';
 
 // Styles
 import { Dialog, DialogActions, DialogContent, DialogTitle, Grid } from '@mui/material';
@@ -16,11 +20,11 @@ import { getError } from '@/helpers/snackbarHelpers';
 
 // Components
 import PlansCard from './plans-card/plans-card';
-import PaymentModal from '../payment-modal/payment-modal';
 
 const PlansModal = ({ showModal, handleCloseModal }) => {
+  const user = useSelector(selectUserState);
+
   const [plans, setPlans] = useState([]);
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
 
   const fetchPlans = async () => {
@@ -68,15 +72,18 @@ const PlansModal = ({ showModal, handleCloseModal }) => {
             </Grid>
           ))}
         </Grid>
-        <PaymentModal
-          showModal={showPaymentModal}
-          handleCloseModal={() => setShowPaymentModal(false)}
-        />
       </DialogContent>
       <DialogActions>
-        <PrimaryButton disabled={!selectedPlan} onClick={() => setShowPaymentModal(true)}>
-          <Text variant="body">Next</Text>
-        </PrimaryButton>
+        <StripeCheckout
+          // token={({ id }) => doRequest({ token: id })}
+          stripeKey={process.env.NEXT_PUBLIC_STRIPE_PUBLISH}
+          amount={selectedPlan?.charges * 100}
+          email={user.email}
+        >
+          <PrimaryButton disabled={!selectedPlan}>
+            <Text variant="body">Next</Text>
+          </PrimaryButton>
+        </StripeCheckout>
       </DialogActions>
     </Dialog>
   );

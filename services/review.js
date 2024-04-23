@@ -15,6 +15,10 @@ export const getUserReview = (userId) => {
   return api.get(`http://localhost:${port}/api/${service}/user/${userId}`);
 };
 
+export const getReviewBySlug = (slug) => {
+  return api.get(`http://localhost:${port}/api/${service}/slug/${slug}`);
+};
+
 export const addReview = (restaurantId, payload) => {
   const headers = { 'Content-Type': 'multipart/form-data' };
   return api.post(`http://localhost:${port}/api/${service}/${restaurantId}`, payload, {

@@ -32,7 +32,6 @@ import FilterDrawer from '../search-filters-drawer/drawer';
 import SearchFilters from '../search-filters/search-filters';
 
 const ListedRestaurants = ({
-  restaurants,
   hoverIdHandler,
   resetHoverIdHandler,
   sortTypeHandler,

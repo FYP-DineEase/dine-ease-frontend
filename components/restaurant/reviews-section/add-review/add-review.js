@@ -57,6 +57,7 @@ const AddReview = ({
     });
     if (isModal && typeof image === 'string') {
       deletedImages.current.push(image);
+      console.log(deletedImages.current);
     }
   }, []);
 
@@ -79,6 +80,7 @@ const AddReview = ({
         formData.append('deletedImages', image);
         console.log(image);
       });
+      console.log(Object.fromEntries(formData));
       await updateHandler(formData);
     } else {
       await addReviewHandler(formData);
@@ -133,7 +135,7 @@ const AddReview = ({
               formik.setFieldValue('rating', newValue);
             }}
             onBlur={formik.handleBlur}
-            size='large'
+            size="large"
           />
           {formik.errors.rating && Boolean(formik.touched.rating) && (
             <Text variant="sub" color="error" sx={{ display: 'block' }}>

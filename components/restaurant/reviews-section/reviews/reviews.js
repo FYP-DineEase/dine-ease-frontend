@@ -36,7 +36,7 @@ const RestaurantReviews = ({ restaurant }) => {
         <AddReview addReviewHandler={addReviewHandler} />
       </Grid>
       <Grid item xs={12} md={8} sx={{ mb: 4, mt: 4 }}>
-        <RatingChart restaurant={restaurant} />
+        <RatingChart restaurant={restaurant} postedReview={postedReview} />
       </Grid>
       <Grid item xs={12} md={8}>
         <Review

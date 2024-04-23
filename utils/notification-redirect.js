@@ -1,9 +1,9 @@
 export const NotificationRedirect = {
   vote: '/dashboard',
-  'dining-plan': '/dashboard',
-  'restaurant-deleted': '/dashboard',
-  'restaurant-approved': '/dashboard',
-  'restaurant-rejected': '/dashboard',
-  'modify-request-approved': '/dashboard',
-  'modify-request-rejected': '/dashboard',
+  'dining-plan': '/profile',
+  'restaurant-deleted': '/restaurant/dashboard',
+  'restaurant-approved': '/restaurant/dashboard',
+  'restaurant-rejected': '/restaurant/dashboard',
+  'modify-request-approved': '/restaurant/dashboard',
+  'modify-request-rejected': '/restaurant/dashboard',
 };

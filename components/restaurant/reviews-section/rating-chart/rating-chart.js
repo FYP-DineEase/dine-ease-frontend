@@ -28,7 +28,7 @@ import { getError } from '@/helpers/snackbarHelpers';
 // Services
 import { getRestaurantReview } from '@/services/review';
 
-const RatingChart = ({ restaurant }) => {
+const RatingChart = ({ restaurant, postedReview }) => {
   const [reviews, setReviews] = useState([]);
 
   const { details } = useRestaurantContext();
@@ -46,12 +46,26 @@ const RatingChart = ({ restaurant }) => {
     if (details.id) fetchReviews();
   }, [details.id]);
 
+  useEffect(() => {
+    if (postedReview) {
+      const review = {};
+      for (const [key, value] of postedReview.entries()) {
+        review[key] = value;
+      }
+      review.rating = parseInt(review.rating);
+      setReviews((prevState) => [...prevState, review]);
+    }
+  }, [postedReview]);
+
   const ratings = reviews.map((review) => review.rating);
 
   const ratingCounts = Array.from(
     { length: 5 },
     (_, index) => ratings.filter((rating) => rating === index + 1).length
   );
+
+  const averageRating =
+    reviews.reduce((total, review) => total + review.rating, 0) / reviews.length;
 
   const options = {
     responsive: true,
@@ -88,7 +102,7 @@ const RatingChart = ({ restaurant }) => {
     ],
   };
 
-  const satisfactionPercentage = (restaurant.rating / 5) * 100;
+  const satisfactionPercentage = (averageRating / 5) * 100;
 
   return (
     <Grid container justifyContent="center">
@@ -99,10 +113,10 @@ const RatingChart = ({ restaurant }) => {
           </Text>
           <FlexContainer gap={1}>
             <Text variant="subHeader" fontWeight={800}>
-              {restaurant.rating}
+              {averageRating.toFixed(1)}
             </Text>
             <Text variant="sub" fontWeight={500}>
-              ({restaurant.count} Reviews)
+              ({reviews.length} Reviews)
             </Text>
           </FlexContainer>
           <Rating

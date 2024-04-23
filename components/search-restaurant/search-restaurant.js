@@ -14,7 +14,7 @@ import Map from './map/map';
 
 const client = connectToMeilisearch();
 
-const SearchRestaurant = ({ restaurants }) => {
+const SearchRestaurant = () => {
   const user = useSelector(selectUserState);
   const { coordinates } = user.location;
   const longitude = (coordinates && coordinates[0]) || -82.7333444;
@@ -100,7 +100,6 @@ const SearchRestaurant = ({ restaurants }) => {
     <Grid container justifyContent="center">
       <Grid item xs={12} lg={7}>
         <ListedRestaurants
-          restaurants={restaurants}
           hoverIdHandler={hoverIdHandler}
           resetHoverIdHandler={resetHoverIdHandler}
           categoryResetHandler={categoryResetHandler}

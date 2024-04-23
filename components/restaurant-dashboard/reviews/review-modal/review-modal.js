@@ -23,6 +23,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import { getDate, getTimePassed } from '@/helpers/dateHelpers';
 import { getFileUrl } from '@/helpers/fileHelpers';
 
+// Components
+import VoteOptions from '@/components/reviews/vote-options/vote';
+import Link from 'next/link';
+
 const ReviewModal = ({ review, showModal, handleCloseModal }) => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
@@ -84,15 +88,19 @@ const ReviewModal = ({ review, showModal, handleCloseModal }) => {
       <DialogContent dividers={true}>
         <Styles.ReviewCard>
           <Styles.UserDetails>
-            <Avatar sx={{ width: 72, height: 72 }}>{review.name?.slice(0, 1)}</Avatar>
+            <Link href={`/profile/${review.slug || review.userId.slug}`}>
+              <Avatar sx={{ width: 72, height: 72 }}>{review.name?.slice(0, 1)}</Avatar>
+            </Link>
             <Box>
-              <Text
-                variant="main"
-                fontWeight={500}
-                sx={{ display: 'block', color: 'text.secondary' }}
-              >
-                {review.name}
-              </Text>
+              <Link href={`/profile/${review.slug || review.userId.slug}`}>
+                <Text
+                  variant="main"
+                  fontWeight={500}
+                  sx={{ display: 'block', color: 'text.secondary' }}
+                >
+                  {review.name}
+                </Text>
+              </Link>
               <Rating value={review.rating} precision={0.5} readOnly sx={{ mt: 0.25 }} />
               <Text variant="sub" sx={{ display: 'block', color: 'text.secondary' }}>
                 {getDate(review.createdAt)}, {getTimePassed(review.createdAt)}
@@ -107,6 +115,11 @@ const ReviewModal = ({ review, showModal, handleCloseModal }) => {
               {renderImages(review.restaurantId, review.id, review.images)}
             </ImageList>
           </Box>
+          <VoteOptions
+            reviewId={review.id}
+            reviewVotes={review.votes}
+            reviewUserId={review.id || review.userId.id}
+          />
         </Styles.ReviewCard>
       </DialogContent>
     </Dialog>

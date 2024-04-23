@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 import { useSelector } from 'react-redux';
 import { selectUserState } from '@/store/user/userSlice';
@@ -11,7 +12,7 @@ import { enqueueSnackbar } from 'notistack';
 // Styles
 import * as Styles from './dining-plan-card.styles';
 import { FlexContainer, PrimaryButton, Text } from '@/components/UI';
-import { Card, CardContent, Grid, IconButton, Tooltip } from '@mui/material';
+import { Box, Card, CardContent, Grid, IconButton, Rating, Tooltip } from '@mui/material';
 
 // Icons
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
@@ -21,6 +22,7 @@ import Edit from '@mui/icons-material/Edit';
 // Helpers
 import { getDate, getTime } from '@/helpers/dateHelpers';
 import { getError } from '@/helpers/snackbarHelpers';
+import { getFileUrl } from '@/helpers/fileHelpers';
 
 // Services
 import { deletePlan, getUserPlans, updatePlan } from '@/services/dining-plan';
@@ -131,41 +133,64 @@ const DiningPlanCard = () => {
                     </Tooltip>
                   </Styles.Options>
                 )}
-                <Text
-                  variant="main"
-                  color="text.secondary"
-                  sx={{ fontWeight: 900, display: 'block', mb: 3 }}
-                >
-                  {plan.title}
-                </Text>
-                <Text
-                  variant="subHeader"
-                  color="text.secondary"
-                  sx={{ fontWeight: 500, display: 'block', mb: 1 }}
-                >
-                  {plan.restaurant.name}
-                </Text>
-                <Text
-                  variant="sub"
-                  color="secondary"
-                  sx={{ fontWeight: 900, display: 'block', mb: 1 }}
-                >
-                  {getDate(plan.date)}
-                </Text>
-                <Text
-                  variant="body"
-                  color="text.secondary"
-                  sx={{ display: 'block', mb: 3 }}
-                >
-                  {plan.description}
-                </Text>
-                <Text
-                  variant="body"
-                  color="text.secondary"
-                  sx={{ display: 'block', fontWeight: 900 }}
-                >
-                  Timing: {getTime(plan.date)}
-                </Text>
+                <Styles.PlanDetails>
+                  <Styles.RestaurantImage>
+                    <Image
+                      src={
+                        (plan.restaurant.cover &&
+                          getFileUrl(
+                            process.env.NEXT_PUBLIC_AWS_S3_RESTAURANTS_BUCKET,
+                            `${plan.restaurant.id}/cover/${plan.restaurant.cover}`
+                          )) ||
+                        '/assets/images/bg-placeholder.png'
+                      }
+                      alt="restaurant-cover"
+                      fill
+                      sizes="100%"
+                      style={{ borderRadius: '5px' }}
+                    />
+                  </Styles.RestaurantImage>
+
+                  <Box maxWidth="60%">
+                    <Text
+                      variant="main"
+                      color="secondary"
+                      sx={{ fontWeight: 900, display: 'block', mb: 3 }}
+                    >
+                      {plan.title}
+                    </Text>
+                    <Text
+                      variant="subHeader"
+                      color="text.secondary"
+                      sx={{ fontWeight: 500, display: 'block', mb: 1 }}
+                    >
+                      {plan.restaurant.name}
+                    </Text>
+                    <FlexContainer sx={{ justifyContent: 'left', gap: 1, mb: 3 }}>
+                      <Rating value={plan.restaurant.rating} size="small" readOnly />
+                      <Text variant="sub" color="text.ternary">
+                        {plan.restaurant.rating} ({plan.restaurant.count} Reviews)
+                      </Text>
+                    </FlexContainer>
+                    <Text
+                      variant="body"
+                      color="text.secondary"
+                      sx={{ display: 'block', mb: 3 }}
+                    >
+                      {plan.description}
+                    </Text>
+                    <Text
+                      variant="body"
+                      color="secondary"
+                      sx={{ display: 'block', fontWeight: 900 }}
+                    >
+                      <Text variant="body" color="text.secondary" mr={1}>
+                        Timing:
+                      </Text>
+                      {getDate(plan.date)} {getTime(plan.date)}
+                    </Text>
+                  </Box>
+                </Styles.PlanDetails>
                 <Link
                   href={`/restaurant/${plan.restaurant.slug}`}
                   style={{ position: 'absolute', right: 20, bottom: 15 }}

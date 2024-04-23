@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+
 // Store
 import { Provider } from 'react-redux';
 import { persistor, store } from '@/store/store';
@@ -10,14 +12,21 @@ import '@/styles/globals.css';
 // Layout
 import Layout from '@/components/layout/layout';
 
+// Services
+import { getApprovedRestaurants } from '@/services';
+import { connectToMeilisearch } from '@/services/meilisearch';
+
+const meili = connectToMeilisearch();
+
 const AppComponent = ({ Component, pageProps, ...rest }) => {
+  const router = useRouter();
   const getLayout = Component.getLayout || ((page) => page);
 
   return (
     <Provider store={store}>
       <PersistGate loading={<h1>Loading</h1>} persistor={persistor}>
         <ThemeContextProvider>
-          <Layout>{getLayout(<Component {...pageProps} />)}</Layout>
+          <Layout>{getLayout(<Component {...pageProps} key={router.asPath} />)}</Layout>
         </ThemeContextProvider>
       </PersistGate>
     </Provider>
@@ -25,3 +34,37 @@ const AppComponent = ({ Component, pageProps, ...rest }) => {
 };
 
 export default AppComponent;
+
+export const getStaticProps = async () => {
+  const { data } = await getApprovedRestaurants();
+  const { restaurants } = data;
+
+  const modifiedRestaurants = restaurants.map((restaurant) => ({
+    ...restaurant,
+    categories: restaurant.categories[0].split(', '),
+    _geo: {
+      lat: restaurant.location.coordinates[1],
+      lng: restaurant.location.coordinates[0],
+    },
+  }));
+
+  meili
+    .index('restaurants')
+    .addDocuments(modifiedRestaurants, { primaryKey: 'id' })
+    .catch((error) => console.error('MeiliSearch Error:', error));
+
+  meili
+    .index('restaurants')
+    .updateFilterableAttributes(['categories', '_geo'])
+    .catch((error) => console.error('MeiliSearch Error:', error));
+
+  meili
+    .index('restaurants')
+    .updateSortableAttributes(['rating', 'count'])
+    .catch((error) => console.error('MeiliSearch Error:', error));
+
+  return {
+    props: { restaurants: modifiedRestaurants },
+    revalidate: 300,
+  };
+};

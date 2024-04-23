@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { enqueueSnackbar } from 'notistack';
 import { selectUserState } from '@/store/user/userSlice';
@@ -20,17 +21,52 @@ import { getTimePassed } from '@/helpers/dateHelpers';
 
 // Services
 import { getNotifications, readNotifications } from '@/services/notifications';
+import { getReviewBySlug } from '@/services/review';
+
+// Utils
+import { NotificationRedirect } from '@/utils/notification-redirect';
+
+// Components
+import ReviewModal from '@/components/restaurant-dashboard/reviews/review-modal/review-modal';
 
 const NotificationMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [notifications, setNotifications] = useState([]);
   const [readTimeout, setReadTimeout] = useState(null);
   const [unReadNotifications, setUnReadNotifications] = useState(new Set());
+  const [showReview, setShowReview] = useState(false);
+  const [review, setReview] = useState(null);
+
+  const router = useRouter();
 
   const user = useSelector(selectUserState);
   const { socket } = useNotificationContext();
 
   const open = Boolean(anchorEl);
+
+  const notificationHandler = async (item) => {
+    if (item.type === 'dining-plan')
+      router.push(`${NotificationRedirect[item.type]}/${item.senderId.slug}`);
+    else if (item.type === 'vote') {
+      try {
+        const response = await getReviewBySlug(item.slug);
+        const { userId, ...rest } = response.data;
+        const destructuredReview = { ...userId, ...rest };
+        setReview(destructuredReview);
+      } catch (e) {
+        enqueueSnackbar({ variant: 'error', message: getError(e) });
+      }
+    } else {
+      router.push(`${NotificationRedirect[item.type]}/${item.slug}/logs`);
+    }
+    closeMenu();
+  };
+
+  useEffect(() => {
+    if (review) {
+      setShowReview(true);
+    }
+  }, [review]);
 
   // socket connection
   useEffect(() => {
@@ -146,6 +182,13 @@ const NotificationMenu = () => {
 
   return (
     <React.Fragment>
+      {showReview && (
+        <ReviewModal
+          showModal={showReview}
+          handleCloseModal={() => setShowReview(false)}
+          review={review}
+        />
+      )}
       <IconButton onClick={openMenu}>
         <Badge
           overlap="circular"
@@ -189,8 +232,8 @@ const NotificationMenu = () => {
         {notifications.length > 0 ? (
           <Box sx={{ maxHeight: '375px', overflow: 'auto' }}>
             {notifications.map((item) => (
-              <Box key={item.id}>
-                <MenuItem onClick={closeMenu} sx={{ whiteSpace: 'normal' }}>
+              <Box onClick={() => notificationHandler(item)} key={item.id}>
+                <MenuItem sx={{ whiteSpace: 'normal' }}>
                   <FlexContainer gap={2} sx={{ justifyContent: 'left' }}>
                     {item.category === 'system' ? (
                       <InfoIcon color="info" sx={{ height: 60, width: 60 }} />

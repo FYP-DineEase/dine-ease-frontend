@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { useProfileContext } from '@/context/profile';
 
 // Styles
@@ -14,11 +15,10 @@ import { getUserVotes } from '@/services/review';
 // Helpers
 import { getError } from '@/helpers/snackbarHelpers';
 import { getDate } from '@/helpers/dateHelpers';
+import { getFileUrl } from '@/helpers/fileHelpers';
 
 // Icons
 import PollIcon from '@mui/icons-material/Poll';
-import { getFileUrl } from '@/helpers/fileHelpers';
-import Link from 'next/link';
 
 const VotesActivity = () => {
   const [votes, setVotes] = useState([]);
