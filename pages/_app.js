@@ -41,7 +41,7 @@ const AppComponent = ({ Component, pageProps, ...rest }) => {
 
 export default AppComponent;
 
-export const getStaticProps = async () => {
+AppComponent.getInitialProps = async () => {
   const { data } = await getApprovedRestaurants();
   const { restaurants } = data;
 
@@ -69,8 +69,5 @@ export const getStaticProps = async () => {
     .updateSortableAttributes(['rating', 'count'])
     .catch((error) => console.error('MeiliSearch Error:', error));
 
-  return {
-    props: { restaurants: modifiedRestaurants },
-    revalidate: 300,
-  };
+  return { restaurants: modifiedRestaurants };
 };

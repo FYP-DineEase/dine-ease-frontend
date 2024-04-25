@@ -117,7 +117,7 @@ const FavouritesMap = ({ data }) => {
                       }
                       alt="restaurant"
                       height={150}
-                      width={200}
+                      width={220}
                       style={{ borderRadius: '5px' }}
                     />
                     <FlexContainer sx={{ justifyContent: 'space-between' }}>

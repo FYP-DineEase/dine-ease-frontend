@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import useDebounce from '@/hooks/useDebounce';
 import { useSelector } from 'react-redux';
 import { selectUserState } from '@/store/user/userSlice';
 
@@ -21,6 +22,7 @@ const SearchRestaurant = () => {
   const latitude = (coordinates && coordinates[1]) || 28.2172884;
 
   const [filterText, setFilterText] = useState('');
+  const debouncedSearch = useDebounce(filterText, 500);
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
@@ -55,7 +57,7 @@ const SearchRestaurant = () => {
 
   const hoverIdHandler = (value) => {
     if (value === hoverId) return;
-    setHoverId(value);
+    // setHoverId(value);
   };
 
   const resetHoverIdHandler = () => {
@@ -75,7 +77,7 @@ const SearchRestaurant = () => {
   useEffect(() => {
     client
       .index('restaurants')
-      .search(filterText, {
+      .search(debouncedSearch, {
         filter: [
           filteredCategories,
           `_geoRadius(${location.lat}, ${location.lng}, ${location.distanceInMeters})`,
@@ -90,11 +92,11 @@ const SearchRestaurant = () => {
         console.log(res);
       })
       .catch((error) => console.error('MeiliSearch Error:', error));
-  }, [filterText, filteredCategories, selectedSortType, page, location]);
+  }, [debouncedSearch, filteredCategories, selectedSortType, page, location]);
 
   useEffect(() => {
     setPage(1);
-  }, [filterText]);
+  }, [debouncedSearch]);
 
   return (
     <Grid container justifyContent="center">

@@ -1,10 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import useDebounce from '@/hooks/useDebounce';
 import Link from 'next/link';
 import Image from 'next/image';
 
 // Styles
 import * as Styles from './listed-restaurants.styles';
-import { FlexContainer, InputField, PrimaryButton, Text } from '@/components/UI';
+import { FlexContainer, InputField, Text } from '@/components/UI';
 import {
   Autocomplete,
   Box,
@@ -20,7 +21,6 @@ import {
 // Icons
 import LocationIcon from '@mui/icons-material/LocationOn';
 import CallIcon from '@mui/icons-material/Call';
-import Search from '@mui/icons-material/Search';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 
 // Helpers
@@ -58,6 +58,7 @@ const ListedRestaurants = ({
   );
 
   const [searchLocation, setSearchLocation] = useState('');
+  const debouncedSearchLocation = useDebounce(searchLocation, 500);
   const [selectedLocation, setSelectedLocation] = useState(defaultOption);
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -65,7 +66,7 @@ const ListedRestaurants = ({
   const suggestionChangeHandler = async () => {
     try {
       setLoading(true);
-      const response = await getSuggestions(searchLocation);
+      const response = await getSuggestions(debouncedSearchLocation);
       setSuggestions(response);
     } catch (e) {
       console.log(e);
@@ -106,8 +107,8 @@ const ListedRestaurants = ({
   };
 
   useEffect(() => {
-    if (searchLocation) suggestionChangeHandler();
-  }, [searchLocation]);
+    if (debouncedSearchLocation) suggestionChangeHandler();
+  }, [debouncedSearchLocation]);
 
   return (
     <Styles.SearchContainer>
@@ -119,7 +120,7 @@ const ListedRestaurants = ({
         selectedSortType={selectedSortType}
       />
       <Styles.Search>
-        <FlexContainer sx={{ justifyContent: 'left', mb: 2 }}>
+        <Styles.SearchFields>
           <FilterDrawer
             sortTypeHandler={sortTypeHandler}
             categorySelectionHandler={categorySelectionHandler}
@@ -133,7 +134,7 @@ const ListedRestaurants = ({
             placeholder="Search Restaurants, Categories, Food"
             onChange={(event) => setFilterText(event.target.value)}
             value={filterText}
-            sx={{ maxWidth: '300px' }}
+            sx={{ maxWidth: '350px' }}
           />
           <Autocomplete
             open={open}
@@ -197,7 +198,7 @@ const ListedRestaurants = ({
                   ),
                   endAdornment: (
                     <React.Fragment>
-                      {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                      {loading ? <CircularProgress color="primary" size={20} /> : null}
                       {params.InputProps.endAdornment}
                     </React.Fragment>
                   ),
@@ -205,10 +206,7 @@ const ListedRestaurants = ({
               />
             )}
           />
-          <PrimaryButton sx={{ height: '55px', borderRadius: 0 }}>
-            <Search sx={{ color: 'white' }} />
-          </PrimaryButton>
-        </FlexContainer>
+        </Styles.SearchFields>
         {filterText && selectedLocation && (
           <Box mb={1}>
             <Text variant="subHeader">
