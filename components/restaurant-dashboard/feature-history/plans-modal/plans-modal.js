@@ -70,6 +70,7 @@ const PlansModal = ({ showModal, handleCloseModal }) => {
       clientSecret = response.data;
     } catch (e) {
       enqueueSnackbar({ variant: 'error', message: getError(e) });
+      return;
     }
 
     // create payment
