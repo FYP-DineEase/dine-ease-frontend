@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { selectUserState } from '@/store/user/userSlice';
 import { enqueueSnackbar } from 'notistack';
+import { useRestaurantContext } from '@/context/restaurant';
 
-import StripeCheckout from 'react-stripe-checkout';
+// Stripe
+import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
+
+// Components
+import PlansCard from './plans-card/plans-card';
 
 // Styles
 import { Dialog, DialogActions, DialogContent, DialogTitle, Grid } from '@mui/material';
@@ -13,19 +16,20 @@ import { ModalCancelIcon, PrimaryButton, Text } from '@/components/UI';
 import CloseIcon from '@mui/icons-material/Close';
 
 // Services
-import { getActivePlans } from '@/services';
+import { getActivePlans, createIntent } from '@/services';
 
 // Helpers
 import { getError } from '@/helpers/snackbarHelpers';
 
-// Components
-import PlansCard from './plans-card/plans-card';
-
 const PlansModal = ({ showModal, handleCloseModal }) => {
-  const user = useSelector(selectUserState);
+  const stripe = useStripe();
+  const elements = useElements();
+
+  const { details } = useRestaurantContext();
 
   const [plans, setPlans] = useState([]);
   const [selectedPlan, setSelectedPlan] = useState(null);
+  const [openPaymentForm, setOpenPaymentForm] = useState(false);
 
   const fetchPlans = async () => {
     try {
@@ -42,6 +46,57 @@ const PlansModal = ({ showModal, handleCloseModal }) => {
 
   const planSelectionHandler = (planType) => {
     setSelectedPlan(planType);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (elements == null) return;
+
+    // Validation and wallet collection
+    const { error: submitError } = await elements.submit();
+    if (submitError) {
+      enqueueSnackbar({ variant: 'success', message: submitError.message });
+      return;
+    }
+
+    // payload
+    let clientSecret;
+    const payload = { planId: selectedPlan.id, restaurantId: details.id };
+
+    // retrieve clientSecret
+    try {
+      const response = await createIntent(payload);
+      clientSecret = response.data;
+    } catch (e) {
+      enqueueSnackbar({ variant: 'error', message: getError(e) });
+    }
+
+    // create payment
+    const { error, paymentIntent } = await stripe.confirmPayment({
+      elements,
+      clientSecret,
+      confirmParams: {
+        return_url: `https://google.com/`,
+      },
+      redirect: 'if_required',
+    });
+
+    if (error) {
+      enqueueSnackbar({ variant: 'error', message: error.message });
+      return;
+    }
+
+    // create subscription
+    try {
+      const response = await createSubscription({
+        ...payload,
+        stripeId: paymentIntent.id,
+      });
+      enqueueSnackbar({ variant: 'success', message: response.data });
+    } catch (e) {
+      enqueueSnackbar({ variant: 'error', message: getError(e) });
+    }
   };
 
   return (
@@ -74,16 +129,19 @@ const PlansModal = ({ showModal, handleCloseModal }) => {
         </Grid>
       </DialogContent>
       <DialogActions>
-        <StripeCheckout
-          // token={({ id }) => doRequest({ token: id })}
-          stripeKey={process.env.NEXT_PUBLIC_STRIPE_PUBLISH}
-          amount={selectedPlan?.charges * 100}
-          email={user.email}
-        >
-          <PrimaryButton disabled={!selectedPlan}>
-            <Text variant="body">Next</Text>
-          </PrimaryButton>
-        </StripeCheckout>
+        {openPaymentForm && (
+          <form onSubmit={handleSubmit}>
+            <PaymentElement />
+            <PrimaryButton type="submit" disabled={!stripe || !elements}>
+              <Text variant="body">Pay</Text>
+            </PrimaryButton>
+          </form>
+        )}
+        <PrimaryButton disabled={!selectedPlan}>
+          <Text variant="body" onClick={() => setOpenPaymentForm(true)}>
+            Next
+          </Text>
+        </PrimaryButton>
       </DialogActions>
     </Dialog>
   );

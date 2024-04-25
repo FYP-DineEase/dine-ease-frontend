@@ -2,11 +2,11 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import DataTable from 'react-data-table-component';
 
-//Styles
+// Styles
 import { DashboardContent, FlexContainer, InputField } from '@/components/UI';
 import { InputAdornment } from '@mui/material';
 
-//Icons
+// Icons
 import PersonIcon from '@mui/icons-material/Person';
 import StarIcon from '@mui/icons-material/Star';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';

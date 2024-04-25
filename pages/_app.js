@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { Elements } from '@stripe/react-stripe-js';
 
 // Store
 import { Provider } from 'react-redux';
@@ -16,6 +17,9 @@ import Layout from '@/components/layout/layout';
 import { getApprovedRestaurants } from '@/services';
 import { connectToMeilisearch } from '@/services/meilisearch';
 
+// Utils
+import { options, stripePromise } from '@/utils/stripe';
+
 const meili = connectToMeilisearch();
 
 const AppComponent = ({ Component, pageProps, ...rest }) => {
@@ -25,9 +29,11 @@ const AppComponent = ({ Component, pageProps, ...rest }) => {
   return (
     <Provider store={store}>
       <PersistGate loading={<h1>Loading</h1>} persistor={persistor}>
-        <ThemeContextProvider>
-          <Layout>{getLayout(<Component {...pageProps} key={router.asPath} />)}</Layout>
-        </ThemeContextProvider>
+        <Elements stripe={stripePromise} options={options}>
+          <ThemeContextProvider>
+            <Layout>{getLayout(<Component {...pageProps} key={router.asPath} />)}</Layout>
+          </ThemeContextProvider>
+        </Elements>
       </PersistGate>
     </Provider>
   );
