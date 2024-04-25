@@ -16,7 +16,7 @@ import { ModalCancelIcon, PrimaryButton, Text } from '@/components/UI';
 import CloseIcon from '@mui/icons-material/Close';
 
 // Services
-import { getActivePlans, createIntent } from '@/services';
+import { getActivePlans, createIntent, createSubscription } from '@/services';
 
 // Helpers
 import { getError } from '@/helpers/snackbarHelpers';
