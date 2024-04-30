@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 
 // Styles
@@ -25,10 +26,24 @@ import { getFileUrl } from '@/helpers/fileHelpers';
 
 // Components
 import VoteOptions from '@/components/reviews/vote-options/vote';
-import Link from 'next/link';
 
-const ReviewModal = ({ review, showModal, handleCloseModal }) => {
+const ReviewModal = ({ review, showModal, handleCloseModal, viewOnly }) => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
+  const {
+    name = null,
+    id: userId,
+    avatar = null,
+    slug = null,
+  } = (review && review.userId) || {};
+  const {
+    rating = null,
+    createdAt = null,
+    restaurantId = null,
+    id: reviewId,
+    images = [],
+    votes = [],
+    content = null,
+  } = review || {};
 
   const renderImages = (restaurantId, reviewId, images) => {
     const imageCount = Math.min(images.length, 3);
@@ -88,37 +103,51 @@ const ReviewModal = ({ review, showModal, handleCloseModal }) => {
       <DialogContent dividers={true}>
         <Styles.ReviewCard>
           <Styles.UserDetails>
-            <Link href={`/profile/${review.slug || review.userId.slug}`}>
-              <Avatar sx={{ width: 72, height: 72 }}>{review.name?.slice(0, 1)}</Avatar>
+            <Link href={`/profile/${slug}`}>
+              <Avatar
+                src={
+                  avatar &&
+                  getFileUrl(
+                    process.env.NEXT_PUBLIC_AWS_S3_USERS_BUCKET,
+                    `${userId}/avatar/${avatar}`
+                  )
+                }
+                sx={{ width: 72, height: 72 }}
+              >
+                {name?.slice(0, 1)}
+              </Avatar>
             </Link>
             <Box>
-              <Link href={`/profile/${review.slug || review.userId.slug}`}>
+              <Link href={`/profile/${slug}`}>
                 <Text
                   variant="main"
                   fontWeight={500}
                   sx={{ display: 'block', color: 'text.secondary' }}
                 >
-                  {review.name}
+                  {name}
                 </Text>
               </Link>
-              <Rating value={review.rating} precision={0.5} readOnly sx={{ mt: 0.25 }} />
+              <Rating value={rating} precision={0.5} readOnly sx={{ mt: 0.25 }} />
               <Text variant="sub" sx={{ display: 'block', color: 'text.secondary' }}>
-                {getDate(review.createdAt)}, {getTimePassed(review.createdAt)}
+                {getDate(createdAt)}, {getTimePassed(createdAt)}
               </Text>
             </Box>
           </Styles.UserDetails>
           <Text variant="body" sx={{ display: 'block', mt: 2, color: 'text.secondary' }}>
-            {review.content}
+            {content}
           </Text>
-          <Box sx={{ width: '100%', mt: 3 }}>
-            <ImageList rowHeight={isMobile ? 150 : 200} cols={2} variant="quilted">
-              {renderImages(review.restaurantId, review.id, review.images)}
-            </ImageList>
-          </Box>
+          {images.length > 0 && (
+            <Box sx={{ width: '100%', mt: 3 }}>
+              <ImageList rowHeight={isMobile ? 150 : 200} cols={2} variant="quilted">
+                {renderImages(restaurantId, reviewId, images)}
+              </ImageList>
+            </Box>
+          )}
           <VoteOptions
-            reviewId={review.id}
-            reviewVotes={review.votes}
-            reviewUserId={review.id || review.userId.id}
+            reviewId={reviewId}
+            reviewVotes={votes}
+            reviewUserId={userId}
+            viewOnly={viewOnly}
           />
         </Styles.ReviewCard>
       </DialogContent>

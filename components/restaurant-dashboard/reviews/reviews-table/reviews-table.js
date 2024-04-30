@@ -26,7 +26,15 @@ const ReviewsTable = ({ reviews }) => {
   const [filterText, setFilterText] = useState('');
 
   const openModalHandler = (review) => {
-    reviewDetails.current = review;
+    reviewDetails.current = {
+      ...review,
+      userId: {
+        name: review.name,
+        id: review.id,
+        avatar: review.avatar,
+      },
+      id: review.reviewId,
+    };
     setShowReviewModal(true);
   };
 
@@ -133,6 +141,7 @@ const ReviewsTable = ({ reviews }) => {
       id: review.userId.id,
       reviewId: review.id,
       images: review.images,
+      votes: review.votes,
     }));
     setData(data);
     setLoading(false);
@@ -145,6 +154,7 @@ const ReviewsTable = ({ reviews }) => {
           showModal={showReviewModal}
           handleCloseModal={closeModalHandler}
           review={reviewDetails.current}
+          viewOnly={true}
         />
       )}
       <DashboardContent>

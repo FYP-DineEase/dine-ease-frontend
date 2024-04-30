@@ -26,7 +26,7 @@ import { getError } from '@/helpers/snackbarHelpers';
 // Components
 import AuthenticationModal from '@/components/modal/authentication-modal/authentication-modal';
 
-const VoteOptions = ({ reviewId, reviewVotes, reviewUserId }) => {
+const VoteOptions = ({ reviewId, reviewVotes, reviewUserId, viewOnly = false }) => {
   const user = useSelector(selectUserState);
   const [votes, setVotes] = useState(reviewVotes);
   const [userVote, setUserVote] = useState(
@@ -63,7 +63,7 @@ const VoteOptions = ({ reviewId, reviewVotes, reviewUserId }) => {
       return;
     }
 
-    if (reviewUserId === user.id) {
+    if (reviewUserId === user.id || viewOnly) {
       return;
     }
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 // Styles
+import * as Styles from './drawer.styles';
 import {
   Box,
   Drawer,
@@ -26,13 +27,18 @@ import { categoryTypes, sortBy } from '@/utils/constants';
 const FilterDrawer = ({
   sortTypeHandler,
   categorySelectionHandler,
+  categoryResetHandler,
   selectedCategories,
   selectedSortType,
 }) => {
   const [showDrawer, setShowDrawer] = useState(false);
   const [filterText, setFilterText] = useState('');
 
-  const filteredCategories = categoryTypes.filter((category) =>
+  const nonSelectedCategories = categoryTypes.filter(
+    (category) => !selectedCategories.includes(category)
+  );
+
+  const filteredCategories = nonSelectedCategories.filter((category) =>
     category.toLowerCase().includes(filterText.toLowerCase())
   );
 
@@ -98,6 +104,15 @@ const FilterDrawer = ({
                 <Text variant="subHeader" fontWeight={500} color="text.secondary">
                   Categories
                 </Text>
+                {selectedCategories.length > 0 && (
+                  <Styles.ResetText
+                    variant="sub"
+                    color="primary"
+                    onClick={categoryResetHandler}
+                  >
+                    Reset
+                  </Styles.ResetText>
+                )}
               </Box>
               <InputField
                 name="search"
@@ -116,6 +131,27 @@ const FilterDrawer = ({
                 sx={{ mb: 1, mt: 2 }}
               />
               <Box sx={{ maxHeight: '50vh', overflowY: 'auto', overflowX: 'hidden' }}>
+                {selectedCategories.map((category, index) => (
+                  <ListItemButton sx={{ pl: 2, pt: 0, pb: 0 }} key={category}>
+                    <FormGroup key={index}>
+                      <FormControlLabel
+                        control={
+                          <CustomCheckbox
+                            checked={selectedCategories.includes(category)}
+                            value={category}
+                            onChange={() => categoryChangeHandler(category)}
+                          />
+                        }
+                        label={category}
+                        sx={{
+                          '& .MuiFormControlLabel-label': {
+                            color: 'text.secondary',
+                          },
+                        }}
+                      />
+                    </FormGroup>
+                  </ListItemButton>
+                ))}
                 {filteredCategories.map((category, index) => (
                   <ListItemButton sx={{ pl: 2, pt: 0, pb: 0 }} key={category}>
                     <FormGroup key={index}>

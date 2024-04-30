@@ -51,8 +51,7 @@ const NotificationMenu = () => {
       try {
         const response = await getReviewBySlug(item.slug);
         const { userId, ...rest } = response.data;
-        const destructuredReview = { ...userId, ...rest };
-        setReview(destructuredReview);
+        setReview(response.data);
       } catch (e) {
         enqueueSnackbar({ variant: 'error', message: getError(e) });
       }
@@ -187,6 +186,7 @@ const NotificationMenu = () => {
           showModal={showReview}
           handleCloseModal={() => setShowReview(false)}
           review={review}
+          viewOnly={true}
         />
       )}
       <IconButton onClick={openMenu}>

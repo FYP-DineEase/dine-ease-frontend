@@ -46,6 +46,7 @@ const RecentReviews = ({ reviews }) => {
           showModal={showReviewModal}
           handleCloseModal={closeModalHandler}
           review={reviewDetails.current}
+          viewOnly={true}
         />
       )}
       <Grid container columnSpacing={1}>

@@ -124,6 +124,7 @@ const ListedRestaurants = ({
           <FilterDrawer
             sortTypeHandler={sortTypeHandler}
             categorySelectionHandler={categorySelectionHandler}
+            categoryResetHandler={categoryResetHandler}
             selectedCategories={selectedCategories}
             selectedSortType={selectedSortType}
           />
