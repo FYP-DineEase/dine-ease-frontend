@@ -12,6 +12,7 @@ import ReviewsGraph from '../reviews-graph/reviews-graph';
 import VotesGraph from '../votes/votes-graph/votes-graph';
 import VotesActivity from '@/components/profile/votes/vote-activity/vote-activity';
 import DiningPlanCard from '../dining-plan-card/dining-plan-card';
+import DiningPlanCalender from '../dining-plan-calender/dining-plan-calender';
 
 // Styles
 import * as Styles from './navigation.styles';
@@ -57,6 +58,7 @@ const Navigation = () => {
       icon: <PlanIcon fontSize="medium" />,
       label: 'Plans',
       childComponent: <DiningPlanCard />,
+      detailComponent: <DiningPlanCalender />,
     },
     {
       value: 'Favourites',
