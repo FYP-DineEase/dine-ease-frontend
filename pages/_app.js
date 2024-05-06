@@ -8,6 +8,8 @@ import { PersistGate } from 'redux-persist/integration/react';
 
 // Styles
 import { ThemeContextProvider } from '@/context/theme-provider';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import '@/styles/globals.css';
 
 // Layout
@@ -25,7 +27,11 @@ const AppComponent = ({ Component, pageProps, ...rest }) => {
       <PersistGate loading={<h1>Loading</h1>} persistor={persistor}>
         <Elements stripe={stripePromise} options={options}>
           <ThemeContextProvider>
-            <Layout>{getLayout(<Component {...pageProps} key={router.asPath} />)}</Layout>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <Layout>
+                {getLayout(<Component {...pageProps} key={router.asPath} />)}
+              </Layout>
+            </LocalizationProvider>
           </ThemeContextProvider>
         </Elements>
       </PersistGate>

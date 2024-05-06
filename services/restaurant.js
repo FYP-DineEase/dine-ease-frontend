@@ -72,15 +72,22 @@ export const updateRestaurantDetails = (restaurantId, payload) => {
 };
 
 export const deleteRestaurantImages = (restaurantId, payload) => {
-  return api.delete(`http://localhost:${port}/api/${service}/images/${restaurantId}`, {});
+  return api.patch(
+    `http://localhost:${port}/api/${service}/images/${restaurantId}`,
+    payload
+  );
 };
 
 // Menu
 export const addMenuItem = (restaurantId, payload) => {
   const headers = { 'Content-Type': 'multipart/form-data' };
-  return api.post(`http://localhost:${port}/api/${service}/menu/${restaurantId}`, payload, {
-    headers,
-  });
+  return api.post(
+    `http://localhost:${port}/api/${service}/menu/${restaurantId}`,
+    payload,
+    {
+      headers,
+    }
+  );
 };
 
 export const updateMenuItem = (restaurantId, menuId, payload) => {
@@ -91,9 +98,14 @@ export const updateMenuItem = (restaurantId, menuId, payload) => {
 };
 
 export const updateMenuOrder = (restaurantId, payload) => {
-  return api.patch(`http://localhost:${port}/api/${service}/menu/${restaurantId}`, payload);
+  return api.patch(
+    `http://localhost:${port}/api/${service}/menu/${restaurantId}`,
+    payload
+  );
 };
 
 export const deleteMenuItem = (restaurantId, menuId) => {
-  return api.delete(`http://localhost:${port}/api/${service}/menu/${restaurantId}/${menuId}`);
+  return api.delete(
+    `http://localhost:${port}/api/${service}/menu/${restaurantId}/${menuId}`
+  );
 };

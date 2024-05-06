@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { enqueueSnackbar } from 'notistack';
 import { useRestaurantContext } from '@/context/restaurant';
 
@@ -26,19 +26,25 @@ const PaymentModal = ({
   selectedPlan,
 }) => {
   const { details } = useRestaurantContext();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const stripe = useStripe();
   const elements = useElements();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsSubmitting(true);
 
-    if (elements == null) return;
+    if (elements == null) {
+      setIsSubmitting(false);
+      return;
+    }
 
     // Validation and wallet collection
     const { error: submitError } = await elements.submit();
     if (submitError) {
       enqueueSnackbar({ variant: 'error', message: submitError.message });
+      setIsSubmitting(false);
       return;
     }
 
@@ -52,6 +58,7 @@ const PaymentModal = ({
       clientSecret = response.data;
     } catch (e) {
       enqueueSnackbar({ variant: 'error', message: getError(e) });
+      setIsSubmitting(false);
       return;
     }
 
@@ -67,6 +74,7 @@ const PaymentModal = ({
 
     if (error) {
       enqueueSnackbar({ variant: 'error', message: error.message });
+      setIsSubmitting(false);
       return;
     }
 
@@ -81,6 +89,7 @@ const PaymentModal = ({
       enqueueSnackbar({ variant: 'error', message: getError(e) });
     }
 
+    setIsSubmitting(false);
     handleClosePaymentModal();
     handleClosePlansModal();
   };
@@ -102,7 +111,11 @@ const PaymentModal = ({
           onSubmit={handleSubmit}
         >
           <PaymentElement />
-          <PrimaryButton type="submit" disabled={!stripe || !elements} sx={{ mt: 2 }}>
+          <PrimaryButton
+            type="submit"
+            disabled={!stripe || !elements || isSubmitting}
+            sx={{ mt: 2 }}
+          >
             <Text variant="body">Pay</Text>
           </PrimaryButton>
         </FlexContainer>

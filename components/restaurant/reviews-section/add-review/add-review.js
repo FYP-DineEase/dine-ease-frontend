@@ -78,9 +78,20 @@ const AddReview = ({
     if (isModal) {
       deletedImages.current.forEach((image) => {
         formData.append('deletedImages', image);
-        console.log(image);
+        const obj = {};
+        formData.forEach((value, key) => {
+          if (obj.hasOwnProperty(key)) {
+            if (Array.isArray(obj[key])) {
+              obj[key].push(value);
+            } else {
+              obj[key] = [obj[key], value];
+            }
+          } else {
+            obj[key] = value;
+          }
+        });
+        console.log(obj);
       });
-      console.log(Object.fromEntries(formData));
       await updateHandler(formData);
     } else {
       await addReviewHandler(formData);

@@ -15,6 +15,9 @@ import Search from '@mui/icons-material/Search';
 
 // Helpers
 import { getDate } from '@/helpers/dateHelpers';
+import { getFileUrl } from '@/helpers/fileHelpers';
+
+// Components
 import ReviewModal from '../review-modal/review-modal';
 
 const ReviewsTable = ({ reviews }) => {
@@ -142,6 +145,7 @@ const ReviewsTable = ({ reviews }) => {
       reviewId: review.id,
       images: review.images,
       votes: review.votes,
+      restaurantId: review.restaurantId,
     }));
     setData(data);
     setLoading(false);
