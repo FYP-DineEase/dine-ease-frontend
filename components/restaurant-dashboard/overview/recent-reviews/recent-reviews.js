@@ -77,36 +77,14 @@ const RecentReviews = ({ reviews }) => {
                   </Avatar>
                   <Box>
                     <Styles.Name variant="body">{review.userId.name}</Styles.Name>
-                    <Text variant="sub" sx={{ display: 'block' }}>
+                    <Rating value={review.rating} size="small" readOnly />
+                    <Text variant="sub" color="text.ternary" sx={{ display: 'block' }}>
                       Posted on {getDate(review.createdAt)}
                     </Text>
                   </Box>
                 </Styles.Details>
-                <Divider orientation="horizontal" sx={{ mb: 1, mt: 1 }} />
-                <Styles.Details>
-                  <Avatar
-                    alt="restaurant-avatar"
-                    src={
-                      details.cover &&
-                      getFileUrl(
-                        process.env.NEXT_PUBLIC_AWS_S3_RESTAURANTS_BUCKET,
-                        `${details.id}/cover/${details.cover}`
-                      )
-                    }
-                    sx={{
-                      height: 60,
-                      width: 60,
-                    }}
-                  >
-                    {details.name.slice(0, 1)}
-                  </Avatar>
-                  <Box>
-                    <Styles.Name variant="body">{details.name}</Styles.Name>
-                    <Rating value={review.rating} size="small" readOnly />
-                  </Box>
-                </Styles.Details>
                 <Text variant="body" sx={{ display: 'block', mt: 2 }}>
-                  {review.content.slice(0, 200)}
+                  {review.content.slice(0, 350)}
                   <Text
                     variant="body"
                     sx={{ textDecoration: 'underline', color: 'blue', cursor: 'pointer' }}

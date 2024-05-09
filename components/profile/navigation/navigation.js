@@ -57,6 +57,7 @@ const Navigation = () => {
       value: 'Plans',
       icon: <PlanIcon fontSize="medium" />,
       label: 'Plans',
+      hide: user.id !== details.id,
       childComponent: <DiningPlanCard />,
       detailComponent: <DiningPlanCalender />,
     },

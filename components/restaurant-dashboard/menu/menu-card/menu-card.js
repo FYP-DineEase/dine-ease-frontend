@@ -96,7 +96,7 @@ const MenuCard = ({ item, currencyType }) => {
           </Text>
           <FlexContainer sx={{ justifyContent: 'space-between', width: '100%' }}>
             <Text variant="body" fontWeight={500} color="text.secondary">
-              {currencyType} {numberFormat.format(price)}
+              US${numberFormat.format(price)}
             </Text>
             <Box>
               <Tooltip title="Edit Details" placement="top" arrow>

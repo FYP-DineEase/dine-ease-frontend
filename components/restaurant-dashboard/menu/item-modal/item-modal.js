@@ -130,9 +130,7 @@ const ItemModal = ({
               error={formik.errors.price && Boolean(formik.touched.price)}
               helperText={formik.touched.price && formik.errors.price}
               InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">{currencyType}</InputAdornment>
-                ),
+                startAdornment: <InputAdornment position="start">US$</InputAdornment>,
               }}
             />
             <InputField

@@ -61,9 +61,20 @@ const DiningPlanCalender = () => {
         slots={{
           day: ServerDay,
         }}
+        sx={{
+          width: '100%',
+          '& .MuiDayCalendar-header *': {
+            ml: 1.5,
+            mr: 1.5,
+            fontWeight: 600,
+          },
+        }}
         slotProps={{
           day: {
             sx: {
+              fontSize: '0.9rem',
+              ml: 1.5,
+              mr: 1.5,
               color: 'text.secondary',
               '&.Mui-selected:hover': {
                 backgroundColor: 'secondary.main',

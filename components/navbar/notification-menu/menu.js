@@ -50,11 +50,15 @@ const NotificationMenu = () => {
     else if (item.type === 'vote') {
       try {
         const response = await getReviewBySlug(item.slug);
-        const { userId, ...rest } = response.data;
         setReview(response.data);
       } catch (e) {
         enqueueSnackbar({ variant: 'error', message: getError(e) });
       }
+    } else if (
+      item.type === 'restaurant-deleted' ||
+      item.type === 'restaurant-rejected'
+    ) {
+      return;
     } else {
       router.push(`${NotificationRedirect[item.type]}/${item.slug}/logs`);
     }

@@ -42,7 +42,6 @@ const Banner = ({ restaurant }) => {
 
       restaurants.map((v) => {
         if (v.id === restaurant.id) {
-          console.log(v.id, restaurant.id);
           setIsFavorite(true);
         }
       });
