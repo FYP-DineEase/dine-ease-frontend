@@ -32,7 +32,7 @@ const Navbar = () => {
   const navLinks = [
     { id: 'Home', link: '/', icon: <HomeIcon /> },
     { id: 'Discover', link: '/search', icon: <TravelExploreIcon /> },
-    { id: 'About Us', link: '/', icon: <InfoIcon /> },
+    { id: 'About Us', link: '/about', icon: <InfoIcon /> },
     { id: 'Log In', link: '/login', authItem: true },
     {
       id: 'Sign Up',

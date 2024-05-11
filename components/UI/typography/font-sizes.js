@@ -12,7 +12,7 @@ export const baseFontSizes = {
     small: '1.25rem',
   },
   main: {
-    default: '1.2rem',
+    default: '1.15rem',
     small: '1rem',
   },
   body: {
