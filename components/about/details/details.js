@@ -30,7 +30,7 @@ const Details = () => {
       </Grid>
       <Styles.BannerImage item xs={12} md={6}>
         <Image
-          src={'/assets/images/food.svg'}
+          src={'/assets/images/scene4.svg'}
           fill={true}
           sizes="100vw"
           alt="login-image"

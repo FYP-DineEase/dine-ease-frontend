@@ -18,7 +18,7 @@ const Signup = () => {
 
       <Grid item xs={0} md={6} sx={{ position: 'relative', height: '100%' }}>
         <Image
-          src={'/assets/images/food.svg'}
+          src={'/assets/images/scene4.svg'}
           fill={true}
           sizes="100vw"
           alt="login-image"

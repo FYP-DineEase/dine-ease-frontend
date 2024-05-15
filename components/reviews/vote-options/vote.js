@@ -24,7 +24,7 @@ import { enqueueSnackbar } from 'notistack';
 import { getError } from '@/helpers/snackbarHelpers';
 
 // Components
-import AuthenticationModal from '@/components/modal/authentication-modal/authentication-modal';
+import AuthenticationModal from '@/components/auth/authentication-modal/authentication-modal';
 
 const VoteOptions = ({ reviewId, reviewVotes, reviewUserId, viewOnly = false }) => {
   const user = useSelector(selectUserState);

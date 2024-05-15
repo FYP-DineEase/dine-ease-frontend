@@ -14,16 +14,16 @@ const PlansCard = ({ item, planSelectionHandler, selectedPlan }) => {
         variant="header"
         sx={{ display: 'block', mb: 2, fontWeight: 500, color: 'text.secondary' }}
       >
-        Basic
+        {item.title}
       </Text>
       <Text variant="body" sx={{ display: 'block', mb: 4, color: 'text.secondary' }}>
-        This is just a basic plan with basic features to prioritize restaurant searches
+        {item.description}
       </Text>
       <Text variant="bigHeader" color="primary" fontWeight={900}>
         ${item.charges}
       </Text>
-      <Text variant="body" color="primary" fontWeight={600}>
-        /{item.durationInMonths} months
+      <Text variant="main" color="primary" fontWeight={600}>
+        / Feature for {item.durationInMonths} months
       </Text>
     </Styles.PlanContainer>
   );

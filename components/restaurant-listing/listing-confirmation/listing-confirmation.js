@@ -53,7 +53,7 @@ const ListingConfirmation = ({
       {activeStep === 3 && (
         <Box component="form" onSubmit={formik.handleSubmit}>
           <Box sx={{ position: 'relative', height: { xs: '200px', md: '400px' } }}>
-            <Image src={'/assets/images/food.svg'} alt="login-image" fill sizes="100vw" />
+            <Image src={'/assets/images/scene10.svg'} alt="login-image" fill sizes="100vw" />
           </Box>
           <Box textAlign="center">
             <Text variant="header" fontWeight={500}>

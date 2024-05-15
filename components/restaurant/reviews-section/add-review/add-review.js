@@ -57,7 +57,6 @@ const AddReview = ({
     });
     if (isModal && typeof image === 'string') {
       deletedImages.current.push(image);
-      console.log(deletedImages.current);
     }
   }, []);
 
@@ -77,20 +76,7 @@ const AddReview = ({
 
     if (isModal) {
       deletedImages.current.forEach((image) => {
-        formData.append('deletedImages', image);
-        const obj = {};
-        formData.forEach((value, key) => {
-          if (obj.hasOwnProperty(key)) {
-            if (Array.isArray(obj[key])) {
-              obj[key].push(value);
-            } else {
-              obj[key] = [obj[key], value];
-            }
-          } else {
-            obj[key] = value;
-          }
-        });
-        console.log(obj);
+        formData.append('deletedImages[]', image);
       });
       await updateHandler(formData);
     } else {
