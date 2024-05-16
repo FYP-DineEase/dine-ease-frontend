@@ -1,8 +1,8 @@
 import React from 'react';
 
 //Styles
-import { DashboardContent, Text } from '@/components/UI';
 import * as Styles from './customer-satisfaction.styles';
+import { DashboardContent, Text } from '@/components/UI';
 
 //Icons
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
@@ -11,9 +11,7 @@ import SentimentNeutralIcon from '@mui/icons-material/SentimentNeutral';
 import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 
-import { reviews } from '@/mockData/mockData';
-
-const CustomerSatisfaction = () => {
+const CustomerSatisfaction = ({ reviews }) => {
   const satisfactionMappings = {
     superb: {
       icon: (
@@ -55,11 +53,11 @@ const CustomerSatisfaction = () => {
   const totalRatings = reviews.reduce((sum, review) => sum + review.rating, 0);
   const averageRating = totalRatings / reviews.length;
 
-  const satisfactionPercentage = (averageRating / 5) * 100;
+  const satisfactionPercentage = (averageRating / 5) * 100 || 100;
   const { icon } = getSatisfactionDetails(satisfactionPercentage);
 
   return (
-    <DashboardContent>
+    <DashboardContent minHeight="170px">
       <Styles.SatisfactionContainer>
         {icon}
         <Text variant="header" fontWeight={800}>

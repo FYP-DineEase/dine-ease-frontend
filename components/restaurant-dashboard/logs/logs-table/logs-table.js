@@ -8,7 +8,7 @@ import { getRestaurantRecords } from '@/services';
 
 // Styles
 import { DashboardContent, FlexContainer, InputField } from '@/components/UI';
-import { InputAdornment } from '@mui/material';
+import { Chip, InputAdornment } from '@mui/material';
 
 // Icons
 import PersonIcon from '@mui/icons-material/Person';
@@ -90,7 +90,13 @@ const LogsTable = () => {
           Type
         </FlexContainer>
       ),
-      selector: (row) => row.type,
+      selector: (row) => (
+        <Chip
+          label={row.type}
+          color={row.type === 'listing' ? 'primary' : 'info'}
+          sx={{ color: 'text.primary' }}
+        />
+      ),
       sortable: 'true',
       center: 'true',
     },
@@ -101,7 +107,13 @@ const LogsTable = () => {
           Status
         </FlexContainer>
       ),
-      selector: (row) => row.status,
+      selector: (row) => (
+        <Chip
+          label={row.status}
+          color={row.status === 'approved' ? 'success' : 'error'}
+          sx={{ color: 'text.primary' }}
+        />
+      ),
       sortable: 'true',
       center: 'true',
     },
@@ -137,8 +149,8 @@ const LogsTable = () => {
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
         pagination
-        paginationPerPage={8}
-        paginationRowsPerPageOptions={[8]}
+        paginationPerPage={15}
+        paginationRowsPerPageOptions={[15]}
         progressPending={loading}
       />
     </DashboardContent>

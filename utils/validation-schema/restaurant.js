@@ -3,7 +3,6 @@ import * as yup from 'yup';
 export const restaurantDetailsSchema = yup.object().shape({
   name: yup
     .string()
-    .trim()
     .min(3, 'Must be at least 3 characters.')
     .max(30, 'Must be at most 30 characters.')
     .required('Restaurant name is required.'),
@@ -17,7 +16,7 @@ export const restaurantDetailsSchema = yup.object().shape({
 });
 
 export const restaurantLeglitiesSchema = yup.object().shape({
-  cuisine: yup.array().min(1, 'Cuisine type is required.'),
+  categories: yup.array().min(1, 'Category type is required.'),
   phoneNumber: yup.string().required('Contact Number is required.'),
   contactAgreement: yup
     .boolean()
@@ -45,7 +44,6 @@ export const menuItemSchema = yup.object().shape({
     .string()
     .min(3, 'Must be at least 3 characters.')
     .max(15, 'Must be at most 15 characters.')
-    .matches(/^[a-zA-Z]+$/, 'Name should only contain letters.')
     .required('Name is required.'),
   price: yup
     .number()
@@ -53,12 +51,12 @@ export const menuItemSchema = yup.object().shape({
     .min(1, 'Price must be at least 1')
     .max(10000, 'Price must be at most 10,000')
     .integer('Price must be an integer')
+    // .typeError('Price must be a number')
     .required('Price is required'),
   description: yup
     .string()
     .min(3, 'Must be at least 3 characters.')
     .max(100, 'Must be at most 100 characters.')
-    .matches(/^[a-zA-Z]+$/, 'Description should only contain letters.')
     .required('Description is required.'),
   image: yup.mixed().required('Image is required!'),
 });

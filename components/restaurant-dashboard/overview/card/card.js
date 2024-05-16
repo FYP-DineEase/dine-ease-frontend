@@ -1,71 +1,54 @@
 import React from 'react';
+import { useRestaurantContext } from '@/context/restaurant';
 
-//Styles
+// Styles
 import { DashboardContent, FlexContainer, Text } from '@/components/UI';
-import { Card, CardContent } from '@mui/material';
+import { Grid, Rating } from '@mui/material';
 
-import { Home } from '@mui/icons-material';
+// Icons
+import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
+import ReviewsIcon from '@mui/icons-material/Reviews';
 
-const Cards = () => {
+const Cards = ({ reviews }) => {
+  const { details } = useRestaurantContext();
+
   const statistics = [
     {
-      icon: <Home fontSize="large" />,
+      icon: <ReviewsIcon color="primary" fontSize="large" sx={{ mb: 1 }} />,
       text: 'Reviews',
-      content: 120,
-      background: 'rgba(152,33,35,0.55)',
+      content: details.count,
     },
     {
-      icon: <Home fontSize="large" />,
+      icon: <ThumbsUpDownIcon color="primary" fontSize="large" sx={{ mb: 1 }} />,
       text: 'Rating',
-      content: 3,
-      background: 'rgba(15,157,226,0.55)',
+      content: <Rating value={details.rating} readOnly />,
     },
     {
-      icon: <Home fontSize="large" />,
+      icon: <ReviewsIcon color="primary" fontSize="large" sx={{ mb: 1 }} />,
       text: 'Reviews',
-      content: 120,
-      background: 'rgba(20,162,67,0.55)',
+      content: details.count,
     },
     {
-      icon: <Home fontSize="large" />,
+      icon: <ThumbsUpDownIcon color="primary" fontSize="large" sx={{ mb: 1 }} />,
       text: 'Rating',
-      content: 5,
-      background: 'rgba(156,20,162,0.55)',
+      content: <Rating value={details.rating} readOnly />,
     },
   ];
 
   return (
-    <DashboardContent>
-      <FlexContainer gap={1.5} flexWrap="wrap">
-        {statistics.map((item, index) => (
-          <Card
-            sx={{
-              background: item.background,
-              width: '190px',
-              height: '145px',
-            }}
-            key={index}
-          >
-            <CardContent>
-              <FlexContainer
-                sx={{
-                  flexDirection: 'column',
-                  gap: 2,
-                }}
-              >
-                {item.icon}
-                <Text variant="subHeader" fontWeight={500}>
-                  {item.content}
-                </Text>
-                <Text variant="body" fontWeight={800}>
-                  {item.text}
-                </Text>
-              </FlexContainer>
-            </CardContent>
-          </Card>
-        ))}
-      </FlexContainer>
-    </DashboardContent>
+    <Grid container columnSpacing={1}>
+      {statistics.map((item, index) => (
+        <Grid item xs={12} sm={6} md={3} key={index}>
+          <DashboardContent height="170px">
+            <FlexContainer sx={{ flexDirection: 'column', height: '100%' }}>
+              {item.icon}
+              <Text variant="subHeader">{item.content}</Text>
+              <Text variant="sub">{item.text}</Text>
+            </FlexContainer>
+          </DashboardContent>
+        </Grid>
+      ))}
+    </Grid>
   );
 };
 

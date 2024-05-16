@@ -5,11 +5,7 @@ import SearchRestaurant from '@/components/search-restaurant/search-restaurant';
 import { getApprovedRestaurants } from '@/services';
 import { connectToMeilisearch } from '@/services/meilisearch';
 
-function getRandomValue() {
-  const randomDecimal = Math.random();
-  const scaledValue = Math.floor(randomDecimal * 5) + 1;
-  return scaledValue;
-}
+const meili = connectToMeilisearch();
 
 const SearchPage = ({ restaurants }) => {
   return <SearchRestaurant restaurants={restaurants} />;
@@ -18,36 +14,35 @@ const SearchPage = ({ restaurants }) => {
 export default SearchPage;
 
 export const getStaticProps = async () => {
+  const { data } = await getApprovedRestaurants();
+  const { restaurants } = data;
 
-  // const { data } = await getApprovedRestaurants();
-  // const { restaurants } = data;
+  const modifiedRestaurants = restaurants.map((restaurant) => ({
+    ...restaurant,
+    categories: restaurant.categories[0].split(', '),
+    _geo: {
+      lat: restaurant.location.coordinates[1],
+      lng: restaurant.location.coordinates[0],
+    },
+  }));
 
-  // const restaurantsDummy = restaurants.map((restaurantDetails) => ({
-  //   ...restaurantDetails,
-  //   rating: getRandomValue(),
-  //   reviewsCount: Math.floor(Math.random() * 1000),
-  // }));
+  meili
+    .index('restaurants')
+    .addDocuments(modifiedRestaurants, { primaryKey: 'id' })
+    .catch((error) => console.error('MeiliSearch Error:', error));
 
-  // const meili = connectToMeilisearch();
+  meili
+    .index('restaurants')
+    .updateFilterableAttributes(['categories', '_geo'])
+    .catch((error) => console.error('MeiliSearch Error:', error));
 
-  // meili
-  //   .index('restaurants')
-  //   .addDocuments(restaurantsDummy, { primaryKey: 'id' })
-  //   .catch((error) => console.error('MeiliSearch Error:', error));
-
-  // meili
-  //   .index('restaurants')
-  //   .updateFilterableAttributes(['cuisine'])
-  //   .catch((error) => console.error('MeiliSearch Error:', error));
-
-  // meili
-  //   .index('restaurants')
-  //   .updateSortableAttributes(['rating', 'reviewsCount'])
-  //   .catch((error) => console.error('MeiliSearch Error:', error));
+  meili
+    .index('restaurants')
+    .updateSortableAttributes(['rating', 'count'])
+    .catch((error) => console.error('MeiliSearch Error:', error));
 
   return {
-    // props: { restaurants: restaurantsDummy },
-    props: { restaurants: [] },
+    props: { restaurants: modifiedRestaurants },
     revalidate: 300,
   };
 };

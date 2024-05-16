@@ -21,7 +21,6 @@ import { fetchCountry } from '@/helpers/mapHelpers';
 
 const LocationForm = ({ activeStep, handleNext, handleBack, location, legalValues }) => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
-
   const [localLocation, setLocalLocation] = useState(location);
 
   const updateLocation = async (data) => {
@@ -121,7 +120,7 @@ const LocationForm = ({ activeStep, handleNext, handleBack, location, legalValue
         handleNext={handleNext}
         handleBack={handleBack}
         legalValues={legalValues}
-        locationValues={{ address: formik.values.address, location: localLocation }}
+        locationValues={{ address: formik.values.address.trim(), location: localLocation }}
       />
     </React.Fragment>
   );

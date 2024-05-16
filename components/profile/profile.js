@@ -14,7 +14,7 @@ const Profile = () => {
     <ProfileContainer>
       <Banner />
       <Grid container spacing={1}>
-        <Grid item xs={12} lg={3} sx={{ display: { xs: 'none', lg: 'block' } }}>
+        <Grid item xs={12} lg={3} sx={{ order: { xs: 1, lg: 0 } }}>
           <About />
         </Grid>
         <Navigation />

@@ -1,10 +1,10 @@
 import React from 'react';
 
-//Styles
+// Styles
 import { Box } from '@mui/material';
 import { DashboardContent } from '@/components/UI';
 
-//Chart
+// Chart
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -17,9 +17,7 @@ import {
 import { Bar } from 'react-chartjs-2';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-import { reviews } from '@/mockData/mockData';
-
-const RatingDistribution = () => {
+const ReviewDistributionChart = ({ reviews }) => {
   const ratings = reviews.map((review) => review.rating);
 
   const ratingCounts = Array.from(
@@ -30,11 +28,10 @@ const RatingDistribution = () => {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    indexAxis: 'y',
+    indexAxis: 'x',
     plugins: {
       legend: {
         display: false,
-        // position: 'top',
       },
       title: {
         display: true,
@@ -46,7 +43,7 @@ const RatingDistribution = () => {
         display: true,
       },
       y: {
-        display: true,
+        display: false,
       },
     },
   };
@@ -60,17 +57,18 @@ const RatingDistribution = () => {
         label: 'Number Of Ratings',
         data: ratingCounts.reverse(),
         backgroundColor: 'orange',
+        barBorderRadius: 5,
       },
     ],
   };
 
   return (
     <DashboardContent>
-      <Box sx={{ height: '300px' }}>
+      <Box sx={{ height: '290px' }}>
         <Bar data={data} options={options} />
       </Box>
     </DashboardContent>
   );
 };
 
-export default RatingDistribution;
+export default ReviewDistributionChart;

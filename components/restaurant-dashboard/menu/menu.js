@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRestaurantContext } from '@/context/restaurant';
 
 // Components
 import MenuItems from './menu-items/menu-items';
@@ -13,12 +14,32 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 // Utils
 import { MenuCategory } from '@/utils/constants';
 
+// Helpers
+import { fetchCurrency } from '@/helpers/mapHelpers';
+import { getError } from '@/helpers/snackbarHelpers';
+
 const Menu = () => {
   const [open, setOpen] = useState(Object.keys(MenuCategory)[0]);
+  const [currencyType, setCurrencyType] = useState('');
+
+  const { details } = useRestaurantContext();
 
   const handleChange = (panel) => (event, isExpanded) => {
     setOpen(isExpanded ? panel : false);
   };
+
+  const getCurrencyType = async () => {
+    try {
+      const currency = await fetchCurrency(details.location.country);
+      setCurrencyType(currency);
+    } catch (e) {
+      console.log(getError(e));
+    }
+  };
+
+  useEffect(() => {
+    getCurrencyType();
+  }, []);
 
   return (
     <DashboardContainer container columnSpacing={2} rowGap={1}>
@@ -42,7 +63,11 @@ const Menu = () => {
                   {value.text}
                 </Text>
               </AccordionSummary>
-              <MenuItems key={key} category={value.category} />
+              <MenuItems
+                key={key}
+                category={value.category}
+                currencyType={currencyType}
+              />
             </Accordion>
           ))}
         </DashboardContent>

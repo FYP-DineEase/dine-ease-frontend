@@ -8,7 +8,7 @@ import { uploadRestaurantCover } from '@/services';
 // Styles
 import * as Styles from './restaurant-logo.styles';
 import { FlexContainer, Text } from '@/components/UI';
-import { Avatar, Box, Divider, IconButton, Input, Tooltip } from '@mui/material';
+import { Avatar, Box, Divider, IconButton, Input, Rating, Tooltip } from '@mui/material';
 
 // Icons
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
@@ -109,9 +109,9 @@ const RestaurantLogo = ({ open }) => {
         {details.name}
       </Text>
       <FlexContainer gap={1}>
-        4
+        <Rating value={details.rating} readOnly precision={0.5} />
         <Text variant="body" color="text.ternary">
-          (353 Reviews)
+          ({details.count} Reviews)
         </Text>
       </FlexContainer>
       <Divider variant="middle" flexItem sx={{ mt: 1, mb: 0.5 }} />

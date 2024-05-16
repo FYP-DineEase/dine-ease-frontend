@@ -12,7 +12,7 @@ import LocalPizzaIcon from '@mui/icons-material/LocalPizza';
 import SetMealIcon from '@mui/icons-material/SetMeal';
 
 // Utils
-import { cuisineTypes } from '@/utils/constants';
+import { categoryTypes } from '@/utils/constants';
 
 const imageData = [
   {
@@ -81,7 +81,7 @@ const Gallery = () => {
             <Text variant="bigHeader" color="primary" fontWeight={800} mr={1}>
               Discover
             </Text>
-            Uncountable types of cuisine available to satisfy your taste buds!
+            Uncountable types of categories available to satisfy your taste buds!
           </Text>
           <Text variant="subHeader">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque diam
@@ -90,8 +90,8 @@ const Gallery = () => {
             risus. Lacus nisi, et ac dapibus sit eu velit in consequat.
           </Text>
           <FlexContainer textAlign="center" gap={3} flexWrap="wrap">
-            {cuisineTypes.slice(0, 3).map((cuisine, index) => (
-              <Box key={cuisine}>
+            {categoryTypes.slice(0, 3).map((category, index) => (
+              <Box key={category}>
                 <Styles.Cuisine>
                   {index === 0 && (
                     <LunchDiningIcon sx={{ fontSize: '3rem', color: 'text.primary' }} />
@@ -103,16 +103,16 @@ const Gallery = () => {
                     <SetMealIcon sx={{ fontSize: '3rem', color: 'text.primary' }} />
                   )}
                 </Styles.Cuisine>
-                <Text variant="main">{cuisine}</Text>
+                <Text variant="main">{category}</Text>
               </Box>
             ))}
           </FlexContainer>
           <Styles.CuisineDetails>
             <Text variant="header" color="primary" fontWeight={800} mr={4}>
-              {cuisineTypes.length}+
+              {categoryTypes.length}+
             </Text>
             <Text variant="subHeader" fontWeight={500}>
-              Types of cuisines
+              Types of categories
             </Text>
           </Styles.CuisineDetails>
         </Styles.GalleryContent>

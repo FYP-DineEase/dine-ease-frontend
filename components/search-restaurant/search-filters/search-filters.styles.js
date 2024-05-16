@@ -1,4 +1,5 @@
-import { Box, styled } from '@mui/material';
+import { styled, Box } from '@mui/material';
+import { Text } from '@/components/UI';
 
 export const FilterContainer = styled(Box)(({ theme }) => ({
   paddingTop: theme.spacing(3),
@@ -8,4 +9,11 @@ export const FilterContainer = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
     display: 'none',
   },
+}));
+
+export const ResetText = styled(Text)(({ theme }) => ({
+  marginLeft: theme.spacing(1),
+  textDecoration: 'underline',
+  cursor: 'pointer',
+  fontWeight: 500,
 }));

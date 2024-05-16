@@ -13,6 +13,10 @@ export const Card = styled(PageContent)(({ theme }) => ({
 
   [theme.breakpoints.down('md')]: {
     padding: `${theme.spacing(3)} ${theme.spacing(2)}`,
+    width: '240px',
+    height: '400px',
+    overflowY: 'auto',
+    right: '5px',
   },
 }));
 

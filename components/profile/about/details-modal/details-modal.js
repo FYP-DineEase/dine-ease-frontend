@@ -43,6 +43,8 @@ const DetailsModal = ({ showModal, closeModal }) => {
         values.location = location;
       }
 
+      values.description = values.description.trim();
+
       await updateProfileDetails(values);
       dispatch(userActions.updateDetails(values))
       detailsHandler(values);

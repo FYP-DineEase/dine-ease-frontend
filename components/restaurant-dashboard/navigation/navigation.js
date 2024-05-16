@@ -1,7 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useRestaurantContext } from '@/context/restaurant';
+import { useSelector } from 'react-redux';
+import { selectUserState } from '@/store/user/userSlice';
 
 // Styles
 import { List, ListItem, ListItemIcon, Tooltip } from '@mui/material';
@@ -16,6 +18,7 @@ import { dashboardLinks } from '@/utils/constants';
 const Navigation = ({ open }) => {
   const router = useRouter();
   const value = router.asPath.split('/');
+  const user = useSelector(selectUserState);
 
   const { details } = useRestaurantContext();
 
@@ -53,7 +56,7 @@ const Navigation = ({ open }) => {
         })}
       </List>
       <List sx={{ mt: 'auto', mb: 4 }}>
-        <Link href={`/`}>
+        <Link href={`/profile/${user.slug}`}>
           <ListItem>
             <DrawerListButton>
               <ListItemIcon>

@@ -1,103 +1,126 @@
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { useRestaurantContext } from '@/context/restaurant';
 
-import DataTable from 'react-data-table-component';
+// Styles
+import * as Styles from './recent-reviews.styles';
+import { DashboardContent, FlexContainer, Text } from '@/components/UI';
+import { Avatar, Box, Divider, Grid, Pagination, Rating } from '@mui/material';
 
-//Styles
-import { DashboardContent, FlexContainer } from '@/components/UI';
-import { Avatar, IconButton, Tooltip } from '@mui/material';
+// Icons
+import ReviewIcon from '@mui/icons-material/Reviews';
 
-//Icons
-import PersonIcon from '@mui/icons-material/Person';
-import StarIcon from '@mui/icons-material/Star';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+// Helpers
+import { getDate } from '@/helpers/dateHelpers';
+import { getFileUrl } from '@/helpers/fileHelpers';
 
-import userImage from '@/public/assets/images/avatar.jpg';
+// Components
+import ReviewModal from '../../reviews/review-modal/review-modal';
 
-import { reviews } from '@/mockData/mockData';
+const RecentReviews = ({ reviews }) => {
+  const { details } = useRestaurantContext();
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const reviewDetails = useRef(null);
 
-const RecentReviews = () => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const openModalHandler = (review) => {
+    reviewDetails.current = { ...review, name: review.userId.name };
+    setShowReviewModal(true);
+  };
 
-  const columns = [
-    {
-      name: (
-        <FlexContainer gap={0.5}>
-          <PersonIcon color="primary" />
-          Name
-        </FlexContainer>
-      ),
-      selector: (row) => (
-        <FlexContainer>
-          <Avatar
-            src={row.avatar.src}
-            alt="user-avatar"
-            sx={{ mr: 1.25, height: 35, width: 35 }}
-          />
-          {row.name}
-        </FlexContainer>
-      ),
-      sortable: 'true',
-    },
-    {
-      name: (
-        <FlexContainer gap={0.5}>
-          <StarIcon color="primary" />
-          Rating
-        </FlexContainer>
-      ),
-      selector: (row) => row.rating,
-      sortable: 'true',
-      center: 'true',
-    },
-    {
-      name: (
-        <FlexContainer gap={0.5}>
-          <CalendarMonthIcon color="primary" />
-          Posted On
-        </FlexContainer>
-      ),
-      selector: (row) => row.createdAt,
-      sortable: 'true',
-      center: 'true',
-    },
-    {
-      selector: (row) => (
-        <Tooltip title="Show Review" placement="top">
-          <IconButton>{row.icon}</IconButton>
-        </Tooltip>
-      ),
-      center: 'true',
-    },
-  ];
+  const closeModalHandler = () => {
+    setShowReviewModal(false);
+  };
 
-  useEffect(() => {
-    setLoading(true);
-    const data = reviews.map((review) => ({
-      name: review.username,
-      rating: review.rating,
-      createdAt: review.createdAt,
-      icon: <VisibilityIcon />,
-      avatar: userImage,
-    }));
-    setData(data);
-    setLoading(false);
-  }, []);
+  const [page, setPage] = useState(1);
+  const reviewLimit = useRef(4);
+
+  const totalPage = Math.ceil(reviews.length / reviewLimit.current);
+
+  const pageHandler = (event, newPage) => {
+    setPage(newPage);
+  };
 
   return (
-    <DashboardContent>
-      <DataTable
-        columns={columns}
-        data={data}
-        responsive
-        title="Recent Reviews"
-        pagination
-        paginationPerPage={5}
-        paginationRowsPerPageOptions={[5]}
-        progressPending={loading}
-      />
-    </DashboardContent>
+    <React.Fragment>
+      {showReviewModal && (
+        <ReviewModal
+          showModal={showReviewModal}
+          handleCloseModal={closeModalHandler}
+          review={reviewDetails.current}
+          viewOnly={true}
+        />
+      )}
+      <Grid container columnSpacing={1}>
+        <Grid item xs={12}>
+          <Styles.Header variant="subHeader">Recent Reviews</Styles.Header>
+        </Grid>
+        {reviews
+          .slice((page - 1) * reviewLimit.current, page * reviewLimit.current)
+          .map((review) => (
+            <Grid item xs={12} sm={6} md={3} key={review.id}>
+              <DashboardContent>
+                <Styles.Details>
+                  <Avatar
+                    alt="User Avatar"
+                    src={
+                      review.userId.avatar &&
+                      getFileUrl(
+                        process.env.NEXT_PUBLIC_AWS_S3_USERS_BUCKET,
+                        `${review.userId.id}/avatar/${review.userId.avatar}`
+                      )
+                    }
+                    sx={{
+                      height: 60,
+                      width: 60,
+                    }}
+                  >
+                    {review.userId.name.slice(0, 1)}
+                  </Avatar>
+                  <Box>
+                    <Styles.Name variant="body">{review.userId.name}</Styles.Name>
+                    <Rating value={review.rating} size="small" readOnly />
+                    <Text variant="sub" color="text.ternary" sx={{ display: 'block' }}>
+                      Posted on {getDate(review.createdAt)}
+                    </Text>
+                  </Box>
+                </Styles.Details>
+                <Text variant="body" sx={{ display: 'block', mt: 2 }}>
+                  {review.content.slice(0, 350)}
+                  <Text
+                    variant="body"
+                    sx={{ textDecoration: 'underline', color: 'blue', cursor: 'pointer' }}
+                    onClick={() => openModalHandler(review)}
+                  >
+                    {review.content.length > 200 && '...See More'}
+                  </Text>
+                </Text>
+              </DashboardContent>
+            </Grid>
+          ))}
+      </Grid>
+      {reviews.length ? (
+        <FlexContainer>
+          <Pagination
+            color="primary"
+            count={totalPage}
+            variant="outlined"
+            shape="rounded"
+            sx={{
+              mt: 2.5,
+              '& .MuiPaginationItem-root:not(.Mui-selected)': {
+                color: 'text.secondary',
+              },
+            }}
+            page={page}
+            onChange={pageHandler}
+          />
+        </FlexContainer>
+      ) : (
+        <FlexContainer mt={5} gap={2}>
+          <ReviewIcon fontSize="large" color="primary" />
+          <Text variant="subHeader">Currently No Reviews</Text>
+        </FlexContainer>
+      )}
+    </React.Fragment>
   );
 };
 

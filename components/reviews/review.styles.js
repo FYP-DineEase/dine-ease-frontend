@@ -9,11 +9,19 @@ export const ReviewCard = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
   borderRadius: '15px',
   wordSpacing: 2,
+  marginBottom: theme.spacing(3),
 }));
 
 export const UserDetails = styled(FlexContainer)(({ theme }) => ({
   justifyContent: 'flex-start',
   gap: theme.spacing(2),
+  position: 'relative',
+}));
+
+export const ReviewOptions = styled(Box)(({ theme }) => ({
+  position: 'absolute',
+  top: 0,
+  right: -5,
 }));
 
 export const ImageCountOverlay = styled(FlexContainer)(({ theme }) => ({

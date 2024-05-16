@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
+import React, { useState, useMemo, useCallback, useRef } from 'react';
 
 // Map
 import ReactMapGL, { NavigationControl } from 'react-map-gl';
@@ -9,10 +9,12 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import * as Styles from './location.styles';
 import { ResetMarker } from './marker/marker-styles';
 import { Tooltip } from '@mui/material';
-import LocationIcon from '@mui/icons-material/NearMe';
 
 // Utils
 import { MapZoomLevels } from '@/utils/constants';
+
+// Icons
+import LocationIcon from '@mui/icons-material/NearMe';
 
 const Location = ({ location, updateLocation }) => {
   const { coordinates } = location;

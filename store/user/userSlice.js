@@ -9,6 +9,7 @@ const initialState = {
   slug: null,
   role: null,
   avatar: null,
+  mapSlug: null,
   location: {
     coordinates: [null, null], // [0] is longitude, [1] is latitude
     country: null,
@@ -28,7 +29,7 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(HYDRATE, (state, action) => {
-        return { ...state, ...action};
+        return { ...state, ...action };
       })
       .addCase(getUser.rejected, (state, action) => {
         return initialState;

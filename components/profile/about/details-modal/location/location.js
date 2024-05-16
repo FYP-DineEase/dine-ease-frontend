@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useState, useRef } from 'react';
+import React, { useMemo, useCallback, useState, useRef, useEffect } from 'react';
 
 // Map
 import ReactMapGL, { Marker, NavigationControl } from 'react-map-gl';
@@ -78,7 +78,7 @@ const Location = ({ location, updateLocation }) => {
         width="100%"
         height="100%"
         onMove={onMove}
-        mapboxAccessToken={process.env.NEXT_PUBLIC_NEXT_PUBLIC_MAPBOX_API_TOKEN}
+        mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_API_TOKEN}
         mapStyle={'mapbox://styles/mapbox/streets-v12'}
       >
         {coordinates && (

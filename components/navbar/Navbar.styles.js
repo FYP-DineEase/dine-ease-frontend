@@ -8,7 +8,6 @@ export const AppBarContainer = styled(AppBar)(({ theme }) => ({
   justifyContent: 'space-around',
   alignItems: 'center',
   height: `${NAV_HEIGHT}px`,
-  width: '100%',
   background: theme.palette.static.primary,
   zIndex: '999',
   boxShadow: 'none',

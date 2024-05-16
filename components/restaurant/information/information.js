@@ -12,8 +12,8 @@ const Information = ({ restaurant }) => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
   return (
-    <SectionContainer container>
-      <Grid item xs={12}>
+    <SectionContainer container sx={{ mb: 0, mt: 0, position: 'relative', top: -50 }}>
+      <Grid item xs={10} md={8}>
         <Styles.InformationContent>
           <FlexContainer sx={{ flexDirection: 'column', gap: 1 }}>
             <Styles.IconContainer>
@@ -23,7 +23,7 @@ const Information = ({ restaurant }) => {
               {restaurant.categories.join(', ')}
             </Text>
             <Text variant="sub" fontWeight={500}>
-              Cuisines we offer
+              Categories we offer
             </Text>
           </FlexContainer>
           <Divider

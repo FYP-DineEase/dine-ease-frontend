@@ -24,7 +24,7 @@ const RestaurantCard = () => {
           </Text>
           <Text variant="sub">3 (364 reviews)</Text>
           <Text variant="sub" color="text.ternary" mt={3}>
-            Cuisine:
+            Category:
           </Text>
           <Text variant="sub">BBQ, Fast Food, Sea Food</Text>
         </FlexContainer>

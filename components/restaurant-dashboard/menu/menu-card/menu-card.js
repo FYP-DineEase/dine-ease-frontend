@@ -24,12 +24,14 @@ import ItemModal from '../item-modal/item-modal';
 // Helpers
 import { getFileUrl } from '@/helpers/fileHelpers';
 
-const MenuCard = ({ item }) => {
+const MenuCard = ({ item, currencyType }) => {
   const { name, description, price, image, order } = item;
 
   const { details, detailsHandler } = useRestaurantContext();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showItemModal, setShowItemModal] = useState(false);
+
+  const numberFormat = new Intl.NumberFormat();
 
   const handleDelete = async () => {
     const { data } = await deleteMenuItem(details.id, item.id);
@@ -46,6 +48,7 @@ const MenuCard = ({ item }) => {
           setShowModal={setShowItemModal}
           itemDetails={item}
           headerTitle="Update Item"
+          currencyType={currencyType}
         />
       )}
       {showDeleteModal && (
@@ -93,7 +96,7 @@ const MenuCard = ({ item }) => {
           </Text>
           <FlexContainer sx={{ justifyContent: 'space-between', width: '100%' }}>
             <Text variant="body" fontWeight={500} color="text.secondary">
-              USD {price}
+              US${numberFormat.format(price)}
             </Text>
             <Box>
               <Tooltip title="Edit Details" placement="top" arrow>

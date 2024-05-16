@@ -39,7 +39,13 @@ import { menuItemSchema } from '@/utils/validation-schema/restaurant';
 import { getError } from '@/helpers/snackbarHelpers';
 import { getFileUrl } from '@/helpers/fileHelpers';
 
-const ItemModal = ({ showModal, setShowModal, itemDetails = {}, headerTitle }) => {
+const ItemModal = ({
+  showModal,
+  setShowModal,
+  itemDetails = {},
+  headerTitle,
+  currencyType,
+}) => {
   const { details, detailsHandler } = useRestaurantContext();
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
@@ -47,7 +53,9 @@ const ItemModal = ({ showModal, setShowModal, itemDetails = {}, headerTitle }) =
     try {
       formik.setSubmitting(true);
 
-      // payload
+      values.name = values.name.trim();
+      values.description = values.description.trim();
+
       const formData = new FormData();
       for (const key in values) {
         formData.append(key, values[key]);
@@ -55,7 +63,7 @@ const ItemModal = ({ showModal, setShowModal, itemDetails = {}, headerTitle }) =
 
       if (itemDetails.name) {
         const { data } = await updateMenuItem(details.id, itemDetails.id, formData);
-        
+
         const menuItemIndex = details.menu.findIndex((m) => m.id === itemDetails.id);
         const updatedMenu = [...details.menu];
         updatedMenu[menuItemIndex] = data;
@@ -70,6 +78,7 @@ const ItemModal = ({ showModal, setShowModal, itemDetails = {}, headerTitle }) =
 
       setShowModal(false);
     } catch (e) {
+      console.log(e);
       enqueueSnackbar({ variant: 'error', message: getError(e) });
     } finally {
       formik.setSubmitting(false);
@@ -79,7 +88,7 @@ const ItemModal = ({ showModal, setShowModal, itemDetails = {}, headerTitle }) =
   const formik = useFormik({
     initialValues: {
       name: itemDetails.name || '',
-      price: itemDetails.price || 0,
+      price: itemDetails.price || '',
       description: itemDetails.description || '',
       image: itemDetails.image || '',
     },
@@ -121,7 +130,7 @@ const ItemModal = ({ showModal, setShowModal, itemDetails = {}, headerTitle }) =
               error={formik.errors.price && Boolean(formik.touched.price)}
               helperText={formik.touched.price && formik.errors.price}
               InputProps={{
-                startAdornment: <InputAdornment position="start">USD</InputAdornment>,
+                startAdornment: <InputAdornment position="start">US$</InputAdornment>,
               }}
             />
             <InputField

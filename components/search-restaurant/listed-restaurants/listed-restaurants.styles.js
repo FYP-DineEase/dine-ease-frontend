@@ -15,10 +15,18 @@ export const Search = styled(Box)(({ theme }) => ({
   },
 }));
 
+export const SearchFields = styled(FlexContainer)(({ theme }) => ({
+  justifyContent: 'left',
+  marginBottom: theme.spacing(2),
+  gap: theme.spacing(2),
+  padding: `0 ${theme.spacing(1)}`,
+  flexWrap: 'wrap',
+}));
+
 export const IconContainer = styled(FlexContainer)(({ theme }) => ({
   justifyContent: 'left',
   marginTop: theme.spacing(2),
-  gap: theme.spacing(2),
+  gap: theme.spacing(1),
 }));
 
 export const ListContainer = styled(Box)(({ theme }) => ({
@@ -53,5 +61,5 @@ export const RestaurantContent = styled(Box)(({ theme }) => ({
 export const Cuisines = styled(FlexContainer)(({ theme }) => ({
   justifyContent: 'left',
   gap: theme.spacing(0.5),
-  overflowX: 'auto',
+  flexWrap: 'wrap',
 }));

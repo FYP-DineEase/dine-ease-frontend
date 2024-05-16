@@ -15,8 +15,8 @@ export const profileSchema = yup.object().shape({
     .required('last name is required.'),
   description: yup
     .string()
-    .min(10, 'Must be at least 3 characters.')
-    .max(300, 'Must be at most 20 characters.')
-    .matches(/^[a-zA-Z]+$/, 'Description should only contain letters.')
+    .trim()
+    .min(10, 'Must be at least 10 characters.')
+    .max(300, 'Must be at most 300 characters.')
     .required('Description is required.'),
 });

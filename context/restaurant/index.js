@@ -22,11 +22,10 @@ const RestaurantProvider = ({ children }) => {
         if (!slug) return;
 
         const { data } = await getRestaurantBySlug(slug);
-        console.log('key', data);
 
-        if (data.userId !== user.id) {
-          throw new Error('User is not authorized');
-        }
+        // if (data.userId !== user.id) {
+        //   throw new Error('User is not authorized');
+        // }
 
         setDetails(data);
       } catch (e) {

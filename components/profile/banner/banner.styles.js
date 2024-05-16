@@ -7,3 +7,13 @@ export const BannerContainer = styled(Box)(({ theme }) => ({
   borderRadius: '12px',
   overflow: 'hidden',
 }));
+
+export const ButtonsContainer = styled(Box)(({ theme }) => ({
+  position: 'absolute',
+  top: 15,
+  right: 15,
+
+  [theme.breakpoints.down('md')]: {
+    top: 100,
+  },
+}));

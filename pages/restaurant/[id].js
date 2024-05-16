@@ -1,36 +1,63 @@
 import React from 'react';
-import Restaurant from '@/components/restaurant/restaurant';
+import { RestaurantProvider } from '@/context/restaurant';
+
 import { getRestaurantBySlug, getRestaurantSlugs } from '@/services';
 
-const RestaurantPage = ({ restaurant }) => {
-  return <Restaurant restaurant={restaurant} />;
+import Restaurant from '@/components/restaurant/restaurant';
+import { useRouter } from 'next/router';
+
+const RestaurantPage = ({ restaurant, notFound }) => {
+  const router = useRouter();
+
+  if (notFound) {
+    router.push('/404');
+    return;
+  }
+  return (
+    <RestaurantProvider>
+      <Restaurant restaurant={restaurant} />
+    </RestaurantProvider>
+  );
 };
 
 export default RestaurantPage;
 
-export async function getStaticProps({ params }) {
-  const response = await getRestaurantBySlug(params.id);
+RestaurantPage.getInitialProps = async ({ query }) => {
+  try {
+    const { data } = await getRestaurantBySlug(query.id);
+    return {
+      restaurant: data,
+    };
+  } catch (e) {
+    return {
+      notFound: true,
+    };
+  }
+};
 
-  return {
-    props: {
-      restaurant: response.data,
-    },
-    revalidate: 300,
-  };
-}
+// export async function getStaticProps({ params }) {
+//   const response = await getRestaurantBySlug(params.id);
 
-export async function getStaticPaths() {
-  const response = await getRestaurantSlugs();
-  const slugs = response.data;
+//   return {
+//     props: {
+//       restaurant: response.data,
+//     },
+//     revalidate: 300,
+//   };
+// }
 
-  const paths = slugs
-    ? slugs.map((s) => ({
-        params: { id: s.slug },
-      }))
-    : [];
+// export async function getStaticPaths() {
+//   const response = await getRestaurantSlugs();
+//   const slugs = response.data;
 
-  return {
-    paths,
-    fallback: false,
-  };
-}
+//   const paths = slugs
+//     ? slugs.map((s) => ({
+//         params: { id: s.slug },
+//       }))
+//     : [];
+
+//   return {
+//     paths,
+//     fallback: false,
+//   };
+// }

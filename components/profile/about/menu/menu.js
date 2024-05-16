@@ -3,9 +3,9 @@ import { enqueueSnackbar } from 'notistack';
 import { useProfileContext } from '@/context/profile';
 
 // Styles
-import { Menu, MenuItem, Fade, InputLabel, Input, IconButton } from '@mui/material';
+import { MenuItem, Fade, InputLabel, Input, IconButton } from '@mui/material';
 import { EditContainer } from './menu.styles';
-import { Text } from '@/components/UI';
+import { ArrowMenu, Text } from '@/components/UI';
 
 // Icons
 import EditIcon from '@mui/icons-material/Edit';
@@ -66,8 +66,7 @@ const EditProfileMenu = ({ handleAvatar, openModal }) => {
           <SettingsIcon color="primary" fontSize="medium" />
         </IconButton>
       </EditContainer>
-
-      <Menu
+      <ArrowMenu
         id="profile-menu"
         anchorEl={anchorEl}
         open={open}
@@ -76,23 +75,6 @@ const EditProfileMenu = ({ handleAvatar, openModal }) => {
         anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
         PaperProps={{
           elevation: 0,
-          sx: {
-            overflow: 'visible',
-            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-            mt: 1.5,
-            '&:before': {
-              content: '""',
-              display: 'block',
-              position: 'absolute',
-              top: 0,
-              right: '50%',
-              width: 10,
-              height: 10,
-              bgcolor: 'background.paper',
-              transform: 'translateY(-50%) rotate(45deg)',
-              zIndex: 0,
-            },
-          },
         }}
         TransitionComponent={Fade}
       >
@@ -137,7 +119,7 @@ const EditProfileMenu = ({ handleAvatar, openModal }) => {
             onChange={handleBannerImage}
           />
         </InputLabel>
-      </Menu>
+      </ArrowMenu>
     </React.Fragment>
   );
 };

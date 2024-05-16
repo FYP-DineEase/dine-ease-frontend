@@ -4,11 +4,11 @@ import Link from 'next/link';
 import { enqueueSnackbar } from 'notistack';
 
 // Services
-import { getUserRestaurants } from '@/services';
+import { getMapBySlug, getUserRestaurants } from '@/services';
 
 // Styles
 import * as Styles from './restaurant-card.styles';
-import { Card, CardMedia, Chip, Grid } from '@mui/material';
+import { Card, CardMedia, Chip, Grid, Rating } from '@mui/material';
 import { FlexContainer, PrimaryButton, Text } from '@/components/UI';
 
 // Icons
@@ -22,7 +22,7 @@ import { getFileUrl } from '@/helpers/fileHelpers';
 // Utils
 import { Status } from '@/utils/constants';
 
-const RestaurantCard = () => {
+const RestaurantCard = ({ mapSlug = null, favouriteTab = false }) => {
   const [restaurants, setRestaurants] = useState([]);
 
   const fetchUserRestaurants = async () => {
@@ -34,9 +34,23 @@ const RestaurantCard = () => {
     }
   };
 
+  const fetchFavouriteRestaurants = async () => {
+    try {
+      const response = await getMapBySlug(mapSlug);
+      setRestaurants(response.data.restaurants);
+    } catch (e) {
+      enqueueSnackbar({ variant: 'error', message: getError(e) });
+    }
+  };
+
   useEffect(() => {
-    fetchUserRestaurants();
-  }, []);
+    setRestaurants([]);
+    if (mapSlug) {
+      fetchFavouriteRestaurants();
+    } else if (!favouriteTab) {
+      fetchUserRestaurants();
+    }
+  }, [mapSlug, favouriteTab]);
 
   const statusColors = {
     [Status.APPROVED]: 'success',
@@ -80,12 +94,14 @@ const RestaurantCard = () => {
               />
             </CardMedia>
             <Styles.CardContentContainer>
-              <Chip
-                label={restaurant.status}
-                color={statusColors[restaurant.status]}
-                variant="outlined"
-                sx={{ position: 'absolute', top: 5, right: 5 }}
-              />
+              {!mapSlug && (
+                <Chip
+                  label={restaurant.status}
+                  color={statusColors[restaurant.status]}
+                  variant="outlined"
+                  sx={{ position: 'absolute', top: 5, right: 5 }}
+                />
+              )}
               {restaurant.featured && (
                 <Chip
                   label={restaurant.featured && 'Featured'}
@@ -97,6 +113,7 @@ const RestaurantCard = () => {
               <Text variant="main" color="text.secondary" fontWeight={800}>
                 {restaurant.name}
               </Text>
+              <Rating value={restaurant.rating} precision={0.5} readOnly />
               <Styles.IconContainer>
                 <RestaurantMenuIcon color="primary" />
                 <Text variant="sub" color="text.secondary">
@@ -109,7 +126,7 @@ const RestaurantCard = () => {
                   {restaurant.address}
                 </Text>
               </Styles.IconContainer>
-              <FlexContainer sx={{ position: 'absolute', right: 15, bottom: 10, gap: 1 }}>
+              <FlexContainer sx={{ position: 'absolute', right: 10, bottom: 10, gap: 1 }}>
                 <Link href={`/restaurant/${restaurant.slug}`}>
                   <PrimaryButton>
                     <Text variant="sub" fontWeight={800}>
@@ -117,13 +134,15 @@ const RestaurantCard = () => {
                     </Text>
                   </PrimaryButton>
                 </Link>
-                <Link href={`/restaurant/dashboard/${restaurant.slug}/overview`}>
-                  <PrimaryButton>
-                    <Text variant="sub" fontWeight={800}>
-                      Dashboard
-                    </Text>
-                  </PrimaryButton>
-                </Link>
+                {!mapSlug && (
+                  <Link href={`/restaurant/dashboard/${restaurant.slug}/overview`}>
+                    <PrimaryButton>
+                      <Text variant="sub" fontWeight={800}>
+                        Dashboard
+                      </Text>
+                    </PrimaryButton>
+                  </Link>
+                )}
               </FlexContainer>
             </Styles.CardContentContainer>
           </Card>

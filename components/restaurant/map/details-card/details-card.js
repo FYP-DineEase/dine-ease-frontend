@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { useRestaurantContext } from '@/context/restaurant';
 
 // Styles
 import * as Styles from './details-card.styles';
 import { FlexContainer, Text } from '@/components/UI';
-import { Box, ImageList, ImageListItem } from '@mui/material';
+import { Box, ImageList, ImageListItem, Rating } from '@mui/material';
 
 // Icons
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
+
+// Helpers
+import { getError } from '@/helpers/snackbarHelpers';
+import { getFileUrl } from '@/helpers/fileHelpers';
+
+// Snackbar
+import { enqueueSnackbar } from 'notistack';
+
+// Services
+import { getRestaurantReview } from '@/services/review';
 
 //Chart
 import {
@@ -22,32 +33,23 @@ import {
 import { Bar } from 'react-chartjs-2';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-import { reviews } from '@/mockData/mockData';
-
-const imageData = [
-  {
-    img: 'mix.jpg',
-    title: 'Mix-Food',
-  },
-  {
-    img: 'bbq.jpg',
-    title: 'BBQ',
-  },
-  {
-    img: 'burger.jpg',
-    title: 'Burger',
-  },
-  {
-    img: 'sea-food.jpg',
-    title: 'Sea-Food',
-  },
-  {
-    img: 'mexican.jpg',
-    title: 'Mexican',
-  },
-];
-
 const DetailsCard = ({ restaurant }) => {
+  const [reviews, setReviews] = useState([]);
+
+  const { details } = useRestaurantContext();
+
+  const fetchReviews = async () => {
+    try {
+      const response = await getRestaurantReview(details.id);
+      setReviews(response.data.reviews);
+    } catch (e) {
+      enqueueSnackbar({ variant: 'error', message: getError(e) });
+    }
+  };
+
+  useEffect(() => {
+    if (details.id) fetchReviews();
+  }, [details.id]);
   const ratings = reviews.map((review) => review.rating);
 
   const ratingCounts = Array.from(
@@ -90,34 +92,40 @@ const DetailsCard = ({ restaurant }) => {
     ],
   };
 
-  const renderImages = () => {
-    const imageCount = Math.min(imageData.length, 5);
+  const renderImages = (images) => {
+    const imageCount = Math.min(images.length, 5);
     const layout = [
-      { rows: 2, cols: imageData.length === 1 ? 4 : 2 },
+      { rows: 2, cols: images.length === 1 ? 4 : 2 },
       {
-        rows: imageData.length === 2 ? 2 : 1,
-        cols: imageData.length === 2 || imageData.length === 3 ? 2 : 1,
+        rows: images.length === 2 ? 2 : 1,
+        cols: images.length === 2 || images.length === 3 ? 2 : 1,
       },
       {
-        rows: imageData.length === 2 ? 2 : 1,
-        cols: imageData.length === 2 || imageData.length === 3 ? 2 : 1,
+        rows: images.length === 2 ? 2 : 1,
+        cols: images.length === 2 || images.length === 3 ? 2 : 1,
       },
       {
         rows: 1,
-        cols: imageData.length === 4 ? 2 : 1,
+        cols: images.length === 4 ? 2 : 1,
       },
       {
         rows: 1,
         cols: 1,
-        overlayText: imageData.length - 5,
-        overlay: imageData.length === 5 ? false : true,
+        overlayText: images.length - 5,
+        overlay: images.length === 5 ? false : true,
       },
     ];
 
     return layout.slice(0, imageCount).map((layout, index) => (
       <ImageListItem key={index} rows={layout.rows} cols={layout.cols}>
         <Image
-          src={`/assets/images/restaurant/${imageData[index].img}`}
+          src={
+            images.length &&
+            getFileUrl(
+              process.env.NEXT_PUBLIC_AWS_S3_RESTAURANTS_BUCKET,
+              `${restaurant.id}/images/${images[index]}`
+            )
+          }
           alt="review-image"
           fill
           sizes="100%"
@@ -133,7 +141,7 @@ const DetailsCard = ({ restaurant }) => {
       </ImageListItem>
     ));
   };
-
+  
   return (
     <Styles.Card>
       <FlexContainer sx={{ flexDirection: 'column', gap: 2, alignItems: 'flex-start' }}>
@@ -141,8 +149,10 @@ const DetailsCard = ({ restaurant }) => {
           {restaurant.name}
         </Text>
         <FlexContainer gap={1}>
-          <Text variant="sub">3.7</Text>
-          <Box>stars</Box>
+          <Rating value={restaurant.rating} precision={0.5} readOnly size="large" />
+          <Text variant="body" fontWeight={600}>
+            {restaurant.rating} stars
+          </Text>
         </FlexContainer>
         <ImageList
           variant="quilted"
@@ -151,13 +161,15 @@ const DetailsCard = ({ restaurant }) => {
           gap={5}
           sx={{ width: '100%' }}
         >
-          {renderImages()}
+          {renderImages(restaurant.images)}
         </ImageList>
         <Box>
           <Text variant="body" fontWeight={800} mr={1}>
             Address:
           </Text>
-          <Text variant="body">{restaurant.address}</Text>
+          <Text variant="body">
+            {restaurant.address} , {restaurant.location.country}
+          </Text>
         </Box>
         <Box>
           <Text variant="body" fontWeight={800} mr={1}>

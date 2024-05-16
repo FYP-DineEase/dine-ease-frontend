@@ -49,6 +49,7 @@ const LegalitiesForm = ({ activeStep, handleNext, handleBack, location }) => {
   const submitHandler = async (values) => {
     try {
       formik.setSubmitting(true);
+      values.name = values.name.trim();
       const { name, taxId } = values;
       await checkRestaurant({ name, taxId });
       handleNext();

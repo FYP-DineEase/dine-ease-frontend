@@ -9,7 +9,9 @@ import { Grid, Tab, Tabs } from '@mui/material';
 // Utils
 import { MenuCategory } from '@/utils/constants';
 
-const Menu = ({ value, handleChange, items = [] }) => {
+const Menu = ({ value, handleChange, items = [], currencyType }) => {
+  const numberFormat = new Intl.NumberFormat();
+
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -53,7 +55,7 @@ const Menu = ({ value, handleChange, items = [] }) => {
           {items.map((item) => (
             <Grid item xs={12} md={6} key={item.name}>
               <Styles.Card>
-                <FlexContainer gap={2}>
+                <FlexContainer sx={{ justifyContent: 'flex-start', gap: 2 }}>
                   <Image
                     src={'/assets/images/restaurant/menu-image.png'}
                     alt={item.name}
@@ -69,7 +71,7 @@ const Menu = ({ value, handleChange, items = [] }) => {
                     </Text>
                     <Text variant="body">{item.description}</Text>
                     <Text variant="main" color="primary" fontWeight={800}>
-                      {item.price}
+                      US${numberFormat.format(item.price)}
                     </Text>
                   </FlexContainer>
                 </FlexContainer>

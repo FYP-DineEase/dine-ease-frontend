@@ -7,7 +7,8 @@ import { useProfileContext } from '@/context/profile';
 import { updateProfileImage } from '@/services';
 
 // Styles
-import { Box, Button } from '@mui/material';
+import * as Styles from './banner.styles';
+import { Button } from '@mui/material';
 import { PrimaryButton, Text } from '@/components/UI';
 import { BannerContainer } from './banner.styles';
 
@@ -59,7 +60,7 @@ const Banner = () => {
         alt="User Cover"
       />
       {newCover && !isSubmitting && (
-        <Box sx={{ position: 'absolute', top: 15, right: 15 }}>
+        <Styles.ButtonsContainer>
           <React.Fragment>
             <PrimaryButton sx={{ mr: 1 }} onClick={handleConfirmBanner}>
               <Text variant="body">Save</Text>
@@ -70,7 +71,7 @@ const Banner = () => {
               </Text>
             </Button>
           </React.Fragment>
-        </Box>
+        </Styles.ButtonsContainer>
       )}
     </BannerContainer>
   );

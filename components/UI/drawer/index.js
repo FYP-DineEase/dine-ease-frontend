@@ -51,9 +51,6 @@ export const DrawerIcon = styled(IconButton)(({ theme, open }) => ({
 export const DrawerListText = styled(ListItemText)(({ theme, open }) => ({
   whiteSpace: 'nowrap',
   textOverflow: 'ellipsis',
-  [theme.breakpoints.down('md')]: {
-    display: open ? 'block' : 'none',
-  },
 }));
 
 export const DrawerListItem = styled(ListItem)(({ theme }) => ({

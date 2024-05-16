@@ -1,80 +1,111 @@
-import api, { buildClient } from './api';
+import api from './api';
+import { PORTS } from '@/utils/port';
+
+const service = 'restaurant';
+const port = PORTS[service];
 
 // Records
 export const getRestaurantRecords = (restaurantId) => {
-  return api.get(`/api/restaurant/records/${restaurantId}`);
+  return api.get(`http://localhost:${port}/api/${service}/records/${restaurantId}`);
 };
 
 // OTP
 export const generateOTP = (restaurantId) => {
-  return api.get(`/api/restaurant/generate-otp/${restaurantId}`);
+  return api.get(`http://localhost:${port}/api/${service}/generate-otp/${restaurantId}`);
 };
 
 export const verifyOTP = (restaurantId, payload) => {
-  return api.post(`/api/restaurant/verify-otp/${restaurantId}`, payload);
+  return api.post(
+    `http://localhost:${port}/api/${service}/verify-otp/${restaurantId}`,
+    payload
+  );
 };
 
 // Restaurant
 export const checkRestaurant = (params) => {
-  return api.get(`/api/restaurant/check`, { params });
+  return api.get(`http://localhost:${port}/api/${service}/check`, { params });
 };
 
 export const getRestaurantSlugs = () => {
-  return buildClient().get(`/api/restaurant/all/slug`);
+  return api.get(`http://localhost:${port}/api/${service}/all/slug`);
 };
 
 export const getRestaurantBySlug = (slug) => {
-  return buildClient().get(`/api/restaurant/${slug}`);
+  return api.get(`http://localhost:${port}/api/${service}/${slug}`);
 };
 
 export const getApprovedRestaurants = () => {
-  return api.get(`/api/restaurant/approved`);
+  return api.get(`http://localhost:${port}/api/${service}/approved`);
 };
 
 export const getUserRestaurants = () => {
-  return api.get(`/api/restaurant/user`);
+  return api.get(`http://localhost:${port}/api/${service}/user`);
 };
 
 export const listRestaurant = (payload) => {
-  return api.post(`/api/restaurant`, payload);
+  return api.post(`http://localhost:${port}/api/${service}`, payload);
 };
 
 export const uploadRestaurantCover = (restaurantId, payload) => {
   const headers = { 'Content-Type': 'multipart/form-data' };
-  return api.post(`/api/restaurant/upload/cover/${restaurantId}`, payload, { headers });
+  return api.post(
+    `http://localhost:${port}/api/${service}/upload/cover/${restaurantId}`,
+    payload,
+    { headers }
+  );
 };
 
 export const uploadRestaurantImages = (restaurantId, payload) => {
   const headers = { 'Content-Type': 'multipart/form-data' };
-  return api.post(`/api/restaurant/upload/${restaurantId}`, payload, { headers });
+  return api.post(
+    `http://localhost:${port}/api/${service}/upload/${restaurantId}`,
+    payload,
+    { headers }
+  );
 };
 
 export const updateRestaurantDetails = (restaurantId, payload) => {
-  return api.patch(`/api/restaurant/details/${restaurantId}`, payload);
+  return api.patch(
+    `http://localhost:${port}/api/${service}/details/${restaurantId}`,
+    payload
+  );
 };
 
 export const deleteRestaurantImages = (restaurantId, payload) => {
-  return api.delete(`/api/restaurant/images/${restaurantId}`, {
-    data: payload,
-  });
+  return api.patch(
+    `http://localhost:${port}/api/${service}/images/${restaurantId}`,
+    payload
+  );
 };
 
 // Menu
 export const addMenuItem = (restaurantId, payload) => {
   const headers = { 'Content-Type': 'multipart/form-data' };
-  return api.post(`/api/menu/${restaurantId}`, payload, {
-    headers,
-  });
+  return api.post(
+    `http://localhost:${port}/api/${service}/menu/${restaurantId}`,
+    payload,
+    {
+      headers,
+    }
+  );
 };
 
 export const updateMenuItem = (restaurantId, menuId, payload) => {
-  return api.patch(`/api/menu/${restaurantId}/${menuId}`, payload);
+  return api.patch(
+    `http://localhost:${port}/api/${service}/menu/${restaurantId}/${menuId}`,
+    payload
+  );
 };
 
 export const updateMenuOrder = (restaurantId, payload) => {
-  return api.patch(`/api/menu/${restaurantId}`, payload);
+  return api.patch(
+    `http://localhost:${port}/api/${service}/menu/${restaurantId}`,
+    payload
+  );
 };
 
 export const deleteMenuItem = (restaurantId, menuId) => {
-  return api.delete(`/api/menu/${restaurantId}/${menuId}`);
+  return api.delete(
+    `http://localhost:${port}/api/${service}/menu/${restaurantId}/${menuId}`
+  );
 };

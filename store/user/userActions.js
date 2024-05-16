@@ -6,7 +6,7 @@ export const getUser = createAsyncThunk(
   async (arg, { rejectWithValue }) => {
     try {
       const res = await getUserDetails();
-      return ({ id, email, name, role, avatar, location } = res.data);
+      return ({ id, email, name, role, avatar, location, mapSlug } = res.data);
     } catch (e) {
       return rejectWithValue(e.response?.data?.message);
     }
