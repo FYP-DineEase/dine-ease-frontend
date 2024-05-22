@@ -188,7 +188,6 @@ const Review = ({
         overlay: images.length === 3 ? false : true,
       },
     ];
-
     return layout.slice(0, imageCount).map((layout, index) => (
       <ImageListItem key={index} rows={layout.rows} cols={layout.cols}>
         <Image
@@ -269,22 +268,28 @@ const Review = ({
                         (profileDetails &&
                           getFileUrl(
                             process.env.NEXT_PUBLIC_AWS_S3_USERS_BUCKET,
-                            `${profileDetails.id}/avatar/${profileDetails.avatar}`
-                          ))
+                            `${review.restaurantId.id}/avatar/${review.restaurantId.cover}`
+                          )) ||
+                        '/assets/images/bg-placeholder.png'
                       }
                       sx={{ width: 72, height: 72 }}
                     >
-                      {review.userId.name?.slice(0, 1) || name?.slice(0, 1)}
+                      {review.userId.name?.slice(0, 1) ||
+                        review.restaurantId.name?.slice(0, 1)}
                     </Avatar>
                   </Badge>
                 </Link>
                 <Box>
                   <Link
-                    href={`/profile/${review.userId.slug}`}
-                    style={{ pointerEvents: review.userId.slug ? 'auto' : 'none' }}
+                    href={
+                      review.userId.slug
+                        ? `/profile/${review.userId.slug}`
+                        : `/restaurant/${review.restaurantId.slug}`
+                    }
+                    // style={{ pointerEvents: review.userId.slug ? 'auto' : 'none' }}
                   >
                     <Text variant="main" fontWeight={500} sx={{ display: 'block' }}>
-                      {review.userId.name || name}
+                      {review.userId.name || review.restaurantId.name}
                     </Text>
                   </Link>
                   <Rating
@@ -329,7 +334,11 @@ const Review = ({
               </Text>
               <Box sx={{ width: '100%', mt: 3 }}>
                 <ImageList rowHeight={isMobile ? 150 : 200} cols={2} variant="quilted">
-                  {renderImages(review.restaurantId, review.id, review.images)}
+                  {renderImages(
+                    review.restaurantId.id || review.restaurantId,
+                    review.id,
+                    review.images
+                  )}
                 </ImageList>
               </Box>
               <VoteOptions

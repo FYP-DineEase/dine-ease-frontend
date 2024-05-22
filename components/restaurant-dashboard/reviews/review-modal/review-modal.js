@@ -139,7 +139,11 @@ const ReviewModal = ({ review, showModal, handleCloseModal, viewOnly }) => {
           {images.length > 0 && (
             <Box sx={{ width: '100%', mt: 3 }}>
               <ImageList rowHeight={isMobile ? 150 : 200} cols={2} variant="quilted">
-                {renderImages(restaurantId, reviewId, images)}
+                {renderImages(
+                  review.restaurantId.id || review.restaurantId,
+                  reviewId,
+                  images
+                )}
               </ImageList>
             </Box>
           )}

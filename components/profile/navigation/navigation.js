@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { useOnScreen } from '@/hooks/useOnScreen';
 
 import { useSelector } from 'react-redux';
@@ -65,16 +65,21 @@ const Navigation = () => {
       value: 'Favourites',
       icon: <FavoriteIcon fontSize="medium" />,
       label: 'Favourites',
-      childComponent: <RestaurantCard mapSlug={user.mapSlug} favouriteTab={true} />,
+      childComponent: <RestaurantCard mapSlug={details.mapSlug} favouriteTab={true} />,
     },
     {
       value: 'Restaurants',
       icon: <RestaurantIcon fontSize="medium" />,
       label: 'Restaurants',
-      hide: user.role !== UserRoles.MANAGER,
+      hide: user.role !== UserRoles.MANAGER || user.id !== details.id,
       childComponent: <RestaurantCard />,
     },
   ];
+
+  const visibleTabItems = useMemo(
+    () => tabItems.filter((item) => !item.hide),
+    [tabItems]
+  );
 
   const handleChange = (e, newValue) => {
     setValue(newValue);
@@ -93,7 +98,7 @@ const Navigation = () => {
               allowScrollButtonsMobile
               sx={{ width: { xs: '100%', lg: '50%' } }}
             >
-              {tabItems.map(
+              {visibleTabItems.map(
                 (item) =>
                   !item.hide && (
                     <Tab
@@ -118,7 +123,7 @@ const Navigation = () => {
               centered
               scrollButtons="auto"
             >
-              {tabItems.map(
+              {visibleTabItems.map(
                 (item) =>
                   !item.hide && (
                     <Tab
@@ -132,11 +137,11 @@ const Navigation = () => {
               )}
             </Tabs>
           </Styles.TabsContainer>
-          <Box sx={{ mt: 2 }}>{tabItems[value].childComponent}</Box>
+          <Box sx={{ mt: 2 }}>{visibleTabItems[value].childComponent}</Box>
         </Styles.TabItemContainer>
       </Grid>
       <Grid item xs={12} lg={3} sx={{ order: { xs: 2, lg: 0 } }}>
-        {tabItems[value].detailComponent}
+        {visibleTabItems[value].detailComponent}
       </Grid>
     </React.Fragment>
   );

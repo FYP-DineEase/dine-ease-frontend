@@ -18,7 +18,7 @@ const AddReviewImages = ({ previewImages, isModal, deleteImageHandler, review })
           typeof image === 'string'
             ? getFileUrl(
                 process.env.NEXT_PUBLIC_AWS_S3_REVIEWS_BUCKET,
-                `${review.restaurantId}/${review.id}/${image}`
+                `${review.restaurantId.id || review.restaurantId}/${review.id}/${image}`
               )
             : URL.createObjectURL(image)
         }
