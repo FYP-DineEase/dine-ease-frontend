@@ -1,33 +1,43 @@
-import React, { useEffect, useMemo, useState } from 'react';
-
+import React, { useMemo, useState } from 'react';
+import dayjs from 'dayjs';
 import DataTable from 'react-data-table-component';
 
 // Styles
 import { DashboardContent, FlexContainer, InputField } from '@/components/UI';
-import { InputAdornment } from '@mui/material';
+import { Chip, InputAdornment } from '@mui/material';
 
 // Icons
 import PersonIcon from '@mui/icons-material/Person';
 import StarIcon from '@mui/icons-material/Star';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import { Search } from '@mui/icons-material';
+import Search from '@mui/icons-material/Search';
 
-import { featuredDetails } from '@/mockData/mockData';
+// Helpers
+import { getDate } from '@/helpers/dateHelpers';
 
-const FeatureTable = () => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
-
+const FeatureTable = ({ plans }) => {
   const [filterText, setFilterText] = useState('');
 
-  const filteredReviews = data.filter(
-    (item) =>
-      item.createdAt.toLowerCase().includes(filterText.toLowerCase()) ||
-      item.expiresAt.toLowerCase().includes(filterText.toLowerCase()) ||
-      item.currentStatus.toLowerCase().includes(filterText.toLowerCase()) ||
-      item.stripeId.toString().includes(filterText) ||
-      item.amount.toString().includes(filterText)
-  );
+  // const calculateTotalAmount = () => {
+  //   let sum = 0;
+  //   data.forEach((plan) => (sum += plan.planId.charges));
+  //   return sum;
+  // };
+
+  const filteredReviews = plans?.filter((item) => {
+    const filterTextLower = filterText.toLowerCase();
+    const isActiveFilterMatch =
+      (filterTextLower === 'active' && item.planId.isActive) ||
+      (filterTextLower === 'expired' && !item.planId.isActive);
+
+    return (
+      getDate(item.createdAt).toLowerCase().includes(filterTextLower) ||
+      isActiveFilterMatch ||
+      item.stripeId.toString().includes(filterTextLower) ||
+      item.planId.title.toString().toLowerCase().includes(filterTextLower) ||
+      item.planId.charges.toString().includes(filterTextLower)
+    );
+  });
 
   const subHeaderComponentMemo = useMemo(() => {
     return (
@@ -68,7 +78,7 @@ const FeatureTable = () => {
           Feature Date
         </FlexContainer>
       ),
-      selector: (row) => row.createdAt,
+      selector: (row) => getDate(row.createdAt),
       sortable: 'true',
       center: 'true',
     },
@@ -79,7 +89,8 @@ const FeatureTable = () => {
           Expiration Date
         </FlexContainer>
       ),
-      selector: (row) => row.expiresAt,
+      selector: (row) =>
+        getDate(dayjs(row.createdAt).add(row.planId.durationInMonths, 'month')),
       sortable: 'true',
       center: 'true',
     },
@@ -87,10 +98,10 @@ const FeatureTable = () => {
       name: (
         <FlexContainer gap={0.5}>
           <CalendarMonthIcon color="primary" />
-          Amount Spent
+          Charges
         </FlexContainer>
       ),
-      selector: (row) => row.amount,
+      selector: (row) => row.planId.charges + `$${row.planId.currency}`,
       center: 'true',
     },
     {
@@ -100,23 +111,16 @@ const FeatureTable = () => {
           Status
         </FlexContainer>
       ),
-      selector: (row) => row.currentStatus,
+      selector: (row) => (
+        <Chip
+          label={row.planId.isActive ? 'Active' : 'Expired'}
+          color={row.planId.isActive ? 'success' : 'error'}
+          sx={{ color: 'text.primary' }}
+        />
+      ),
       center: 'true',
     },
   ];
-
-  useEffect(() => {
-    setLoading(true);
-    const data = featuredDetails.map((review) => ({
-      stripeId: review.stripeId,
-      createdAt: review.createdAt,
-      expiresAt: review.expiresAt,
-      amount: review.amount,
-      currentStatus: review.currentStatus,
-    }));
-    setData(data);
-    setLoading(false);
-  }, []);
 
   return (
     <DashboardContent>
@@ -129,7 +133,6 @@ const FeatureTable = () => {
         pagination
         paginationPerPage={8}
         paginationRowsPerPageOptions={[8]}
-        progressPending={loading}
       />
     </DashboardContent>
   );
