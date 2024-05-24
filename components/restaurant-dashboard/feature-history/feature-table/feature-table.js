@@ -15,16 +15,10 @@ import Search from '@mui/icons-material/Search';
 // Helpers
 import { getDate } from '@/helpers/dateHelpers';
 
-const FeatureTable = ({ plans }) => {
+const FeatureTable = ({ payments }) => {
   const [filterText, setFilterText] = useState('');
 
-  // const calculateTotalAmount = () => {
-  //   let sum = 0;
-  //   data.forEach((plan) => (sum += plan.planId.charges));
-  //   return sum;
-  // };
-
-  const filteredReviews = plans?.filter((item) => {
+  const filteredPayments = payments?.filter((item) => {
     const filterTextLower = filterText.toLowerCase();
     const isActiveFilterMatch =
       (filterTextLower === 'active' && item.planId.isActive) ||
@@ -126,7 +120,7 @@ const FeatureTable = ({ plans }) => {
     <DashboardContent>
       <DataTable
         columns={columns}
-        data={filteredReviews}
+        data={filteredPayments}
         responsive
         subHeader
         subHeaderComponent={subHeaderComponentMemo}

@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
+import { useRestaurantContext } from '@/context/restaurant';
+import { enqueueSnackbar } from 'notistack';
 
 // Styles
 import * as Styles from './feature-chart.styles';
-import { DashboardContent, Text } from '@/components/UI';
+import { DashboardContent, FlexContainer, Text } from '@/components/UI';
 import { Box } from '@mui/material';
 
+// Icons
+import LocalAtmTwoToneIcon from '@mui/icons-material/LocalAtmTwoTone';
+
 // Chart
+import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -17,15 +23,6 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Line } from 'react-chartjs-2';
-
-// Utils
-import { Periods } from '@/utils/constants';
-import { enqueueSnackbar } from 'notistack';
-import { getError } from '@/helpers/snackbarHelpers';
-import { getRestaurantReview } from '@/services/review';
-import { useRestaurantContext } from '@/context/restaurant';
-
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -36,11 +33,28 @@ ChartJS.register(
   Legend
 );
 
-const FeatureChart = ({ plans }) => {
+// Utils
+import { Periods } from '@/utils/constants';
+
+// Helpers
+import { getError } from '@/helpers/snackbarHelpers';
+
+// Services
+import { getRestaurantReview } from '@/services/review';
+
+const FeatureChart = ({ payments }) => {
   const [selectedPeriod, setSelectedPeriod] = useState(1);
   const [reviews, setReviews] = useState([]);
 
   const { details } = useRestaurantContext();
+
+  const calculateTotalAmount = (payments) => {
+    let sum = 0;
+    payments.forEach((plan) => (sum += plan.planId.charges));
+    return sum;
+  };
+
+  const totalAmountSpent = calculateTotalAmount(payments);
 
   const fetchReviews = async () => {
     try {
@@ -64,12 +78,12 @@ const FeatureChart = ({ plans }) => {
     return filteredReviews;
   };
 
-  const fiteredReviews = filterReviewsByDateRange(reviews);
+  const filteredReviews = filterReviewsByDateRange(reviews);
 
-  const featurePeriods = plans.map((plan) => {
-    const start = dayjs(plan.createdAt).format('DD MMMM YYYY');
-    const end = dayjs(plan.createdAt)
-      .add(plan.planId.durationInMonths, 'month')
+  const featurePeriods = payments.map((payment) => {
+    const start = dayjs(payment.createdAt).format('DD MMMM YYYY');
+    const end = dayjs(payment.createdAt)
+      .add(payment.planId.durationInMonths, 'month')
       .format('DD MMMM YYYY');
     return { start, end };
   });
@@ -96,7 +110,7 @@ const FeatureChart = ({ plans }) => {
     return dayOccurrences;
   };
 
-  const occurrences = occurrencesCount(fiteredReviews);
+  const occurrences = occurrencesCount(filteredReviews);
 
   const options = {
     responsive: true,
@@ -130,11 +144,11 @@ const FeatureChart = ({ plans }) => {
   };
 
   const data = {
-    labels: Object.keys(occurrences),
+    labels: Object.keys(occurrences).reverse(),
     datasets: [
       {
         label: 'Review Posted',
-        data: Object.values(occurrences),
+        data: Object.values(occurrences).reverse(),
         backgroundColor: (ctx) => {
           if (ctx.raw?.featured) return 'green';
           else return 'orange';
@@ -145,7 +159,7 @@ const FeatureChart = ({ plans }) => {
         },
         segment: {
           borderColor: (ctx) => {
-            if (ctx.p1.raw.featured) return 'green';
+            if (ctx.p0.raw.featured) return 'green';
             else return 'orange';
           },
         },
@@ -156,19 +170,27 @@ const FeatureChart = ({ plans }) => {
 
   return (
     <DashboardContent>
-      <Styles.OptionContainer>
-        {Periods.map((period) => (
-          <Styles.Option
-            key={period.id}
-            selected={period.value === selectedPeriod}
-            onClick={() => setSelectedPeriod(period.value)}
-          >
-            <Text variant="sub" fontWeight={600}>
-              {period.id}
-            </Text>
-          </Styles.Option>
-        ))}
-      </Styles.OptionContainer>
+      <FlexContainer sx={{ justifyContent: 'space-between', mb: 1 }}>
+        <FlexContainer gap={1}>
+          <LocalAtmTwoToneIcon color="success" fontSize="large" />
+          <Text variant="body" fontWeight={600}>
+            Total {totalAmountSpent}US$ spent
+          </Text>
+        </FlexContainer>
+        <Styles.OptionContainer>
+          {Periods.map((period) => (
+            <Styles.Option
+              key={period.id}
+              selected={period.value === selectedPeriod}
+              onClick={() => setSelectedPeriod(period.value)}
+            >
+              <Text variant="sub" fontWeight={600}>
+                {period.id}
+              </Text>
+            </Styles.Option>
+          ))}
+        </Styles.OptionContainer>
+      </FlexContainer>
       <Box sx={{ height: '280px' }}>
         <Line data={data} options={options} />
       </Box>

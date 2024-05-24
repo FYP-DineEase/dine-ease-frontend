@@ -24,14 +24,14 @@ import { getError } from '@/helpers/snackbarHelpers';
 const FeatureHistory = () => {
   const [showModal, setShowModal] = useState(false);
 
-  const [plans, setPlans] = useState([]);
+  const [payments, setPayments] = useState([]);
   const { details } = useRestaurantContext();
 
   const fetchRestaurantPayments = async () => {
     try {
       if (!details.id) return;
       const response = await getRestaurantSubscriptions(details.id);
-      setPlans(response.data);
+      setPayments(response.data);
     } catch (e) {
       enqueueSnackbar({ variant: 'error', message: getError(e) });
     }
@@ -46,10 +46,10 @@ const FeatureHistory = () => {
       <PlansModal showModal={showModal} handleCloseModal={() => setShowModal(false)} />
       <DashboardContainer container columnSpacing={2} rowGap={1}>
         <Grid item xs={12}>
-          <FeatureChart plans={plans} />
+          <FeatureChart payments={payments} />
         </Grid>
         <Grid item xs={12}>
-          <FeatureTable plans={plans} />
+          <FeatureTable payments={payments} />
         </Grid>
         <Styles.DeletePopper open={true}>
           <IconButton
