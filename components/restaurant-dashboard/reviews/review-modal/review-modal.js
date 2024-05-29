@@ -11,6 +11,7 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  Divider,
   ImageList,
   ImageListItem,
   Rating,
@@ -27,7 +28,7 @@ import { getFileUrl } from '@/helpers/fileHelpers';
 // Components
 import VoteOptions from '@/components/reviews/vote-options/vote';
 
-const ReviewModal = ({ review, showModal, handleCloseModal, viewOnly }) => {
+const ReviewModal = ({ review, showModal, handleCloseModal, viewOnly, hide = false }) => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
   const {
     name = null,
@@ -36,9 +37,14 @@ const ReviewModal = ({ review, showModal, handleCloseModal, viewOnly }) => {
     slug = null,
   } = (review && review.userId) || {};
   const {
+    name: restaurantName,
+    id: restaurantId,
+    cover = null,
+    slug: restaurantSlug,
+  } = (review && review.restaurantId) || {};
+  const {
     rating = null,
     createdAt = null,
-    restaurantId = null,
     id: reviewId,
     images = [],
     votes = [],
@@ -102,7 +108,40 @@ const ReviewModal = ({ review, showModal, handleCloseModal, viewOnly }) => {
       </DialogTitle>
       <DialogContent dividers={true}>
         <Styles.ReviewCard>
-          <Styles.UserDetails>
+          {!hide && (
+            <Styles.Details>
+              <Link href={`/restaurant/${restaurantSlug}`}>
+                <Avatar
+                  src={
+                    (cover &&
+                      getFileUrl(
+                        process.env.NEXT_PUBLIC_AWS_S3_RESTAURANTS_BUCKET,
+                        `${restaurantId}/cover/${cover}`
+                      )) ||
+                    '/assets/images/bg-placeholder.png'
+                  }
+                  sx={{ width: 72, height: 72 }}
+                >
+                  {restaurantName?.slice(0, 1)}
+                </Avatar>
+              </Link>
+              <Box>
+                <Link href={`/restaurant/${restaurantSlug}`}>
+                  <Text
+                    variant="main"
+                    fontWeight={500}
+                    sx={{ display: 'block', color: 'text.secondary' }}
+                  >
+                    {restaurantName}
+                  </Text>
+                </Link>
+              </Box>
+            </Styles.Details>
+          )}
+          {!hide && (
+            <Divider orientation="horizontal" variant="middle" sx={{ mt: 2, mb: 2 }} />
+          )}
+          <Styles.Details>
             <Link href={`/profile/${slug}`}>
               <Avatar
                 src={
@@ -132,18 +171,14 @@ const ReviewModal = ({ review, showModal, handleCloseModal, viewOnly }) => {
                 {getDate(createdAt)}, {getTimePassed(createdAt)}
               </Text>
             </Box>
-          </Styles.UserDetails>
+          </Styles.Details>
           <Text variant="body" sx={{ display: 'block', mt: 2, color: 'text.secondary' }}>
             {content}
           </Text>
           {images.length > 0 && (
             <Box sx={{ width: '100%', mt: 3 }}>
               <ImageList rowHeight={isMobile ? 150 : 200} cols={2} variant="quilted">
-                {renderImages(
-                  review.restaurantId.id || review.restaurantId,
-                  reviewId,
-                  images
-                )}
+                {renderImages(restaurantId || review.restaurantId, reviewId, images)}
               </ImageList>
             </Box>
           )}

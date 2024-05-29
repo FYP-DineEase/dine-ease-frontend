@@ -137,6 +137,7 @@ const Review = ({
       );
       const review = {
         ...response.data,
+        restaurantId: updatedReviews[updateIndex].restaurantId,
         userId: { id: user.id, avatar: user.avatar, slug: user.slug, name: user.name },
       };
       updatedReviews[updateIndex] = review;
@@ -260,22 +261,21 @@ const Review = ({
                   >
                     <Avatar
                       src={
-                        (review.userId.avatar &&
-                          getFileUrl(
-                            process.env.NEXT_PUBLIC_AWS_S3_USERS_BUCKET,
-                            `${review.userId.id}/avatar/${review.userId.avatar}`
-                          )) ||
                         (profileDetails &&
                           getFileUrl(
                             process.env.NEXT_PUBLIC_AWS_S3_USERS_BUCKET,
                             `${review.restaurantId.id}/avatar/${review.restaurantId.cover}`
                           )) ||
-                        '/assets/images/bg-placeholder.png'
+                        (review.userId.avatar &&
+                          getFileUrl(
+                            process.env.NEXT_PUBLIC_AWS_S3_USERS_BUCKET,
+                            `${review.userId.id}/avatar/${review.userId.avatar}`
+                          ))
                       }
                       sx={{ width: 72, height: 72 }}
                     >
-                      {review.userId.name?.slice(0, 1) ||
-                        review.restaurantId.name?.slice(0, 1)}
+                      {review.restaurantId.name?.slice(0, 1) ||
+                        review.userId.name?.slice(0, 1)}
                     </Avatar>
                   </Badge>
                 </Link>
@@ -289,7 +289,7 @@ const Review = ({
                     // style={{ pointerEvents: review.userId.slug ? 'auto' : 'none' }}
                   >
                     <Text variant="main" fontWeight={500} sx={{ display: 'block' }}>
-                      {review.userId.name || review.restaurantId.name}
+                      {review.restaurantId.name || review.userId.name}
                     </Text>
                   </Link>
                   <Rating

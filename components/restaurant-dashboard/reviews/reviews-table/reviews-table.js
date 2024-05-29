@@ -159,6 +159,7 @@ const ReviewsTable = ({ reviews }) => {
           handleCloseModal={closeModalHandler}
           review={reviewDetails.current}
           viewOnly={true}
+          hide={true}
         />
       )}
       <DashboardContent>

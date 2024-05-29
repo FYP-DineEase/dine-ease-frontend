@@ -7,7 +7,7 @@ export const ReviewCard = styled(Box)(({ theme }) => ({
   wordSpacing: 2,
 }));
 
-export const UserDetails = styled(FlexContainer)(({ theme }) => ({
+export const Details = styled(FlexContainer)(({ theme }) => ({
   justifyContent: 'flex-start',
   gap: theme.spacing(2),
 }));
