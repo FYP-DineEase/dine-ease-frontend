@@ -28,3 +28,7 @@ export const RestaurantImage = styled(Box)(({ theme }) => ({
     width: '100%',
   },
 }));
+
+export const TabsContainer = styled(Box)(({ theme }) => ({
+  borderBottom: '1px solid lightgrey',
+}));

@@ -37,6 +37,7 @@ const Navigation = () => {
   const tabsOnScreen = useOnScreen(tabsRef);
 
   const [value, setValue] = useState(0);
+  const [plansType, setPlansType] = useState('myPlans');
 
   const tabItems = [
     {
@@ -58,8 +59,10 @@ const Navigation = () => {
       icon: <PlanIcon fontSize="medium" />,
       label: 'Plans',
       hide: user.id !== details.id,
-      childComponent: <DiningPlanCard />,
-      detailComponent: <DiningPlanCalender />,
+      childComponent: (
+        <DiningPlanCard plansType={plansType} setPlansType={setPlansType} />
+      ),
+      detailComponent: <DiningPlanCalender plansType={plansType} />,
     },
     {
       value: 'Favourites',

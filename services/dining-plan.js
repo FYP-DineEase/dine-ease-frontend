@@ -8,6 +8,10 @@ export const getUserPlans = (userId) => {
   return api.get(`http://localhost:${port}/api/${service}/user/${userId}`);
 };
 
+export const getUserInvitedPlans = (email) => {
+  return api.get(`http://localhost:${port}/api/${service}/invited/${email}`);
+};
+
 export const addPlan = (payload) => {
   return api.post(`http://localhost:${port}/api/${service}`, payload);
 };

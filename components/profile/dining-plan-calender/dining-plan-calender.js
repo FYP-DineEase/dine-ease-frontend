@@ -12,7 +12,7 @@ import { enqueueSnackbar } from 'notistack';
 import { getError } from '@/helpers/snackbarHelpers';
 
 // Services
-import { getUserPlans } from '@/services/dining-plan';
+import { getUserInvitedPlans, getUserPlans } from '@/services/dining-plan';
 
 const ServerDay = (props) => {
   const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
@@ -30,13 +30,13 @@ const ServerDay = (props) => {
   );
 };
 
-const DiningPlanCalender = () => {
+const DiningPlanCalender = ({ plansType }) => {
   const { details } = useProfileContext();
 
   const [plansDate, setPlansDate] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchUserPlans = async () => {
+  const fetchUserCreatedPlans = async () => {
     setIsLoading(true);
     try {
       const response = await getUserPlans(details.id);
@@ -50,9 +50,24 @@ const DiningPlanCalender = () => {
     setIsLoading(false);
   };
 
+  const fetchUserInvitedPlans = async () => {
+    setIsLoading(true);
+    try {
+      const response = await getUserInvitedPlans(details.email);
+      const highlightDays = response.data.map((plan) =>
+        dayjs(plan.date).format('YYYY-MM-DD')
+      );
+      setPlansDate(highlightDays);
+    } catch (e) {
+      enqueueSnackbar({ variant: 'error', message: getError(e) });
+    }
+    setIsLoading(false);
+  };
+
   useEffect(() => {
-    if (details?.id) fetchUserPlans();
-  }, [details?.id]);
+    if (details?.id && plansType === 'myPlans') fetchUserCreatedPlans();
+    else if (details?.id && plansType === 'invitedPlans') fetchUserInvitedPlans();
+  }, [details?.id, plansType]);
   return (
     <DetailsContainer>
       <DateCalendar
