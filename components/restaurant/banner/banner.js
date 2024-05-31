@@ -6,7 +6,7 @@ import { selectUserState, userActions } from '@/store/user/userSlice';
 // Styles
 import * as Styles from './banner.styles';
 import { FlexContainer, SectionContainer, Text } from '@/components/UI';
-import { Grid, Rating, Tooltip } from '@mui/material';
+import { Chip, Grid, Rating, Tooltip } from '@mui/material';
 
 // Helpers
 import { getFileUrl } from '@/helpers/fileHelpers';
@@ -124,6 +124,7 @@ const Banner = ({ restaurant }) => {
             sizes="100%"
             style={{ objectFit: 'cover' }}
           />
+
           <Styles.CarousalIcon sx={{ justifyContent: 'left' }}>
             <Styles.StyledIconButton onClick={backwardImageHandler} sx={{ ml: 2 }}>
               <KeyboardArrowLeftIcon />
@@ -135,9 +136,14 @@ const Banner = ({ restaurant }) => {
             </Styles.StyledIconButton>
           </Styles.CarousalIcon>
           <Styles.RestaurantDetails>
-            <Text variant="header" fontWeight={900} sx={{ display: 'block', mb: 1 }}>
-              {restaurant.name}
-            </Text>
+            <FlexContainer sx={{ justifyContent: 'flex-start', mb: 1, gap: 2 }}>
+              <Text variant="header" fontWeight={900}>
+                {restaurant.name}
+              </Text>
+              {restaurant.featuredTill && (
+                <Chip label="Featured" color="info" variant="filled" />
+              )}
+            </FlexContainer>
             <FlexContainer sx={{ justifyContent: 'left' }}>
               <Rating
                 value={restaurant.rating}

@@ -4,7 +4,7 @@ import Image from 'next/image';
 // Styles
 import * as Styles from './favourite-restaurants.styles';
 import { FlexContainer, Text } from '@/components/UI';
-import { Box, Divider, Rating, useMediaQuery } from '@mui/material';
+import { Box, Chip, Divider, Rating, useMediaQuery } from '@mui/material';
 
 // Helpers
 import { getFileUrl } from '@/helpers/fileHelpers';
@@ -45,6 +45,14 @@ const FavouriteRestaurants = ({
               sizes="100vw"
               style={{ objectFit: 'cover', borderRadius: '5px' }}
             />
+            {restaurant.featuredTill && (
+              <Chip
+                label="Featured"
+                color="info"
+                variant="filled"
+                sx={{ position: 'absolute', top: 10, left: 5 }}
+              />
+            )}
           </Styles.RestaurantImage>
           <FlexContainer sx={{ justifyContent: 'space-between', mt: 2 }}>
             <Text variant="main" fontWeight={500}>

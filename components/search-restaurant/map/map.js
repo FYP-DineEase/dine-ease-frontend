@@ -141,10 +141,17 @@ const Map = ({ restaurants, hoverId, location }) => {
                     longitude={coordinates[0]}
                     latitude={coordinates[1]}
                   >
-                    <Styles.Pin
-                      hovering={+(i.id === hoverId)}
-                      onMouseOver={() => popupHandler(i)}
-                    />
+                    {i.featuredTill ? (
+                      <Styles.FeaturedPin
+                        hovering={+(i.id === hoverId)}
+                        onMouseOver={() => popupHandler(i)}
+                      />
+                    ) : (
+                      <Styles.Pin
+                        hovering={+(i.id === hoverId)}
+                        onMouseOver={() => popupHandler(i)}
+                      />
+                    )}
                   </Marker>
                 </React.Fragment>
               );

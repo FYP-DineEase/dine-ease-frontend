@@ -13,9 +13,12 @@ import { connectToMeilisearch } from '@/services/meilisearch';
 import ListedRestaurants from './listed-restaurants/listed-restaurants';
 import Map from './map/map';
 
+// Utils
+import { SortBy } from '@/utils/constants';
+
 const client = connectToMeilisearch();
 
-const SearchRestaurant = () => {
+const SearchRestaurant = ({ recommendationsExist, setRecommendationsExist }) => {
   const user = useSelector(selectUserState);
   const { coordinates } = user.location;
   const longitude = (coordinates && coordinates[0]) || -82.7333444;
@@ -26,7 +29,7 @@ const SearchRestaurant = () => {
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
-  const [selectedSortType, setSelectedSortType] = useState(null);
+  const [selectedSortType, setSelectedSortType] = useState(SortBy.RECOMMENDED.sortType);
 
   const [location, setLocation] = useState({
     lng: longitude,
@@ -43,6 +46,8 @@ const SearchRestaurant = () => {
   };
 
   const sortTypeHandler = (type) => {
+    if (type === SortBy.RECOMMENDED.sortType) setRecommendationsExist(true);
+    else setRecommendationsExist(false);
     setSelectedSortType(type);
   };
 
@@ -75,28 +80,44 @@ const SearchRestaurant = () => {
   };
 
   useEffect(() => {
+    if (!recommendationsExist) setSelectedSortType(SortBy.RATING.sortType);
+    else setSelectedSortType(SortBy.RECOMMENDED.sortType);
+  }, [recommendationsExist]);
+
+  useEffect(() => {
+    const options = {
+      filter: [
+        filteredCategories,
+        `_geoRadius(${location.lat}, ${location.lng}, ${location.distanceInMeters})`,
+      ],
+      hitsPerPage: searchLimit.current,
+      page: page,
+    };
+
+    if (selectedSortType && selectedSortType !== SortBy.RECOMMENDED.sortType) {
+      options.sort = [`featuredTill:asc`, `${selectedSortType}:desc`];
+    }
+
     client
-      .index('restaurants')
-      .search(debouncedSearch, {
-        filter: [
-          filteredCategories,
-          `_geoRadius(${location.lat}, ${location.lng}, ${location.distanceInMeters})`,
-        ],
-        sort: selectedSortType && [`${selectedSortType}:desc`],
-        hitsPerPage: searchLimit.current,
-        page: page,
-      })
+      .index(recommendationsExist ? 'recommendations' : 'restaurants')
+      .search(debouncedSearch, options)
       .then((res) => {
         setFilteredRestaurants(res.hits);
         setTotalPage(res.totalPages);
-        console.log(res);
       })
       .catch((error) => console.error('MeiliSearch Error:', error));
-  }, [debouncedSearch, filteredCategories, selectedSortType, page, location]);
+  }, [
+    debouncedSearch,
+    filteredCategories,
+    selectedSortType,
+    page,
+    location,
+    recommendationsExist,
+  ]);
 
   useEffect(() => {
     setPage(1);
-  }, [debouncedSearch]);
+  }, [debouncedSearch, selectedSortType]);
 
   return (
     <Grid container justifyContent="center">
@@ -115,6 +136,7 @@ const SearchRestaurant = () => {
           pageHandler={pageHandler}
           totalPage={totalPage}
           page={page}
+          setPage={setPage}
           setLocation={setLocation}
           initialCoordinates={{ lng: longitude, lat: latitude }}
         />

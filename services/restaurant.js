@@ -22,6 +22,10 @@ export const verifyOTP = (restaurantId, payload) => {
 };
 
 // Restaurant
+export const getRestaurantRecommendations = (payload) => {
+  return api.post(`http://localhost:${port}/api/${service}/recommendation`, payload);
+};
+
 export const checkRestaurant = (params) => {
   return api.get(`http://localhost:${port}/api/${service}/check`, { params });
 };

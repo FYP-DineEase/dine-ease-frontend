@@ -45,21 +45,22 @@ const ListedRestaurants = ({
   pageHandler,
   totalPage,
   page,
+  setPage,
   setLocation,
   initialCoordinates,
 }) => {
   const [open, setOpen] = useState(false);
-  const defaultOption = useMemo(
+  const currentLocationOption = useMemo(
     () => ({
       name: 'My Current Location',
-      mapbox_id: 'default',
+      mapbox_id: 'currentLocation',
     }),
     []
   );
 
   const [searchLocation, setSearchLocation] = useState('');
   const debouncedSearchLocation = useDebounce(searchLocation, 500);
-  const [selectedLocation, setSelectedLocation] = useState(defaultOption);
+  const [selectedLocation, setSelectedLocation] = useState(currentLocationOption);
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -77,7 +78,7 @@ const ListedRestaurants = ({
 
   const selectedLocationHandler = async (value) => {
     setSelectedLocation(value);
-    if (value?.mapbox_id === 'default') {
+    if (value?.mapbox_id === currentLocationOption.mapbox_id) {
       setLocation((prevState) => ({
         ...prevState,
         lng: initialCoordinates.lng,
@@ -99,8 +100,8 @@ const ListedRestaurants = ({
   const filterOptions = (options, state) => {
     const results = _filterOptions(options, state);
 
-    if (!results.includes(defaultOption)) {
-      results.unshift(defaultOption);
+    if (!results.includes(currentLocationOption)) {
+      results.unshift(currentLocationOption);
     }
 
     return results;
@@ -109,6 +110,10 @@ const ListedRestaurants = ({
   useEffect(() => {
     if (debouncedSearchLocation) suggestionChangeHandler();
   }, [debouncedSearchLocation]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [selectedLocation]);
 
   return (
     <Styles.SearchContainer>
@@ -167,7 +172,7 @@ const ListedRestaurants = ({
                     }}
                   >
                     <FlexContainer gap={1}>
-                      {value?.mapbox_id === 'default' && (
+                      {value?.mapbox_id === currentLocationOption.mapbox_id && (
                         <MyLocationIcon color="primary" fontSize="small" />
                       )}
                       <Text variant="body" color="text.secondary" fontWeight={600}>
@@ -192,7 +197,8 @@ const ListedRestaurants = ({
                   ...params.InputProps,
                   startAdornment: (
                     <InputAdornment position="end">
-                      {selectedLocation?.mapbox_id === 'default' && (
+                      {selectedLocation?.mapbox_id ===
+                        currentLocationOption.mapbox_id && (
                         <MyLocationIcon color="primary" fontSize="small" />
                       )}
                     </InputAdornment>
@@ -208,7 +214,7 @@ const ListedRestaurants = ({
             )}
           />
         </Styles.SearchFields>
-        {filterText && selectedLocation && (
+        {filterText && selectedLocation && filteredRestaurants.length > 0 && (
           <Box mb={1}>
             <Text variant="subHeader">
               Search Results for
@@ -222,92 +228,140 @@ const ListedRestaurants = ({
             </Text>
           </Box>
         )}
-        <Styles.ListContainer>
-          {filteredRestaurants.map((restaurant) => (
-            <Link
-              href={`/restaurant/${restaurant.slug}`}
-              target="_blank"
-              key={restaurant.id}
-            >
-              <Styles.RestaurantContainer
-                onMouseEnter={() => hoverIdHandler(restaurant.id)}
-                onMouseLeave={resetHoverIdHandler}
+        {filteredRestaurants.length > 0 ? (
+          <Styles.ListContainer>
+            {filteredRestaurants.map((restaurant) => (
+              <Link
+                href={`/restaurant/${restaurant.slug}`}
+                target="_blank"
+                key={restaurant.id || restaurant._id}
               >
-                <Styles.RestaurantImage>
-                  <Image
-                    src={
-                      (restaurant.cover &&
-                        getFileUrl(
-                          process.env.NEXT_PUBLIC_AWS_S3_RESTAURANTS_BUCKET,
-                          `${restaurant.id}/cover/${restaurant.cover}`
-                        )) ||
-                      '/assets/images/bg-placeholder.png'
-                    }
-                    alt="restaurant"
-                    fill
-                    sizes="100vw"
-                    style={{ objectFit: 'cover', borderRadius: '5px' }}
-                  />
-                </Styles.RestaurantImage>
-                <Styles.RestaurantContent>
-                  <FlexContainer sx={{ justifyContent: 'space-between', mb: 1 }}>
-                    <Text variant="main" fontWeight={800}>
-                      {restaurant.name}
-                    </Text>
-                    <FlexContainer sx={{ flexDirection: 'column' }}>
-                      <Rating
-                        value={restaurant.rating}
-                        precision={0.5}
-                        size="small"
-                        readOnly
-                      />
-                      <Text variant="sub" sx={{ display: 'block', textAlign: 'center' }}>
-                        {restaurant.rating} ({restaurant.count} reviews)
-                      </Text>
-                    </FlexContainer>
-                  </FlexContainer>
-                  <Styles.Cuisines>
-                    {restaurant.categories.map((categoryType) => (
+                <Styles.RestaurantContainer
+                  onMouseEnter={() => hoverIdHandler(restaurant.id)}
+                  onMouseLeave={resetHoverIdHandler}
+                >
+                  <Styles.RestaurantImage>
+                    <Image
+                      src={
+                        (restaurant.cover &&
+                          getFileUrl(
+                            process.env.NEXT_PUBLIC_AWS_S3_RESTAURANTS_BUCKET,
+                            `${restaurant.id}/cover/${restaurant.cover}`
+                          )) ||
+                        '/assets/images/bg-placeholder.png'
+                      }
+                      alt="restaurant"
+                      fill
+                      sizes="100vw"
+                      style={{ objectFit: 'cover', borderRadius: '5px' }}
+                    />
+                    {restaurant.featuredTill && (
                       <Chip
-                        key={categoryType}
-                        label={categoryType}
-                        sx={{ color: 'text.secondary' }}
+                        label="Featured"
+                        color="info"
+                        variant="filled"
+                        sx={{ position: 'absolute', top: 10, left: 5 }}
                       />
-                    ))}
-                  </Styles.Cuisines>
-                  <Styles.IconContainer>
-                    <LocationIcon color="primary" />
-                    <Text variant="sub">{restaurant.address}</Text>
-                  </Styles.IconContainer>
-                  <Styles.IconContainer>
-                    <CallIcon color="primary" />
-                    <Text variant="sub">
-                      {restaurant.isVerified ? `+${restaurant.phoneNumber}` : 'No Number'}
-                    </Text>
-                  </Styles.IconContainer>
-                </Styles.RestaurantContent>
-              </Styles.RestaurantContainer>
-              <Divider />
-            </Link>
-          ))}
-        </Styles.ListContainer>
-        <FlexContainer>
-          <Pagination
-            color="primary"
-            count={totalPage}
-            variant="outlined"
-            shape="rounded"
-            sx={{
-              mt: 3,
-              mb: 3,
-              '& .MuiPaginationItem-root:not(.Mui-selected)': {
-                color: 'text.secondary',
-              },
-            }}
-            page={page}
-            onChange={pageHandler}
-          />
-        </FlexContainer>
+                    )}
+                  </Styles.RestaurantImage>
+                  <Styles.RestaurantContent>
+                    <FlexContainer sx={{ justifyContent: 'space-between', mb: 1 }}>
+                      <Text variant="main" fontWeight={800}>
+                        {restaurant.name}
+                      </Text>
+                      <FlexContainer sx={{ flexDirection: 'column' }}>
+                        <Rating
+                          value={restaurant.rating}
+                          precision={0.5}
+                          size="small"
+                          readOnly
+                        />
+                        <Text
+                          variant="sub"
+                          sx={{ display: 'block', textAlign: 'center' }}
+                        >
+                          {restaurant.rating} ({restaurant.count} reviews)
+                        </Text>
+                      </FlexContainer>
+                    </FlexContainer>
+                    <Styles.Cuisines>
+                      {restaurant.categories.map((categoryType) => (
+                        <Chip
+                          key={categoryType}
+                          label={categoryType}
+                          sx={{ color: 'text.secondary' }}
+                        />
+                      ))}
+                    </Styles.Cuisines>
+                    <Styles.IconContainer>
+                      <LocationIcon color="primary" />
+                      <Text variant="sub">{restaurant.address}</Text>
+                    </Styles.IconContainer>
+                    <Styles.IconContainer>
+                      <CallIcon color="primary" />
+                      <Text variant="sub">
+                        {restaurant.isVerified
+                          ? `+${restaurant.phoneNumber}`
+                          : 'No Number'}
+                      </Text>
+                    </Styles.IconContainer>
+                  </Styles.RestaurantContent>
+                </Styles.RestaurantContainer>
+                <Divider />
+              </Link>
+            ))}
+          </Styles.ListContainer>
+        ) : (
+          <Box mb={1} width="100%" mt={5} textAlign="left">
+            <Text variant="subHeader">
+              No results found{' '}
+              {filterText && (
+                <Text variant="subHeader" fontWeight={500}>
+                  {filterText}
+                </Text>
+              )}{' '}
+              near{' '}
+              <Text variant="subHeader" fontWeight={500}>
+                {selectedLocation?.name}
+              </Text>
+            </Text>
+            <Text variant="main" fontWeight={500} sx={{ display: 'block', mt: 1, mb: 2 }}>
+              Suggestions for improving your results:
+            </Text>
+            <Box component="ul" ml={3}>
+              <Box component="li" mt={1}>
+                <Text variant="body">Try a different location.</Text>
+              </Box>
+              <Box component="li" mt={1}>
+                <Text variant="body">Check the spelling or try alternate spellings.</Text>
+              </Box>
+              <Box component="li" mt={1}>
+                <Text variant="body">
+                  Try a more general search, e.g. "burger" instead of "pepperoni".
+                </Text>
+              </Box>
+            </Box>
+          </Box>
+        )}
+        {filteredRestaurants.length > 0 && (
+          <FlexContainer>
+            <Pagination
+              color="primary"
+              count={totalPage}
+              variant="outlined"
+              shape="rounded"
+              sx={{
+                mt: 3,
+                mb: 3,
+                '& .MuiPaginationItem-root:not(.Mui-selected)': {
+                  color: 'text.secondary',
+                },
+              }}
+              page={page}
+              onChange={pageHandler}
+            />
+          </FlexContainer>
+        )}
       </Styles.Search>
     </Styles.SearchContainer>
   );

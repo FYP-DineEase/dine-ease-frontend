@@ -22,7 +22,7 @@ import Search from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
 
 // Utils
-import { categoryTypes, sortBy } from '@/utils/constants';
+import { categoryTypes, SortBy } from '@/utils/constants';
 
 const FilterDrawer = ({
   sortTypeHandler,
@@ -72,16 +72,16 @@ const FilterDrawer = ({
                 </Text>
               </Box>
               <RadioGroup sx={{ mb: 2, mt: 2 }}>
-                {Object.entries(sortBy).map(([key, value]) => (
+                {Object.entries(SortBy).map(([key, value]) => (
                   <ListItemButton sx={{ pl: 2, pt: 0, pb: 0 }} key={key}>
                     <FormControlLabel
-                      value={key}
+                      value={value.sortType}
                       color="text.secondary"
                       control={
                         <Radio
                           size="small"
-                          checked={selectedSortType === key}
-                          onChange={() => sortChangeHandler(key)}
+                          checked={selectedSortType === value.sortType}
+                          onChange={() => sortChangeHandler(value.sortType)}
                         />
                       }
                       sx={{
@@ -89,7 +89,7 @@ const FilterDrawer = ({
                           color: 'text.secondary',
                         },
                       }}
-                      label={value}
+                      label={value.text}
                     />
                   </ListItemButton>
                 ))}

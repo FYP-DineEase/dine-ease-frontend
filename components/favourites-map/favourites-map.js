@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useCallback, useRef } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 // Map
@@ -7,6 +8,8 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 
 // Styles
 import * as Styles from './favourites-map.styles';
+import { FlexContainer, Text } from '../UI';
+import { IconButton, Rating, Tooltip } from '@mui/material';
 
 // Icons
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -20,9 +23,6 @@ import { getFileUrl } from '@/helpers/fileHelpers';
 // Components
 import MapTheme from './map-theme/map-theme';
 import FavouriteRestaurants from './favourite-restaurants/favourite-restaurants';
-import Image from 'next/image';
-import { FlexContainer, Text } from '../UI';
-import { IconButton, Rating, Tooltip } from '@mui/material';
 
 const FavouritesMap = ({ data }) => {
   const [theme, setTheme] = useState(data.theme);
@@ -147,10 +147,17 @@ const FavouritesMap = ({ data }) => {
                   </Popup>
                 )}
                 <Marker longitude={coordinates[0]} latitude={coordinates[1]}>
-                  <Styles.Pin
-                    hovering={+(i.id === hoverId)}
-                    onMouseOver={() => popupHandler(i)}
-                  />
+                  {i.featuredTill ? (
+                    <Styles.FeaturedPin
+                      hovering={+(i.id === hoverId)}
+                      onMouseOver={() => popupHandler(i)}
+                    />
+                  ) : (
+                    <Styles.Pin
+                      hovering={+(i.id === hoverId)}
+                      onMouseOver={() => popupHandler(i)}
+                    />
+                  )}
                 </Marker>
               </React.Fragment>
             );

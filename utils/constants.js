@@ -13,12 +13,13 @@ export const DASHBOARD_DRAWER_RESPONSIVEWIDTH = 70;
 
 export const categoryTypes = [
   'Sandwiches',
-  'American (Traditional)',
+  'American',
   'Pizza',
   'Fast Food',
   'Breakfast & Brunch',
   'American (New)',
   'Burgers',
+  'American (Traditional)',
   'Mexican',
   'Italian',
   'Coffee & Tea',
@@ -169,10 +170,19 @@ export const fileSizeAllowed = 1024;
 
 export const allowedImageTypes = ['image/png', 'image/jpeg', 'image/jpg'];
 
-export const sortBy = {
-  rating: 'Top Rated',
-  count: 'Most Reviewed',
-  recommended: 'Recommended',
+export const SortBy = {
+  RECOMMENDED: {
+    text: 'Recommended',
+    sortType: 'recommended',
+  },
+  RATING: {
+    text: 'Top Rated',
+    sortType: 'rating',
+  },
+  COUNT: {
+    text: 'Most Reviewed',
+    sortType: 'count',
+  },
 };
 
 export const UserStorage = {

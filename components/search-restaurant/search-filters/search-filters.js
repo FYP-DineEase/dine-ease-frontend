@@ -16,7 +16,7 @@ import { CustomCheckbox, InputField, Text } from '@/components/UI';
 import Search from '@mui/icons-material/Search';
 
 // Utils
-import { categoryTypes, sortBy } from '@/utils/constants';
+import { categoryTypes, SortBy } from '@/utils/constants';
 
 const SearchFilters = ({
   sortTypeHandler,
@@ -50,17 +50,17 @@ const SearchFilters = ({
           Sort By
         </Text>
         <RadioGroup sx={{ mb: 2, mt: 2 }}>
-          {Object.entries(sortBy).map(([key, value]) => (
+          {Object.entries(SortBy).map(([key, value]) => (
             <FormControlLabel
               key={key}
-              value={key}
+              value={value.sortType}
               control={
                 <Radio
-                  checked={selectedSortType === key}
-                  onChange={() => sortChangeHandler(key)}
+                  checked={selectedSortType === value.sortType}
+                  onChange={() => sortChangeHandler(value.sortType)}
                 />
               }
-              label={value}
+              label={value.text}
             />
           ))}
         </RadioGroup>
@@ -78,7 +78,7 @@ const SearchFilters = ({
           name="search"
           label="Search"
           variant="outlined"
-          placeholder="Search Reviews"
+          placeholder="Search Categories"
           onChange={(event) => setFilterText(event.target.value)}
           value={filterText}
           InputProps={{

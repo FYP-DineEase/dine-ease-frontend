@@ -54,7 +54,7 @@ const RestaurantCard = ({ mapSlug = null, favouriteTab = false }) => {
 
   const statusColors = {
     [Status.APPROVED]: 'success',
-    [Status.PENDING]: 'info',
+    [Status.PENDING]: 'primary',
     [Status.REJECTED]: 'error',
   };
 
@@ -102,10 +102,10 @@ const RestaurantCard = ({ mapSlug = null, favouriteTab = false }) => {
                   sx={{ position: 'absolute', top: 5, right: 5 }}
                 />
               )}
-              {restaurant.featured && (
+              {restaurant.featuredTill && (
                 <Chip
-                  label={restaurant.featured && 'Featured'}
-                  color="secondary"
+                  label="featured"
+                  color="info"
                   variant="outlined"
                   sx={{ position: 'absolute', top: 40, right: 5 }}
                 />
