@@ -63,7 +63,12 @@ const VoteOptions = ({ reviewId, reviewVotes, reviewUserId, viewOnly = false }) 
       return;
     }
 
-    if (reviewUserId === user.id || viewOnly) {
+    if (viewOnly) {
+      return;
+    }
+
+    if (reviewUserId === user.id) {
+      enqueueSnackbar({ variant: 'error', message: "Cannot vote on your own review." });
       return;
     }
 

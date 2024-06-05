@@ -101,6 +101,7 @@ const Categories = ({ restaurant }) => {
             handleChange={handleChange}
             items={menu[value]}
             currencyType={currencyType}
+            restaurant={restaurant}
           />
         </Grid>
       )}

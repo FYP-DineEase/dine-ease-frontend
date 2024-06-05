@@ -161,7 +161,7 @@ const Banner = ({ restaurant }) => {
             title={isFavorite ? 'Remove from favorite' : 'Add to favorite'}
             placement="bottom"
             arrow
-            sx={{ zIndex: 999 }}
+            sx={{ zIndex: 1 }}
           >
             <Styles.FavoriteIcon
               onClick={favoriteHandler}

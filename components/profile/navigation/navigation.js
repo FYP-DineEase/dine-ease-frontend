@@ -140,11 +140,11 @@ const Navigation = () => {
               )}
             </Tabs>
           </Styles.TabsContainer>
-          <Box sx={{ mt: 2 }}>{visibleTabItems[value].childComponent}</Box>
+          <Box sx={{ mt: 2 }}>{visibleTabItems[value]?.childComponent}</Box>
         </Styles.TabItemContainer>
       </Grid>
       <Grid item xs={12} lg={3} sx={{ order: { xs: 2, lg: 0 } }}>
-        {visibleTabItems[value].detailComponent}
+        {visibleTabItems[value]?.detailComponent}
       </Grid>
     </React.Fragment>
   );

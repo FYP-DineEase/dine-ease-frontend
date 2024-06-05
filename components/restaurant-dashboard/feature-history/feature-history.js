@@ -43,7 +43,11 @@ const FeatureHistory = () => {
 
   return (
     <React.Fragment>
-      <PlansModal showModal={showModal} handleCloseModal={() => setShowModal(false)} />
+      <PlansModal
+        showModal={showModal}
+        handleCloseModal={() => setShowModal(false)}
+        fetchRestaurantPayments={fetchRestaurantPayments}
+      />
       <DashboardContainer container columnSpacing={2} rowGap={1}>
         <Grid item xs={12}>
           <FeatureChart payments={payments} />

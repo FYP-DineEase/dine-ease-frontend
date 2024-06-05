@@ -22,12 +22,14 @@ import { getTimePassed } from '@/helpers/dateHelpers';
 // Services
 import { getNotifications, readNotifications } from '@/services/notifications';
 import { getReviewBySlug } from '@/services/review';
+import { getPlanBySlug } from '@/services/dining-plan';
 
 // Utils
 import { NotificationRedirect } from '@/utils/notification-redirect';
 
 // Components
 import ReviewModal from '@/components/restaurant-dashboard/reviews/review-modal/review-modal';
+import DiningCardModal from '@/components/modal/dining-card-modal/dining-card-modal';
 
 const NotificationMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -35,7 +37,9 @@ const NotificationMenu = () => {
   const [readTimeout, setReadTimeout] = useState(null);
   const [unReadNotifications, setUnReadNotifications] = useState(new Set());
   const [showReview, setShowReview] = useState(false);
+  const [showPlan, setShowPlan] = useState(false);
   const [review, setReview] = useState(null);
+  const [plan, setPlan] = useState(null);
 
   const router = useRouter();
 
@@ -46,7 +50,12 @@ const NotificationMenu = () => {
 
   const notificationHandler = async (item) => {
     if (item.type === 'dining-plan')
-      router.push(`${NotificationRedirect[item.type]}/${item.senderId.slug}`);
+      try {
+        const response = await getPlanBySlug(item.slug);
+        setPlan(response.data);
+      } catch (e) {
+        enqueueSnackbar({ variant: 'error', message: getError(e) });
+      }
     else if (item.type === 'vote') {
       try {
         const response = await getReviewBySlug(item.slug);
@@ -70,6 +79,12 @@ const NotificationMenu = () => {
       setShowReview(true);
     }
   }, [review]);
+
+  useEffect(() => {
+    if (plan) {
+      setShowPlan(true);
+    }
+  }, [plan]);
 
   // socket connection
   useEffect(() => {
@@ -185,6 +200,13 @@ const NotificationMenu = () => {
 
   return (
     <React.Fragment>
+      {showPlan && (
+        <DiningCardModal
+          showModal={showPlan}
+          handleCloseModal={() => setShowPlan(false)}
+          plan={plan}
+        />
+      )}
       {showReview && (
         <ReviewModal
           showModal={showReview}

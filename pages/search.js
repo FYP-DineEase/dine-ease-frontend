@@ -43,6 +43,11 @@ const SearchPage = () => {
             lng: restaurant['location.coordinates'][0],
           },
         }));
+
+        meili
+          .deleteIndex('recommendations')
+          .catch((error) => console.error('MeiliSearch Error:', error));
+
         meili
           .index('recommendations')
           .addDocuments(recommendedRestaurants, { primaryKey: '_id' })

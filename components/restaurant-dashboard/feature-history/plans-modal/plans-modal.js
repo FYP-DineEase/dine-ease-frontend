@@ -18,7 +18,7 @@ import { getError } from '@/helpers/snackbarHelpers';
 import PlansCard from './plans-card/plans-card';
 import PaymentModal from '../payment-modal/payment-modal';
 
-const PlansModal = ({ showModal, handleCloseModal }) => {
+const PlansModal = ({ showModal, handleCloseModal, fetchRestaurantPayments }) => {
   const [plans, setPlans] = useState([]);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [openPaymentForm, setOpenPaymentForm] = useState(false);
@@ -73,6 +73,7 @@ const PlansModal = ({ showModal, handleCloseModal }) => {
           handleClosePaymentModal={() => setOpenPaymentForm(false)}
           handleClosePlansModal={handleCloseModal}
           selectedPlan={selectedPlan}
+          fetchRestaurantPayments={fetchRestaurantPayments}
         />
       </DialogContent>
       <DialogActions>

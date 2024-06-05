@@ -35,6 +35,7 @@ const ReviewsTable = ({ reviews }) => {
         name: review.name,
         id: review.id,
         avatar: review.avatar,
+        slug: review.slug,
       },
       id: review.reviewId,
     };
@@ -136,6 +137,7 @@ const ReviewsTable = ({ reviews }) => {
     setLoading(true);
     const data = reviews.map((review) => ({
       name: review.userId.name,
+      slug: review.userId.slug,
       rating: review.rating,
       content: review.content,
       createdAt: review.createdAt,

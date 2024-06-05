@@ -24,6 +24,7 @@ const PaymentModal = ({
   handleClosePaymentModal,
   handleClosePlansModal,
   selectedPlan,
+  fetchRestaurantPayments,
 }) => {
   const { details } = useRestaurantContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -92,6 +93,7 @@ const PaymentModal = ({
     setIsSubmitting(false);
     handleClosePaymentModal();
     handleClosePlansModal();
+    fetchRestaurantPayments();
   };
 
   return (

@@ -12,6 +12,10 @@ export const getUserInvitedPlans = (email) => {
   return api.get(`http://localhost:${port}/api/${service}/invited/${email}`);
 };
 
+export const getPlanBySlug = (slug) => {
+  return api.get(`http://localhost:${port}/api/${service}/${slug}`);
+};
+
 export const addPlan = (payload) => {
   return api.post(`http://localhost:${port}/api/${service}`, payload);
 };

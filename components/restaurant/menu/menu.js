@@ -8,8 +8,9 @@ import { Grid, Tab, Tabs } from '@mui/material';
 
 // Utils
 import { MenuCategory } from '@/utils/constants';
+import { getFileUrl } from '@/helpers/fileHelpers';
 
-const Menu = ({ value, handleChange, items = [], currencyType }) => {
+const Menu = ({ value, handleChange, items = [], restaurant, currencyType }) => {
   const numberFormat = new Intl.NumberFormat();
 
   return (
@@ -57,10 +58,17 @@ const Menu = ({ value, handleChange, items = [], currencyType }) => {
               <Styles.Card>
                 <FlexContainer sx={{ justifyContent: 'flex-start', gap: 2 }}>
                   <Image
-                    src={'/assets/images/restaurant/menu-image.png'}
+                    src={
+                      (item.image &&
+                        getFileUrl(
+                          process.env.NEXT_PUBLIC_AWS_S3_RESTAURANTS_BUCKET,
+                          `${restaurant.id}/menu/${item.image}`
+                        )) ||
+                      '/assets/images/bg-placeholder.png'
+                    }
                     alt={item.name}
                     height={100}
-                    width={100}
+                    width={125}
                     style={{ borderRadius: '10px' }}
                   />
                   <FlexContainer
