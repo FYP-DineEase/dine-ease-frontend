@@ -24,6 +24,7 @@ const Banner = () => {
         <Styles.WavesContainer>
           <Image
             src="/assets/images/about/waves.png"
+            alt="banner-waves"
             sizes="100%"
             fill
             style={{ mixBlendMode: 'color-dodge' }}

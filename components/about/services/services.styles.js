@@ -30,6 +30,5 @@ export const CardContentContainer = styled(CardContent)(({ theme }) => ({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  position: 'relative',
-  top: -50,
+  marginTop: theme.spacing(2),
 }));

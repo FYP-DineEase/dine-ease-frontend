@@ -12,16 +12,19 @@ const Services = () => {
       title: 'Dining Plans',
       description:
         'Where Each Plate Weaves a Story of Culinary Mastery and Passionate Craftsmanship Lorem ipsum dolor sit amet',
+      image: '/assets/images/scene1.svg',
     },
     {
-      title: 'Food Maps',
+      title: 'Favorite Maps',
       description:
         'Where Each Plate Weaves a Story of Culinary Mastery and Passionate Craftsmanship Lorem ipsum dolor sit amet',
+      image: '/assets/images/scene10.svg',
     },
     {
-      title: 'Cuisine Informations',
+      title: 'Cuisine Details',
       description:
         'Where Each Plate Weaves a Story of Culinary Mastery and Passionate Craftsmanship Lorem ipsum dolor sit amet',
+      image: '/assets/images/scene5.svg',
     },
   ];
 
@@ -44,13 +47,13 @@ const Services = () => {
         rowSpacing={3}
         sx={{ justifyContent: 'center', position: 'relative', top: 100 }}
       >
-        {services.map((service) => (
-          <Grid item xs={10} sm={4} lg={3}>
+        {services.map((service, index) => (
+          <Grid item xs={12} sm={4} lg={3} key={index}>
             <Styles.StyledCard>
-              <CardMedia sx={{ height: '275px', position: 'relative' }}>
+              <CardMedia sx={{ height: '250px', position: 'relative' }}>
                 <Image
-                  src="/assets/images/bg-placeholder.png"
-                  alt="menu-item"
+                  src={service.image}
+                  alt="service"
                   sizes="100%"
                   fill
                   style={{ objectFit: 'cover' }}
